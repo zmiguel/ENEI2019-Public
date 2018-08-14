@@ -1,3 +1,44 @@
+**Comissão organizadora do ENEI 2019**
+[website](http://enei.pt)
+
+
+**Análise de requesitos**
+    -Frontend
+    -Backoffice
+    -Api
+    -Mobile
+    
+**Design**
+    -Frontend
+    -Backoffice
+    -Api
+    -Mobile
+
+**Implementation**
+    -Frontend
+    -Backoffice
+    -Api
+    -Mobile
+    
+**Testing**
+    -Frontend
+    -Backoffice
+    -Api
+    -Mobile
+    
+**Deployment**
+    -Frontend
+    -Backoffice
+    -Api
+    -Mobile
+    
+**Maintenance**
+    -Frontend
+    -Backoffice
+    -Api
+    -Mobile
+
+
 
 - **Backend API (dot net core): Software recomendado:**
     - [Visual Studio Core](https://code.visualstudio.com/)
