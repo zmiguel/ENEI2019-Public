@@ -16,5 +16,5 @@
             - Path Intellisense
             - Prettier - Code formatter
             - TSLint
-    -db browser for sqlite (https://sqlitebrowser.org/)
-    -postman (https://www.getpostman.com/)     
+   -db browser for sqlite (https://sqlitebrowser.org/)
+   -postman (https://www.getpostman.com/)     
