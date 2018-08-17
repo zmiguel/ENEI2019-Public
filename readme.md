@@ -11,27 +11,27 @@
 **Artefacts**
 
 **Análise de requesitos**
-- [ ]Landing Page
-- [ ]Backoffice
-- [ ]Api
-- [ ]Mobile
+- [ ] Landing Page
+- [ ] Backoffice
+- [ ] Api
+- [ ] Mobile
     
 **Design**
-- [ ]Landing Page
-- [ ]Backoffice
-- [ ]Api
-- [ ]Mobile
+- [ ] Landing Page
+- [ ] Backoffice
+- [ ] Api
+- [ ] Mobile
     
 **Base de dados**
-- [ ]Modelo de dados (UML)
-- [ ]Relational schema
-- [ ]Constrains, Indices, trigers e funções
+- [ ] Modelo de dados (UML)
+- [ ] Relational schema
+- [ ] Constrains, Indices, trigers e funções
     
 **Previlégios**
-- [ ]Utilizador padrão
-- [ ]Empresas
-- [ ]Speakers
-- [ ]Staff
+- [ ] Utilizador padrão
+- [ ] Empresas
+- [ ] Speakers
+- [ ] Staff
 
 
 
