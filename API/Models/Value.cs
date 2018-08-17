@@ -1,4 +1,4 @@
-namespace API.Models
+namespace api.Models
 {
     public class Value
     {
