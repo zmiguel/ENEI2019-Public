@@ -5,25 +5,25 @@
 
 
 **Análise de requesitos**
-- Frontend 
+- Landing Page
 - Backoffice
 - Api
 - Mobile
     
 **Design**
-- Frontend
+- Landing Page
 - Backoffice
 - Api
 - Mobile
     
 **Testing**
-- Frontend
+- Landing Page
 - Backoffice
 - Api
 - Mobile
     
 **Deployment**
-- Frontend
+- Landing Page
 - Backoffice
 - Api
 - Mobile
