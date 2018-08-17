@@ -30,7 +30,7 @@
     
 
 
-
+ 
 
 
 **Backend API (dot net core): Software recomendado:**
