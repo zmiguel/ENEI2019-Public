@@ -4,9 +4,8 @@
 
 
 
-
 **Análise de requesitos**
-- Frontend
+- Frontend 
 - Backoffice
 - Api
 - Mobile
