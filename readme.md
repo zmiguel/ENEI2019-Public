@@ -3,40 +3,40 @@
 
 
 **Análise de requesitos**
-    -Frontend
-    -Backoffice
-    -Api
-    -Mobile
+    - Frontend
+    - Backoffice
+    - Api
+    - Mobile
     
 **Design**
-    -Frontend
-    -Backoffice
-    -Api
-    -Mobile
+    - Frontend
+    - Backoffice
+    - Api
+    - Mobile
 
 **Implementation**
-    -Frontend
-    -Backoffice
-    -Api
-    -Mobile
+    - Frontend
+    - Backoffice
+    - Api
+    - Mobile
     
 **Testing**
-    -Frontend
-    -Backoffice
-    -Api
-    -Mobile
+    - Frontend
+    - Backoffice
+    - Api
+    - Mobile
     
 **Deployment**
-    -Frontend
-    -Backoffice
-    -Api
-    -Mobile
+    - Frontend
+    - Backoffice
+    - Api
+    - Mobile
     
 **Maintenance**
-    -Frontend
-    -Backoffice
-    -Api
-    -Mobile
+    - Frontend
+    - Backoffice
+    - Api
+    - Mobile
 
 
 
