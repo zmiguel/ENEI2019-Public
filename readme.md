@@ -11,10 +11,10 @@
 **Artefacts**
 
 **Análise de requisitos**
-- [ ] Landing Page
-- [ ] Backoffice
-- [ ] Api
-- [ ] Mobile
+- [ ] [Landing Page](https://github.com/henrydays/ENEI2019/blob/master/artefacts/requirements/landing.pdf)
+- [ ] [Backoffice](https://github.com/henrydays/ENEI2019/blob/master/artefacts/requirements/backoffice.pdf)
+- [ ] [Api](https://github.com/henrydays/ENEI2019/blob/master/artefacts/requirements/api.pdf)
+- [ ] [Mobile](https://github.com/henrydays/ENEI2019/blob/master/artefacts/requirements/mobile.pdf)
 
 **Previlégios**
 - [ ] Utilizador padrão
