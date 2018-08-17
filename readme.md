@@ -2,6 +2,9 @@
 [website](http://enei.pt)
 
 
+
+
+
 **Análise de requesitos**
 - Frontend
 - Backoffice
@@ -27,7 +30,11 @@
 - Mobile
     
 
-- **Backend API (dot net core): Software recomendado:**
+
+
+
+
+**Backend API (dot net core): Software recomendado:**
     - [Visual Studio Core](https://code.visualstudio.com/)
         - Extensions: 
             - C#
