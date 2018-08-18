@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using api.Models;
-using API.Data;
+using api.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace api.Data

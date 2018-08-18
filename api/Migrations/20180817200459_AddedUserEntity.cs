@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace API.Migrations
+namespace api.Migrations
 {
     public partial class AddedUserEntity : Migration
     {
