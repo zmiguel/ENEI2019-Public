@@ -46,6 +46,8 @@ namespace api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto UserForLoginDto)
         {
+            
+            throw new Exception("lols");
             //verifica se o utilizador existe na base de dados e se consegue fazer login
             var userFromRepo = await repo.Login(UserForLoginDto.Username.ToLower(), UserForLoginDto.Password);
             
