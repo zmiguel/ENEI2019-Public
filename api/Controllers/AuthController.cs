@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
 
     public class AuthController : ControllerBase
@@ -35,7 +35,7 @@ namespace api.Controllers
 
             var userToCreate = new User
             {
-                Username = UserForRegisterDto.Username
+                username = UserForRegisterDto.Username
             };
 
             var createUser = await repo.Register(userToCreate, UserForRegisterDto.Password);
@@ -47,7 +47,7 @@ namespace api.Controllers
         public async Task<IActionResult> Login(UserForLoginDto UserForLoginDto)
         {
             
-            throw new Exception("lols");
+          
             //verifica se o utilizador existe na base de dados e se consegue fazer login
             var userFromRepo = await repo.Login(UserForLoginDto.Username.ToLower(), UserForLoginDto.Password);
             
@@ -60,8 +60,8 @@ namespace api.Controllers
             //o token vai ter 2 claims, uma vai ser o id e outra vai ser o nome
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.Username)
+                new Claim(ClaimTypes.NameIdentifier, userFromRepo.id.ToString()),
+                new Claim(ClaimTypes.Name, userFromRepo.username)
             };
 
             //obtem a key na app settings

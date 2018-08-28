@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -9,20 +10,31 @@ import { HttpClient } from '../../node_modules/@types/selenium-webdriver/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
+import { HomeComponent } from './home/home.component';
+import { Router, RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
    declarations: [
       AppComponent,
       ValueComponent,
-      LoginComponent
+      LoginComponent,
+      DashboardComponent,
+      ProfileComponent,
+      HomeComponent
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      RouterModule.forRoot(appRoutes)
    ],
    providers: [
-       AuthService
+      AuthService,
+      AuthGuard
    ],
    bootstrap: [
       AppComponent
