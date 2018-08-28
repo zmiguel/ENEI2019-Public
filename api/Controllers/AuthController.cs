@@ -27,18 +27,39 @@ namespace api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto UserForRegisterDto)
         {
-            //validar a request
-            UserForRegisterDto.Username = UserForRegisterDto.Username.ToLower();
-
-            if (await repo.UserExists(UserForRegisterDto.Username))
+          
+            UserForRegisterDto.username = UserForRegisterDto.username.ToLower();
+            
+            //validar a request   
+            if (await repo.UserExists(UserForRegisterDto.username))
                 return BadRequest("username already exists");
 
             var userToCreate = new User
             {
-                username = UserForRegisterDto.Username
+                username = UserForRegisterDto.username,
+                fullname = UserForRegisterDto.fullname,
+                gender= UserForRegisterDto.gender,
+                age= UserForRegisterDto.age,
+                phone= UserForRegisterDto.phone,
+                email=UserForRegisterDto.email,
+                adress=UserForRegisterDto.adress,
+                country=UserForRegisterDto.country,
+                city=UserForRegisterDto.city,
+                linkedin=UserForRegisterDto.linkedin,
+                lastlogin=UserForRegisterDto.lastlogin,
+                registed=UserForRegisterDto.registed,
+                qrcode=UserForRegisterDto.qrcode,
+                role=UserForRegisterDto.role,
+                degree=UserForRegisterDto.degree,
+                schoolyear=UserForRegisterDto.schoolyear,
+                profileicon=UserForRegisterDto.profileicon,
+                company=UserForRegisterDto.company,
+                position=UserForRegisterDto.position,
+                about=UserForRegisterDto.about
+
             };
 
-            var createUser = await repo.Register(userToCreate, UserForRegisterDto.Password);
+            var createUser = await repo.Register(userToCreate, UserForRegisterDto.password);
 
             return StatusCode(201);
 
