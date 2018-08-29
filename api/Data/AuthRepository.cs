@@ -18,16 +18,16 @@ namespace api.Data
         public async Task<User> Login(string username, string password)
         {
 
-            var user =await Context.Users.FirstOrDefaultAsync(x=> x.username== username);
+            var user =await Context.Users.FirstOrDefaultAsync(x=> x.UserName== username);
             
             if(user==null)
             {
                 return null;
             }
 
-            if(!VerifyPasswordHash(password,user.passwordhash,user.passwordsalt))
+           // if(!VerifyPasswordHash(password,user.passwordhash,user.passwordsalt))
                 
-                return null;
+        //    return null;
 
 
             return user;
@@ -63,9 +63,8 @@ namespace api.Data
 
             CreatePasswordHash(Password,out passwordHash, out passwordSalt);
 
-            user.passwordhash=passwordHash;
-           
-            user.passwordsalt=passwordSalt;
+            //user.PasswordHash=passwordHash;
+            // user.PasswordSalt=passwordSalt;
 
             await Context.Users.AddAsync(user);
            
@@ -78,7 +77,7 @@ namespace api.Data
 
         public async Task<bool> UserExists(string username)
         {
-            if(await Context.Users.AnyAsync(x=>x.username== username))
+            if(await Context.Users.AnyAsync(x=>x.UserName== username))
             {
                 return true;
             }

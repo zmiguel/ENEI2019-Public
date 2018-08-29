@@ -9,7 +9,7 @@ namespace api.Dtos
         public string username {get;set;}
 
         [Required]
-        [StringLength(8,MinimumLength=4,ErrorMessage="You must specify password between 4 and 8 cars")]
+        [StringLength(15,MinimumLength=4,ErrorMessage="You must specify password between 4 and 15 cars")]
         public string password{get;set;}
         public string fullname {get;set;}
         public string gender {get;set;}

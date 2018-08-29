@@ -5,23 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using api.Dtos;
 using api.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
-{
+{   
+    [AllowAnonymous]
     [Route("api/")]
     [ApiController]
 
     public class AuthController : ControllerBase
     {
-        private readonly Data.IAuthRepository repo;
+
         private readonly IConfiguration config;
-        public AuthController(Data.IAuthRepository repo, IConfiguration config)
+        public UserManager<User> _userManager { get; }
+        public SignInManager<User> _signInManager { get; }
+
+        public AuthController(IConfiguration config,UserManager<User> UserManager, SignInManager<User> SignInManager)
         {
             this.config = config;
-            this.repo = repo;
+            _userManager = UserManager;
+            _signInManager = SignInManager;
         }
 
         [HttpPost("register")]
@@ -30,38 +38,43 @@ namespace api.Controllers
           
             UserForRegisterDto.username = UserForRegisterDto.username.ToLower();
             
-            //validar a request   
-            if (await repo.UserExists(UserForRegisterDto.username))
-                return BadRequest("username already exists");
 
             var userToCreate = new User
             {
-                username = UserForRegisterDto.username,
-                fullname = UserForRegisterDto.fullname,
-                gender= UserForRegisterDto.gender,
-                age= UserForRegisterDto.age,
-                phone= UserForRegisterDto.phone,
-                email=UserForRegisterDto.email,
-                adress=UserForRegisterDto.adress,
-                country=UserForRegisterDto.country,
-                city=UserForRegisterDto.city,
-                linkedin=UserForRegisterDto.linkedin,
-                lastlogin=UserForRegisterDto.lastlogin,
-                registed=UserForRegisterDto.registed,
-                qrcode=UserForRegisterDto.qrcode,
-                role=UserForRegisterDto.role,
-                degree=UserForRegisterDto.degree,
-                schoolyear=UserForRegisterDto.schoolyear,
-                profileicon=UserForRegisterDto.profileicon,
-                company=UserForRegisterDto.company,
-                position=UserForRegisterDto.position,
-                about=UserForRegisterDto.about
+                UserName = UserForRegisterDto.username,
+                FullName = UserForRegisterDto.fullname,
+                Gender= UserForRegisterDto.gender,
+                Age= UserForRegisterDto.age,
+                Phone= UserForRegisterDto.phone,
+                Email=UserForRegisterDto.email,
+                Adress=UserForRegisterDto.adress,
+                Country=UserForRegisterDto.country,
+                City=UserForRegisterDto.city,
+                linkedIn=UserForRegisterDto.linkedin,
+                LastLogin=UserForRegisterDto.lastlogin,
+                Registed=UserForRegisterDto.registed,
+                QRcode=UserForRegisterDto.qrcode,
+                Role=UserForRegisterDto.role,
+                Degree=UserForRegisterDto.degree,
+                SchoolYear=UserForRegisterDto.schoolyear,
+                ProfileIcon=UserForRegisterDto.profileicon,
+                Company=UserForRegisterDto.company,
+                Position=UserForRegisterDto.position,
+                About=UserForRegisterDto.about
 
             };
 
-            var createUser = await repo.Register(userToCreate, UserForRegisterDto.password);
 
-            return StatusCode(201);
+            var result = await _userManager.CreateAsync(userToCreate, UserForRegisterDto.password);
+
+    
+
+            if(result.Succeeded)
+            {
+                return StatusCode(201);
+            }
+
+            return BadRequest(result.Errors);
 
         }
         [HttpPost("login")]
@@ -69,20 +82,29 @@ namespace api.Controllers
         {
             
           
-            //verifica se o utilizador existe na base de dados e se consegue fazer login
-            var userFromRepo = await repo.Login(UserForLoginDto.Username.ToLower(), UserForLoginDto.Password);
-            
-            //Se não conseguir
-            if (userFromRepo == null)
-            {
-                return Unauthorized();
-            }
+           var user = await _userManager.FindByNameAsync(UserForLoginDto.Username);
 
-            //o token vai ter 2 claims, uma vai ser o id e outra vai ser o nome
-            var claims = new[]
+           var result = await _signInManager.CheckPasswordSignInAsync(user,UserForLoginDto.Password, false);
+
+            if(result.Succeeded)
             {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.id.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.username)
+                var appUser= await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedUserName == UserForLoginDto.Username.ToUpper());
+                
+                return Ok(new {
+                
+                token = GenerateJwtToken(appUser)
+                 });
+
+            }
+              return Unauthorized();
+        
+        }
+
+        private string GenerateJwtToken(User user){
+              var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
             //obtem a key na app settings
@@ -108,10 +130,7 @@ namespace api.Controllers
             //em seguida criamos o token
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            //devolvemos ao cliente
-            return Ok(new {
-                token= tokenHandler.WriteToken(token)
-            });
+            return tokenHandler.WriteToken(token);
 
         }
 

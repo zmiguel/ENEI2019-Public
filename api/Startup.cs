@@ -6,13 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using api.Data;
 using api.Helpers;
+using api.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,15 +43,27 @@ namespace api
             //define a connection string indicada em appsettings.json
             services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
            
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            IdentityBuilder builder = services.AddIdentityCore<User>(Options=>
+            {
+             //mudar isto no fim por questoes de segurança 
+             Options.Password.RequireDigit = false;
+             Options.Password.RequiredLength=4;
+             Options.Password.RequireNonAlphanumeric= false;
+             Options.Password.RequireUppercase= false;
+            
+            }
+            );
 
-            //cors support 
-            services.AddCors();
+            builder=  new IdentityBuilder(builder.UserType,typeof(Role),builder.Services);
 
-            //cria uma instancia para cada request do cliente (mantem instancia entre CORS)
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            builder.AddEntityFrameworkStores<DataContext>();
 
-            //autenticação para o token
+            builder.AddRoleValidator<RoleValidator<Role>>();
+
+            builder.AddRoleManager<RoleManager<Role>>();
+
+            builder.AddSignInManager<SignInManager<User>>();
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options=> {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -57,6 +73,22 @@ namespace api
                    ValidateAudience= false,
                 };
             });
+
+            
+            services.AddMvc(Options=> 
+            {
+                var policy= new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                Options.Filters.Add(new AuthorizeFilter(policy));
+
+            }
+            ).
+                SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //cors support 
+            services.AddCors();
+
+            //autenticação para o token
+           
 
         }
 
