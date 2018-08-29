@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using api.Data;
 using api.Helpers;
 using api.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -40,6 +41,10 @@ namespace api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAutoMapper();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+
             //define a connection string indicada em appsettings.json
             services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
            

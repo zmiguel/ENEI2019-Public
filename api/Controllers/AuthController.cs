@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using api.Dtos;
 using api.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace api.Controllers
-{   
+{
     [AllowAnonymous]
     [Route("api/")]
     [ApiController]
@@ -24,52 +25,26 @@ namespace api.Controllers
         private readonly IConfiguration config;
         public UserManager<User> _userManager { get; }
         public SignInManager<User> _signInManager { get; }
+        private readonly IMapper _mapper;
 
-        public AuthController(IConfiguration config,UserManager<User> UserManager, SignInManager<User> SignInManager)
+        public AuthController(IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper)
         {
+             _mapper = mapper;
             this.config = config;
             _userManager = UserManager;
             _signInManager = SignInManager;
         }
+     
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto UserForRegisterDto)
+        public async Task<IActionResult> Register(UserForRegisterDto userToRegister)
         {
-          
-            UserForRegisterDto.username = UserForRegisterDto.username.ToLower();
-            
-
-            var userToCreate = new User
-            {
-                UserName = UserForRegisterDto.username,
-                FullName = UserForRegisterDto.fullname,
-                Gender= UserForRegisterDto.gender,
-                Age= UserForRegisterDto.age,
-                Phone= UserForRegisterDto.phone,
-                Email=UserForRegisterDto.email,
-                Adress=UserForRegisterDto.adress,
-                Country=UserForRegisterDto.country,
-                City=UserForRegisterDto.city,
-                linkedIn=UserForRegisterDto.linkedin,
-                LastLogin=UserForRegisterDto.lastlogin,
-                Registed=UserForRegisterDto.registed,
-                QRcode=UserForRegisterDto.qrcode,
-                Role=UserForRegisterDto.role,
-                Degree=UserForRegisterDto.degree,
-                SchoolYear=UserForRegisterDto.schoolyear,
-                ProfileIcon=UserForRegisterDto.profileicon,
-                Company=UserForRegisterDto.company,
-                Position=UserForRegisterDto.position,
-                About=UserForRegisterDto.about
-
-            };
+            var userToCreate = _mapper.Map<User>(userToRegister);
 
 
-            var result = await _userManager.CreateAsync(userToCreate, UserForRegisterDto.password);
+            var result = await _userManager.CreateAsync(userToCreate, userToRegister.password);
 
-    
-
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 return StatusCode(201);
             }
@@ -80,41 +55,43 @@ namespace api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto UserForLoginDto)
         {
-            
-          
-           var user = await _userManager.FindByNameAsync(UserForLoginDto.Username);
 
-           var result = await _signInManager.CheckPasswordSignInAsync(user,UserForLoginDto.Password, false);
 
-            if(result.Succeeded)
+            var user = await _userManager.FindByNameAsync(UserForLoginDto.Username);
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, UserForLoginDto.Password, false);
+
+            if (result.Succeeded)
             {
-                var appUser= await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedUserName == UserForLoginDto.Username.ToUpper());
-                
-                return Ok(new {
-                
-                token = GenerateJwtToken(appUser)
-                 });
+                var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedUserName == UserForLoginDto.Username.ToUpper());
+
+                return Ok(new
+                {
+
+                    token = GenerateJwtToken(appUser)
+                });
 
             }
-              return Unauthorized();
-        
+            return Unauthorized();
+
         }
 
-        private string GenerateJwtToken(User user){
-              var claims = new[]
-            {
+        private string GenerateJwtToken(User user)
+        {
+            var claims = new[]
+          {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName)
             };
 
             //obtem a key na app settings
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("AppSettings:Token").Value));
-     
+
             //faz hashing da key na app settings
-            var creds= new SigningCredentials(key,SecurityAlgorithms.HmacSha512Signature);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             //criamos um token
-            var tokenDescriptor = new SecurityTokenDescriptor 
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 //data de expiração (atual + 24 horas)

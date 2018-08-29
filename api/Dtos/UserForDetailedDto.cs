@@ -1,13 +1,10 @@
 using System;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace api.Models
-
+namespace api.Dtos
 {
-    public class User: IdentityUser<int>
+    public class UserForDetailedDto
     {
-       
         public string FullName {get;set;}
         public string Gender {get;set;}
         public int Age{get;set;}
@@ -27,8 +24,8 @@ namespace api.Models
         public string Company{get;set;}
         public string Position{get;set;}   
         public string About{get;set;}
-        public ICollection<UserRole> UserRoles{get;set;}
-        public ICollection<Photo> Photos {get;set;}
+        public ICollection<PhotosForDetailedDto> Photos {get;set;}
+
         
     }
 }

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using api.Models;
 
 namespace api.Dtos
 {
@@ -31,6 +33,7 @@ namespace api.Dtos
         public string company{get;set;}
         public string position{get;set;}   
         public string about{get;set;}
+        public ICollection<Photo> Photos{get;set;}
 
     }
 }
