@@ -6,7 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable()
 export class AuthService {
 
-baseUrl= 'http://localhost:5000/api/auth/';
+baseUrl= 'http://localhost:5000/api/';
 jwtHelper = new JwtHelperService();
 decodedToken: any;
 
