@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgxAdminLteModule } from 'ngx-admin-lte';
 
 
 import { AppComponent } from './app.component';
@@ -29,7 +28,6 @@ import { AuthGuard } from './guards/auth.guard';
    ],
    imports: [
       BrowserModule,
-      NgxAdminLteModule,
       HttpClientModule,
       FormsModule,
       RouterModule.forRoot(appRoutes)

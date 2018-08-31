@@ -25,7 +25,6 @@
     "@reactivex/rxjs": "^6.0.0-beta.1",
     "angular2-jwt": "^0.2.3",
     "core-js": "^2.4.1",
-    "ngx-admin-lte": "^2.0.0-beta.11",
     "rxjs": "^5.5.11",
     "zone.js": "^0.8.14"
   },

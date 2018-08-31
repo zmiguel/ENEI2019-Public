@@ -21,7 +21,6 @@ return this.http.post(this.baseUrl + 'login', model).pipe(
             localStorage.setItem('token', user.token);
             this.decodedToken = this.jwtHelper.decodeToken(user.token);
             console.log(this.decodedToken);
-            user.connected = true;
         }
     })
     );
