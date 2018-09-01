@@ -17,6 +17,8 @@ import { HomeComponent } from './home/home.component';
 import { Router, RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthGuard } from './guards/auth.guard';
+import { NavigationComponent } from './navigation/navigation.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
    declarations: [
@@ -25,7 +27,9 @@ import { AuthGuard } from './guards/auth.guard';
       LoginComponent,
       DashboardComponent,
       ProfileComponent,
-      HomeComponent
+      HomeComponent,
+      NavigationComponent,
+      CalendarComponent
    ],
    imports: [
       BrowserModule,
@@ -33,8 +37,8 @@ import { AuthGuard } from './guards/auth.guard';
       HttpClientModule,
       FormsModule,
       RouterModule.forRoot(appRoutes)
-   ],
-   providers: [
+    ],
+      providers: [
       AuthService,
       AuthGuard
    ],

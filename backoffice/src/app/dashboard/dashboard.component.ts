@@ -13,9 +13,4 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
-    console.log('logged out!');
-  }
 }

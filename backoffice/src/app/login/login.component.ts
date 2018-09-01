@@ -14,17 +14,24 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    if (this.authService.loggedIn)
+    {
+      this.router.navigate(['/dashboard']);
+    }
   }
-
   login() {
-   this.authService.login(this.model).subscribe(next => {
-     console.log('Logged in sucessfully');
+
+    this.authService.login(this.model).subscribe(next => {
+
+    this.router.navigate(['/dashboard']);
+
    }, error => {
      console.log('Failed to login');
    }, () => {
-     this.router.navigate(['/dashboard']);
+       this.router.navigate(['/dashboard']);
    });
   }
+
 
   loggedIn() {
    return this.authService.loggedIn();
