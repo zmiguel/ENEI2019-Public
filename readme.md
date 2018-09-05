@@ -1,7 +1,7 @@
 **Comissão organizadora do ENEI 2019**
 [website](http://enei.pt)
 
-![alt text](https://imgur.com/M2y2jS0)
+![alt text](https://i.imgur.com/M2y2jS0.png)
 
 **Developers**
 - [Henrique Dias]()
