@@ -2,7 +2,7 @@
 
 Este projecto usa Dotnet Core 2 [.NET Core Guide](https://docs.microsoft.com/en-us/dotnet/core/) 
 
-## Executar servidor em modo watch (reinicia cada vez que é feita uma alteração num ficheiro)
+## Executar servidor em modo watch (compiles on file change)
 
 ```
     dotnet watch run
