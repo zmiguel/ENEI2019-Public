@@ -5,9 +5,10 @@ Este projecto usa Dotnet Core 2 [.NET Core Guide](https://docs.microsoft.com/en-
 ## Executar servidor em modo watch (reinicia cada vez que é feita uma alteração num ficheiro)
 
 ```
-    `dotnet watch run` 
+    dotnet watch run
 ```
-    Executado servidor kestrel na porta 5000
+
+Executado servidor kestrel na porta 5000
 
 
 ## Testar funcionalidades
