@@ -6,7 +6,6 @@ import { NgxAdminLteModule } from 'ngx-admin-lte';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 
-import { ValueComponent } from './value/value.component';
 import { HttpClient } from '../../node_modules/@types/selenium-webdriver/http';
 import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
@@ -19,17 +18,22 @@ import { appRoutes } from './routes';
 import { AuthGuard } from './guards/auth.guard';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { UserService } from './services/user.service';
+import { UsersModule } from './admin/users/users.module';
+import { UsersComponent } from './admin/users/users.component';
+import { UserComponent } from './admin/users/user/user.component';
 
 @NgModule({
    declarations: [
       AppComponent,
-      ValueComponent,
       LoginComponent,
       DashboardComponent,
       ProfileComponent,
       HomeComponent,
       NavigationComponent,
-      CalendarComponent
+      CalendarComponent,
+      UsersComponent,
+      UserComponent
    ],
    imports: [
       BrowserModule,
@@ -40,7 +44,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     ],
       providers: [
       AuthService,
-      AuthGuard
+      AuthGuard,
+      UserService
    ],
    bootstrap: [
       AppComponent
