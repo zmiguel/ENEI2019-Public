@@ -10,7 +10,13 @@ export class DashboardComponent implements OnInit {
 
   constructor(private router: Router) { }
 
+  nome = 'henrique';
+
   ngOnInit() {
   }
 
+  teste() {
+    console.log('putas');
+    this.router.navigate(['profile']);
+  }
 }

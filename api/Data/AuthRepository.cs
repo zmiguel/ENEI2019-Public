@@ -27,7 +27,7 @@ namespace api.Data
 
            // if(!VerifyPasswordHash(password,user.passwordhash,user.passwordsalt))
                 
-        //    return null;
+           //return null;
 
 
             return user;
