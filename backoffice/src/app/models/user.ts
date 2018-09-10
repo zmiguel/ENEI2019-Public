@@ -12,5 +12,9 @@ export interface User {
     country: string;
     photos ?: Photo[];
     fullName: string;
+    about: string;
+    profileIcon: string;
+    university: string;
+    degree: string;
 
 }

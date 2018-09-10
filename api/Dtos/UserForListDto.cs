@@ -4,6 +4,8 @@ namespace api.Dtos
 {
     public class UserForListDto
     {
+        public int Id{get;set;}
+        public string Username{get;set;}
         public string FullName {get;set;}
         public string Gender {get;set;}
         public int Age{get;set;}
@@ -16,6 +18,7 @@ namespace api.Dtos
         public string ProfileIcon {get;set;}
         public string About{get;set;}
         public string PhotoUrl{get;set;}
+
 
 
     }

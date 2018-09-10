@@ -6,6 +6,8 @@ namespace api.Dtos
     public class UserForDetailedDto
     {
         public string FullName {get;set;}
+
+        public string Username{get;set;}
         public string Gender {get;set;}
         public int Age{get;set;}
         public int Phone{get;set;}

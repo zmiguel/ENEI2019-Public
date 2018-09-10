@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgxAdminLteModule } from 'ngx-admin-lte';
+import { JwtModule } from '@auth0/angular-jwt';
+
 
 
 import { AppComponent } from './app.component';
@@ -12,16 +13,23 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProfileComponent } from './profile/profile.component';
-import { HomeComponent } from './home/home.component';
 import { Router, RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthGuard } from './guards/auth.guard';
 import { NavigationComponent } from './navigation/navigation.component';
-import { CalendarComponent } from './calendar/calendar.component';
 import { UserService } from './services/user.service';
-import { UsersModule } from './admin/users/users.module';
-import { UsersComponent } from './admin/users/users.component';
-import { UserComponent } from './admin/users/user/user.component';
+import { HomeComponent } from './home/home.component';
+import { UsersListComponent } from './users/usersList/usersList.component';
+import {User} from './models/user';
+import { UserComponent } from './users/user/user.component';
+import { FooterComponent } from './footer/footer.component';
+
+
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
+
+
 
 @NgModule({
    declarations: [
@@ -29,18 +37,24 @@ import { UserComponent } from './admin/users/user/user.component';
       LoginComponent,
       DashboardComponent,
       ProfileComponent,
-      HomeComponent,
       NavigationComponent,
-      CalendarComponent,
-      UsersComponent,
-      UserComponent
+      HomeComponent,
+      UsersListComponent,
+      UserComponent,
+      FooterComponent
    ],
    imports: [
       BrowserModule,
-      NgxAdminLteModule,
       HttpClientModule,
       FormsModule,
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      JwtModule.forRoot({
+        config: {
+          tokenGetter: tokenGetter,
+          whitelistedDomains: ['localhost:5000'],
+          blacklistedRoutes: ['localhost/login']
+        }
+      })
     ],
       providers: [
       AuthService,

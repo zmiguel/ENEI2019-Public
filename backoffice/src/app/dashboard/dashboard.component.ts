@@ -1,22 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { User } from '../models/user';
+import { UserService } from '../services/user.service';
+import { ActivatedRoute } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-user',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private router: Router) { }
-
-  nome = 'henrique';
+  user: User;
+  jwtHelper = new JwtHelperService();
+  decodedToken: any;
+  constructor(private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+     this.loadUser();
   }
 
-  teste() {
-    console.log('putas');
-    this.router.navigate(['profile']);
+  // members/...
+  loadUser() {
+    this.decodedToken = this.jwtHelper.decodeToken(localStorage.getItem('token'));
+
+     this.userService.getUser(+this.decodedToken['nameid']).subscribe((user: User) => {
+      this.user = user;
+    }, error => {
+      console.log(error);
+    });
   }
+
 }
