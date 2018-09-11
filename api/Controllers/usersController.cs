@@ -6,6 +6,7 @@ using api.Dtos;
 using api.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,9 +19,14 @@ namespace api.Controllers
     {
         private readonly IUsersRepository _repo;
         private readonly IMapper _mapper;
-        public UsersController(IUsersRepository repo, IMapper mapper)
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
+
+        public UsersController(IUsersRepository repo, IMapper mapper,RoleManager<Role> roleManager,UserManager<User> UserManager)
         {
             _mapper = mapper;
+            _roleManager = roleManager;
+            _userManager = UserManager;
             _repo = repo;
 
         }
@@ -59,6 +65,32 @@ namespace api.Controllers
             
             throw new System.Exception($"updating user {id} failed on save");
         }
+        
+          [Authorize]
+        //adiciona uma nova role à base de dados
+        [HttpPost("addRole")]
+          public async Task<IActionResult> addRole( Role role) {
+            
+    
+            _roleManager.CreateAsync(role).Wait();
+            
+            return Ok();
+        }
+
+
+
+        //adiciona role a um utilizador
+        [HttpPost("setRole")]
+        public async Task<IActionResult> setRole(setRoleDto roleDto) {
+
+           User user = await _repo.GetUser(roleDto.Id);
+
+            _userManager.AddToRoleAsync(user, roleDto.RoleName).Wait();
+
+           return Ok();
+
+        }
+
 
 
     }

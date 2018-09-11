@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using api.Data;
 using api.Dtos;
 using api.Models;
 using AutoMapper;
@@ -25,11 +27,16 @@ namespace api.Controllers
         private readonly IConfiguration config;
         public UserManager<User> _userManager { get; }
         public SignInManager<User> _signInManager { get; }
-        private readonly IMapper _mapper;
+        public IUsersRepository _repo { get; }
 
-        public AuthController(IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper)
+        private readonly IMapper _mapper;
+        private readonly RoleManager<Role> _roleManager;
+
+        public AuthController(IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper, RoleManager<Role> roleManager, IUsersRepository repo)
         {
              _mapper = mapper;
+            _roleManager = roleManager;
+            _repo = repo;
             this.config = config;
             _userManager = UserManager;
             _signInManager = SignInManager;
@@ -76,13 +83,19 @@ namespace api.Controllers
 
         }
 
-        private string GenerateJwtToken(User user)
+        private async Task<string> GenerateJwtToken(User user)
         {
-            var claims = new[]
+            var claims = new List<Claim>
           {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName)
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            foreach(var role in roles) {
+                claims.Add(new Claim(ClaimTypes.Role,role));
+            }
 
             //obtem a key na app settings
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.GetSection("AppSettings:Token").Value));
@@ -111,5 +124,31 @@ namespace api.Controllers
 
         }
 
+        [Authorize]
+        //adiciona uma nova role à base de dados
+        [HttpPost("addRole")]
+          public async Task<IActionResult> addRole( Role role) {
+            
+    
+            _roleManager.CreateAsync(role).Wait();
+            
+            return Ok();
+        }
+
+
+
+        //adiciona role a um utilizador
+        [HttpPost("setRole")]
+        public async Task<IActionResult> setRole(setRoleDto roleDto) {
+
+           User user = await _repo.GetUser(roleDto.Id);
+
+            _userManager.AddToRoleAsync(user, roleDto.RoleName).Wait();
+
+           return Ok();
+
+        }
+
+    
     }
 }
