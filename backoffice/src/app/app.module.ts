@@ -23,6 +23,8 @@ import { UsersListComponent } from './users/usersList/usersList.component';
 import {User} from './models/user';
 import { UserComponent } from './users/user/user.component';
 import { FooterComponent } from './footer/footer.component';
+import { EditComponent } from './users/edit/edit.component';
+import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
 
 
 export function tokenGetter() {
@@ -41,7 +43,8 @@ export function tokenGetter() {
       HomeComponent,
       UsersListComponent,
       UserComponent,
-      FooterComponent
+      FooterComponent,
+      EditComponent
    ],
    imports: [
       BrowserModule,
@@ -59,7 +62,8 @@ export function tokenGetter() {
       providers: [
       AuthService,
       AuthGuard,
-      UserService
+      UserService,
+      PreventUnsavedChanges
    ],
    bootstrap: [
       AppComponent

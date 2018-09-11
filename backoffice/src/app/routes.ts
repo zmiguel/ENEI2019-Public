@@ -7,6 +7,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { UsersListComponent } from './users/usersList/usersList.component';
 import { UserComponent } from './users/user/user.component';
+import { Component } from '@angular/core';
+import { EditComponent } from './users/edit/edit.component';
+import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
 
 
 
@@ -26,6 +29,12 @@ export const appRoutes: Routes = [
         path: 'user/:id',
         component: UserComponent,
         canActivate: [AuthGuard],
+
+    },
+    {
+        path: 'user/edit/:id',
+        component: EditComponent,
+        canDeactivate: [PreventUnsavedChanges],
 
     },
     {

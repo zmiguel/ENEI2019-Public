@@ -1,0 +1,10 @@
+.qr_code
+{
+   width: 60%;
+   margin: 0 auto;
+  margin-bottom: 5%;
+}
+.qr_code img{
+    width:100%;
+
+}

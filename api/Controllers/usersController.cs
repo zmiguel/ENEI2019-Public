@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos;
@@ -43,5 +44,22 @@ namespace api.Controllers
             
             return Ok(userToReturn);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdate){
+            
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
+                //return Unauthorized(); //garante que é o próprio pode aceder à sua informação
+
+            var userFromRepo = await _repo.GetUser(id);
+
+            _mapper.Map(userForUpdate, userFromRepo);
+
+            if(await _repo.SaveAll())
+                return NoContent();
+            
+            throw new System.Exception($"updating user {id} failed on save");
+        }
+
+
     }
 }

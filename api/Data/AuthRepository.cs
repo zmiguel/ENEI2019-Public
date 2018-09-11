@@ -32,8 +32,6 @@ namespace api.Data
 
         public async Task<User> Register(User user, string Password)
         {
-            byte[] passwordHash, passwordSalt;
-
             await Context.Users.AddAsync(user);
            
             await Context.SaveChangesAsync();
