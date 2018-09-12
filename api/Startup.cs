@@ -79,6 +79,10 @@ namespace api
                 };
             });
 
+            services.AddAuthorization(options => {
+                options.AddPolicy("RequireAdminRole",policy => policy.RequireRole("Admin"));
+                //adicionar mais roles aqui
+            });
             
             services.AddMvc(Options=> 
             {

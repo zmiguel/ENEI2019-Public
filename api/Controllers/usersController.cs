@@ -77,8 +77,6 @@ namespace api.Controllers
             return Ok();
         }
 
-
-
         //adiciona role a um utilizador
         [HttpPost("setRole")]
         public async Task<IActionResult> setRole(setRoleDto roleDto) {
