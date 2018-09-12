@@ -25,6 +25,8 @@ import { UserComponent } from './users/user/user.component';
 import { FooterComponent } from './footer/footer.component';
 import { EditComponent } from './users/edit/edit.component';
 import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
+import { AdminComponent } from './admin/admin.component';
+import { HasRoleDirective } from './directives/hasRole.directive';
 
 
 export function tokenGetter() {
@@ -44,7 +46,9 @@ export function tokenGetter() {
       UsersListComponent,
       UserComponent,
       FooterComponent,
-      EditComponent
+      EditComponent,
+      AdminComponent,
+      HasRoleDirective
    ],
    imports: [
       BrowserModule,

@@ -77,19 +77,5 @@ namespace api.Controllers
             return Ok();
         }
 
-        //adiciona role a um utilizador
-        [HttpPost("setRole")]
-        public async Task<IActionResult> setRole(setRoleDto roleDto) {
-
-           User user = await _repo.GetUser(roleDto.Id);
-
-            _userManager.AddToRoleAsync(user, roleDto.RoleName).Wait();
-
-           return Ok();
-
-        }
-
-
-
     }
 }

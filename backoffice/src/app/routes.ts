@@ -10,6 +10,7 @@ import { UserComponent } from './users/user/user.component';
 import { Component } from '@angular/core';
 import { EditComponent } from './users/edit/edit.component';
 import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -17,7 +18,7 @@ import { PreventUnsavedChanges } from './guards/prevent-unsaved-changes.guard';
 export const appRoutes: Routes = [
     {
         path: '',
-        component: DashboardComponent,
+        component: HomeComponent,
         canActivate: [AuthGuard]
     },
     {
@@ -49,11 +50,22 @@ export const appRoutes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
+        data: {
+            roles: ['Admin']
+        }
+    },
+    {
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AuthGuard],
+        data: {
+                roles: ['Admin']
+            }
     },
     {
         path: '**',
-        redirectTo: 'home',
+        redirectTo: '',
         pathMatch: 'full'
     }
 ];

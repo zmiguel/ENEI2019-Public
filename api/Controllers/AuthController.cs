@@ -75,7 +75,7 @@ namespace api.Controllers
                 return Ok(new
                 {
 
-                    token = GenerateJwtToken(appUser)
+                    token = GenerateJwtToken(appUser).Result
                 });
 
             }
@@ -106,7 +106,7 @@ namespace api.Controllers
             //criamos um token
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims),
+                Subject = new ClaimsIdentity(claims), 
                 //data de expiração (atual + 24 horas)
                 Expires = DateTime.Now.AddDays(1),
 
