@@ -48,21 +48,18 @@ namespace api.Controllers
         {
             var userToCreate = _mapper.Map<User>(userToRegister);
 
-
             var result = await _userManager.CreateAsync(userToCreate, userToRegister.password);
-
+            
             if (result.Succeeded)
             {
                 return StatusCode(201);
             }
-
             return BadRequest(result.Errors);
 
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto UserForLoginDto)
         {
-
 
             var user = await _userManager.FindByNameAsync(UserForLoginDto.Username);
 
@@ -123,8 +120,5 @@ namespace api.Controllers
             return tokenHandler.WriteToken(token);
 
         }
-
-
-    
     }
 }

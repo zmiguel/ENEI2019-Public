@@ -29,7 +29,6 @@ namespace api.Data
 
         }
 
-
         public async Task<User> Register(User user, string Password)
         {
             await Context.Users.AddAsync(user);
@@ -39,8 +38,6 @@ namespace api.Data
            return user;
 
         }
-        
-        
 
     }
 }

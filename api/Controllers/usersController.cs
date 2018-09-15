@@ -40,15 +40,17 @@ namespace api.Controllers
             
             return Ok(usersToReturn);
         }
-
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
+            
             var user = await _repo.GetUser(id);
     
             var userToReturn = _mapper.Map<UserForDetailedDto>(user);
             
             return Ok(userToReturn);
+         
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDto userForUpdate){
@@ -69,7 +71,7 @@ namespace api.Controllers
           [Authorize]
         //adiciona uma nova role à base de dados
         [HttpPost("addRole")]
-          public async Task<IActionResult> addRole( Role role) {
+        public async Task<IActionResult> addRole( Role role) {
             
     
             _roleManager.CreateAsync(role).Wait();
