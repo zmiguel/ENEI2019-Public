@@ -73,6 +73,7 @@ namespace api.Controllers
         [HttpPost("addRole")]
         public async Task<IActionResult> addRole( Role role) {
             
+            
     
             _roleManager.CreateAsync(role).Wait();
             
