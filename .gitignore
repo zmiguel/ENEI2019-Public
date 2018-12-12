@@ -81,9 +81,7 @@ typings/
 .dynamodb/ 
 
 # dotNet core build
-*/obj/
-*/obj/*
-api/obj
-*/bin/
-*/bin/*
-api/bin
+bin/
+obj/
+
+.vscode/
