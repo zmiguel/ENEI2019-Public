@@ -83,7 +83,7 @@ typings/
 # dotNet core build
 */obj/
 */obj/*
-api/obj/
+api/obj
 */bin/
 */bin/*
-api/bin/
+api/bin
