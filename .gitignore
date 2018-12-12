@@ -84,4 +84,6 @@ typings/
 */obj/
 */obj/*
 api/obj/
-obj/
+*/bin/
+*/bin/*
+api/bin/
