@@ -80,4 +80,8 @@ typings/
 #DynamoDB Local files 
 .dynamodb/ 
 
+# dotNet core build
+bin/
+obj/
 
+.vscode/
