@@ -21,3 +21,4 @@
 /Users/henrique/enei2019/api/obj/Debug/netcoreapp2.1/api.RazorTargetAssemblyInfo.cs
 /Users/henrique/enei2019/api/obj/Debug/netcoreapp2.1/api.Views.pdb
 /Users/henrique/enei2019/api/obj/Debug/netcoreapp2.1/api.csproj.CopyComplete
+/Users/henrique/enei2019/api/obj/Debug/netcoreapp2.1/Razor/Views/Landing/404.g.cshtml.cs
