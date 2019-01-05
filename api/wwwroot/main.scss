@@ -105,10 +105,10 @@ $icon-email: "\e902";
 .icon-less,
 .icon-plus,
 .icon-email {
-	font-size: 45px;
+	font-size: 36px;
 	color: $white;
 	@include portable {
-		font-size: 30px;
+		font-size: 33px;
 	}
 	@include mobile {
 		font-size: 32px;
@@ -215,17 +215,38 @@ p {
 }
 
 label {
-	display: none;
+	display: inline-block;
+	@include font($bai-font, 22px, 22px, $dark-grey);
+	margin-bottom: 10px;
+}
+
+input {
+	@include font($bai-font, 22px, 22px, $dark-grey);
+	padding: 20px 35px;
+	border: 1px solid $light-grey;
+	margin-bottom: 25px;
+	background-color: $white;
+	transition: border-color $transition-time ease-out;
+	-webkit-transition: border-color $transition-time ease-out;
+	&:hover {
+		border-color: $red;
+	}
+	&.error {
+		border: 5px solid $red;
+	}
+}
+
+input[type="radio"] {
+	margin-left: 10px;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="tel"],
-input[type="number"],
-button[type="submit"] {
+input[type="number"] {
 	&::-webkit-input-placeholder {
-		color: $white;
+		color: $dark-grey;
 	}
 }
 
@@ -235,10 +256,15 @@ input[type="password"],
 input[type="tel"],
 input[type="number"] {
 	width: 100%;
-	max-width: 350px;
 }
 
-button[type="submit"] {
+input[type="submit"] {
+	display: block;
+	margin-top: 25px;
+	margin-bottom: 0;
+	background-color: $red;
+	border-color: $red;
+	color: $white;
 	transition: color $standard-animation-time ease,
 		background-color $standard-animation-time ease;
 	-webkit-transition: color $standard-animation-time ease,
@@ -246,7 +272,14 @@ button[type="submit"] {
 	cursor: pointer;
 	&:hover {
 		background-color: $white;
+		color: $red;
 	}
+}
+
+select {
+	padding: 10px;
+	border: 1px solid $light-grey;
+	display: block;
 }
 
 .btn {
@@ -266,6 +299,29 @@ hr {
 		@include size(30%, 1px);
 		@include position(absolute, 0, null, null, 0);
 		background-color: $red;
+	}
+}
+
+#error-message {
+	font-size: 115px;
+	line-height: 140px;
+	padding: 0 40px;
+	background-color: $black;
+	color: $white;
+	display: inline-block;
+	margin-bottom: 0;
+	@include position(absolute, 50%, null, null, 50%);
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	@include portable {
+		font-size: 75px;
+		line-height: 100px;
+		padding: 0 30px;
+	}
+	@include mobile {
+		font-size: 55px;
+		line-height: 80px;
+		padding: 0 25px;
 	}
 }
 
@@ -321,12 +377,12 @@ hr {
 			}
 			li {
 				display: inline-block;
-				@include font($bai-font, 21px, 22px, $white);
-				margin: 0 30px;
+				@include font($bai-font, 19px, 21px, $white);
+				margin: 0 20px;
 				text-transform: uppercase;
 				@include portable {
-					font-size: 18px;
-					line-height: 22px;
+					font-size: 17px;
+					line-height: 19px;
 					margin: 0 10px;
 				}
 				@include mobile {
@@ -378,18 +434,23 @@ hr {
 		background-attachment: inherit;
 	}
 	.logo-enei {
-		max-width: 550px;
-		width: 50%;
-		@include position(absolute, 50%, null, null, 50%);
-		transform: translate(-50%, -50%);
-		-webkit-transform: translate(-50%, -50%);
-		@include mobile {
-			top: calc(50% + 25px);
-			transform: translate(-50%, -50%);
-			-webkit-transform: translate(-50%, -50%);
+		width: 450px;
+		@include position(
+			absolute,
+			calc(50% - 210px),
+			null,
+			null,
+			calc(50% - 225px)
+		);
+		@include portable {
+			width: 350px;
+			top: calc(50% - 163px);
+			left: calc(50% - 175px);
 		}
-		@media only screen and (max-width: 768px) and (max-height: 750px) and (orientation: landscape) {
-			max-width: 35%;
+		@include mobile {
+			width: 200px;
+			top: calc(50% - 93px);
+			left: calc(50% - 100px);
 		}
 	}
 }
@@ -397,8 +458,9 @@ hr {
 #enei {
 	background-color: $white;
 	background: url("imgs/cubes-image.png") no-repeat top right;
+	background-size: 24%;
 	@include portable {
-		background-size: 40%;
+		background-size: 20%;
 	}
 	@include mobile {
 		background-image: none;
@@ -642,8 +704,10 @@ hr {
 	}
 }
 
-#faqs {
+#faqs,
+#tickets {
 	background: url("imgs/cubes2-image.png") no-repeat bottom right;
+	background-size: 30%;
 }
 
 #accordion {
@@ -712,11 +776,9 @@ hr {
 	background-color: $black;
 	h1 {
 		color: $light-grey;
-		font-size: 50px;
-		margin-bottom: 50px;
+		margin-bottom: 30px;
 		@include portable {
 			margin-bottom: 20px;
-			font-size: 34px;
 		}
 	}
 	ul {
@@ -727,7 +789,7 @@ hr {
 				margin: 0 5px;
 			}
 			a {
-				@include size(80px, 80px);
+				@include size(70px, 70px);
 				display: block;
 				border: 10px solid $white;
 				transition: border-color $transition-time ease-out;

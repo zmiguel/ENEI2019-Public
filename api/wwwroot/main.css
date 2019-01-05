@@ -38,7 +38,7 @@
 .icon-less,
 .icon-plus,
 .icon-email {
-  font-size: 45px;
+  font-size: 36px;
   color: #ffffff;
 }
 
@@ -49,7 +49,7 @@
   .icon-less,
   .icon-plus,
   .icon-email {
-    font-size: 30px;
+    font-size: 33px;
   }
 }
 
@@ -180,16 +180,45 @@ p {
 }
 
 label {
-  display: none;
+  display: inline-block;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 22px;
+  line-height: 22px;
+  color: #353535;
+  margin-bottom: 10px;
+}
+
+input {
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 22px;
+  line-height: 22px;
+  color: #353535;
+  padding: 20px 35px;
+  border: 1px solid #eeeeee;
+  margin-bottom: 25px;
+  background-color: #ffffff;
+  transition: border-color 150ms ease-out;
+  -webkit-transition: border-color 150ms ease-out;
+}
+
+input:hover {
+  border-color: #e82d28;
+}
+
+input.error {
+  border: 5px solid #e82d28;
+}
+
+input[type="radio"] {
+  margin-left: 10px;
 }
 
 input[type="text"]::-webkit-input-placeholder,
 input[type="email"]::-webkit-input-placeholder,
 input[type="password"]::-webkit-input-placeholder,
 input[type="tel"]::-webkit-input-placeholder,
-input[type="number"]::-webkit-input-placeholder,
-button[type="submit"]::-webkit-input-placeholder {
-  color: #ffffff;
+input[type="number"]::-webkit-input-placeholder {
+  color: #353535;
 }
 
 input[type="text"],
@@ -198,17 +227,29 @@ input[type="password"],
 input[type="tel"],
 input[type="number"] {
   width: 100%;
-  max-width: 350px;
 }
 
-button[type="submit"] {
+input[type="submit"] {
+  display: block;
+  margin-top: 25px;
+  margin-bottom: 0;
+  background-color: #e82d28;
+  border-color: #e82d28;
+  color: #ffffff;
   transition: color 150ms ease, background-color 150ms ease;
   -webkit-transition: color 150ms ease, background-color 150ms ease;
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
+input[type="submit"]:hover {
   background-color: #ffffff;
+  color: #e82d28;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #eeeeee;
+  display: block;
 }
 
 .btn {
@@ -237,6 +278,37 @@ hr::after {
   top: 0;
   left: 0;
   background-color: #e82d28;
+}
+
+#error-message {
+  font-size: 115px;
+  line-height: 140px;
+  padding: 0 40px;
+  background-color: #000000;
+  color: #ffffff;
+  display: inline-block;
+  margin-bottom: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 1024px) {
+  #error-message {
+    font-size: 75px;
+    line-height: 100px;
+    padding: 0 30px;
+  }
+}
+
+@media (max-width: 769px) {
+  #error-message {
+    font-size: 55px;
+    line-height: 80px;
+    padding: 0 25px;
+  }
 }
 
 #main-menu {
@@ -318,17 +390,17 @@ hr::after {
 #main-menu nav ul li {
   display: inline-block;
   font-family: "Bai Jamjuree", sans-serif;
-  font-size: 21px;
-  line-height: 22px;
+  font-size: 19px;
+  line-height: 21px;
   color: #ffffff;
-  margin: 0 30px;
+  margin: 0 20px;
   text-transform: uppercase;
 }
 
 @media (max-width: 1024px) {
   #main-menu nav ul li {
-    font-size: 18px;
-    line-height: 22px;
+    font-size: 17px;
+    line-height: 19px;
     margin: 0 10px;
   }
 }
@@ -400,37 +472,37 @@ hr::after {
 }
 
 #apresentation .logo-enei {
-  max-width: 550px;
-  width: 50%;
+  width: 450px;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
+  top: calc(50% - 210px);
+  left: calc(50% - 225px);
+}
+
+@media (max-width: 1024px) {
+  #apresentation .logo-enei {
+    width: 350px;
+    top: calc(50% - 163px);
+    left: calc(50% - 175px);
+  }
 }
 
 @media (max-width: 769px) {
   #apresentation .logo-enei {
-    top: calc(50% + 25px);
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-  }
-}
-
-@media only screen and (max-width: 768px) and (max-height: 750px) and (orientation: landscape) {
-  #apresentation .logo-enei {
-    max-width: 35%;
+    width: 200px;
+    top: calc(50% - 93px);
+    left: calc(50% - 100px);
   }
 }
 
 #enei {
   background-color: #ffffff;
   background: url("imgs/cubes-image.png") no-repeat top right;
+  background-size: 24%;
 }
 
 @media (max-width: 1024px) {
   #enei {
-    background-size: 40%;
+    background-size: 20%;
   }
 }
 
@@ -783,8 +855,10 @@ hr::after {
   margin-bottom: 70px;
 }
 
-#faqs {
+#faqs,
+#tickets {
   background: url("imgs/cubes2-image.png") no-repeat bottom right;
+  background-size: 30%;
 }
 
 #accordion li {
@@ -857,14 +931,12 @@ hr::after {
 
 #social-network h1 {
   color: #eeeeee;
-  font-size: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 @media (max-width: 1024px) {
   #social-network h1 {
     margin-bottom: 20px;
-    font-size: 34px;
   }
 }
 
@@ -880,8 +952,8 @@ hr::after {
 }
 
 #social-network ul li a {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   display: block;
   border: 10px solid #ffffff;
   transition: border-color 150ms ease-out;
