@@ -188,6 +188,13 @@ label {
   margin-bottom: 10px;
 }
 
+@media (max-width: 1024px) {
+  label {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+}
+
 input {
   font-family: "Bai Jamjuree", sans-serif;
   font-size: 22px;
@@ -207,6 +214,13 @@ input:hover {
 
 input.error {
   border: 5px solid #e82d28;
+}
+
+@media (max-width: 1024px) {
+  input {
+    font-size: 20px;
+    padding: 15px 25px;
+  }
 }
 
 input[type="radio"] {
@@ -249,7 +263,7 @@ input[type="submit"]:hover {
 select {
   padding: 10px;
   border: 1px solid #eeeeee;
-  display: block;
+  margin-left: 25px;
 }
 
 .btn {
@@ -1024,5 +1038,56 @@ footer p {
   footer p {
     font-size: 12px;
   }
+}
+
+#tab-links {
+  margin: 50px 0 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#tab-links .tab-label {
+  display: none;
+}
+
+#tab-links .tab-label.visible {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+#tab-links .tab-label.active a {
+  border-color: #e82d28;
+  background-color: #e82d28;
+  color: #ffffff;
+  z-index: 2;
+}
+
+#tab-links .tab-label a {
+  border: 1px solid #353535;
+  display: inline-block;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 20px;
+  line-height: 22px;
+  color: #353535;
+  padding: 20px 15px;
+  -webkit-transition: border-color 150ms ease, color 150ms ease, background-color 150ms ease;
+  transition: border-color 150ms ease, color 150ms ease, background-color 150ms ease;
+  margin-right: -1px;
+}
+
+@media (max-width: 1024px) {
+  #tab-links .tab-label a {
+    padding: 15px;
+  }
+}
+
+#tab-container .tab {
+  display: none;
+}
+
+#tab-container .tab.visible {
+  display: block;
 }
 /*# sourceMappingURL=main.css.map */

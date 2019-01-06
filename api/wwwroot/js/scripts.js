@@ -97,6 +97,24 @@ $(document).ready(function () {
         return false;
     });
 
+    $("#group-number").change(function () {
+        $("#tab-links .tab-label").slice(0, $(this).val()).addClass("visible");
+        $("#tab-links .tab-label").slice($(this).val(), 10).removeClass("visible");
+    });
+
+    //tabs system
+    $("#tab-links .tab-label > a").on("click", function () {
+        var currentAttrValue = $(this).attr('href');
+
+        //  add/remove class "tab-label"
+        $(this).parent().addClass("active").siblings().removeClass("active");
+
+        //  add/remove class "tab"
+        $("#tab-container " + currentAttrValue).addClass("visible").siblings().removeClass("visible");
+
+        return false;
+    });
+
 });
 
 $(window).resize(function () {
