@@ -36,52 +36,215 @@
     <section id="tickets">
         <div class="container">
             <div class="col-lg-12">
-                <h1>Comprar Bilhetes</h1>
+                <h1>Comprar Bilhetes em grupo</h1>
                 <hr>
                 <form method="get">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <label for="name-1">Nome</label>
-                            <input id="name-1" type="text">
-                            <label for="email-1">Email</label>
-                            <input id="email-1" type="email">
-                        </div>
-                        <div class="col-lg-6">
-                            <label for="university-1">Universidade</label>
-                            <input id="university-1" type="text">
-                            <label for="phone-1">Telemóvel</label>
-                            <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <!--<label for="group">Compra de bilhetes em grupo</label>
+                    <label for="group-number">Número de bilhetes a comprar</label>
+                    <select name="group-number" id="group-number">
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <ul id="tab-links">
+                        <li class="tab-label visible active">
+                            <a href="#ticket1" title="Bilhete 1" rel="nofollow">Bilhete 1</a>
+                        </li>
+                        <li class="tab-label visible">
+                            <a href="#ticket2" title="Bilhete 2" rel="nofollow">Bilhete 2</a>
+                        </li>
+                        <li class="tab-label visible">
+                            <a href="#ticket3" title="Bilhete 3" rel="nofollow">Bilhete 3</a>
+                        </li>
+                        <li class="tab-label visible">
+                            <a href="#ticket4" title="Bilhete 4" rel="nofollow">Bilhete 4</a>
+                        </li>
+                        <li class="tab-label">
+                            <a href="#ticket5" title="Bilhete 5" rel="nofollow">Bilhete 5</a>
+                        </li>
+                        <li class="tab-label">
+                            <a href="#ticket6" title="Bilhete 6" rel="nofollow">Bilhete 6</a>
+                        </li>
+                        <li class="tab-label">
+                            <a href="#ticket7" title="Bilhete 7" rel="nofollow">Bilhete 7</a>
+                        </li>
+                        <li class="tab-label">
+                            <a href="#ticket8" title="Bilhete 8" rel="nofollow">Bilhete 8</a>
+                        </li>
+                        <li class="tab-label">
+                            <a href="#ticket9" title="Bilhete 9" rel="nofollow">Bilhete 9</a>
+                        </li>
+                        <li class="tab-label">
+                            <a href="#ticket10" title="Bilhete 10" rel="nofollow">Bilhete 10</a>
+                        </li>
+                    </ul>
+                    <div id="tab-container">
+                        <div id="ticket1" class="tab visible">
                             <div class="row">
-                                <div class="col-lg-2 col-sm-2 col-xs-6">
-                                    <label for="group-no">Não</label>
-                                    <input type="radio" name="group" id="group-no" value="no" checked="checked">
+                                <div class="col-lg-6">
+                                    <label for="name-1">Nome</label>
+                                    <input id="name-1" type="text">
+                                    <label for="email-1">Email</label>
+                                    <input id="email-1" type="email">
                                 </div>
-                                <div class="col-lg-10 col-sm-10 col-xs-6">
-                                    <label for="group-yes">Sim</label>
-                                    <input type="radio" name="group" id="group-yes" value="yes">
+                                <div class="col-lg-6">
+                                    <label for="university-1">Universidade</label>
+                                    <input id="university-1" type="text">
+                                    <label for="phone-1">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-1">
                                 </div>
-                            </div>-->
-                            <label for="group-number">Número de bilhetes a comprar</label>
-                            <select name="group-number">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                            <input type="submit" value="Comprar">
+                            </div>
+                        </div>
+                        <div id="ticket2" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-2">Nome</label>
+                                    <input id="name-2" type="text">
+                                    <label for="email-2">Email</label>
+                                    <input id="email-2" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-2">Universidade</label>
+                                    <input id="university-2" type="text">
+                                    <label for="phone-2">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-2">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket3" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-3">Nome</label>
+                                    <input id="name-3" type="text">
+                                    <label for="email-3">Email</label>
+                                    <input id="email-3" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-3">Universidade</label>
+                                    <input id="university-3" type="text">
+                                    <label for="phone-3">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket4" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-4">Nome</label>
+                                    <input id="name-4" type="text">
+                                    <label for="email-4">Email</label>
+                                    <input id="email-4" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-4">Universidade</label>
+                                    <input id="university-4" type="text">
+                                    <label for="phone-4">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-4">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket5" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-5">Nome</label>
+                                    <input id="name-5" type="text">
+                                    <label for="email-5">Email</label>
+                                    <input id="email-5" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-5">Universidade</label>
+                                    <input id="university-5" type="text">
+                                    <label for="phone-5">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-5">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket6" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-6">Nome</label>
+                                    <input id="name-6" type="text">
+                                    <label for="email-6">Email</label>
+                                    <input id="email-6" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-6">Universidade</label>
+                                    <input id="university-6" type="text">
+                                    <label for="phone-6">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-6">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket7" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-7">Nome</label>
+                                    <input id="name-7" type="text">
+                                    <label for="email-7">Email</label>
+                                    <input id="email-7" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-7">Universidade</label>
+                                    <input id="university-7" type="text">
+                                    <label for="phone-7">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-7">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket8" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-8">Nome</label>
+                                    <input id="name-8" type="text">
+                                    <label for="email-8">Email</label>
+                                    <input id="email-8" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-8">Universidade</label>
+                                    <input id="university-8" type="text">
+                                    <label for="phone-8">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-8">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket9" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-9">Nome</label>
+                                    <input id="name-9" type="text">
+                                    <label for="email-9">Email</label>
+                                    <input id="email-9" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-9">Universidade</label>
+                                    <input id="university-9" type="text">
+                                    <label for="phone-9">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-9">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ticket10" class="tab">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="name-10">Nome</label>
+                                    <input id="name-10" type="text">
+                                    <label for="email-10">Email</label>
+                                    <input id="email-10" type="email">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="university-10">Universidade</label>
+                                    <input id="university-10" type="text">
+                                    <label for="phone-10">Telemóvel</label>
+                                    <input type="number" pattern="[0-9]*" inputmode="numeric" id="phone-10">
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <p>Bilhete selecionado: Normal 40€</p>
+                    <input type="submit" value="Comprar">
                 </form>
             </div>
         </div>

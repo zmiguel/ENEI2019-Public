@@ -218,6 +218,10 @@ label {
 	display: inline-block;
 	@include font($bai-font, 22px, 22px, $dark-grey);
 	margin-bottom: 10px;
+	@include portable {
+		font-size: 20px;
+		margin-bottom: 5px;
+	}
 }
 
 input {
@@ -233,6 +237,10 @@ input {
 	}
 	&.error {
 		border: 5px solid $red;
+	}
+	@include portable {
+		font-size: 20px;
+		padding: 15px 25px;
 	}
 }
 
@@ -278,8 +286,8 @@ input[type="submit"] {
 
 select {
 	padding: 10px;
-	border: 1px solid $light-grey;
-	display: block;
+	border: 1px solid #eeeeee;
+	margin-left: 25px;
 }
 
 .btn {
@@ -837,6 +845,50 @@ footer {
 		line-height: 16px;
 		@include portable {
 			font-size: 12px;
+		}
+	}
+}
+
+#tab-links {
+	margin: 50px 0 25px;
+	display: flex;
+	.tab-label {
+		display: none;
+		&.visible {
+			display: inline-flex;
+		}
+		&.active {
+			a {
+				border-color: $red;
+				background-color: $red;
+				color: $white;
+				z-index: 2;
+			}
+		}
+		a {
+			border: 1px solid $dark-grey;
+			display: inline-block;
+			@include font($bai-font, 20px, 22px, $dark-grey);
+			padding: 20px 15px;
+			-webkit-transition: border-color $transition-time ease,
+				color $transition-time ease,
+				background-color $transition-time ease;
+			transition: border-color $transition-time ease,
+				color $transition-time ease,
+				background-color $transition-time ease;
+			margin-right: -1px;
+			@include portable{
+				padding:15px;
+			}
+		}
+	}
+}
+
+#tab-container {
+	.tab {
+		display: none;
+		&.visible {
+			display: block;
 		}
 	}
 }
