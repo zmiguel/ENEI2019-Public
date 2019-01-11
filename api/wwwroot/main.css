@@ -730,6 +730,12 @@ hr::after {
   position: relative;
 }
 
+@media (max-width: 1024px) {
+  #precos {
+    padding-bottom: 100px;
+  }
+}
+
 #precos hr {
   display: table;
   margin: 0 auto 60px;
@@ -766,6 +772,24 @@ hr::after {
   -webkit-transition: transform 150ms ease-out;
 }
 
+@media (max-width: 1024px) {
+  #precos .price-block {
+    max-width: 210px;
+    padding: 0 15px 40px;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 769px) {
+  #precos .price-block {
+    max-width: 350px;
+    min-height: inherit;
+    padding: 0 15px 40px;
+    margin: 0 auto 35px;
+    display: table;
+  }
+}
+
 #precos .price-block:hover {
   transform: scale(1.05);
   -webkit-transform: scale(1.05);
@@ -790,6 +814,12 @@ hr::after {
   line-height: 58px;
   color: #353535;
   font-weight: 400;
+}
+
+@media (max-width: 769px) {
+  #precos .price-block .price {
+    margin: 20px 0;
+  }
 }
 
 #precos .price-block .price span {
@@ -843,6 +873,13 @@ hr::after {
   border-color: #e82d28;
   background-color: #e82d28;
   color: #ffffff;
+}
+
+@media (max-width: 769px) {
+  #precos .price-block .buy-button {
+    display: inline-block;
+    margin-top: 30px;
+  }
 }
 
 #precos .ps {
