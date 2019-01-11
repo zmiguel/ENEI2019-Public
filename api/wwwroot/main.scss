@@ -198,6 +198,9 @@ h1 {
 		font-size: 34px;
 		margin-bottom: 10px;
 	}
+	@include mobile {
+		font-size: 30px;
+	}
 }
 
 h3 {
@@ -660,7 +663,7 @@ hr {
 		.price {
 			@include font($bai-font, 58px, 58px, $dark-grey);
 			font-weight: 400;
-			@include mobile{
+			@include mobile {
 				margin: 20px 0;
 			}
 			span {
@@ -707,7 +710,7 @@ hr {
 				background-color: $red;
 				color: $white;
 			}
-			@include mobile{
+			@include mobile {
 				display: inline-block;
 				margin-top: 30px;
 			}
@@ -767,6 +770,11 @@ hr {
 			-webkit-transition: border-color $transition-time ease-out,
 				background-color $transition-time ease-out,
 				color $transition-time ease-out;
+			@include mobile {
+				font-size: 19px;
+				line-height: 24px;
+				padding: 20px;
+			}
 		}
 		.content-accordion {
 			display: none;
@@ -774,6 +782,9 @@ hr {
 			background-color: $white;
 			border: 1px dashed $light-grey;
 			border-top: 0;
+			@include mobile {
+				padding: 25px;
+			}
 			p {
 				margin-bottom: 5px;
 			}

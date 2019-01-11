@@ -159,6 +159,12 @@ h1 {
   }
 }
 
+@media (max-width: 769px) {
+  h1 {
+    font-size: 30px;
+  }
+}
+
 h3 {
   letter-spacing: 1px;
   font-weight: normal;
@@ -940,12 +946,26 @@ hr::after {
   -webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
 }
 
+@media (max-width: 769px) {
+  #accordion li .toggle {
+    font-size: 19px;
+    line-height: 24px;
+    padding: 20px;
+  }
+}
+
 #accordion li .content-accordion {
   display: none;
   padding: 45px 35px;
   background-color: #ffffff;
   border: 1px dashed #eeeeee;
   border-top: 0;
+}
+
+@media (max-width: 769px) {
+  #accordion li .content-accordion {
+    padding: 25px;
+  }
 }
 
 #accordion li .content-accordion p {
