@@ -5,6 +5,13 @@ export const UtilStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
+
+    },
+    containerLoading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
     },
     titleText: {
         fontSize: 20,
@@ -89,6 +96,14 @@ export const UtilStyles = StyleSheet.create({
         color: RkTheme.current.colors.grey500,
     },
 
+
+    loginImage: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        width: 160,
+        height: 149.2,
+    },
 
     //------------------//
     inputLabel: {
