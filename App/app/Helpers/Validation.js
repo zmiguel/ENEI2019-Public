@@ -14,6 +14,11 @@ export const validation = {
         presence: {
             message: 'Introduza uma password'
         },
+    },
+    new_password: {
+        presence: {
+            message: 'Introduza uma password'
+        },
         length: {
             minimum: {
                 value: 6,

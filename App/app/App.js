@@ -1,6 +1,7 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * Enei 2019 React Native App
+ *
+ * João Borges
  *
  * @format
  * @flow
@@ -9,26 +10,58 @@
 import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import AppIntroSlider from 'react-native-app-intro-slider'
+
 import {Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
-import Routes from './Router'
+import deviceStorage from '././services/deviceStorage'
 
-
+import Router from './Router'
+import Login from './screens/Login'
+import {AsyncStorage, ActivityIndicator} from 'react-native';
+import AuthLoadingScreen from "./screens/AuthLoading";
 
 export default class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            showRealApp: false,
+            firstLogin: null,
+            jwt: '',
+            loading: true
         };
     }
 
-    renderApp = () => (
-        <View style={{flex: 1}}>
-            <Routes />
-        </View>
-    );
+    newJWT(jwt) {
+        this.setState({
+            jwt: jwt
+        });
+    }
 
+    //componentDidMount() is invoked immediately after a component is mounted
+    /*componentDidMount() {
+
+
+        AsyncStorage.removeItem('firstLogin');
+
+        AsyncStorage.getItem('firstLogin').then((value) => {
+
+            console.log('aqui')
+            if (value == null) {
+                //setItem (key: string, value: string)
+                deviceStorage.saveItem('firstLogin', JSON.stringify(true));
+
+            }
+            else {
+
+                //this.setState({firstLogin: false});
+            }
+
+            this.setState({loading: false});
+
+        })
+    }*/
+
+
+//Buttons do Intro Slider
     _renderNextButton = () => {
         return (
             <View style={styles.buttonCircle}>
@@ -36,7 +69,7 @@ export default class App extends Component {
                     name='right'
                     color='rgba(255, 255, 255, .9)'
                     size={24}
-                    style={{ backgroundColor: 'transparent' }} />
+                    style={{backgroundColor: 'transparent'}}/>
             </View>
         );
     };
@@ -48,37 +81,55 @@ export default class App extends Component {
                     name='check'
                     color='rgba(255, 255, 255, .9)'
                     size={24}
-                    style={{ backgroundColor: 'transparent' }}
+                    style={{backgroundColor: 'transparent'}}
                 />
             </View>
         );
 
     };
 
-    _onDone = () => {
-
-        this.state({ showRealApp: true });
-    };
-
-
+//--Buttons do Intro Slider
 
     render() {
-        if (this.state.showRealApp) {
-            return (
-                this.renderApp()
-            );
-        }
-        else {
-            return(
-                <AppIntroSlider
-                    slides={slides}
-                    renderDoneButton={this._renderDoneButton}
-                    renderNextButton={this._renderNextButton}
-                    />
-            );
-        }
+
+        console.log('inside render');
+
+        return (
+            <Router />
+        )
+
+
+        /* if (this.state.loading) {
+         }
+         else {
+
+             if (this.state.firstLaunch) {
+                 return (
+                     <AppIntroSlider
+                         slides={slides}
+                         renderDoneButton={this._renderDoneButton}
+                         renderNextButton={this._renderNextButton}
+                         onDone={() => this.setState({firstLaunch: false})}
+                     />
+                 );
+             }
+             else if (!this.state.firstLaunch && !this.state.jwt) {    //&& !this.state.jwt}
+                 return (
+                     <View style={{flex: 1}}>
+                         <Login/>
+                     </View>
+                 )
+             }
+             else { // !this.state.firstLaunch && this.state.jwt
+                 return (
+                     <View style={{flex: 1}}>
+                         <Routes />
+                     </View>
+                 )
+             }*/
     }
 }
+
 
 //Styles
 const styles = StyleSheet.create({
@@ -87,16 +138,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
     },
 
     buttonCircle: {
@@ -112,7 +153,6 @@ const styles = StyleSheet.create({
         height: 320,
     }
 });
-
 
 
 //Introducing Slides

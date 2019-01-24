@@ -5,16 +5,16 @@ const deviceStorage = {
     async saveItem(key, value) {
         try {
             await AsyncStorage.setItem(key, value);
+            console.log('saved')
         } catch (error) {
             console.log(`Erro a guardar! \n${error.message}`);
         }
     },
 
-
     //Carregar token
     async loadJWT() {
         try {
-            const value = await AsyncStorage.getItem('id_token');
+            const value = await AsyncStorage.getItem('userToken');
             if (value !== null) {
                 this.setState({
                     jwt: value,
@@ -33,20 +33,13 @@ const deviceStorage = {
 
     //Apagar Token
     async deleteJWT() {
-        try{
-            await AsyncStorage.removeItem('id_token')
-                .then(
-                    () => {
-                        this.setState({
-                            jwt: ''
-                        })
-                    }
-                );
+        try {
+            await AsyncStorage.removeItem('userToken');
+
         } catch (error) {
             console.log(`Erro a ler token \n${error.message}`);
         }
     }
-
 
 
 };
