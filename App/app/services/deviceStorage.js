@@ -35,7 +35,7 @@ const deviceStorage = {
     async deleteJWT() {
         try {
             await AsyncStorage.removeItem('userToken');
-
+            
         } catch (error) {
             console.log(`Erro a ler token \n${error.message}`);
         }

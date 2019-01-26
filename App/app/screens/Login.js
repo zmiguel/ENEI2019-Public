@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react'
 import {View, Image, Vibration, Dimensions,Text ,Button} from 'react-native'
 import Icon from "react-native-vector-icons/Ionicons";
 import {UtilStyles} from '../assets/styles'
-
+import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import deviceStorage from '../services/deviceStorage';
 
@@ -30,17 +30,27 @@ export default class Login extends Component {
 
     onSuccess = (e) => {
 
-        console.log(e.data)
-
-        
+        console.log(e.data);
+            
+        this.props.navigation.navigate('Home',);
 
     };
 
     render() {
+        
+        console.log(AsyncStorage.getItem('userToken'))
+
+       // if(AsyncStorage.getItem('userToken')){
+
+         //   this.props.navigation.navigate('Home');
+
+      //  }
+       
+
         return (
             <QRCodeScanner
                 showMarker
-                captureAudio={false}
+                
                 reactivate={true}
                 onRead={this.onSuccess.bind(this)}
                 cameraStyle={{ height: SCREEN_HEIGHT }}
@@ -106,7 +116,7 @@ const styles = {
         paddingBottom:10
     },
     manual:{
-        paddingTop:10,
+      
         
 
     },
