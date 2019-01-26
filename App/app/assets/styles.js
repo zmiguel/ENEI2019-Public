@@ -1,5 +1,9 @@
 import {StyleSheet} from 'react-native';
 import {RkTheme} from 'react-native-ui-kitten'
+import { Dimensions} from 'react-native'
+
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export const UtilStyles = StyleSheet.create({
     container: {
@@ -97,11 +101,12 @@ export const UtilStyles = StyleSheet.create({
 
 
     loginImage: {
+        marginTop:50,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        width: 80, //160/2
-        height: 74.6 // 149.2/2
+        width: 150, //160/2
+        height: 150
     },
 
     //------------------//
