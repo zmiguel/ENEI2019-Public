@@ -5,7 +5,6 @@ export const UtilStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-
     },
     containerLoading: {
         flex: 1,
@@ -101,8 +100,8 @@ export const UtilStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
-        width: 160,
-        height: 149.2,
+        width: 80, //160/2
+        height: 74.6 // 149.2/2
     },
 
     //------------------//
