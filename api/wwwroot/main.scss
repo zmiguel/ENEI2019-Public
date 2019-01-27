@@ -198,6 +198,9 @@ h1 {
 		font-size: 34px;
 		margin-bottom: 10px;
 	}
+	@include mobile {
+		font-size: 30px;
+	}
 }
 
 h3 {
@@ -605,6 +608,9 @@ hr {
 #precos {
 	text-align: center;
 	position: relative;
+	@include portable {
+		padding-bottom: 100px;
+	}
 	hr {
 		display: table;
 		margin: 0 auto 60px;
@@ -627,6 +633,18 @@ hr {
 		margin: 0 15px;
 		transition: transform $transition-time ease-out;
 		-webkit-transition: transform $transition-time ease-out;
+		@include portable {
+			max-width: 210px;
+			padding: 0 15px 40px;
+			margin: 0 10px;
+		}
+		@include mobile {
+			max-width: 350px;
+			min-height: inherit;
+			padding: 0 15px 40px;
+			margin: 0 auto 35px;
+			display: table;
+		}
 		&:hover {
 			transform: scale(1.05);
 			-webkit-transform: scale(1.05);
@@ -645,6 +663,9 @@ hr {
 		.price {
 			@include font($bai-font, 58px, 58px, $dark-grey);
 			font-weight: 400;
+			@include mobile {
+				margin: 20px 0;
+			}
 			span {
 				font-size: 30px;
 				vertical-align: super;
@@ -688,6 +709,10 @@ hr {
 				border-color: $red;
 				background-color: $red;
 				color: $white;
+			}
+			@include mobile {
+				display: inline-block;
+				margin-top: 30px;
 			}
 		}
 	}
@@ -745,6 +770,11 @@ hr {
 			-webkit-transition: border-color $transition-time ease-out,
 				background-color $transition-time ease-out,
 				color $transition-time ease-out;
+			@include mobile {
+				font-size: 19px;
+				line-height: 24px;
+				padding: 20px;
+			}
 		}
 		.content-accordion {
 			display: none;
@@ -752,6 +782,9 @@ hr {
 			background-color: $white;
 			border: 1px dashed $light-grey;
 			border-top: 0;
+			@include mobile {
+				padding: 25px;
+			}
 			p {
 				margin-bottom: 5px;
 			}
@@ -877,8 +910,8 @@ footer {
 				color $transition-time ease,
 				background-color $transition-time ease;
 			margin-right: -1px;
-			@include portable{
-				padding:15px;
+			@include portable {
+				padding: 15px;
 			}
 		}
 	}
