@@ -18,6 +18,9 @@ import Router from './Router'
 import Login from './screens/Login'
 import {AsyncStorage, ActivityIndicator} from 'react-native';
 import AuthLoadingScreen from "./screens/AuthLoading";
+import {getToken} from "./Helpers/Requests";
+
+
 
 export default class App extends Component {
 
@@ -37,28 +40,12 @@ export default class App extends Component {
     }
 
     //componentDidMount() is invoked immediately after a component is mounted
-    /*componentDidMount() {
 
+    componentDidMount() {
 
-        AsyncStorage.removeItem('firstLogin');
+    console.log('oi - ' + getToken('TC2MT8QFJT', '80f3b6e5'));
 
-        AsyncStorage.getItem('firstLogin').then((value) => {
-
-            console.log('aqui')
-            if (value == null) {
-                //setItem (key: string, value: string)
-                deviceStorage.saveItem('firstLogin', JSON.stringify(true));
-
-            }
-            else {
-
-                //this.setState({firstLogin: false});
-            }
-
-            this.setState({loading: false});
-
-        })
-    }*/
+    }
 
 
 //Buttons do Intro Slider
