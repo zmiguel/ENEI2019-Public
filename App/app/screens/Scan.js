@@ -12,13 +12,12 @@ import {RkButton,
 
 export default class Scan extends React.Component {
 
-
     onSuccess = (e) => {
 
         //  console.log(e.data);
           
         
-     console.log(e);
+     console.log(e.data);
   
       
   

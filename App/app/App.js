@@ -21,25 +21,25 @@ import AuthLoadingScreen from "./screens/AuthLoading";
 import {getToken} from "./Helpers/Requests";
 
 
-
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
-import { AppRegistry } from 'react-native';
-import { Provider } from 'react-redux';
-import { createLogger } from 'redux-logger';
-import { compose, createStore, combineReducers, applyMiddleware} from 'redux';
-const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
+import {AppRegistry} from 'react-native';
+import {Provider} from 'react-redux';
+import {createLogger} from 'redux-logger';
+import {compose, createStore, combineReducers, applyMiddleware} from 'redux';
+
+const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
 
 
 function configureStore(initialState) {
     const enhancer = compose(
-      applyMiddleware(
-        thunkMiddleware, // used to dispatch() functions
-        loggerMiddleware, // used for logging actions
-      ),
+        applyMiddleware(
+            thunkMiddleware, // used to dispatch() functions
+            loggerMiddleware, // used for logging actions
+        ),
     );
     return createStore(reducer, initialState, enhancer);
-  }
+}
 
 
 const store = configureStore({});
@@ -64,7 +64,7 @@ export default class App extends Component {
 
     componentDidMount() {
 
-    console.log('oi - ' + getToken('TC2MT8QFJT', '80f3b6e5'));
+        console.log('oi - ' + getToken('TC2MT8QFJT', '80f3b6e5'));
 
     }
 
@@ -100,13 +100,12 @@ export default class App extends Component {
 
     render() {
 
-    
 
         return (
-   
+
             <Provider store={store}>
-                <Router />
-                </Provider>
+                <Router/>
+            </Provider>
         )
 
 
