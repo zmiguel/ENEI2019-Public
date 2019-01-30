@@ -19,6 +19,27 @@ import Login from './screens/Login'
 import {AsyncStorage, ActivityIndicator} from 'react-native';
 import AuthLoadingScreen from "./screens/AuthLoading";
 
+import thunkMiddleware from 'redux-thunk';
+import reducer from './reducers';
+import { AppRegistry } from 'react-native';
+import { Provider } from 'react-redux';
+import { createLogger } from 'redux-logger';
+import { compose, createStore, combineReducers, applyMiddleware} from 'redux';
+const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
+
+
+function configureStore(initialState) {
+    const enhancer = compose(
+      applyMiddleware(
+        thunkMiddleware, // used to dispatch() functions
+        loggerMiddleware, // used for logging actions
+      ),
+    );
+    return createStore(reducer, initialState, enhancer);
+  }
+
+
+const store = configureStore({});
 export default class App extends Component {
 
     constructor(props) {
@@ -92,10 +113,13 @@ export default class App extends Component {
 
     render() {
 
-        console.log('inside render');
+    
 
         return (
-            <Router />
+   
+            <Provider store={store}>
+                <Router />
+                </Provider>
         )
 
 
