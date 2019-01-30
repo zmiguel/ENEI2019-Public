@@ -6,9 +6,11 @@ import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import deviceStorage from '../services/deviceStorage';
 
+
+import {cenas} from '../services/auth';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
-
+import CodeInput from 'react-native-confirmation-code-input';
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -30,15 +32,27 @@ export default class Login extends Component {
 
     onSuccess = (e) => {
 
-        console.log(e.data);
-            
-        this.props.navigation.navigate('Home',);
+      //  console.log(e.data);
+        
+      
+      deviceStorage.Login(e);
+
+      this.props.navigation.navigate('Home');
 
     };
 
     render() {
         
-        console.log(AsyncStorage.getItem('userToken'))
+      
+        deviceStorage.isLogged().then(a=>{
+            console.log(a);
+     
+            if(a)
+                this.props.navigation.navigate('Home');
+
+            
+        })
+     //  console.log(AsyncStorage.getItem('userToken'))
 
        // if(AsyncStorage.getItem('userToken')){
 
@@ -48,6 +62,8 @@ export default class Login extends Component {
        
 
         return (
+            
+            
             <QRCodeScanner
                 showMarker
                 
@@ -56,6 +72,7 @@ export default class Login extends Component {
                 cameraStyle={{ height: SCREEN_HEIGHT }}
                 
                 customMarker={
+                    
                     <View style={styles.rectangleContainer}>
                         <View style={styles.logo}>
                         <Image style={UtilStyles.loginImage}
@@ -82,7 +99,7 @@ export default class Login extends Component {
                             <View style={{flex:1, alignItems: 'center', alignContent: 'center'}}>
                                 
                                 <RkText rkType='primary' style={styles.recover}>Recuperar pin de acesso</RkText>
-                                <RkButton rkType='dark' style={styles.manual}>Instruções</RkButton>
+                                <RkButton rkType='dark' style={styles.manual}>lols</RkButton>
                             </View>
             
                         </View>
