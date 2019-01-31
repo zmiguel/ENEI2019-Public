@@ -1,6 +1,5 @@
-
 import React from 'react';
-
+import {TouchableOpacity} from 'react-native';
 import {
     createStackNavigator,
     createAppContainer,
@@ -12,7 +11,6 @@ import Login from './screens/Login'
 
 import AuthLoadingScreen from './screens/AuthLoading'
 
-
 import Eventos from './screens/Eventos'
 
 import Social from './screens/Social'
@@ -21,7 +19,6 @@ import Scan from './screens/Scan'
 import Calendar from './screens/Calendar'
 import Home from './screens/Home'
 import logout from './screens/logout'
-
 
 
 /*Icons*/
@@ -143,9 +140,9 @@ const AuthStack = createStackNavigator(
 export default createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
-        App: AppStack,
+        App: Stack,
         Auth: AuthStack,
-        
+
     },
     {
         initialRouteName: 'App'

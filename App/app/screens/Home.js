@@ -1,9 +1,19 @@
-import React, { Component } from 'react';
+
+
+
+import React, {Component} from 'react';
 import { Button, View, Text , TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
-import {bindActionCreators} from 'redux';
+import {
+    RkButton,
+    RkTheme
+} from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import * as Actions from '../actions'; //Import your actionss
+import Counter from './Counter'
+import {createStore} from 'redux';
+import {Provider} from 'react-redux'
 
 
 class Home extends Component {
@@ -24,6 +34,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
+
 
         //this.props.logoutUser();
        
@@ -50,6 +61,7 @@ class Home extends Component {
         this.props.logoutUser();
       }
     render() {
+
         const { navigate } = this.props.navigation;
         if(this.props.token){
 
@@ -93,6 +105,8 @@ class Home extends Component {
                 </Text>
             </View>
         )
+
+
     }
 
 }
