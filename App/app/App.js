@@ -1,216 +1,232 @@
-/**
- * Enei 2019 React Native App
- *
- * João Borges
- *
- * @format
- * @flow
- */
 
 import React, {Component} from 'react';
-import Icon from 'react-native-vector-icons/AntDesign';
-import AppIntroSlider from 'react-native-app-intro-slider'
+import {Platform, StyleSheet, Text, View, StatusBar,Dimensions,Image,ActivityIndicator} from 'react-native';
 
-import {Platform, StyleSheet, Text, View, StatusBar} from 'react-native';
-import deviceStorage from '././services/deviceStorage'
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
 
-import Router from './Router'
-import Login from './screens/Login'
-import {AsyncStorage, ActivityIndicator} from 'react-native';
-import AuthLoadingScreen from "./screens/AuthLoading";
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import {UtilStyles} from './assets/styles'
+import * as Actions from './actions'; //Import your actions
+import {RkButton,
+    RkTheme , RkText} from 'react-native-ui-kitten';
 
-import thunkMiddleware from 'redux-thunk';
-import reducer from './reducers';
-import { AppRegistry } from 'react-native';
-import { Provider } from 'react-redux';
-import { createLogger } from 'redux-logger';
-import { compose, createStore, combineReducers, applyMiddleware} from 'redux';
-const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
+    import Router from './Router'
+
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 
-function configureStore(initialState) {
-    const enhancer = compose(
-      applyMiddleware(
-        thunkMiddleware, // used to dispatch() functions
-        loggerMiddleware, // used for logging actions
-      ),
-    );
-    return createStore(reducer, initialState, enhancer);
-  }
 
-
-const store = configureStore({});
-export default class App extends Component {
+ class App extends Component {
 
     constructor(props) {
+        
         super(props);
+
         this.state = {
-            firstLogin: null,
-            jwt: '',
-            loading: true
+          
+            token:false,
+            tokenData:'',
+            loggedIn:false,
+            onHold:true
+
         };
+
+      
     }
+
+    componentDidMount() {
+
+        //verifica se o utilizador tem token guardado
+        this.props.checkUser();        
+        console.log('logged:'+this.props.loggedIn);
+    }    
 
     newJWT(jwt) {
         this.setState({
             jwt: jwt
         });
     }
-
-    //componentDidMount() is invoked immediately after a component is mounted
-    /*componentDidMount() {
+    onSuccess = (e) => {
 
 
-        AsyncStorage.removeItem('firstLogin');
+        this.props.login(e.data,'80f3b6e5');
+      
+      };
 
-        AsyncStorage.getItem('firstLogin').then((value) => {
+      render() {
+        
+        if(this.props.onHold){
+            return (
+                <ActivityIndicator size="large" color="#0000ff" />
+            ) 
 
-            console.log('aqui')
-            if (value == null) {
-                //setItem (key: string, value: string)
-                deviceStorage.saveItem('firstLogin', JSON.stringify(true));
+        }
+        
+        console.log('token... '+ this.props.token)
+        
+        //se existir token
 
+
+        if(this.props.token == true){
+            
+            return (
+
+                <Router></Router>
+          
+            )
+            
+        }else{
+           
+            //se não existir vai para o ecrã de scan QR
+            return (
+
+
+            <QRCodeScanner
+           
+            showMarker
+            
+            onRead={this.onSuccess.bind(this)}
+            cameraStyle={{ height: SCREEN_HEIGHT }}
+            
+            customMarker={
+                
+                <View style={styles.rectangleContainer}>
+                    <View style={styles.logo}>
+                    <Image style={UtilStyles.loginImage}
+                                   source={require('./assets/img/logo.png')}
+                            />
+                    </View>
+                      
+
+                    <View style={{ flexDirection: "row" }}>
+                        <View style={styles.leftAndRightOverlay}>
+                        </View>
+
+                            <View style={styles.rectangle}>
+                           
+                        </View>
+
+
+                        <View style={styles.leftAndRightOverlay}>
+                        </View>
+                    </View>
+
+                    <View style={styles.bottomOverlay}>
+                    
+                        <View style={{flex:1, alignItems: 'center', alignContent: 'center'}}>
+                            
+                            <RkText rkType='primary' style={styles.recover}>Recuperar pin de acesso</RkText>
+                            <RkButton rkType='dark' style={styles.manual}>lols</RkButton>
+                        </View>
+        
+                    </View>
+                </View>
             }
-            else {
+        />
 
-                //this.setState({firstLogin: false});
-            }
-
-            this.setState({loading: false});
-
-        })
-    }*/
+            )
+        }
+       
 
 
-//Buttons do Intro Slider
-    _renderNextButton = () => {
-        return (
-            <View style={styles.buttonCircle}>
-                <Icon
-                    name='right'
-                    color='rgba(255, 255, 255, .9)'
-                    size={24}
-                    style={{backgroundColor: 'transparent'}}/>
-            </View>
-        );
-    };
 
-    _renderDoneButton = () => {
-        return (
-            <View style={styles.buttonCircle}>
-                <Icon
-                    name='check'
-                    color='rgba(255, 255, 255, .9)'
-                    size={24}
-                    style={{backgroundColor: 'transparent'}}
-                />
-            </View>
-        );
-
-    };
-
-//--Buttons do Intro Slider
-
-    render() {
-
-    
-
-        return (
-   
-            <Provider store={store}>
-                <Router />
-                </Provider>
-        )
-
-
-        /* if (this.state.loading) {
-         }
-         else {
-
-             if (this.state.firstLaunch) {
-                 return (
-                     <AppIntroSlider
-                         slides={slides}
-                         renderDoneButton={this._renderDoneButton}
-                         renderNextButton={this._renderNextButton}
-                         onDone={() => this.setState({firstLaunch: false})}
-                     />
-                 );
-             }
-             else if (!this.state.firstLaunch && !this.state.jwt) {    //&& !this.state.jwt}
-                 return (
-                     <View style={{flex: 1}}>
-                         <Login/>
-                     </View>
-                 )
-             }
-             else { // !this.state.firstLaunch && this.state.jwt
-                 return (
-                     <View style={{flex: 1}}>
-                         <Routes />
-                     </View>
-                 )
-             }*/
     }
+
 }
 
 
-//Styles
-const styles = StyleSheet.create({
+RkTheme.setType('RkButton', 'dark', {
     container: {
+        paddingTop:10,
+       backgroundColor: 'gray',
+       
+       borderRadius: 90,
+    }
+  });
+
+
+const rectDimensions = SCREEN_WIDTH * 0.85; // this is equivalent to 255 from a 393 device width
+
+const overlayColor = 'rgba(0,0,0,0.30)';
+
+const styles = {
+ 
+    recover:{
+        paddingTop:10,
+        color: "red",
+        paddingBottom:10
+    },
+    manual:{
+      
+        
+
+    },
+    
+    logo:{
+
+        height:SCREEN_HEIGHT*0.35,
+        width:SCREEN_WIDTH,
+        backgroundColor: overlayColor,
+    },
+    rectangleContainer: {
+       
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "transparent",
+     
     },
 
-    buttonCircle: {
-        width: 40,
-        height: 40,
-        backgroundColor: 'rgba(0, 0, 0, .2)',
-        borderRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
+    rectangle: {
+     
+        height: rectDimensions,
+        width: rectDimensions,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "transparent"
     },
-    image: {
-        width: 320,
-        height: 320,
+
+    topOverlay: {
+        flex: 1,
+        backgroundColor: overlayColor,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+
+    bottomOverlay: {
+        flex: 1,
+        height: SCREEN_HEIGHT,
+        width: SCREEN_WIDTH,
+        backgroundColor: overlayColor,
+        paddingBottom: SCREEN_WIDTH * 0.2
+    },
+
+    leftAndRightOverlay: {
+        height: rectDimensions,
+        width: SCREEN_WIDTH,
+        backgroundColor: overlayColor
+    },
+};
+
+
+function mapStateToProps(state, props) {
+    
+    return {
+
+        token: state.apiReducer.token,
+        tokenData:state.apiReducer.tokenData,
+        loggedIn: state.apiReducer.loggedIn,
+        onHold: state.apiReducer.onHold
+    
     }
-});
+}
+
+function mapDispatchToProps(dispatch) {
+
+    return bindActionCreators(Actions, dispatch);
+}
 
 
-//Introducing Slides
-const slides = [
-    {
-        key: 'somethun',
-        title: 'Welcome ENEI\'19',
-        text: 'Description.\nSay something cool',
-        image: {
-            uri: 'http://aboutreact.com/wp-content/uploads/2018/08/mobile_recharge.png'
-        },
-        imageStyle: styles.image,
-        backgroundColor: '#59b2ab',
-    },
-    {
-        key: 'somethun-dos',
-        title: 'Title 2',
-        text: 'Other cool stuff',
-        image: //require('./assets/2.jpg'),
-            {
-                uri: 'http://aboutreact.com/wp-content/uploads/2018/08/flight_ticket_booking.png'
-            },
-        imageStyle: styles.image,
-        backgroundColor: '#febe29',
-    },
-    {
-        key: 'somethun1',
-        title: 'Rocket guy',
-        text: 'I\'m already out of descriptions\n\nLorem ipsum bla bla bla',
-        image: {
-            uri: 'http://aboutreact.com/wp-content/uploads/2018/08/best_deals1.png'
-        },
-        imageStyle: styles.image,
-        backgroundColor: '#22bcb5',
-    }
-];
-
+export default connect(mapStateToProps, mapDispatchToProps)(App);
