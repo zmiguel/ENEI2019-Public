@@ -18,25 +18,28 @@ import Router from './Router'
 import Login from './screens/Login'
 import {AsyncStorage, ActivityIndicator} from 'react-native';
 import AuthLoadingScreen from "./screens/AuthLoading";
+import {getToken} from "./Helpers/Requests";
+
 
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
-import { AppRegistry } from 'react-native';
-import { Provider } from 'react-redux';
-import { createLogger } from 'redux-logger';
-import { compose, createStore, combineReducers, applyMiddleware} from 'redux';
-const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
+import {AppRegistry} from 'react-native';
+import {Provider} from 'react-redux';
+import {createLogger} from 'redux-logger';
+import {compose, createStore, combineReducers, applyMiddleware} from 'redux';
+
+const loggerMiddleware = createLogger({predicate: (getState, action) => __DEV__});
 
 
 function configureStore(initialState) {
     const enhancer = compose(
-      applyMiddleware(
-        thunkMiddleware, // used to dispatch() functions
-        loggerMiddleware, // used for logging actions
-      ),
+        applyMiddleware(
+            thunkMiddleware, // used to dispatch() functions
+            loggerMiddleware, // used for logging actions
+        ),
     );
     return createStore(reducer, initialState, enhancer);
-  }
+}
 
 
 const store = configureStore({});
@@ -58,28 +61,12 @@ export default class App extends Component {
     }
 
     //componentDidMount() is invoked immediately after a component is mounted
-    /*componentDidMount() {
 
+    componentDidMount() {
 
-        AsyncStorage.removeItem('firstLogin');
+        console.log('oi - ' + getToken('TC2MT8QFJT', '80f3b6e5'));
 
-        AsyncStorage.getItem('firstLogin').then((value) => {
-
-            console.log('aqui')
-            if (value == null) {
-                //setItem (key: string, value: string)
-                deviceStorage.saveItem('firstLogin', JSON.stringify(true));
-
-            }
-            else {
-
-                //this.setState({firstLogin: false});
-            }
-
-            this.setState({loading: false});
-
-        })
-    }*/
+    }
 
 
 //Buttons do Intro Slider
@@ -113,13 +100,12 @@ export default class App extends Component {
 
     render() {
 
-    
 
         return (
-   
+
             <Provider store={store}>
-                <Router />
-                </Provider>
+                <Router/>
+            </Provider>
         )
 
 
