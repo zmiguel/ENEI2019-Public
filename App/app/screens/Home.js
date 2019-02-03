@@ -1,18 +1,22 @@
-
-
-
 import React, {Component} from 'react';
+
 import { Button, View, Text , TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
+
 import {
     RkButton,
     RkTheme
 } from 'react-native-ui-kitten';
+
 import { connect } from 'react-redux';
+
 import {bindActionCreators} from 'redux';
 
 import * as Actions from '../actions'; //Import your actionss
+
 import Counter from './Counter'
+
 import {createStore} from 'redux';
+
 import {Provider} from 'react-redux'
 
 
@@ -23,9 +27,8 @@ class Home extends Component {
         super(props);
 
         this.state = {
-            token:false,
-            tokenData:'',
-            loggedIn:false,
+            token:{valid:false},
+            logged:true,
             onHold:true,
             user:{}
         };
@@ -36,50 +39,70 @@ class Home extends Component {
     componentDidMount() {
 
 
+        this.props.hold();
         //this.props.logoutUser();
-       
-        this.props.getUserInfo();
+        //console.log(this.props.token);
+    
+        this.props.getUserInfo(this.props.token);
 
-        console.log('logged:'+this.props.loggedIn);
+   
+        //console.log('logged:'+this.props.logged);
 
-        console.log('there we go')
+        //console.log(this.props)
 
-        console.log(this.props.user)
+        //console.log(this.props.user)
+        
     }
 
     bClick(){
 
-       //this.props.logoutUser();
        
         //var navigate  = this.props.navigation.navigate
     }
+
     _logout = () => {
-        console.log("asdasd");
+       
       //  this.props.navigation.navigate('scan');
-        this.props.getUserInfo();
+      
        // this.props.logout();
         this.props.logoutUser();
       }
+
     render() {
+        
+        console.log(this.props.user);
 
         const { navigate } = this.props.navigation;
-        if(this.props.token){
 
-            console.log(this.props.user)
+        if(this.props.onHold){
+         
+            return (
+             
+                <View>
+                    <Text>lollsss {this.props.onHold}</Text>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+                ) 
+        }
+
+        if(this.props.logged){
+           
+           
+            console.log("puta que pariu")
             return (
                 <View >
-                
-                
-                  <Button  onPress={this._logout} title="LOGOUT"/>
-                  <Text></Text>
-                  <Text>Nome: {this.props.user.Email}</Text>
-                  <Text>city: {this.props.user.City}</Text>
-                  <Text>phone: {this.props.user.Mobile}</Text>
-                 
-
-
-
+                    <Text>{this.props.logged}</Text>
+                    <Button  onPress={this._logout} title="LOGOUT"/>
                     
+                    <Text>  Nomess: {this.props.user.Name}</Text>
+                    <View>
+                    <Text>{this.props.user.Name}</Text>
+              
+                    <Button  onPress={this.bClick} title="LOGOUT"/>
+                </View>
+                    <Text> city: {this.props.user.City}</Text>
+                    <Text> phone: {this.props.user.Mobile}</Text>
+ 
                 </View>
             );
         }
@@ -116,11 +139,9 @@ function mapStateToProps(state, props) {
     
     return {
 
-    
         token: state.apiReducer.token,
-        user: state.apiReducer.user
-      
-
+        user: state.apiReducer.user,
+        logged: state.apiReducer.logged    
     
     }
 }
