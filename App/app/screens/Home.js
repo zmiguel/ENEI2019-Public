@@ -30,7 +30,7 @@ class Home extends Component {
             token:{valid:false},
             logged:true,
             onHold:true,
-            user:{}
+            user:{Name:''}
         };
 
      
@@ -48,7 +48,7 @@ class Home extends Component {
    
         //console.log('logged:'+this.props.logged);
 
-        //console.log(this.props)
+        //console.log(th2is.props)
 
         //console.log(this.props.user)
         
@@ -67,10 +67,14 @@ class Home extends Component {
        // this.props.logout();
         this.props.logoutUser();
       }
+    update=()=>{
 
+        this.setState({ user: this.props.user });
+        console.log('update' +this.props.user);
+      }
     render() {
         
-        console.log(this.props.user);
+       
 
         const { navigate } = this.props.navigation;
 
@@ -86,8 +90,9 @@ class Home extends Component {
         }
 
         if(this.props.logged){
-           
-           
+
+           console.log(this.props.logged);
+            console.log(this.props.user);
             console.log("puta que pariu")
             return (
                 <View >
@@ -96,9 +101,9 @@ class Home extends Component {
                     
                     <Text>  Nomess: {this.props.user.Name}</Text>
                     <View>
-                    <Text>{this.props.user.Name}</Text>
+                    <Text>{this.state.user.Name}</Text>
               
-                    <Button  onPress={this.bClick} title="LOGOUT"/>
+                    <Button  onPress={this.update} title="update"/>
                 </View>
                     <Text> city: {this.props.user.City}</Text>
                     <Text> phone: {this.props.user.Mobile}</Text>

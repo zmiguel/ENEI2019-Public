@@ -219,11 +219,7 @@ export function getUserInfo(token){
                 dispatch({ type: USER_INFO, user: obj,onHold:false, logged:true });
     
             })
-             .then(function(resJson) {
-
-                dispatch({ type: USER_INFO, user: '',onHold:false, logged:true });
-            
-            })
+        
        
 
     }
