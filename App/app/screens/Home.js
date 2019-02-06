@@ -50,13 +50,19 @@ class Home extends Component {
 
         //console.log(th2is.props)
 
-        //console.log(this.props.user)
+        console.log(this.props.user)
         
     }
 
     bClick(){
 
-       
+        let a={};
+       // this.setState({ user: this.props.user });
+       // console.log(this.props.user)
+      //
+        
+
+
         //var navigate  = this.props.navigation.navigate
     }
 
@@ -69,8 +75,26 @@ class Home extends Component {
       }
     update=()=>{
 
+
         this.setState({ user: this.props.user });
-        console.log('update' +this.props.user);
+        var o=[];
+
+        for(var key in this.props.user.Sessions){
+          
+          
+            o.push({
+                time:this.props.user.Sessions[key].SessionStart.substr(11, 16),
+                timeEnd: this.props.user.Sessions[key].SessionEnd.substr(11, 16),
+                lineColor:'#009688',
+                imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
+                description:this.props.user.Sessions[key].Description,
+                name:this.props.user.Sessions[key].Name,
+  
+
+            })
+            
+        }
+        console.log(this.props.user.Sessions);
       }
     render() {
         
@@ -91,22 +115,19 @@ class Home extends Component {
 
         if(this.props.logged){
 
-           console.log(this.props.logged);
-            console.log(this.props.user);
-            console.log("puta que pariu")
+        
             return (
                 <View >
-                    <Text>{this.props.logged}</Text>
+                  
                     <Button  onPress={this._logout} title="LOGOUT"/>
-                    
-                    <Text>  Nomess: {this.props.user.Name}</Text>
-                    <View>
-                    <Text>{this.state.user.Name}</Text>
-              
                     <Button  onPress={this.update} title="update"/>
-                </View>
+                    <Button  onPress={this.bClick} title="Parse"/>
+                    <Text>  Nomess: {this.props.user.Name}</Text>
+                       
                     <Text> city: {this.props.user.City}</Text>
                     <Text> phone: {this.props.user.Mobile}</Text>
+                   
+                
  
                 </View>
             );

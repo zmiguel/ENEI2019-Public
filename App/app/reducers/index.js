@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
  
-import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD } from "../actions/" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "../actions/" //Import the actions types constant we defined in our actions
 
  
 let dataState = { data: [], loading:true ,token:true};
@@ -15,7 +15,7 @@ const dataReducer = (state = dataState, action) => {
     }
 };
 
-let apiState= { token:{valid:false}, tokenData:'error', logged:false, onHold:true, user:{}}
+let apiState= { token:{valid:false}, tokenData:'error', logged:false, onHold:true, user:{}, events:[]}
 
 const apiReducer = (state = apiState, action) => {
     
@@ -47,6 +47,12 @@ const apiReducer = (state = apiState, action) => {
         case USER_INFO:
 
             state=Object.assign({},state, { user: action.user, token: action.token , loggedIn:action.loggedIn, onHold:action.onHold});
+            
+            return state;
+            
+        case GET_EVENTS:
+
+            state=Object.assign({},state, { events: action.events});
             
             return state;
 

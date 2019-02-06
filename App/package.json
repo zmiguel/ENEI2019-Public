@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "material-icons-react": "^1.0.4",
     "react": "16.6.3",
     "react-native": "0.57.8",
     "react-native-app-intro-slider": "^1.0.1",
@@ -16,7 +17,10 @@
     "react-native-gesture-handler": "^1.0.15",
     "react-native-ionicons": "^4.5.5",
     "react-native-loader": "^1.2.1",
+    "react-native-progress": "^3.5.0",
     "react-native-qrcode-scanner": "^1.1.2",
+    "react-native-timeline-feed": "^1.0.1",
+    "react-native-timeline-listview": "^0.2.3",
     "react-native-ui-kitten": "^3.1.2",
     "react-native-vector-icons": "^6.1.0",
     "react-navigation": "^3.0.9",

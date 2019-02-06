@@ -4,6 +4,7 @@ export const CHECK_USER='CHECK_USER';
 export const LOGOUT_USER= 'LOGOUT_USER';
 export const USER_INFO= 'USER_INFO'
 export const HOLD='HOLD'
+export const GET_EVENTS='GET_EVENTS'
 
 
 import { AsyncStorage } from 'react-native';
@@ -25,6 +26,37 @@ export function getData(){
         }, 2000);
  
     };
+}
+
+export function getEvents(user){
+    return (dispatch)=>{
+    var o=[];
+    console.log("chegou aqui")
+
+
+  for(var key in user.Sessions){
+    
+      o.push({
+          time:user.Sessions[key].SessionStart.substr(11, 14),
+          timeEnd: user.Sessions[key].SessionEnd.substr(11, 14),
+          lineColor:'#009688',
+          imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
+          description:user.Sessions[key].Description,
+          name:user.Sessions[key].Name,
+          Enrolled:user.Sessions[key].Enrolled,
+          MaxAttendees:user.Sessions[key].MaxAttendees
+      })
+      
+  }
+
+  dispatch({
+    type: GET_EVENTS,
+    events: o
+
+
+});
+
+}
 }
 
 const saveToken = async token => {
@@ -80,6 +112,55 @@ const deleteToken = async () => {
       console.log(error.message);
     }
   }
+
+const renewToken=(refresh)=>{
+
+
+    var details = {
+        
+        
+        'grant_type': 'refresh_token',
+        'refresh_token':refresh 
+
+    };
+    var formBody = [];
+
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+
+    formBody = formBody.join("&");
+    console.log(refresh);
+
+    fetch('http://enei2019.uingress.com/internal/api/token', {
+
+        method: 'POST',
+
+        headers: {
+
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        
+        body: formBody
+
+    }).catch(err=>{
+
+    }).then(parsed=>{
+
+       // console.log(a);
+        var obj={
+            access_token:parsed.access_token,
+            expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
+            refreshToken:parsed.refresh_token,
+            valid:true
+        };
+
+    
+    })
+    return obj;
+}
 
 
 export function login(user, pass){
@@ -191,6 +272,8 @@ export function hold(){
     }
 }
 
+
+
 export function getUserInfo(token){
 
     return (dispatch)=>{
@@ -218,6 +301,8 @@ export function getUserInfo(token){
 
                 dispatch({ type: USER_INFO, user: obj,onHold:false, logged:true });
     
+            }).catch(function(res){
+                dispatch({ type: USER_INFO, user: '',onHold:false, logged:true });
             })
         
        
@@ -274,10 +359,18 @@ export function checkUser(){
                 //se expirar 
                 if(Math.round(new Date().getTime()/1000) >= a.expirationDateToken){
 
-                    a.valid=false;
+                    //  a.valid=false;
 
-                  
                     //chamar funçao para renovar
+                    console.log("expirou")
+          
+                    renewToken(a.refreshToken).then(a=>{
+                      //  a.valid=true;
+                        deleteToken();  
+                        saveToken(a);
+                        console.log("asdasdasdasd")
+                        dispatch({type: CHECK_USER, token:a, logged:true, onHold:false});             
+                    })
 
 
                 }
