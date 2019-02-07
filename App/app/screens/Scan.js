@@ -78,18 +78,12 @@ export default class Scan extends React.Component {
                 customMarker={
                     
                     <View style={{ flex: 1 }}>
-                    <TouchableOpacity onPress={this._toggleModal}>
-                      <Text>Show Modal</Text>
-                    
-                    </TouchableOpacity>
-                    
+              
                     <Modal isVisible={this.state.isModalVisible} style={{backgroundColor:'#E8E8E8', borderRadius:30, height:100}}>
                       <View style={{ flex: 1 }}>
-                        <Text>Hello!</Text>
-                        <TouchableOpacity onPress={this._toggleModal}>
+                        <Text></Text>
                         <Button onPress={this._activate} title="Close" color="#841584" accessibilityLabel="Learn more about this purple button"/>
-                          <Text>Hide me!</Text>
-                        </TouchableOpacity>
+          
                       </View>
                     </Modal>
                   </View>
