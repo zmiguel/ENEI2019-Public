@@ -364,12 +364,12 @@ export function checkUser(){
                     //chamar funçao para renovar
                     console.log("expirou")
           
-                    renewToken(a.refreshToken).then(a=>{
+                    renewToken(a.refreshToken).then(b=>{
                       //  a.valid=true;
                         deleteToken();  
-                        saveToken(a);
+                        saveToken(b);
                         console.log("asdasdasdasd")
-                        dispatch({type: CHECK_USER, token:a, logged:true, onHold:false});             
+                        dispatch({type: CHECK_USER, token:b, logged:true, onHold:false});             
                     })
 
 

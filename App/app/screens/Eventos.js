@@ -11,6 +11,16 @@ const SecondRoute = () => (
 );
 
 
+const ThirdRoute = () => (
+  <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+);
+
+const FourthRoute = () => (
+  <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
+);
+
+
+
 
 
 export default class Eventos extends React.Component { 
@@ -18,10 +28,10 @@ export default class Eventos extends React.Component {
   state = {
   index: 0,
   routes: [
-    { key: 'first', title: 'Sex 12' },
-    { key: 'second', title: 'Sab 13' },
-    { key: 'second', title: 'Dom 14' },
-    { key: 'second', title: 'Seg 15' },
+    { key: 'first', title: 'Festarola' },
+    { key: 'second', title: 'Febrada' },
+    { key: 'third', title: 'Rally' },
+    { key: 'fourth', title: 'Peddy' },
 
   ],
 };
@@ -33,6 +43,8 @@ render() {
       renderScene={SceneMap({
         first: FirstRoute,
         second: SecondRoute,
+        third:ThirdRoute,
+        fourth: FourthRoute
       })}
       onIndexChange={index => this.setState({ index })}
       initialLayout={{ width: Dimensions.get('window').width }}

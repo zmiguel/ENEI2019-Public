@@ -43,7 +43,6 @@ export default class Login extends Component {
 
     render() {
         
-      
         deviceStorage.isLogged().then(a=>{
             console.log(a);
      
