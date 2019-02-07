@@ -27,20 +27,16 @@ export default class Scan extends React.Component {
 
     onSuccess = (e) => {
 
-        //  console.log(e.data);
-        this.setState({reactivate:false})
-        
-        console.log(e.data);
-        this.setState({isActive:false});
-        this._toggleModal();;
-        
+        this.setState({ isModalVisible: !this.state.isModalVisible ,isActive:false});
+        this.setState({code:e.data});
       };
 
       state = {
             isActive:true,
             isRender: true,
             reactivate:false,
-            isModalVisible: false
+            isModalVisible: false,
+            code:''
           
       }
       componentDidMount() {
@@ -81,7 +77,8 @@ export default class Scan extends React.Component {
               
                     <Modal isVisible={this.state.isModalVisible} style={{backgroundColor:'#E8E8E8', borderRadius:30, height:100}}>
                       <View style={{ flex: 1 }}>
-                        <Text></Text>
+                      <Text></Text>
+                        <Text> Qr code data: {this.state.code}</Text>
                         <Button onPress={this._activate} title="Close" color="#841584" accessibilityLabel="Learn more about this purple button"/>
           
                       </View>
