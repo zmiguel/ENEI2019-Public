@@ -13,6 +13,8 @@ import { AsyncStorage } from 'react-native';
 //Import the sample data
 import Data from '../intructions.json';
 import Login from '../screens/Login.js';
+
+import moment from 'moment'
  
 export function getData(){
     return (dispatch) => {
@@ -30,15 +32,15 @@ export function getData(){
 
 export function getEvents(user){
     return (dispatch)=>{
-    var o=[];
+    let events = [];
     console.log("chegou aqui")
 
 
-  for(var key in user.Sessions){
-    
-      o.push({
-          time:user.Sessions[key].SessionStart.substr(11, 14),
-          timeEnd: user.Sessions[key].SessionEnd.substr(11, 14),
+  for(let key in user.Sessions){
+
+      events.push({
+          time: moment(user.Sessions[key].SessionStart).format('h:mm'),
+          timeEnd: moment(user.Sessions[key].SessionEnd).format('h:mm'),
           lineColor:'#009688',
           imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
           description:user.Sessions[key].Description,
@@ -51,8 +53,7 @@ export function getEvents(user){
 
   dispatch({
     type: GET_EVENTS,
-    events: o
-
+    events: events
 
 });
 
@@ -89,7 +90,6 @@ const saveToken = async token => {
     obj={}
     try {
 
-     
         obj.access_token = await AsyncStorage.getItem('userToken') || 'none';
         obj.expirationDateToken = await AsyncStorage.getItem('expirationDateToken') || 'none';
         obj.refreshToken = await AsyncStorage.getItem('refreshToken') || 'none';

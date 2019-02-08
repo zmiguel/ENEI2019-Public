@@ -23,7 +23,7 @@ const apiReducer = (state = apiState, action) => {
 
         case HOLD:
 
-            state=Object.assign({},state, {onHold:true});
+            state=Object.assign({},state, { onHold:true });
             return state;
 
        case API_LOGIN:
