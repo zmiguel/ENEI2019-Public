@@ -8,14 +8,12 @@ import { connect } from 'react-redux';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {UtilStyles} from './assets/styles'
 import * as Actions from './actions'; //Import your actions
-import {RkButton,
-    RkTheme , RkText} from 'react-native-ui-kitten';
+import {RkButton, RkTheme , RkText} from 'react-native-ui-kitten';
 
-    import Router from './Router'
+import Router from './Router'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
-
 
 
  class App extends Component {
@@ -26,83 +24,88 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
         this.state = {
           
-            token:false,
-            tokenData:'',
-            loggedIn:false,
-            onHold:true
+            token:{valid:false},
+            tokenData: '',
+            onHold: true,
+            logged:false
 
         };
 
-      
     }
 
     componentDidMount() {
-
+        
         //verifica se o utilizador tem token guardado
-        this.props.checkUser();        
-        console.log('logged:'+this.props.loggedIn);
+        this.props.checkUser();
+        
     }    
 
-    newJWT(jwt) {
-        this.setState({
-            jwt: jwt
-        });
-    }
     onSuccess = (e) => {
 
 
         this.props.login(e.data,'80f3b6e5');
+        console.log("tentativa de login");
+
       
       };
 
-      render() {
+    render() {
         
-        if(this.props.onHold){
+        if(this.props.onHold && !this.props.logged){
+
+           
             return (
+                
+                <View>
+                <Text>CARREGANDO {this.props.onHold}</Text>
                 <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+         
             ) 
 
         }
+
+        {
+
+            //console.log('token... '+ this.props.logged)
         
-        console.log('token... '+ this.props.token)
+            //se existir token
+
         
-        //se existir token
+            if(this.props.logged){
 
+                return (
 
-        if(this.props.token == true){
-            
-            return (
-
-                <Router></Router>
+                    <Router></Router>
           
-            )
+                )
             
-        }else{
+            }
+            else{
            
-            //se não existir vai para o ecrã de scan QR
-            return (
+                //se não existir vai para o ecrã de scan QR
+                return (
 
-
-            <QRCodeScanner
+                    <QRCodeScanner
            
-            showMarker
+                        showMarker
+                        reactivate={true}
+                        onRead={this.onSuccess.bind(this)}
+                        cameraStyle={{ height: SCREEN_HEIGHT }}
             
-            onRead={this.onSuccess.bind(this)}
-            cameraStyle={{ height: SCREEN_HEIGHT }}
-            
-            customMarker={
+                        customMarker={
                 
-                <View style={styles.rectangleContainer}>
-                    <View style={styles.logo}>
-                    <Image style={UtilStyles.loginImage}
+                        <View style={styles.rectangleContainer}>
+                            <View style={styles.logo}>
+                            <Image style={UtilStyles.loginImage}
                                    source={require('./assets/img/logo.png')}
                             />
-                    </View>
+                        </View>
                       
 
-                    <View style={{ flexDirection: "row" }}>
-                        <View style={styles.leftAndRightOverlay}>
-                        </View>
+                        <View style={{ flexDirection: "row" }}>
+                            <View style={styles.leftAndRightOverlay}>
+                            </View>
 
                             <View style={styles.rectangle}>
                            
@@ -127,7 +130,9 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
         />
 
             )
-        }
+        } 
+    }
+        
        
 
 
@@ -215,10 +220,10 @@ function mapStateToProps(state, props) {
     
     return {
 
-        token: state.apiReducer.token,
-        tokenData:state.apiReducer.tokenData,
+        token: state.apiReducer.token,  
         loggedIn: state.apiReducer.loggedIn,
-        onHold: state.apiReducer.onHold
+        onHold: state.apiReducer.onHold,
+        logged:state.apiReducer.logged
     
     }
 }
