@@ -3,6 +3,10 @@ import { View, Image, Vibration, Dimensions,Text ,Button ,TouchableOpacity } fro
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {UtilStyles} from '../assets/styles'
 import CodeInput from 'react-native-confirmation-code-input';
+
+import Modal from "react-native-modal";
+
+
 import {RkButton,
     RkTheme , RkText} from 'react-native-ui-kitten';
 
@@ -12,19 +16,28 @@ import {RkButton,
 
 export default class Scan extends React.Component {
 
+    _toggleModal = () =>
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+
+    _activate=()=>{
+
+        this.setState({ isModalVisible: !this.state.isModalVisible ,reactivate:true});
+        this.scanner.reactivate();
+    }
+
     onSuccess = (e) => {
 
-        //  console.log(e.data);
-          
-        
-     console.log(e.data);
-  
-      
-  
+        this.setState({ isModalVisible: !this.state.isModalVisible ,isActive:false});
+        this.setState({code:e.data});
       };
 
       state = {
-        isRender: true
+            isActive:true,
+            isRender: true,
+            reactivate:false,
+            isModalVisible: false,
+            code:''
+          
       }
       componentDidMount() {
         this.props.navigation.addListener('willFocus', (route) => {
@@ -34,15 +47,64 @@ export default class Scan extends React.Component {
           this.setState({ isRender: false })
         });
       }
+      
       render() {
+    
+    {
+
         return (
+
           <View style={{flex: 1}}>
-          <Text> Camera Loading....</Text>
-            { this.state.isRender &&
-              <QRCodeScanner />
+         
+            { this.state.isRender && 
+              
+              <QRCodeScanner 
+                showMarker
+                ref={(node) => { this.scanner = node }}
+                reactivate={false}
+                
+                onRead={this.onSuccess.bind(this)}
+               
+                showMarker={true}
+
+                cameraStyle={{ height: SCREEN_HEIGHT }}
+                
+                fadeIn={true}
+
+                customMarker={
+                    
+                    <View style={{ flex: 1 }}>
+              
+                    <Modal isVisible={this.state.isModalVisible} style={{backgroundColor:'#E8E8E8', borderRadius:30, height:100}}>
+                      <View style={{ flex: 1 }}>
+                      <Text></Text>
+                        <Text> Qr code data: {this.state.code}</Text>
+                        <Button onPress={this._activate} title="Close" color="#841584" accessibilityLabel="Learn more about this purple button"/>
+          
+                      </View>
+                    </Modal>
+                  </View>
+                }
+              />
             }
           </View>
-        );
+        )}
+    
+        return (
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={this._toggleModal}>
+                <Text>Show Modal</Text>
+              </TouchableOpacity>
+              <Modal isVisible={this.state.isModalVisible}>
+                <View style={{ flex: 1 }}>
+                  <Text>Hello!</Text>
+                  <TouchableOpacity onPress={this._toggleModal}>
+                    <Text>Hide me!</Text>
+                  </TouchableOpacity>
+                </View>
+              </Modal>
+            </View>
+          );
       }
 }
 
