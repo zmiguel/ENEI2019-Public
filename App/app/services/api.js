@@ -35,6 +35,6 @@ getPersonalInfo(){
 
    ;
 }
-}
+};
 
 export default api;

@@ -2,7 +2,7 @@ export const DATA_AVAILABLE = 'DATA_AVAILABLE';
 export const API_LOGIN = 'API_LOGIN';
 export const CHECK_USER='CHECK_USER';
 export const LOGOUT_USER= 'LOGOUT_USER';
-export const USER_INFO= 'USER_INFO'
+export const USER_INFO= 'USER_INFO';
 
 import { AsyncStorage } from 'react-native';
 
@@ -37,7 +37,7 @@ const saveToken = async token => {
   
 
   const getToken = async () => {
-    var tokem;
+    var token;
     try {
     token = await AsyncStorage.getItem('userToken') || 'none';
     } catch (error) {
@@ -79,7 +79,6 @@ export function login(user, pass){
         fetch('http://enei2019.uingress.com/internal/api/token', {
 
           method: 'POST',
-
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
           },
@@ -95,7 +94,7 @@ export function login(user, pass){
                 tokenData:'error'
             });
 
-        }).then(res=>res.json()).then(parsed=>{
+        }).then(res=>res.json()).then(( parsed) => {
             
             console.log('parsed'+parsed.access_token)
             
@@ -133,11 +132,11 @@ export function getUserInfo(){
         getToken().then(a=>{
 
             console.log('get user info');
-            var token;
-         var obj = {  
+            let token;
+         let obj = {
             method: 'GET',
                 headers: {
-                    'Authorization':"Bearer "+a,
+                    'Authorization':`Bearer ${a}`,
                 },
             }
     
@@ -147,7 +146,7 @@ export function getUserInfo(){
               
                 //console.log(res._bodyText);
                 
-                var obj = JSON.parse(res._bodyText);
+                let obj = JSON.parse(res._bodyText);
 
                 dispatch({
                     type: USER_INFO, 
