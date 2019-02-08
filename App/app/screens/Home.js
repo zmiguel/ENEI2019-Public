@@ -1,22 +1,16 @@
 import React, {Component} from 'react';
-<<<<<<< HEAD
-import {Button, View, Text, TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
-=======
 
 import { Button, View, Text , TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
 
->>>>>>> Enei/master
+
 import {
     RkButton,
     RkTheme
 } from 'react-native-ui-kitten';
-<<<<<<< HEAD
-import {connect} from 'react-redux';
-=======
+
 
 import { connect } from 'react-redux';
 
->>>>>>> Enei/master
 import {bindActionCreators} from 'redux';
 
 import * as Actions from '../actions'; //Import your actionss
@@ -35,18 +29,11 @@ class Home extends Component {
         super(props);
 
         this.state = {
-<<<<<<< HEAD
-            token: false,
-            tokenData: '',
-            loggedIn: false,
-            onHold: true,
-            user: {}
-=======
+
             token:{valid:false},
             logged:true,
             onHold:true,
             user:{Name:''}
->>>>>>> Enei/master
         };
 
 
@@ -57,19 +44,13 @@ class Home extends Component {
 
         this.props.hold();
         //this.props.logoutUser();
-<<<<<<< HEAD
 
-        this.props.getUserInfo();
-
-        console.log('logged:' + this.props.loggedIn);
-=======
         //console.log(this.props.token);
     
         this.props.getUserInfo(this.props.token);
 
    
         //console.log('logged:'+this.props.logged);
->>>>>>> Enei/master
 
         //console.log(th2is.props)
 
@@ -81,33 +62,17 @@ class Home extends Component {
 
         //this.props.logoutUser();
 
-<<<<<<< HEAD
-=======
         let a={};
        // this.setState({ user: this.props.user });
        // console.log(this.props.user)
       //
         
 
-
->>>>>>> Enei/master
         //var navigate  = this.props.navigation.navigate
     }
 
     _logout = () => {
-<<<<<<< HEAD
-        console.log("asdasd");
-        //  this.props.navigation.navigate('scan');
-        this.props.getUserInfo();
-        // this.props.logout();
-        this.props.logoutUser();
-    }
 
-    render() {
-        console.log(this.props.token);
-        const {navigate} = this.props.navigation;
-        if (this.props.token) {
-=======
        
       //  this.props.navigation.navigate('scan');
       
@@ -142,35 +107,22 @@ class Home extends Component {
        
 
         const { navigate } = this.props.navigation;
->>>>>>> Enei/master
+
 
         if(this.props.onHold){
          
             return (
-<<<<<<< HEAD
-                <View>
-                    <Button onPress={this._logout} title="LOGOUT"/>
-                    <Text></Text>
-                    <Text>Nome: {this.props.user.Email}</Text>
-                    <Text>city: {this.props.user.City}</Text>
-                    <Text>phone: {this.props.user.Mobile}</Text>
-=======
-             
                 <View>
                     <Text>lollsss {this.props.onHold}</Text>
                     <ActivityIndicator size="large" color="#0000ff" />
                 </View>
                 ) 
         }
->>>>>>> Enei/master
 
         if(this.props.logged){
 
-<<<<<<< HEAD
-=======
-        
             return (
-                <View >
+                <View>
                   
                     <Button  onPress={this._logout} title="LOGOUT"/>
                     <Button  onPress={this.update} title="update"/>
@@ -179,10 +131,7 @@ class Home extends Component {
                        
                     <Text> city: {this.props.user.City}</Text>
                     <Text> phone: {this.props.user.Mobile}</Text>
-                   
-                
- 
->>>>>>> Enei/master
+
                 </View>
             );
         }
@@ -220,18 +169,10 @@ function mapStateToProps(state, props) {
 
     return {
 
-<<<<<<< HEAD
-
-        token: state.apiReducer.token,
-        user: state.apiReducer.user
-
-
-=======
         token: state.apiReducer.token,
         user: state.apiReducer.user,
         logged: state.apiReducer.logged    
-    
->>>>>>> Enei/master
+
     }
 }
 

@@ -2,14 +2,10 @@ export const DATA_AVAILABLE = 'DATA_AVAILABLE';
 export const API_LOGIN = 'API_LOGIN';
 export const CHECK_USER='CHECK_USER';
 export const LOGOUT_USER= 'LOGOUT_USER';
-<<<<<<< HEAD
-export const USER_INFO= 'USER_INFO';
-=======
+
 export const USER_INFO= 'USER_INFO'
 export const HOLD='HOLD'
 export const GET_EVENTS='GET_EVENTS'
-
->>>>>>> Enei/master
 
 import { AsyncStorage } from 'react-native';
 
@@ -89,12 +85,8 @@ const saveToken = async token => {
   
 
   const getToken = async () => {
-<<<<<<< HEAD
-    var token;
-=======
 
     obj={}
->>>>>>> Enei/master
     try {
 
      
@@ -195,13 +187,6 @@ export function login(user, pass){
         
         fetch('http://enei2019.uingress.com/internal/api/token', {
 
-<<<<<<< HEAD
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-          },
-          body: formBody
-=======
             method: 'POST',
 
             headers: {
@@ -210,7 +195,6 @@ export function login(user, pass){
             },
             
             body: formBody
->>>>>>> Enei/master
 
         }).catch(err=>{
 
@@ -224,16 +208,9 @@ export function login(user, pass){
                 tokenData:'error'
             });
 
-<<<<<<< HEAD
-        }).then(res=>res.json()).then(( parsed) => {
-            
-            console.log('parsed'+parsed.access_token)
-            
-          //  deviceStorage.saveItem(parsed.access_token);
-            try {
-=======
+
+
         }).then(res=>res.json()).then(parsed=>{
->>>>>>> Enei/master
 
             var obj={
                 access_token:parsed.access_token,
@@ -303,15 +280,6 @@ export function getUserInfo(token){
 
     return (dispatch)=>{
 
-<<<<<<< HEAD
-            console.log('get user info');
-            let token;
-         let obj = {
-            method: 'GET',
-                headers: {
-                    'Authorization':`Bearer ${a}`,
-=======
-        
             //TODO: verificar validade do token
 
             console.log('Chamada "getUserInfo"');
@@ -321,8 +289,8 @@ export function getUserInfo(token){
 
             method: 'GET',
                 headers: {
-                    'Authorization':"Bearer "+token.access_token,
->>>>>>> Enei/master
+
+                    'Authorization': `Bearer ${token.access_token}`,
                 },
             }
 
