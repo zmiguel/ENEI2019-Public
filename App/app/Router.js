@@ -25,11 +25,42 @@ import logout from './screens/logout'
 import Icon from "react-native-vector-icons/Ionicons"
 import IconF from "react-native-vector-icons/Foundation"
 import IconFA from "react-native-vector-icons/FontAwesome5"
+import Profile from "./screens/Profile";
 
 
 const AppStack = createBottomTabNavigator(
     {
-       
+        Home: {
+            screen: Home,
+            navigationOptions: {
+
+                tabBarIcon: ({tintColor}) => (
+                    <Icon name="md-home" color={tintColor} size={30}/>
+                )
+            },
+        },
+
+
+        Social: {
+            screen: Social,
+
+            navigationOptions: {
+
+                tabBarIcon: ({tintColor}) => (
+                    <Icon name="ios-mail" color={tintColor} size={30}/>
+                )
+            },
+        },
+
+        Scan: {
+            screen: Scan,
+
+            navigationOptions: {
+                tabBarIcon: ({tintColor}) => (
+                    <Icon name="ios-qr-scanner" color={tintColor} size={45}/>
+                ),
+            },
+        },
 
         Calendar: {
             screen: Calendar,
@@ -41,26 +72,6 @@ const AppStack = createBottomTabNavigator(
                 )
             },
         },
-        Social: {
-            screen: Social,
-
-            navigationOptions: {
-
-                tabBarIcon: ({tintColor}) => (
-                    <Icon name="ios-mail" color={tintColor} size={30}/>
-                )
-            },
-        },
-        Scan: {
-            screen: Scan,
-
-            navigationOptions: {
-                tabBarIcon: ({tintColor}) => (
-                    <Icon name="ios-qr-scanner" color={tintColor} size={45}/>
-                ),
-            },
-        },
-     
 
         Eventos: {
             screen: Eventos,
@@ -72,15 +83,7 @@ const AppStack = createBottomTabNavigator(
                 )
             },
         },
-        Home: {
-            screen: Home,
-            navigationOptions: {
 
-                tabBarIcon: ({tintColor}) => (
-                    <Icon name="md-home" color={tintColor} size={30}/>
-                )
-            },
-        },
 
     },
     {
@@ -111,30 +114,33 @@ const AuthStack = createStackNavigator(
     }*/
 );
 
-    const Stack = createStackNavigator({
-        tabs: {
-            screen: AppStack,
-            navigationOptions: ({navigation}) => {
-                const index = navigation.state.index;
-    
-                if (navigation.state.routes[index].routeName !== 'Scan') {
-                    return {
-                        headerTitle: `${navigation.state.routes[index].routeName}`,
-                        headerRight: (
-                            <TouchableOpacity style={{marginRight: 20}} onPress={() => navigation.navigate('Home')}>
-                                <IconFA name="user-edit" size={22}/>
-                            </TouchableOpacity>
-                        )
-                    }
-                } else {
-                    return {
-                        header: null
-                    }
+const Stack = createStackNavigator({
+    tabs: {
+        screen: AppStack,
+        navigationOptions: ({navigation}) => {
+            const index = navigation.state.index;
+
+            if (navigation.state.routes[index].routeName !== 'Scan') {
+                return {
+                    headerTitle: `${navigation.state.routes[index].routeName}`,
+                    headerRight: (
+                        <TouchableOpacity style={{marginRight: 20}} onPress={() => navigation.navigate('Profile')}>
+                            <IconFA name="user-edit" size={22}/>
+                        </TouchableOpacity>
+                    )
+                }
+            } else {
+                return {
+                    header: null
                 }
             }
         }
-    
-    });
+    },
+    Profile: {
+        screen: Profile
+    }
+
+});
 
 
 export default createAppContainer(createSwitchNavigator(

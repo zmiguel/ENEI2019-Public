@@ -23,7 +23,7 @@ import {Provider} from 'react-redux'
 class Home extends Component {
 
     constructor(props) {
-        
+
         super(props);
 
         this.state = {
@@ -31,9 +31,10 @@ class Home extends Component {
             logged:true,
             onHold:true,
             user:{Name:''}
+
         };
 
-     
+
     }
 
     componentDidMount() {
@@ -41,6 +42,7 @@ class Home extends Component {
 
         this.props.hold();
         //this.props.logoutUser();
+
         //console.log(this.props.token);
     
         this.props.getUserInfo(this.props.token);
@@ -54,14 +56,16 @@ class Home extends Component {
         
     }
 
-    bClick(){
+    bClick() {
+
+        //this.props.logoutUser();
+
 
         let a={};
        // this.setState({ user: this.props.user });
        // console.log(this.props.user)
       //
         
-
 
         //var navigate  = this.props.navigation.navigate
     }
@@ -104,8 +108,7 @@ class Home extends Component {
 
         if(this.props.onHold){
          
-            return (
-             
+            return (             
                 <View>
                     <Text>lollsss {this.props.onHold}</Text>
                     <ActivityIndicator size="large" color="#0000ff" />
@@ -114,10 +117,9 @@ class Home extends Component {
         }
 
         if(this.props.logged){
-
-        
+      
             return (
-                <View >
+                <View>
                   
                     <Button  onPress={this._logout} title="LOGOUT"/>
                     <Button  onPress={this.update} title="update"/>
@@ -128,28 +130,28 @@ class Home extends Component {
                     <Text> phone: {this.props.user.Mobile}</Text>
                    
                 
- 
                 </View>
             );
         }
-        else{
+        else {
             return (
-                <View >
-                      <Text>sem permissões para aceder aqui</Text>
-                   
+                <View>
+                    <Text>sem permissões para aceder aqui</Text>
+
                 </View>
             );
         }
-     
-        
+
+
     }
+
     renderItem({item, index}) {
         return (
             <View>
-                <Text >
+                <Text>
                     {(parseInt(index) + 1)}{". "}{item.title}
                 </Text>
-                <Text >
+                <Text>
                     {item.description}
                 </Text>
             </View>
@@ -162,13 +164,13 @@ class Home extends Component {
 
 
 function mapStateToProps(state, props) {
-    
+
     return {
 
         token: state.apiReducer.token,
         user: state.apiReducer.user,
         logged: state.apiReducer.logged    
-    
+
     }
 }
 

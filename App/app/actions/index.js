@@ -2,10 +2,10 @@ export const DATA_AVAILABLE = 'DATA_AVAILABLE';
 export const API_LOGIN = 'API_LOGIN';
 export const CHECK_USER='CHECK_USER';
 export const LOGOUT_USER= 'LOGOUT_USER';
+
 export const USER_INFO= 'USER_INFO'
 export const HOLD='HOLD'
 export const GET_EVENTS='GET_EVENTS'
-
 
 import { AsyncStorage } from 'react-native';
 
@@ -85,8 +85,8 @@ const saveToken = async token => {
   
 
   const getToken = async () => {
-
     obj={}
+
     try {
 
      
@@ -187,6 +187,7 @@ export function login(user, pass){
         
         fetch('http://enei2019.uingress.com/internal/api/token', {
 
+
             method: 'POST',
 
             headers: {
@@ -207,6 +208,7 @@ export function login(user, pass){
                 logged:false, 
                 tokenData:'error'
             });
+
 
         }).then(res=>res.json()).then(parsed=>{
 
@@ -277,8 +279,7 @@ export function hold(){
 export function getUserInfo(token){
 
     return (dispatch)=>{
-
-        
+   
             //TODO: verificar validade do token
 
             console.log('Chamada "getUserInfo"');
@@ -288,7 +289,8 @@ export function getUserInfo(token){
 
             method: 'GET',
                 headers: {
-                    'Authorization':"Bearer "+token.access_token,
+                    'Authorization':`Bearer ${token.access_token}`,
+
                 },
             }
 
@@ -297,7 +299,7 @@ export function getUserInfo(token){
             .then(function(res) {
               
                 
-                var obj = JSON.parse(res._bodyText);
+                let obj = JSON.parse(res._bodyText);
 
                 dispatch({ type: USER_INFO, user: obj,onHold:false, logged:true });
     
