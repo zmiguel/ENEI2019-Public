@@ -54,7 +54,7 @@ class Home extends Component {
 
         //console.log(th2is.props)
 
-        console.log(this.props.user)
+     
 
     }
 

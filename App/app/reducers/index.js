@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "../actions/" //Import the actions types constant we defined in our actions
 
  
-let dataState = { data: [], loading:true ,token:true};
+let dataState = { data: [], loading:true ,token:true, failAttempt:false};
  
 const dataReducer = (state = dataState, action) => {
     switch (action.type) {
@@ -15,7 +15,7 @@ const dataReducer = (state = dataState, action) => {
     }
 };
 
-let apiState= { token:{valid:false}, tokenData:'error', logged:false, onHold:true, user:{}, events:[]}
+let apiState= { token:{valid:false}, tokenData:'error', logged:false, onHold:true, user:{}, events:[], failedAttempt:false}
 
 const apiReducer = (state = apiState, action) => {
     
@@ -28,7 +28,7 @@ const apiReducer = (state = apiState, action) => {
 
        case API_LOGIN:
      
-            state=Object.assign({},state, { logged:action.logged, token:action.token});
+            state=Object.assign({},state, { logged:action.logged, token:action.token, failedAttempt: action.failedAttempt});
 
             return state;
 

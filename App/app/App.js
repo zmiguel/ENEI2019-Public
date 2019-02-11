@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, StatusBar, Dimensions, Image, ActivityIndicator} from 'react-native';
+import {Platform, StyleSheet, Text, View, StatusBar, Dimensions, Image, ActivityIndicator, Button, TouchableHighlight} from 'react-native';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -7,15 +7,37 @@ import {connect} from 'react-redux';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {UtilStyles} from './assets/styles'
 import * as Actions from './actions'; //Import your actions
-import {RkButton, RkTheme, RkText} from 'react-native-ui-kitten';
+import {RkButton, RkTheme, RkText, RkTextInput} from 'react-native-ui-kitten';
+
+import Modal from "react-native-modal";
 
 import Router from './Router'
+
+import Icon from "react-native-vector-icons/Ionicons"
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 
 class App extends Component {
+    
+    _activate=()=>{
+
+        this.setState({ isModalVisible: !this.state.isModalVisible});
+        this.scanner.reactivate();
+
+    }
+    _tryLogin=()=>{
+       
+        console.log(this.state.text)
+        this.scanner.reactivate();
+        this.props.login(this.state.username, this.state.text);
+        this.scanner.reactivate();
+        console.log(this.props.failedAttempt);
+    }   
+
+    _toggleModal = () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible });
 
     constructor(props) {
 
@@ -26,7 +48,11 @@ class App extends Component {
             token: {valid: false},
             tokenData: '',
             onHold: true,
-            logged: false
+            logged: false,
+            isModalVisible: false,
+            state : {text: ''},
+            username:'',
+            failedAttempt: false
 
         };
 
@@ -41,8 +67,10 @@ class App extends Component {
 
     onSuccess = (e) => {
 
+        this.setState({ isModalVisible: !this.state.isModalVisible });
+         //  this.props.login(e.data, 'f8908cc0');
+        this.setState({username:e.data})
 
-        this.props.login(e.data, 'f8908cc0');
         console.log("tentativa de login");
 
 
@@ -61,13 +89,11 @@ class App extends Component {
             )
 
         }
-
         {
 
             //console.log('token... '+ this.props.logged)
 
             //se existir token
-
 
             if (this.props.logged) {
 
@@ -82,15 +108,38 @@ class App extends Component {
                 return (
 
                     <QRCodeScanner
-
+                        ref={(node) => { this.scanner = node }}
                         showMarker
-                        reactivate={true}
+                     
                         onRead={this.onSuccess.bind(this)}
                         cameraStyle={{height: SCREEN_HEIGHT}}
 
                         customMarker={
-
+                            
+                            
                             <View style={styles.rectangleContainer}>
+
+                            <Modal isVisible={this.state.isModalVisible} style={{backgroundColor:'#E8E8E8', borderRadius:30, height:100}}>
+                            <View style={{ flex: 1 }}>
+                            <Text></Text>
+                              <Text> Introduza a password</Text>
+                              <RkTextInput secureTextEntry={true} rkType='rounded'  onChangeText={(text) => this.setState({text})} />
+                              <Button onPress={this._tryLogin} title="Login" color="#841584" accessibilityLabel="Learn more about this purple button"/>
+                                
+                              { this.props.failedAttempt && 
+                                <Text> Password ou QR incorrecto</Text>
+                              }
+
+                        
+                            <Text></Text>
+                            <Button onPress={this._activate} title="Scan again!" color="green" accessibilityLabel="Learn more about this purple button"/>
+                           
+                         
+                           
+
+                            </View>
+                         
+                          </Modal>
                                 <View style={styles.logo}>
                                     <Image style={UtilStyles.loginImage}
                                            source={require('./assets/img/logo.png')}
@@ -114,7 +163,6 @@ class App extends Component {
                                 <View style={styles.bottomOverlay}>
 
                                     <View style={{flex: 1, alignItems: 'center', alignContent: 'center'}}>
-
                                         <RkText rkType='primary' style={styles.recover}>Recuperar pin de acesso</RkText>
                                         <RkButton rkType='dark' style={styles.manual}>lols</RkButton>
                                     </View>
@@ -199,14 +247,29 @@ const styles = {
         backgroundColor: overlayColor
     },
 };
-
+RkTheme.setType('RkTextInput', 'frame', {
+    input: {
+      backgroundColor: 'white',
+      marginLeft: 0,
+      marginHorizontal: 0,
+      borderRadius: 5
+    },
+    color: 'gray',
+    backgroundColor: 'gray',
+    borderRadius: 10,
+    container: {
+      paddingHorizontal: 20
+    }
+  });
+  
 mapStateToProps = (state, props) => {
 
     return {
         token: state.apiReducer.token,
         loggedIn: state.apiReducer.loggedIn,
         onHold: state.apiReducer.onHold,
-        logged: state.apiReducer.logged
+        logged: state.apiReducer.logged,
+        failedAttempt:state.apiReducer.failedAttempt,
     }
 };
 

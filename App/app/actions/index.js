@@ -210,10 +210,11 @@ export function login(user, pass){
             console.log(err);
             
             alert("error");
-
+            co
             dispatch({
                 type: API_LOGIN, 
-                logged:false, 
+                logged:false,
+                failedAttempt:true,
                 tokenData:'error'
             });
 
@@ -221,6 +222,15 @@ export function login(user, pass){
 
         }).then(res=>res.json()).then(parsed=>{
 
+            if(parsed.error_description=="Provided username and password is incorrect"){
+                dispatch({
+                    type: API_LOGIN, 
+                    logged:false, 
+                    failedAttempt:true,
+                    token: obj
+    
+                });
+            }
             var obj={
                 access_token:parsed.access_token,
                 expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
@@ -235,10 +245,12 @@ export function login(user, pass){
                 saveToken(obj).then(a=>{
 
                     obj.valid=true;
-                    
+                
+    
                     dispatch({
                         type: API_LOGIN, 
                         logged:true, 
+                        failedAttempt:false,
                         token: obj
         
                     });
@@ -251,7 +263,8 @@ export function login(user, pass){
 
                     dispatch({
                         type: API_LOGIN, 
-                        logged:true, 
+                        logged:false,
+                        failedAttempt:true,
                         token: obj
 
         
@@ -261,14 +274,7 @@ export function login(user, pass){
        
         }
                    
-        ).then(a=>{
-            dispatch({
-                type: API_LOGIN, 
-                logged:true, 
-                token: obj
-
-            });
-        })
+        )
 
            
     }
