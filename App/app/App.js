@@ -42,7 +42,7 @@ class App extends Component {
     onSuccess = (e) => {
 
 
-        this.props.login(e.data, '80f3b6e5');
+        this.props.login(e.data, 'f8908cc0');
         console.log("tentativa de login");
 
 

@@ -126,12 +126,17 @@ const renewToken=(refresh)=>{
     var formBody = [];
 
     for (var property in details) {
+
       var encodedKey = encodeURIComponent(property);
+
       var encodedValue = encodeURIComponent(details[property]);
+      
       formBody.push(encodedKey + "=" + encodedValue);
+
     }
 
     formBody = formBody.join("&");
+
     console.log(refresh);
 
     fetch('http://enei2019.uingress.com/internal/api/token', {
@@ -178,9 +183,13 @@ export function login(user, pass){
         var formBody = [];
 
         for (var property in details) {
+            
           var encodedKey = encodeURIComponent(property);
+          
           var encodedValue = encodeURIComponent(details[property]);
+
           formBody.push(encodedKey + "=" + encodedValue);
+
         }
 
         formBody = formBody.join("&");
