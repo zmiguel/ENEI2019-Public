@@ -16,7 +16,8 @@ import PropTypes from 'prop-types';
 
 import {connect, Provider} from "react-redux";
 import {bindActionCreators} from "redux";
-import * as Actions from "../actions";
+
+import * as Actions from "../store/actions";
 
 import {createStore} from 'redux';
 

@@ -1,12 +1,27 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, StatusBar, Dimensions, Image, ActivityIndicator, Button, TouchableHighlight} from 'react-native';
+import {
+    Platform, 
+    StyleSheet, 
+    Text, 
+    View, 
+    StatusBar, 
+    Dimensions, 
+    Image, 
+    ActivityIndicator, 
+    Button, 
+    TouchableHighlight,
+    Keyboard
+
+} from 'react-native';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {UtilStyles} from './assets/styles'
-import * as Actions from './actions'; //Import your actions
+
+import * as Actions from './store/actions'; //Import your actions
+
 import {RkButton, RkTheme, RkText, RkTextInput} from 'react-native-ui-kitten';
 
 import Modal from "react-native-modal";
@@ -53,12 +68,16 @@ class App extends Component {
             isModalVisible: false,
             state : {text: ''},
             username:'',
-            failedAttempt: false
+            failedAttempt: false,
+            push:4
 
         };
 
     }
-    
+    _print=()=>{
+        console.log("hello")
+        this.setState({push:0})
+    }
     checkValue=(e)=>{
         console.log("check"+e)
     }
@@ -66,9 +85,22 @@ class App extends Component {
         this.setState({isModalVisible: false})
         //verifica se o utilizador tem token guardado
         this.props.checkUser();
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+ 
 
     }
+    _keyboardDidShow () {
+        //alert('Keyboard Shown');
+      //  this.setState({push:0})
 
+      }
+    
+      _keyboardDidHide () {
+
+        //this.setState({push:4})
+
+      }
     onSuccess = (e) => {
 
         this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -130,7 +162,7 @@ class App extends Component {
                                     {
                                         backgroundColor:'#E8E8E8', 
                                         borderRadius:10, 
-                                       // marginTop:SCREEN_HEIGHT/6,
+                                        marginTop:SCREEN_HEIGHT /this.state.push,
                                         height:SCREEN_HEIGHT/2
                                         
                                     }
@@ -143,7 +175,18 @@ class App extends Component {
                             <Text></Text>
                               <Text> Introduza a password</Text>
 
-                              <RkTextInput secureTextEntry={true} rkType='rounded'  onSubmitEditing={this.checkValue()}  onChangeText={(text) => this.setState({text})}  clearButtonMode='always'   value={this.state.text}/>
+                              <RkTextInput 
+                                    onFocus={this._print} 
+                                    maxLength={10} 
+                                    blurOnSubmit ={true} 
+                                    secureTextEntry={true} 
+                                    rkType='rounded'  
+                                    onChangeText={(text) => this.setState({text})}  
+                                    clearButtonMode='always'   
+                                    value={this.state.text}
+                                    clearTextOnFocus={true}
+                                    onSubmitEditing={Keyboard.dismiss}
+                            />
                              
                               <Button onPress={this._tryLogin} title="Login" color="#841584" />
                                 

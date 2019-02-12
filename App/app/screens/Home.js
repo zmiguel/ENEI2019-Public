@@ -13,9 +13,8 @@ import {connect} from 'react-redux';
 
 import {bindActionCreators} from 'redux';
 
-import * as Actions from '../actions'; //Import your actionss
+import * as Actions from '../store/actions'; //Import your actionss
 
-import Counter from './Counter'
 
 import {createStore} from 'redux';
 

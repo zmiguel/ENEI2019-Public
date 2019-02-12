@@ -1,35 +1,9 @@
-export const DATA_AVAILABLE = 'DATA_AVAILABLE';
-export const API_LOGIN = 'API_LOGIN';
-export const CHECK_USER='CHECK_USER';
-export const LOGOUT_USER= 'LOGOUT_USER';
-
-export const USER_INFO= 'USER_INFO'
-export const HOLD='HOLD'
-export const GET_EVENTS='GET_EVENTS'
-
 import { AsyncStorage } from 'react-native';
 
 
-//Import the sample data
-import Data from '../intructions.json';
-import Login from '../screens/Login.js';
-
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "./actionTypes" //Import the actions types constant we defined in our actions
 import moment from 'moment'
  
-export function getData(){
-    return (dispatch) => {
- 
-        //Make API Call
-        //For this example, I will be using the sample data in the json file
-        //delay the retrieval [Sample reasons only]
-        setTimeout(() => {
-            const data  = Data.instructions;
-            dispatch({type: DATA_AVAILABLE, data:data});
-        }, 2000);
- 
-    };
-}
-
 export function getEvents(user){
     return (dispatch)=>{
     let events = [];
@@ -409,5 +383,3 @@ export function checkUser(){
     
     }
 }
-
-

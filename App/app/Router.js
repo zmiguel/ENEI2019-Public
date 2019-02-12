@@ -7,7 +7,7 @@ import {
     createBottomTabNavigator
 } from 'react-navigation';
 import * as Screens from './screens';
-import Login from './screens/Login'
+
 
 import AuthLoadingScreen from './screens/AuthLoading'
 
@@ -18,7 +18,7 @@ import Scan from './screens/Scan'
 
 import Calendar from './screens/Calendar'
 import Home from './screens/Home'
-import logout from './screens/logout'
+
 
 
 /*Icons*/
@@ -100,20 +100,6 @@ const AppStack = createBottomTabNavigator(
     }
 );
 
-const AuthStack = createStackNavigator(
-    {
-        Login: {
-            screen: Login,
-        },
-    },
-    /*{
-        headerMode: 'none',
-        navigationOptions: {
-            headerVisible: false,
-        }
-    }*/
-);
-
 const Stack = createStackNavigator({
     tabs: {
         screen: AppStack,
@@ -147,7 +133,7 @@ export default createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
         App: Stack,
-        Auth: AuthStack,
+        
 
     },
     {
