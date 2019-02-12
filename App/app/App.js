@@ -32,8 +32,9 @@ class App extends Component {
         console.log(this.state.text)
         this.scanner.reactivate();
         this.props.login(this.state.username, this.state.text);
-        this.scanner.reactivate();
-        console.log(this.props.failedAttempt);
+      
+      
+       
     }   
 
     _toggleModal = () =>
@@ -42,7 +43,7 @@ class App extends Component {
     constructor(props) {
 
         super(props);
-
+       
         this.state = {
 
             token: {valid: false},
@@ -57,9 +58,12 @@ class App extends Component {
         };
 
     }
-
+    
+    checkValue=(e)=>{
+        console.log("check"+e)
+    }
     componentDidMount() {
-
+        this.setState({isModalVisible: false})
         //verifica se o utilizador tem token guardado
         this.props.checkUser();
 
@@ -104,6 +108,7 @@ class App extends Component {
             }
             else {
 
+                
                 //se não existir vai para o ecrã de scan QR
                 return (
 
@@ -119,12 +124,28 @@ class App extends Component {
                             
                             <View style={styles.rectangleContainer}>
 
-                            <Modal isVisible={this.state.isModalVisible} style={{backgroundColor:'#E8E8E8', borderRadius:30, height:100}}>
-                            <View style={{ flex: 1 }}>
+                            <Modal 
+                                isVisible={this.state.isModalVisible} 
+                                style={
+                                    {
+                                        backgroundColor:'#E8E8E8', 
+                                        borderRadius:10, 
+                                       // marginTop:SCREEN_HEIGHT/6,
+                                        height:SCREEN_HEIGHT/2
+                                        
+                                    }
+                                } 
+                                animationInTiming={1000}
+                                animationOutTiming={1000}
+                                >
+                            <View style={{ flex: 1}}>
+
                             <Text></Text>
                               <Text> Introduza a password</Text>
-                              <RkTextInput secureTextEntry={true} rkType='rounded'  onChangeText={(text) => this.setState({text})} />
-                              <Button onPress={this._tryLogin} title="Login" color="#841584" accessibilityLabel="Learn more about this purple button"/>
+
+                              <RkTextInput secureTextEntry={true} rkType='rounded'  onSubmitEditing={this.checkValue()}  onChangeText={(text) => this.setState({text})}  clearButtonMode='always'   value={this.state.text}/>
+                             
+                              <Button onPress={this._tryLogin} title="Login" color="#841584" />
                                 
                               { this.props.failedAttempt && 
                                 <Text> Password ou QR incorrecto</Text>
