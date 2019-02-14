@@ -132,9 +132,11 @@ namespace api
           // app.UseHttpsRedirection();
 
           //cores supporte
-          app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-         app.UseAuthentication();
-         app.UseMvc();
+        app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        app.UseStatusCodePagesWithReExecute("/Error/{0}");
+        app.UseStatusCodePagesWithReExecute("/error/{0}");
+
+        app.UseMvc();
         }
     }
 }

@@ -1,0 +1,45 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "material-icons-react": "^1.0.4",
+    "moment": "^2.24.0",
+    "prop-types": "^15.6.2",
+    "react": "16.6.3",
+    "react-native": "0.57.8",
+    "react-native-app-intro-slider": "^1.0.1",
+    "react-native-camera": "^1.9.2",
+    "react-native-confirmation-code-input": "^1.0.4",
+    "react-native-elements": "^1.0.0",
+    "react-native-gesture-handler": "^1.0.15",
+    "react-native-ionicons": "^4.5.5",
+    "react-native-loader": "^1.2.1",
+    "react-native-modal": "^7.0.2",
+    "react-native-progress": "^3.5.0",
+    "react-native-qrcode-scanner": "^1.1.2",
+    "react-native-timeline-feed": "^1.0.1",
+    "react-native-timeline-listview": "^0.2.3",
+    "react-native-ui-kitten": "^3.1.2",
+    "react-native-vector-icons": "^6.1.0",
+    "react-navigation": "^3.0.9",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-jest": "23.6.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.51.1",
+    "react-test-renderer": "16.6.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}

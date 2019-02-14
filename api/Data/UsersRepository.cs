@@ -20,7 +20,7 @@ namespace api.Data
 
         public void Delete<T>(T entity) where T : class
         {
-            
+
             _context.Remove(entity);
         }
 

@@ -179,35 +179,15 @@ namespace api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("About");
-
                     b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("Adress");
-
-                    b.Property<int>("Age");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Company");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
-
-                    b.Property<string>("Country");
-
-                    b.Property<string>("Degree");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<string>("FullName");
-
-                    b.Property<string>("Gender");
-
-                    b.Property<DateTime>("LastLogin");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -221,23 +201,11 @@ namespace api.Migrations
 
                     b.Property<string>("PasswordHash");
 
-                    b.Property<int>("Phone");
-
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("Position");
-
-                    b.Property<string>("ProfileIcon");
-
                     b.Property<string>("QRcode");
-
-                    b.Property<DateTime>("Registed");
-
-                    b.Property<string>("Role");
-
-                    b.Property<int>("SchoolYear");
 
                     b.Property<string>("SecurityStamp");
 
@@ -245,12 +213,8 @@ namespace api.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("University");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
-
-                    b.Property<string>("linkedIn");
 
                     b.HasKey("Id");
 
