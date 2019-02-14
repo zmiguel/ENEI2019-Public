@@ -14,6 +14,7 @@ namespace api.Data
 
         public DbSet<Photo> Photos {get;set;}
 
+        public DbSet<Team> Teams {get;set;}
 
 
     protected override void OnModelCreating(ModelBuilder builder)

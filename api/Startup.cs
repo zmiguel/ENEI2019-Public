@@ -24,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Pomelo.EntityFrameworkCore.MySql;
 
 namespace api
 {
@@ -46,7 +47,7 @@ namespace api
             services.AddScoped<IUsersRepository, UsersRepository>();
 
             //define a connection string indicada em appsettings.json
-            services.AddDbContext<DataContext>(x=>x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x=>x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
            
             IdentityBuilder builder = services.AddIdentityCore<User>(Options=>
             {

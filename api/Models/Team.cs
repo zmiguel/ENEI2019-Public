@@ -11,7 +11,7 @@ namespace api.Models
         public string Nome{get;set;}
         public int Event{get;set;}
         
-        public ICollection<int> Users{get;set;}
+        public ICollection<User> Users{get;set;}
         public int NumMemb{get;set;}
 
         public int VisitedNum{get;set;}
