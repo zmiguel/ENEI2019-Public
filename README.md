@@ -7,6 +7,7 @@
 - [Henrique Dias]()
 - [Filipe Pinho]()
 - [João Borges]()
+- [Zé Valdeviesso]
 
 
 
