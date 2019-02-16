@@ -23,6 +23,7 @@
     "react-native-modal": "^7.0.2",
     "react-native-progress": "^3.5.0",
     "react-native-qrcode-scanner": "^1.1.2",
+    "react-native-swiper": "^1.5.14",
     "react-native-timeline-feed": "^1.0.1",
     "react-native-timeline-listview": "^0.2.3",
     "react-native-ui-kitten": "^3.1.2",

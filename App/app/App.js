@@ -10,7 +10,10 @@ import {
     ActivityIndicator, 
     Button, 
     TouchableHighlight,
-    Keyboard
+    Keyboard,
+    ImageBackground,
+    LinearGradient,
+    TouchableOpacity
 
 } from 'react-native';
 
@@ -33,6 +36,7 @@ import Icon from "react-native-vector-icons/Ionicons"
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
+import Swiper from 'react-native-swiper';
 
 class App extends Component {
     
@@ -138,7 +142,93 @@ class App extends Component {
                     <Router></Router>
                 )
             }
-            else {
+            return (
+                <Swiper style={styles.wrapper} 
+                    showsButtons={false}
+                    //paginationStyle={{backgroundColor: 'white'}}
+                    dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 15, height: 15,borderRadius: 8, marginLeft: 6, marginRight: 6, marginTop: 6, marginBottom: 6,}} />}
+                    activeDot={<View style={{backgroundColor: 'red', width: 15, height: 15, borderRadius: 8, marginLeft: 6, marginRight: 6, marginTop: 6, marginBottom: 6,}} />}
+    
+                >
+                  
+                  <View style={styles.slide1}>
+                  <View style={styles.logoContainer}>
+                    <Image style={styles.logo2} source={require('./assets/img/logo2.png')}/>
+                   
+                    </View>
+                    
+                    <ImageBackground 
+                    opacity={0.5}
+                    source={require('./assets/img/bg_coimbra.png')} 
+                    style={{
+                        width: '100%', 
+                        height: '100%',
+                        
+                      //  marginTop:150,
+                        backgroundColor: 'rgba(255,255,255,0.4)' , 
+                 
+                    }
+                }
+                    
+                    >
+                   
+                    <Text></Text>
+                
+                     </ImageBackground>
+                 
+                  </View>
+    
+                  <View style={styles.slide2}>
+                  <View style={{ width:'100%',
+            
+            justifyContent: 'center',
+            alignItems: 'center',}}>
+                    <Image style={styles.logo2} source={require('./assets/img/logo2.png')}/>
+                   
+                    </View>
+                <RkTextInput rkType='rounded' placeholder='Username' />
+              <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry />
+            
+            <View style={ styles.buttons }>
+              <TouchableOpacity
+                style={styles.button}>
+    
+                <Icon name="logo-facebook" size={40}/>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}>
+    
+                <Icon name="logo-instagram" size={40}/>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}>
+    
+                <Icon name="md-heart" size={40}/>
+    
+            </TouchableOpacity>
+        
+            </View>
+            <View style={styles.footer}>
+              <View style={styles.textRow}>
+                <RkText rkType='primary3'>Não sabes a password?</RkText>
+                <RkButton rkType='clear' onPress={this.onSignUpButtonPressed}>
+               
+                <TouchableOpacity>
+                  <RkText style={{color:'red'}} kType='header6'>Recuperar Password</RkText>
+                </TouchableOpacity>
+                
+                </RkButton>
+    
+              </View>
+            </View>
+                  </View>
+                  <View style={styles.slide3}>
+                    <Text style={styles.text}>And simple</Text>
+                  </View>
+                  
+                </Swiper>
+              );
+            {
 
                 
                 //se não existir vai para o ecrã de scan QR
@@ -258,7 +348,70 @@ const rectDimensions = SCREEN_WIDTH * 0.85; // this is equivalent to 255 from a 
 const overlayColor = 'rgba(0,0,0,0.30)';
 
 const styles = {
+    button: {
+      borderWidth:1,
+      borderColor:'rgba(0,0,0,0.2)',
+      alignItems:'center',
+      justifyContent:'center',
+      width:60,
+      height:60,
+      backgroundColor:'#fff',
+      borderRadius:100,
+      marginRight: 10,
+      marginLeft:10
+      },
+    footer: {},
 
+    buttons: {
+        flexDirection: 'row',
+        marginBottom: 24,
+        marginHorizontal: 24,
+        marginTop:24,
+        justifyContent: 'space-around',
+      
+      
+      },
+    logoContainer:{
+        width:'100%',
+        
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:200
+
+    },
+
+    logo2:{
+       
+       // flex: 1,
+      //  resizeMode: 'contain',
+        width: 200, height: 200,
+
+    },
+    wrapper: {
+    },
+    slide1: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+    },
+    slide2: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+    },
+    slide3: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#92BBD9',
+    },
+    text: {
+      color: '#fff',
+      fontSize: 30,
+      fontWeight: 'bold',
+    },
     recover: {
         paddingTop: 10,
         color: "red",
