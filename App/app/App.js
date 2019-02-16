@@ -13,7 +13,8 @@ import {
     Keyboard,
     ImageBackground,
     LinearGradient,
-    TouchableOpacity
+    TouchableOpacity,
+    TextInput
 
 } from 'react-native';
 
@@ -37,8 +38,6 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import Swiper from 'react-native-swiper';
-
-import { GradientButton } from './components/gradientButton';
 
 
 class App extends Component {
@@ -189,14 +188,50 @@ class App extends Component {
                     <Image style={styles.logo2} source={require('./assets/img/logo2.png')}/>
                    
                     </View>
-                <RkTextInput rkType='rounded' placeholder='Username' />
-              <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry />
-              <GradientButton
-            style={styles.save}
-            rkType='large'
-            text='LOGIN'
-            onPress={this.onLoginButtonPressed}
-          />
+            <View styles={styles.loginContainer}>
+
+                   
+
+                
+                    <View style={styles.inputSection}>
+   
+    <TextInput
+        style={styles.input}
+        placeholder="Qr-code "
+        onChangeText={(searchString) => {this.setState({searchString})}}
+        maxLength={15}
+        underlineColorAndroid="transparent"
+    />
+ <TouchableOpacity>
+    
+ <View style={styles.scanQR}>
+   <Text>Scan QR</Text>
+   <Icon style={styles.searchIcon} name="ios-qr-scanner" size={40} color="#000"/> 
+
+  
+   </View>
+    </TouchableOpacity>
+  
+  
+     </View>
+                     
+                    <TextInput style={styles.passwordInput} 
+                     onFocus={this._print} 
+                     maxLength={10} 
+                     blurOnSubmit ={true} 
+                     secureTextEntry={true} 
+                     rkType='rounded'  
+                     onChangeText={(text) => this.setState({text})}  
+                     clearButtonMode='always'   
+                     value={this.state.text}
+                     clearTextOnFocus={true}
+                     onSubmitEditing={Keyboard.dismiss}
+                     placeholder='Password' />
+          
+              <RkButton rkType='dark' style={styles.loginBtn}>Entrar</RkButton>
+
+                    </View>
+                
             <View style={ styles.buttons }>
               <TouchableOpacity
                 style={styles.button}>
@@ -231,7 +266,7 @@ class App extends Component {
             </View>
                   </View>
                   <View style={styles.slide3}>
-                    <Text style={styles.text}>And simple</Text>
+                    <Text>Manual de utilização</Text>
                   </View>
                   
                 </Swiper>
@@ -356,6 +391,92 @@ const rectDimensions = SCREEN_WIDTH * 0.85; // this is equivalent to 255 from a 
 const overlayColor = 'rgba(0,0,0,0.30)';
 
 const styles = {
+
+    passwordInput:{
+        borderRadius: 90,
+     
+        borderColor:'#bfbdbd',
+        borderWidth: 1,
+        marginTop:20,
+        marginBottom:20,
+        width:SCREEN_WIDTH*0.8,
+     
+        backgroundColor: 'white',
+
+        borderRadius: 90,
+        height: SCREEN_HEIGHT*0.08,
+        borderColor:'#bfbdbd',
+        borderWidth: 1,
+        paddingLeft:SCREEN_WIDTH*0.05,
+        
+    },
+    scanQRText:{
+
+       // paddingTop:20,
+      
+
+    },
+    scanQR:{
+        fontFamily: 'Open Sans',
+        flexDirection: 'row',
+        paddingTop:5,
+        backgroundColor:10,
+        
+        width:120,
+        paddingLeft:10,
+        backgroundColor:'#f24b4b',
+        borderBottomRightRadius:90,
+        borderTopRightRadius:90,
+        height:'100%',
+       
+    },
+    inputSection: {
+     
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+      
+        backgroundColor: 'white',
+
+        borderRadius: 90,
+        height: SCREEN_HEIGHT*0.08,
+        borderColor:'#bfbdbd',
+        borderWidth: 1,
+     
+
+    },
+    searchIcon: {
+       paddingLeft:10
+    },
+
+    input: {
+        
+        
+        fontFamily: 'Open Sans',
+        flex: 1,
+        paddingRight: 10,
+        
+      
+        paddingLeft: 0,
+        paddingLeft:SCREEN_WIDTH*0.05,
+        color: '#424242',
+       
+    },
+    textRow:{
+        marginBottom:40
+    },
+    loginContainer:{
+        width: '100%',
+        height: '30%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    loginBtn:{
+        marginTop:10,
+      marginBottom:20,
+      marginLeft: '25%',
+   
+    },
+  
     button: {
       borderWidth:1,
       borderColor:'rgba(0,0,0,0.2)',
@@ -379,7 +500,9 @@ const styles = {
       
       
       },
+
     logoContainer:{
+
         width:'100%',
         
         justifyContent: 'center',
@@ -413,7 +536,8 @@ const styles = {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#92BBD9',
+      color:'black',
+      backgroundColor: 'white',
     },
     text: {
       color: '#fff',
