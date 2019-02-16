@@ -38,6 +38,9 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import Swiper from 'react-native-swiper';
 
+import { GradientButton } from './components/gradientButton';
+
+
 class App extends Component {
     
     _activate=()=>{
@@ -188,7 +191,12 @@ class App extends Component {
                     </View>
                 <RkTextInput rkType='rounded' placeholder='Username' />
               <RkTextInput rkType='rounded' placeholder='Password' secureTextEntry />
-            
+              <GradientButton
+            style={styles.save}
+            rkType='large'
+            text='LOGIN'
+            onPress={this.onLoginButtonPressed}
+          />
             <View style={ styles.buttons }>
               <TouchableOpacity
                 style={styles.button}>
