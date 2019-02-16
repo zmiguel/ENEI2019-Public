@@ -48,12 +48,16 @@ class App extends Component {
         this.scanner.reactivate();
 
     }
+    _scanQr=()=>{
+        this.props.openScannerLogin()
+        console.log(this.props.UI_loginScannerActive)
+    }
     _tryLogin=()=>{
        
-        console.log(this.state.text)
-        this.scanner.reactivate();
+        //console.log(this.state.text)
+        //this.scanner.reactivate();
         this.props.login(this.state.username, this.state.text);
-      
+        
       
        
     }   
@@ -73,9 +77,10 @@ class App extends Component {
             logged: false,
             isModalVisible: false,
             state : {text: ''},
-            username:'',
+            username:'QR code',
             failedAttempt: false,
-            push:4
+            push:4,
+             UI_loginScannerActive:false
 
         };
 
@@ -109,11 +114,13 @@ class App extends Component {
       }
     onSuccess = (e) => {
 
-        this.setState({ isModalVisible: !this.state.isModalVisible });
+       // this.setState({ isModalVisible: !this.state.isModalVisible });
          //  this.props.login(e.data, 'f8908cc0');
+         this.props.closeLoginQRScan();
         this.setState({username:e.data})
 
         console.log("tentativa de login");
+
 
 
     };
@@ -155,6 +162,7 @@ class App extends Component {
                   
                   <View style={styles.slide1}>
                   <View style={styles.logoContainer}>
+
                     <Image style={styles.logo2} source={require('./assets/img/logo2.png')}/>
                    
                     </View>
@@ -181,6 +189,24 @@ class App extends Component {
                   </View>
     
                   <View style={styles.slide2}>
+                  <Modal isVisible={this.props.UI_loginScannerActive}>
+          <View style={{ flex: 1 , backgroundColor:'white'}}>
+          <Button onPress={this.props.closeLoginQRScan} title={"Fechar scanner"}> </Button>
+
+            <QRCodeScanner
+        onRead={this.onSuccess.bind(this)}
+        cameraStyle={ styles.cameraContainer}
+       
+        
+          
+           
+        
+          
+       
+      />
+          </View>
+          
+        </Modal>
                   <View style={{ width:'100%',
             
             justifyContent: 'center',
@@ -197,17 +223,17 @@ class App extends Component {
    
     <TextInput
         style={styles.input}
-        placeholder="Qr-code "
+        placeholder={this.state.username}
         onChangeText={(searchString) => {this.setState({searchString})}}
         maxLength={15}
         underlineColorAndroid="transparent"
     />
- <TouchableOpacity>
+ <TouchableOpacity onPress={this._scanQr}>
     
  <View style={styles.scanQR}>
+  
+   <Icon style={styles.searchIcon} name="ios-qr-scanner" size={30} color="#000"/> 
    <Text>Scan QR</Text>
-   <Icon style={styles.searchIcon} name="ios-qr-scanner" size={40} color="#000"/> 
-
   
    </View>
     </TouchableOpacity>
@@ -220,7 +246,7 @@ class App extends Component {
                      maxLength={10} 
                      blurOnSubmit ={true} 
                      secureTextEntry={true} 
-                     rkType='rounded'  
+                    
                      onChangeText={(text) => this.setState({text})}  
                      clearButtonMode='always'   
                      value={this.state.text}
@@ -228,7 +254,7 @@ class App extends Component {
                      onSubmitEditing={Keyboard.dismiss}
                      placeholder='Password' />
           
-              <RkButton rkType='dark' style={styles.loginBtn}>Entrar</RkButton>
+              <RkButton rkType='dark' style={styles.loginBtn} onPress={this._tryLogin}>Entrar</RkButton>
 
                     </View>
                 
@@ -253,8 +279,9 @@ class App extends Component {
             </View>
             <View style={styles.footer}>
               <View style={styles.textRow}>
-                <RkText rkType='primary3'>Não sabes a password?</RkText>
-                <RkButton rkType='clear' onPress={this.onSignUpButtonPressed}>
+       
+                <RkText  rkType='primary3'>Não sabes a password?</RkText>
+             <RkButton rkType='clear' onPress={this.onSignUpButtonPressed}>
                
                 <TouchableOpacity>
                   <RkText style={{color:'red'}} kType='header6'>Recuperar Password</RkText>
@@ -391,7 +418,9 @@ const rectDimensions = SCREEN_WIDTH * 0.85; // this is equivalent to 255 from a 
 const overlayColor = 'rgba(0,0,0,0.30)';
 
 const styles = {
-
+    cameraContainer:{
+      //  height: Dimensions.get('window').height ,
+    },
     passwordInput:{
         borderRadius: 90,
      
@@ -412,17 +441,18 @@ const styles = {
     },
     scanQRText:{
 
+        paddingTop:50
        // paddingTop:20,
       
 
     },
     scanQR:{
         fontFamily: 'Open Sans',
-        flexDirection: 'row',
+        //flexDirection: 'row',
         paddingTop:5,
         backgroundColor:10,
         
-        width:120,
+        width:80,
         paddingLeft:10,
         backgroundColor:'#f24b4b',
         borderBottomRightRadius:90,
@@ -619,6 +649,7 @@ mapStateToProps = (state, props) => {
         onHold: state.apiReducer.onHold,
         logged: state.apiReducer.logged,
         failedAttempt:state.apiReducer.failedAttempt,
+        UI_loginScannerActive: state.uiReducer.UI_loginScannerActive
     }
 };
 
