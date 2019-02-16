@@ -1,8 +1,20 @@
 import React, {Component} from 'react';
 
-import {Button, View, Text, TouchableOpacity, FlatList, ActivityIndicator} from 'react-native';
+import {
+    Button,
+    View, 
+    Text, 
+    TouchableOpacity, 
+    FlatList, 
+    ActivityIndicator,
+    Dimensions,
+    StyleSheet,
+    Image,
+    ImageBackground
+} from 'react-native';
 
-
+import {Shadow} from 'react-native-shadow'
+import Icon from "react-native-vector-icons/Ionicons"
 import {
     RkButton,
     RkTheme
@@ -14,12 +26,29 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as Actions from '../store/actions'; //Import your actionss
-
+import ImageOverlay from "react-native-image-overlay";
 
 import {createStore} from 'redux';
 
 import {Provider} from 'react-redux'
+import { ScrollView } from 'react-native-gesture-handler';
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+import {Card, Divider} from 'react-native-elements'
 
+import RNMaterialShadows from 'react-native-material-shadows';
+ 
+const shadowOpt = {
+    width:100,
+    height:100,
+    color:"#000",
+    border:2,
+    radius:3,
+    opacity:0.2,
+    x:0,
+    y:3,
+    style:{marginVertical:5}
+}
 
 class Home extends Component {
 
@@ -34,8 +63,6 @@ class Home extends Component {
             onHold: true,
             user: {Name: ''}
         };
-
-
     }
 
     componentDidMount() {
@@ -78,35 +105,11 @@ class Home extends Component {
         // this.props.logout();
         this.props.logoutUser();
     }
-    update = () => {
-
-
-        this.setState({user: this.props.user});
-        var o = [];
-
-        for (var key in this.props.user.Sessions) {
-
-
-            o.push({
-                time: this.props.user.Sessions[key].SessionStart.substr(11, 16),
-                timeEnd: this.props.user.Sessions[key].SessionEnd.substr(11, 16),
-                lineColor: '#009688',
-                imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
-                description: this.props.user.Sessions[key].Description,
-                name: this.props.user.Sessions[key].Name,
-
-
-            })
-
-        }
-        console.log(this.props.user.Sessions);
-    }
-
+    
     render() {
 
 
         const {navigate} = this.props.navigation;
-
 
         if (this.props.onHold) {
 
@@ -117,21 +120,83 @@ class Home extends Component {
                 </View>
             )
         }
-
         if (this.props.logged) {
 
             return (
+                <ScrollView style={{backgroundColor:'#eeeeee'}}>
                 <View>
+               
+                <ImageBackground 
+                    opacity={0.9}
+                    source={require('../assets/img/bg_3.jpg')} 
+                    style={{
+                        width: '100%', 
+                    
+                        
+                      //  marginTop:150,
+                        backgroundColor: 'rgba(255,255,255,1)' , 
+                 shadowOffset:{ width: 10, height: 10, },
+shadowColor: 'black',
+shadowOpacity: 1.0
+                    }
+                }>
+                    <View style={styles.homeHeader}>
+                    <View style={styles.userImageContainer}>    
+                        <Image style={styles.userImage} source={{uri: 'https://i.imgur.com/XXJ7LxV.jpg'}}/>
+                    </View>
+                    <Text style={styles.userText}>{this.props.user.Name}</Text>
+                   
+                    <Text style={styles.userTextSub}>{this.props.user.Company}</Text>
+                    </View>
+                
+                    </ImageBackground>
+                 
+                 
+                  
+
+                    <View style={styles.userBio}>
+                    <View style={styles.userBioRow}>  
+                            <Icon name="ios-laptop" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Job}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-mail" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Email}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-phone-portrait" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Mobile}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-map" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Address}, {this.props.user.City}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-person" style={styles.userBioLogo} size={25}/>
+                            <TouchableOpacity><Text style={styles.userCurriculum}>O meu Curriculo</Text></TouchableOpacity>
+                        
+                        </View>
+                       
+                    
+                    
+                    </View>
+                    <View style={styles.userStats}> 
+                      
+                     
+                     
+
+                    </View>
 
                     <Button onPress={this._logout} title="LOGOUT"/>
-                    <Button onPress={this.update} title="update"/>
-                    <Button onPress={this.bClick} title="Parse"/>
-                    <Text> Nomess: {this.props.user.Name}</Text>
-
-                    <Text> city: {this.props.user.City}</Text>
-                    <Text> phone: {this.props.user.Mobile}</Text>
+                    
+                  
 
                 </View>
+                </ScrollView>
             );
         }
         else {
@@ -146,24 +211,91 @@ class Home extends Component {
 
     }
 
-    renderItem({item, index}) {
-        return (
-            <View>
-                <Text>
-                    {(parseInt(index) + 1)}{". "}{item.title}
-                </Text>
-                <Text>
-                    {item.description}
-                </Text>
-            </View>
-        )
-
-
-    }
-
 }
 
+const styles = StyleSheet.create({
 
+    userCurriculum:{
+        paddingTop:5,
+        color:'red',
+        fontWeight:'bold',
+        fontSize:15
+    },
+    userBioRow:{
+        flex:1,
+        flexDirection:'row',
+        padding:10,
+    },
+    userBioText:{
+
+    },
+    userBioLogo:{
+        marginLeft: SCREEN_WIDTH*0.05,
+        width: SCREEN_WIDTH*0.15,
+    
+    },
+
+   
+    userTextSub:{
+        backgroundColor: 'rgba(0,0,0,0.7)' ,  
+        color:'white',
+    },
+    userText:{
+        backgroundColor: 'rgba(0,0,0,0.7)' , 
+        color:'white',
+        fontWeight:'bold',
+        fontSize:20,
+    },
+    homeHeader:{
+        flex:1,
+       
+        height: SCREEN_HEIGHT*0.3,
+        justifyContent: 'center',
+        alignItems:'center' ,
+   
+    },
+    userImage:{
+       
+      width:110,
+      height:110,
+      borderWidth: 1,
+     borderRadius: 5,
+      borderWidth:2,
+      borderColor: 'white',
+     
+      
+    },
+    userBio:{
+        flex:1,
+        padding:10,
+        margin:9,
+        backgroundColor:'white',
+       // height: SCREEN_HEIGHT*0.20,
+        color:'black',
+        borderRadius:5,
+    },
+    userStats:{
+        backgroundColor:'#CC1A17',
+        height: SCREEN_HEIGHT*0.2,
+        padding:10,
+        margin:9,
+        borderRadius:5,
+      marginTop:0,
+    },
+    userImageContainer:{
+        alignSelf: 'center',
+       
+       
+      
+      
+        
+       // transform: [{ rotate: '-15deg'}],
+     
+    }
+
+
+
+});
 function mapStateToProps(state, props) {
 
     return {

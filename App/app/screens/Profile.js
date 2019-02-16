@@ -16,11 +16,15 @@ import PropTypes from 'prop-types';
 
 import {connect, Provider} from "react-redux";
 import {bindActionCreators} from "redux";
-
 import * as Actions from "../store/actions";
 
 import {createStore} from 'redux';
 
+
+import Email from '../components/Email';
+
+import Separator from '../components/Separator';
+import Tel from '../components/Telephone';
 
 class Profile extends Component {
 
@@ -37,50 +41,32 @@ class Profile extends Component {
             user: {}
         };
     }
-/*
-        state = {
-            telDS: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2,
-            }).cloneWithRows(this.props.tels),
-            emailDS: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2,
-            }).cloneWithRows(this.props.emails),
-        };
-*/
-
-
-    onPressPlace = () => {
-        console.log('place')
-    };
+    
 
     onPressTel = number => {
         Linking.openURL(`tel://${number}`).catch(err =>
             console.log('Error:', err))
     };
 
-    onPressSms = () => {
-        console.log('sms')
+    onPressSms = number => {
+        Linking.openURL(`sms:${number}`).catch(err =>
+            console.log('Error:', err))
     };
 
     onPressEmail = email => {
-        Linking.openURL(`mailto:${email}-+`).catch(err =>
+        Linking.openURL(`mailto:${email}`).catch(err =>
             console.log('Error:', err)
         )
     };
 
     renderHeader = () => {
-        /*  const {
-              avatar,
-              avatarBackground,
-              name,
-              address: {city, country},
-          } = this.props;*/
-
         return (
             <View style={styles.header}>
                 <View style={styles.headerContent}>
-                    <Image style={styles.avatar}
-                           source={{uri: `${this.props.user.Avatar}`}}/>
+                    <View style={styles.avatarSquare}>
+                        <Image style={styles.avatar}
+                               source={{uri: `${this.props.user.Avatar}`}} resizeMode='contain'/>
+                    </View>
 
                     <Text style={styles.name}> {this.props.user.Name} {this.props.user.LastName}</Text>
                     <Text style={styles.userInfo}> {this.props.user.City} </Text>
@@ -90,54 +76,39 @@ class Profile extends Component {
     };
 
     renderTel = () => {
-
         return (
-            <View style={styles.telContainer}>
-                <TouchableOpacity onPress={() => this.onPressTel(`${this.props.user.Mobile}`)}>
-                    <Text>{this.props.user.Mobile}</Text>
-                </TouchableOpacity>
-            </View>
+            <Tel
+                name={this.props.user.Name}
+                number={this.props.user.Mobile}
+                onPressSms={this.onPressSms}
+                onPressTel={this.onPressTel}
+            />
         )
-    };
-    /* <ListView
-                contentContainerStyle={styles.telContainer}
-                /*dataSource={this.state.telDS}
 
-        renderRow = {({id, name, number}, _, k)
-    =>
-        {
-        }
-    }
-        />}*/
+    };
 
 
     renderEmail = () => {
         return (
-            <View styles={styles.emailContainer}>
-                <TouchableOpacity onPress={() => this.onPressEmail(`${this.props.user.Email}`)}>
-                    <Text>{this.props.user.Email} </Text>
-                </TouchableOpacity>
-            </View>
+            <Email
+                key={`${this.props.user}`}
+                name={this.props.user.Name}
+                email={this.props.user.Email}
+                onPressEmail={this.onPressEmail}
+            />
         )
-
-        /*  <ListView
-              contentContainerStyle={styles.emailContainer}
-              /*dataSource={this.state.emailDS}
-              renderRow={({email, id, name}, _, k) => {
-
-              }}
-          />*/
     };
 
     render() {
         return (
             <ScrollView style={styles.scroll}>
                 <View style={styles.container}>
-                    {this.renderHeader()}
-                    <View style={styles.body}>
+                    <Card containerStyle={styles.cardContainer}>
+                        {this.renderHeader()}
                         {this.renderTel()}
+                        {Separator()}
                         {this.renderEmail()}
-                    </View>
+                    </Card>
                 </View>
             </ScrollView>
         )
@@ -149,42 +120,80 @@ const styles = StyleSheet.create({
     scroll: {
         backgroundColor: '#FFF',
     },
-    emailContainer: {
-        backgroundColor: '#FFF',
+
+    container: {
         flex: 1,
+    },
+
+
+    cardContainer: {
+        backgroundColor: '#FFF',
+        borderWidth: 0,
+        flex: 1,
+        margin: 0,
+        padding: 0,
+    },
+
+
+    emailContainer: {
+        color: '#000',
         paddingTop: 30,
+        alignItems: 'center',
     },
     telContainer: {
-        backgroundColor: '#FFF',
-        flex: 1,
+        color: '#000',
         paddingTop: 30,
+        alignItems: 'center',
+    },
+
+    contact_container: {
+        backgroundColor: '#FFF',
+        margin: 20,
+        //height: 150,
     },
 
     header: {
-        backgroundColor: "#DCDCDC",
+        backgroundColor: '#CC6666',
     },
     headerContent: {
         padding: 30,
         alignItems: 'center',
     },
     avatar: {
+        /* borderWidth: 4,*/
+        transform: [{rotateZ: '20deg'}],
+        /*borderColor: "#000",
+        marginBottom: 50,*/
+        flex: 1,
+        alignItems: 'center',
+
+    },
+    avatarSquare: {
         width: 130,
         height: 130,
-        borderRadius: 63,
+        transform: [{rotateZ: '-20deg'}],
         borderWidth: 4,
-        borderColor: "white",
-        marginBottom: 10,
+        borderColor: "#000",
+        marginBottom: 50,
+        backgroundColor: '#fff',
+
     },
+
     userInfo: {
         fontSize: 16,
         color: "#778899",
         fontWeight: '600',
     },
 
+    data_content: {
+        backgroundColor: '#777',
+
+    },
+
 
 });
 
-mapStateToProps = (state, props)  => {
+mapStateToProps = (state, props) => {
 
     return {
 

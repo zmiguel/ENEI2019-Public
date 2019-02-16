@@ -14,7 +14,8 @@ import {
     ImageBackground,
     LinearGradient,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    
 
 } from 'react-native';
 
