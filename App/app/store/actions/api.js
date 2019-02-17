@@ -90,55 +90,8 @@ const deleteToken = async () => {
 const renewToken=(refresh)=>{
 
 
-    var details = {
-        
-        
-        'grant_type': 'refresh_token',
-        'refresh_token':refresh 
+   
 
-    };
-    var formBody = [];
-
-    for (var property in details) {
-
-      var encodedKey = encodeURIComponent(property);
-
-      var encodedValue = encodeURIComponent(details[property]);
-      
-      formBody.push(encodedKey + "=" + encodedValue);
-
-    }
-
-    formBody = formBody.join("&");
-
-    console.log(refresh);
-
-    fetch('http://enei2019.uingress.com/internal/api/token', {
-
-        method: 'POST',
-
-        headers: {
-
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-        },
-        
-        body: formBody
-
-    }).catch(err=>{
-
-    }).then(parsed=>{
-
-       // console.log(a);
-        var obj={
-            access_token:parsed.access_token,
-            expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
-            refreshToken:parsed.refresh_token,
-            valid:true
-        };
-
-    
-    })
-    return obj;
 }
 
 
@@ -350,27 +303,90 @@ export function checkUser(){
                 //se expirar 
                 if(Math.round(new Date().getTime()/1000) >= a.expirationDateToken){
 
+                    refresh=a.refreshToken
                     //  a.valid=false;
 
                     //chamar funçao para renovar
                     console.log("expirou")
-          
-                    renewToken(a.refreshToken).then(b=>{
-                      //  a.valid=true;
-                        deleteToken();  
-                        saveToken(b);
-                        console.log("asdasdasdasd")
-                        dispatch({type: CHECK_USER, token:b, logged:true, onHold:false});             
+                    
+                    var details = {
+        
+    
+                        'grant_type': 'refresh_token',
+                        'refresh_token':refresh 
+                
+                    };
+                    var formBody = [];
+                
+                    for (var property in details) {
+                
+                      var encodedKey = encodeURIComponent(property);
+                
+                      var encodedValue = encodeURIComponent(details[property]);
+                      
+                      formBody.push(encodedKey + "=" + encodedValue);
+                
+                    }
+                
+                    formBody = formBody.join("&");
+                
+        
+                
+                    fetch('http://enei2019.uingress.com/internal/api/token', {
+                
+                        method: 'POST',
+                
+                        headers: {
+                
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
+                        
+                        body: formBody
+                
+                    }).then(res=>res.json()).then(parsed=>{
+                
+                    
+                        console.log(parsed);
+
+                        if(parsed.error=='invalid_grant'){
+                            console.log(formBody);
+                            dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});             
+                        }else{
+                        var obj={
+                            access_token:parsed.access_token,
+                            expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
+                            refreshToken:parsed.refresh_token,
+                            valid:true
+
+                            
+                        };
+                   
+                       // deleteToken();  
+                        saveToken(obj).then(a=>{
+                            console.log("saved" )
+                            console.log(obj)
+                            dispatch({type: CHECK_USER, token:obj, logged:true, onHold:false});             
+                
+                        })
+                    }
+                        
+                    
+                    }).catch(a=>{
+                        console.log("Putasss")
+                        dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});             
                     })
 
+                  
 
+                }else{
+
+                    console.log("Tempo restante token: "+ Math.round((a.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
+    
+                    //fazer validação da data e renovar o token
+    
+                    dispatch({type: CHECK_USER, token:a, logged:true, onHold:false});
                 }
 
-                console.log("Tempo restante token: "+ Math.round((a.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
-    
-                //fazer validação da data e renovar o token
-
-                dispatch({type: CHECK_USER, token:a, logged:true, onHold:false});
             }
             
            

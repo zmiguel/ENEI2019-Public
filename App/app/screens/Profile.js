@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, Icon} from 'react-native-elements'
+import {Card, Divider} from 'react-native-elements'
 import {
     Image,
     ImageBackground,
@@ -10,7 +10,10 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions,
+    TextInput,
+    Button
 } from 'react-native'
 import PropTypes from 'prop-types';
 
@@ -25,6 +28,9 @@ import Email from '../components/Email';
 
 import Separator from '../components/Separator';
 import Tel from '../components/Telephone';
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+import Icon from "react-native-vector-icons/Ionicons"
 
 class Profile extends Component {
 
@@ -38,78 +44,73 @@ class Profile extends Component {
             tokenData: '',
             loggedIn: false,
             onHold: true,
-            user: {}
+            user: {},
+            cenas:{Name:'as'},
+            text:'',
         };
     }
-    
-
-    onPressTel = number => {
-        Linking.openURL(`tel://${number}`).catch(err =>
-            console.log('Error:', err))
-    };
-
-    onPressSms = number => {
-        Linking.openURL(`sms:${number}`).catch(err =>
-            console.log('Error:', err))
-    };
-
-    onPressEmail = email => {
-        Linking.openURL(`mailto:${email}`).catch(err =>
-            console.log('Error:', err)
-        )
-    };
-
-    renderHeader = () => {
-        return (
-            <View style={styles.header}>
-                <View style={styles.headerContent}>
-                    <View style={styles.avatarSquare}>
-                        <Image style={styles.avatar}
-                               source={{uri: `${this.props.user.Avatar}`}} resizeMode='contain'/>
-                    </View>
-
-                    <Text style={styles.name}> {this.props.user.Name} {this.props.user.LastName}</Text>
-                    <Text style={styles.userInfo}> {this.props.user.City} </Text>
-                </View>
-            </View>
-        )
-    };
-
-    renderTel = () => {
-        return (
-            <Tel
-                name={this.props.user.Name}
-                number={this.props.user.Mobile}
-                onPressSms={this.onPressSms}
-                onPressTel={this.onPressTel}
-            />
-        )
-
-    };
+    _logout = () => {
 
 
-    renderEmail = () => {
-        return (
-            <Email
-                key={`${this.props.user}`}
-                name={this.props.user.Name}
-                email={this.props.user.Email}
-                onPressEmail={this.onPressEmail}
-            />
-        )
-    };
+        //  this.props.navigation.navigate('scan');
+
+        // this.props.logout();
+        this.props.logoutUser();
+    }
 
     render() {
         return (
-            <ScrollView style={styles.scroll}>
+            <ScrollView>
                 <View style={styles.container}>
-                    <Card containerStyle={styles.cardContainer}>
-                        {this.renderHeader()}
-                        {this.renderTel()}
-                        {Separator()}
-                        {this.renderEmail()}
-                    </Card>
-                </View>
+                <View style={styles.userBio}>
+                    <View style={styles.userBioRow}>  
+                            <Icon name="ios-laptop" style={styles.userBioLogo} size={25}/>
+                         
+                            <TextInput 
+                                  onFocus={this._print} 
+                                  maxLength={50} 
+                                  blurOnSubmit ={true} 
+                                 
+                                 
+                                  onChangeText={(text) => this.setState({text})}  
+                               
+                                  value={this.props.user.Job}
+                             
+                               
+                              />
+                         
+                         
+                    </View>
+
+                    <Divider style={{ backgroundColor: 'black' }} />
+                    
+                    <View style={styles.userBioRow}>  
+                        <Icon name="ios-mail" style={styles.userBioLogo} size={25}/>
+                        <Text style={styles.userBioText}>{this.props.user.Email}</Text>
+                    </View>
+                    <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-phone-portrait" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Mobile}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-map" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Address}, {this.props.user.City}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-person" style={styles.userBioLogo} size={25}/>
+                            <TouchableOpacity><Text style={styles.userCurriculum}>O meu Curriculo</Text></TouchableOpacity>
+                        
+                        </View>
+                        <Button onPress={this._logout} title="LOGOUT"/>
+                       
+                    
+                    
+                    </View>
+          
+                 </View>
             </ScrollView>
         )
     }
@@ -117,77 +118,21 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
 
-    scroll: {
-        backgroundColor: '#FFF',
-    },
-
-    container: {
-        flex: 1,
-    },
-
-
-    cardContainer: {
-        backgroundColor: '#FFF',
-        borderWidth: 0,
-        flex: 1,
-        margin: 0,
-        padding: 0,
-    },
-
-
-    emailContainer: {
-        color: '#000',
-        paddingTop: 30,
-        alignItems: 'center',
-    },
-    telContainer: {
-        color: '#000',
-        paddingTop: 30,
-        alignItems: 'center',
-    },
-
-    contact_container: {
-        backgroundColor: '#FFF',
-        margin: 20,
-        //height: 150,
-    },
-
-    header: {
-        backgroundColor: '#CC6666',
-    },
-    headerContent: {
-        padding: 30,
-        alignItems: 'center',
-    },
-    avatar: {
-        /* borderWidth: 4,*/
-        transform: [{rotateZ: '20deg'}],
-        /*borderColor: "#000",
-        marginBottom: 50,*/
-        flex: 1,
-        alignItems: 'center',
+    container:{
 
     },
-    avatarSquare: {
-        width: 130,
-        height: 130,
-        transform: [{rotateZ: '-20deg'}],
-        borderWidth: 4,
-        borderColor: "#000",
-        marginBottom: 50,
-        backgroundColor: '#fff',
+    userBioRow:{
+        flex:1,
+        flexDirection:'row',
+        padding:10,
+    },
+    userBioText:{
 
     },
-
-    userInfo: {
-        fontSize: 16,
-        color: "#778899",
-        fontWeight: '600',
-    },
-
-    data_content: {
-        backgroundColor: '#777',
-
+    userBioLogo:{
+        marginLeft: SCREEN_WIDTH*0.05,
+        width: SCREEN_WIDTH*0.15,
+    
     },
 
 

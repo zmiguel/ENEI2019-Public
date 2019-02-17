@@ -32,7 +32,7 @@ const apiReducer = (state = apiState, action) => {
 
         case USER_INFO:
 
-            state=Object.assign({},state, { user: action.user, token: action.token , loggedIn:action.loggedIn, onHold:action.onHold});
+            state=Object.assign({},state, { user: action.user , loggedIn:action.loggedIn, onHold:action.onHold});
             
             return state;
             

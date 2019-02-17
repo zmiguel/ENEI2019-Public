@@ -29,7 +29,7 @@ import * as Actions from '../store/actions'; //Import your actionss
 import ImageOverlay from "react-native-image-overlay";
 
 import {createStore} from 'redux';
-
+import PTRView from 'react-native-pull-to-refresh';
 import {Provider} from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler';
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -51,7 +51,16 @@ const shadowOpt = {
 }
 
 class Home extends Component {
-
+    
+    _refresh() {
+        return new Promise((resolve) => {
+          setTimeout(()=>{resolve()}, 2000)
+        });
+      }
+      _callApi(){
+         
+        this.props.getUserInfo(this.props.token);
+      }
     constructor(props) {
 
         super(props);
@@ -96,15 +105,12 @@ class Home extends Component {
 
         //var navigate  = this.props.navigation.navigate
     }
-
-    _logout = () => {
-
-
-        //  this.props.navigation.navigate('scan');
-
-        // this.props.logout();
-        this.props.logoutUser();
-    }
+_update=()=>{
+    if(this.props.token!= undefined)
+    this.props.getUserInfo(this.props.token);
+    
+}
+    
     
     render() {
 
@@ -123,6 +129,7 @@ class Home extends Component {
         if (this.props.logged) {
 
             return (
+                <PTRView onRefresh={this._update} >
                 <ScrollView style={{backgroundColor:'#eeeeee'}}>
                 <View>
                
@@ -140,6 +147,7 @@ shadowColor: 'black',
 shadowOpacity: 1.0
                     }
                 }>
+                
                     <View style={styles.homeHeader}>
                     <View style={styles.userImageContainer}>    
                         <Image style={styles.userImage} source={{uri: 'https://i.imgur.com/XXJ7LxV.jpg'}}/>
@@ -147,6 +155,7 @@ shadowOpacity: 1.0
                     <Text style={styles.userText}>{this.props.user.Name}</Text>
                    
                     <Text style={styles.userTextSub}>{this.props.user.Company}</Text>
+           
                     </View>
                 
                     </ImageBackground>
@@ -185,18 +194,31 @@ shadowOpacity: 1.0
                     
                     </View>
                     <View style={styles.userStats}> 
-                      
-                     
-                     
-
+                       
+                        <Text style={styles.userStatsTitle}>O meu saldo:</Text>
+                        <View style={styles.userStatsBox}>
+                            <View style={styles.userBox}>
+                                <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
+                                <Text style={styles.userBoxText}>0 Fino(s)</Text>
+                            </View>
+                            <View style={styles.userBox}>
+                                <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
+                                <Text style={styles.userBoxText}>0 Fino(s)</Text>
+                            </View>
+                            <View style={styles.userBox}>
+                                <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
+                                <Text style={styles.userBoxText}>0 Fino(s)</Text>
+                            </View>
+                        </View>
                     </View>
 
-                    <Button onPress={this._logout} title="LOGOUT"/>
+             
                     
                   
 
                 </View>
                 </ScrollView>
+                </PTRView>
             );
         }
         else {
@@ -214,7 +236,24 @@ shadowOpacity: 1.0
 }
 
 const styles = StyleSheet.create({
+    userBoxText:{
+        color:'white',
+        fontWeight:'bold'
+    },
+    userStatsBoxIcon:{
+color:'white'
+    },
+  userStatsBox:{
+    flex:1,
+    flexDirection:'row'
+  },
+userBox:{
+    alignItems:'center',
+    justifyContent:'center',
+    width:'33%',
+  
 
+},
     userCurriculum:{
         paddingTop:5,
         color:'red',
@@ -280,7 +319,14 @@ const styles = StyleSheet.create({
         padding:10,
         margin:9,
         borderRadius:5,
-      marginTop:0,
+        marginTop:0,
+       
+    },
+    userStatsTitle:{
+        color:'white',
+        fontSize:17,
+        fontWeight:'bold',
+        padding:1
     },
     userImageContainer:{
         alignSelf: 'center',
