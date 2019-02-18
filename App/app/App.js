@@ -195,7 +195,7 @@ class App extends Component {
           <Button onPress={this.props.closeLoginQRScan} title={"Fechar scanner"}> </Button>
 
             <QRCodeScanner
-        onRead={this.onSuccess.bind(this)}
+        onRead={this.onSuccess}
         cameraStyle={ styles.cameraContainer}
        
         

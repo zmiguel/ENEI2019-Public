@@ -1,5 +1,9 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {
+    TouchableOpacity,
+    Text,
+    View
+} from 'react-native';
 import {
     createStackNavigator,
     createAppContainer,
@@ -26,21 +30,23 @@ import Icon from "react-native-vector-icons/Ionicons"
 import IconF from "react-native-vector-icons/Foundation"
 import IconFA from "react-native-vector-icons/FontAwesome5"
 import Profile from "./screens/Profile";
+import editCalendar from './screens/editCalendar';
+import choosePath from './screens/choosePath';
 
 
 const AppStack = createBottomTabNavigator(
     {
-        Home: {
-            screen: Home,
+        Calendar: {
+            screen: Calendar,
+
             navigationOptions: {
 
                 tabBarIcon: ({tintColor}) => (
-                    <Icon name="md-home" color={tintColor} size={30}/>
+                    <IconF name="calendar" color={tintColor} size={30}/>
                 )
             },
         },
-
-
+       
         Social: {
             screen: Social,
 
@@ -62,18 +68,8 @@ const AppStack = createBottomTabNavigator(
             },
         },
 
-        Calendar: {
-            screen: Calendar,
-
-            navigationOptions: {
-
-                tabBarIcon: ({tintColor}) => (
-                    <IconF name="calendar" color={tintColor} size={30}/>
-                )
-            },
-        },
-
-        Eventos: {
+       
+ Eventos: {
             screen: Eventos,
 
             navigationOptions: {
@@ -83,6 +79,17 @@ const AppStack = createBottomTabNavigator(
                 )
             },
         },
+       
+        Home: {
+            screen: Home,
+            navigationOptions: {
+
+                tabBarIcon: ({tintColor}) => (
+                    <Icon name="md-home" color={tintColor} size={30}/>
+                )
+            },
+        },
+
 
 
     },
@@ -106,7 +113,7 @@ const Stack = createStackNavigator({
         navigationOptions: ({navigation}) => {
             const index = navigation.state.index;
 
-            if (navigation.state.routes[index].routeName !== 'Scan') {
+            if (navigation.state.routes[index].routeName == 'Home') {
                 return {
                     headerTitle: `${navigation.state.routes[index].routeName}`,
                     headerRight: (
@@ -115,7 +122,27 @@ const Stack = createStackNavigator({
                         </TouchableOpacity>
                     )
                 }
-            } else {
+            }
+            else if(navigation.state.routes[index].routeName == 'Calendar'){
+                return {
+                    headerTitle: 'Calendário',
+                    headerRight: (
+                        <View style={{flex:1, flexDirection:'row'}}>   
+                            <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('Edit')}>
+                        <Text>FAQ</Text>
+                      
+                     </TouchableOpacity>
+
+                         <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('choosePath')}>
+                         <Text>Escolher</Text>
+                          <IconFA name="user-edit" size={22}/>
+                      </TouchableOpacity></View>
+                     
+                    )
+                }
+            } 
+          
+            else {
                 return {
                     header: null
                 }
@@ -124,7 +151,15 @@ const Stack = createStackNavigator({
     },
     Profile: {
         screen: Profile
+    },
+    Edit:{
+        screen: editCalendar
+    },
+    choosePath:{
+        screen: choosePath
     }
+
+    
 
 });
 

@@ -76,6 +76,7 @@ class Calendar extends React.Component {
                     </View>
 
                 </View>
+                
             </View>
         );
     }
@@ -129,40 +130,6 @@ class Calendar extends React.Component {
         this.data = [
 
 
-            {
-                time: '09:30',
-                title: 'Sessão de Check-In',
-                description: 'Os participantes devem fazer o check-in e recolher o kit fornecido pela organização',
-                lineColor: '#009688',
-                icon: ArcheryImage,
-                imageUrl: 'https://blogsimages.adobe.com/conversations/files/2014/03/Check_In-1.jpg'
-            },
-            {
-                time: '17:45',
-                title: 'Sessão de Abertura',
-                lineColor: '#009688',
-                description: 'Bem vindo a Coimbra, a cidade dos estudantes! Obrigado por participares na 13ª edição do ENEI.',
-                icon: BadmintonImage,
-                imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png'
-            },
-            {
-                time: '19:30',
-                title: 'Jantar',
-                lineColor: '#009688',
-                description: 'Time to eat',
-                icon: BadmintonImage,
-                imageUrl: 'https://www.retailmenot.com/blog/wp-content/uploads/2016/08/kids-eat-free-hero1-1471459190.jpg'
-            },
-
-            {
-                time: '23:30',
-                title: 'Festarola',
-                lineColor: '#009688',
-                description: 'Sabes beber? Se não sabes, aprende com os da casa!',
-                icon: BadmintonImage,
-                imageUrl: 'http://www.revistaversatille.com.br/wp-content/uploads/Party.jpg'
-            },
-
 
         ]
     }
@@ -175,7 +142,7 @@ class Calendar extends React.Component {
             <ScrollView contentContainerStyle={styles.contentContainer}>
 
 
-                <Button onPress={this._update} title="LOGOUT"/>
+             
                 <Timeline
 
                     data={this.props.events}
@@ -261,6 +228,7 @@ class Calendar extends React.Component {
                     third: ThirdRoute,
                     fourth: FourthRoute
                 })}
+                useNativeDriver
                 onIndexChange={index => this.setState({index})}
                 initialLayout={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}
             />
