@@ -15,7 +15,7 @@ export function getEvents(user){
       events.push({
           time: moment(user.Sessions[key].SessionStart).format('h:mm'),
           timeEnd: moment(user.Sessions[key].SessionEnd).format('h:mm'),
-          lineColor:'#009688',
+          //lineColor:'#009688',
           imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
           description:user.Sessions[key].Description,
           name:user.Sessions[key].Name,

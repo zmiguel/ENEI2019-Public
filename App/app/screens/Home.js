@@ -160,7 +160,25 @@ shadowOpacity: 1.0
                 
                     </ImageBackground>
                  
-                 
+                    <View style={styles.userStats}> 
+                       
+                       <Text style={styles.userStatsTitle}>O meu saldo:</Text>
+                       <View style={styles.userStatsBox}>
+                           <View style={styles.userBox}>
+                               <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
+                               <Text style={styles.userBoxText}>0 Fino(s)</Text>
+                           </View>
+                           <View style={styles.userBox}>
+                               <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
+                               <Text style={styles.userBoxText}>0 Fino(s)</Text>
+                           </View>
+                           <View style={styles.userBox}>
+                               <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
+                               <Text style={styles.userBoxText}>0 Fino(s)</Text>
+                           </View>
+                       </View>
+                   </View>
+
                   
 
                     <View style={styles.userBio}>
@@ -193,25 +211,7 @@ shadowOpacity: 1.0
                     
                     
                     </View>
-                    <View style={styles.userStats}> 
-                       
-                        <Text style={styles.userStatsTitle}>O meu saldo:</Text>
-                        <View style={styles.userStatsBox}>
-                            <View style={styles.userBox}>
-                                <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
-                                <Text style={styles.userBoxText}>0 Fino(s)</Text>
-                            </View>
-                            <View style={styles.userBox}>
-                                <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
-                                <Text style={styles.userBoxText}>0 Fino(s)</Text>
-                            </View>
-                            <View style={styles.userBox}>
-                                <Icon name="ios-beer" style={styles.userStatsBoxIcon} size={50}/>
-                                <Text style={styles.userBoxText}>0 Fino(s)</Text>
-                            </View>
-                        </View>
-                    </View>
-
+              
              
                     
                   
@@ -317,9 +317,11 @@ userBox:{
         backgroundColor:'#CC1A17',
         height: SCREEN_HEIGHT*0.2,
         padding:10,
-        margin:9,
+        margin:10,
         borderRadius:5,
-        marginTop:0,
+        marginTop:10,
+       marginBottom:0
+
        
     },
     userStatsTitle:{
