@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190214193256_uo")]
-    partial class uo
+    [Migration("20190221000457_a")]
+    partial class a
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,30 +87,6 @@ namespace api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("api.Models.EventQR", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Event");
-
-                    b.Property<int>("EventLocId");
-
-                    b.Property<int>("Pontos");
-
-                    b.Property<string>("QRData");
-
-                    b.Property<int>("TeamId");
-
-                    b.Property<DateTime>("TimeGen");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("EventQR");
-                });
-
             modelBuilder.Entity("api.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -156,40 +132,40 @@ namespace api.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("api.Models.Team", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Event");
-
-                    b.Property<string>("Nome");
-
-                    b.Property<int>("NumMemb");
-
-                    b.Property<int>("Pontos");
-
-                    b.Property<int>("VisitedNum");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
-                });
-
             modelBuilder.Entity("api.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("About");
+
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("Adress");
+
+                    b.Property<int>("Age");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Company");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Country");
+
+                    b.Property<string>("Degree");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<string>("FullName");
+
+                    b.Property<string>("Gender");
+
+                    b.Property<DateTime>("LastLogin");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -203,20 +179,34 @@ namespace api.Migrations
 
                     b.Property<string>("PasswordHash");
 
+                    b.Property<int>("Phone");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("Position");
+
+                    b.Property<string>("ProfileIcon");
+
                     b.Property<string>("QRcode");
+
+                    b.Property<DateTime>("Registed");
+
+                    b.Property<string>("Role");
+
+                    b.Property<int>("SchoolYear");
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int?>("TeamId");
-
                     b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("University");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("linkedIn");
 
                     b.HasKey("Id");
 
@@ -226,8 +216,6 @@ namespace api.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -289,27 +277,12 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("api.Models.EventQR", b =>
-                {
-                    b.HasOne("api.Models.Team")
-                        .WithMany("QRs")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("api.Models.Photo", b =>
                 {
                     b.HasOne("api.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("api.Models.User", b =>
-                {
-                    b.HasOne("api.Models.Team")
-                        .WithMany("Users")
-                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("api.Models.UserRole", b =>

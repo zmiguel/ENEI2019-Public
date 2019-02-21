@@ -85,30 +85,6 @@ namespace api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("api.Models.EventQR", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Event");
-
-                    b.Property<int>("EventLocId");
-
-                    b.Property<int>("Pontos");
-
-                    b.Property<string>("QRData");
-
-                    b.Property<int>("TeamId");
-
-                    b.Property<DateTime>("TimeGen");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("EventQR");
-                });
-
             modelBuilder.Entity("api.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -154,26 +130,6 @@ namespace api.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("api.Models.Team", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Event");
-
-                    b.Property<string>("Nome");
-
-                    b.Property<int>("NumMemb");
-
-                    b.Property<int>("Pontos");
-
-                    b.Property<int>("VisitedNum");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
-                });
-
             modelBuilder.Entity("api.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -209,8 +165,6 @@ namespace api.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int?>("TeamId");
-
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
@@ -224,8 +178,6 @@ namespace api.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -287,27 +239,12 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("api.Models.EventQR", b =>
-                {
-                    b.HasOne("api.Models.Team")
-                        .WithMany("QRs")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("api.Models.Photo", b =>
                 {
                     b.HasOne("api.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("api.Models.User", b =>
-                {
-                    b.HasOne("api.Models.Team")
-                        .WithMany("Users")
-                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("api.Models.UserRole", b =>
