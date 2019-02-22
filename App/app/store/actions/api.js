@@ -1,9 +1,20 @@
 import { AsyncStorage } from 'react-native';
+const axios = require('axios');
+
+import { NetInfo } from 'react-native';
 
 
 import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "./actionTypes" //Import the actions types constant we defined in our actions
 import moment from 'moment'
  
+
+export const connectionState = (status) => {
+    console.log(status);
+    return { type: 'CHANGE_CONNECTION_STATUS', isConnected: status };
+  };
+
+
+
 export function getEvents(user){
     return (dispatch)=>{
     let events = [];
@@ -68,6 +79,7 @@ const saveToken = async token => {
         obj.expirationDateToken = await AsyncStorage.getItem('expirationDateToken') || 'none';
         obj.refreshToken = await AsyncStorage.getItem('refreshToken') || 'none';
      
+         
 
     } catch (error) {
       // Error retrieving data
@@ -160,7 +172,7 @@ export function login(user, pass){
             }
             var obj={
                 access_token:parsed.access_token,
-                expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
+                expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
                 refreshToken:parsed.refresh_token,
                 valid:true
             };
@@ -240,13 +252,15 @@ export function getUserInfo(token){
     
             .then(function(res) {
               
-                
+                console.log(res);
                 let obj = JSON.parse(res._bodyText);
 
                 dispatch({ type: USER_INFO, user: obj,onHold:false, logged:true });
     
             }).catch(function(res){
-                dispatch({ type: USER_INFO, user: '',onHold:false, logged:true });
+
+                console.log("erro")
+              //  dispatch({ type: USER_INFO,onHold:false});
             })
         
        
@@ -288,7 +302,7 @@ export function checkUser(){
                 
                 a.valid=false;
                 
-                console.log('check user deu falso')
+                console.log('token não existe em memória')
                 
                 dispatch({type: CHECK_USER,token:a,logged:false, onHold:false});
               
@@ -297,25 +311,23 @@ export function checkUser(){
                 
                 a.valid=true;
 
-
-                console.log('Existe Token em memória' )
+                console.log('Existe Token em memória :'+  a.refreshToken )
 
                 //se expirar 
                 if(Math.round(new Date().getTime()/1000) >= a.expirationDateToken){
 
                     refresh=a.refreshToken
-                    //  a.valid=false;
-
+                
                     //chamar funçao para renovar
                     console.log("expirou")
                     
                     var details = {
         
-    
                         'grant_type': 'refresh_token',
                         'refresh_token':refresh 
                 
                     };
+
                     var formBody = [];
                 
                     for (var property in details) {
@@ -330,8 +342,6 @@ export function checkUser(){
                 
                     formBody = formBody.join("&");
                 
-        
-                
                     fetch('http://enei2019.uingress.com/internal/api/token', {
                 
                         method: 'POST',
@@ -345,16 +355,18 @@ export function checkUser(){
                 
                     }).then(res=>res.json()).then(parsed=>{
                 
-                    
                         console.log(parsed);
 
                         if(parsed.error=='invalid_grant'){
+
                             console.log(formBody);
-                            dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});             
+                            dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});    
+
                         }else{
+
                         var obj={
                             access_token:parsed.access_token,
-                            expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
+                            expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
                             refreshToken:parsed.refresh_token,
                             valid:true
 
@@ -363,7 +375,7 @@ export function checkUser(){
                    
                        // deleteToken();  
                         saveToken(obj).then(a=>{
-                            console.log("saved" )
+                            console.log("Token guardado" )
                             console.log(obj)
                             dispatch({type: CHECK_USER, token:obj, logged:true, onHold:false});             
                 
@@ -372,7 +384,7 @@ export function checkUser(){
                         
                     
                     }).catch(a=>{
-                        console.log("Putasss")
+                        console.log("erro na api")
                         dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});             
                     })
 
@@ -384,7 +396,7 @@ export function checkUser(){
     
                     //fazer validação da data e renovar o token
     
-                    dispatch({type: CHECK_USER, token:a, logged:true, onHold:false});
+                    dispatch({type: CHECK_USER, token:a, logged:true, onHold:false, user:{Name:'Henrique'}});
                 }
 
             }
@@ -392,8 +404,8 @@ export function checkUser(){
            
         }).catch(a=>{
 
-            console.log('erros');
-            dispatch({type: CHECK_USER,token:false, logged:false});
+            console.log('erro a ler o token'+  a);
+            dispatch({type: CHECK_USER,token:false, logged:false, user:''});
         })
 
     

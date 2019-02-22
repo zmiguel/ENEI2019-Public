@@ -39,7 +39,7 @@ const FourthRoute = () => (
 
 
 class Calendar extends React.Component {
-
+    
     state = {
         index: 0,
         routes: [
@@ -58,11 +58,16 @@ class Calendar extends React.Component {
         console.log(this.props.events);
     }
 
+    _openDetails=()=>{
+
+        console.log("los");
+    }
 
     renderDetail = ({item, index}) => {
+        const {navigate} = this.props.navigation;
         //  <Image source={{ uri:item.imageUrl, width:'100%' , height:100 }} style={{borderRadius:0}}/>
         return (
-
+            <TouchableOpacity  onPress={() => navigate('calendarDetail', { info: item })} >
 
             <View style={styles.event}>
                 <View style={styles.titleContainer}>
@@ -82,6 +87,7 @@ class Calendar extends React.Component {
                 </View>
                 
             </View>
+            </TouchableOpacity>
         );
     }
 
@@ -133,7 +139,6 @@ class Calendar extends React.Component {
 
         super()
 
-
         const archeryImgSource = require('../assets/img/archery.png');
         const badmintonImgSource = require('../assets/img/badminton.png');
         const lunchImgSource = require('../assets/img/lunch.png');
@@ -158,11 +163,57 @@ class Calendar extends React.Component {
 
         const FirstRoute = () => (
 
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+
+                <Timeline
+
+                    data={this.props.events}
+
+                    timeContainerStyle={{ marginTop: 0}}
+
+                    timeStyle={{
+
+                        textAlign: 'center',
+                       // backgroundColor: 'red',
+                       
+                        height:100,
+                        color:"#CC1A17",
+                        padding: 5,
+                        //marginTop:10,
+                      //  fontWeight:'bold',
+                        fontSize:23,
+                        
+                        //borderRadius: 13
+                    }}
+                    
+                    descriptionStyle={{color: 'red'}}
+
+                    renderDetail={this.renderDetail}
+
+                    lineColor='rgba(0,0,0,0)'
+                    lineWidth={1}
+                    separator={false}
+                    flatListProps={{
+                        style: {
+
+                            margin: 15
+                        }
+
+
+                    }}
+                    keyExtractor={(item, index) => index.toString()}
+
+
+                />
+
+
+            </ScrollView>
+
+        )
+        const SecondRoute = () => (
 
             <ScrollView contentContainerStyle={styles.contentContainer}>
 
-
-             
                 <Timeline
 
                     data={this.props.events}
@@ -209,56 +260,21 @@ class Calendar extends React.Component {
 
         )
 
-        const SecondRoute = () => (
-
-
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-
-                <Timeline
-
-
-                    data={this.props.events}
-
-                    timeContainerStyle={{minWidth: 52, marginTop: 0}}
-
-                    timeStyle={{
-                        textAlign: 'center',
-                        backgroundColor: '#ff9797',
-                        color: 'white',
-                        padding: 5,
-                        borderRadius: 13
-                    }}
-                   
-                  
-                   
-                 //   descriptionStyle={{color: 'gray'}}
-                   
-                    lineWidth={0}
-                   
-                    renderDetail={this.renderDetail}
-                  
-                    lineColor={'red'}
-
-                    flatListProps={{
-                        style: {
-
-                          //  margin: 15
-                        }
-
-
-                    }}
-
-                    keyExtractor={(item, index) => index.toString()}
-
-
-                />
-
-
-            </ScrollView>
-
-        )
+      
         return (
-           
+           <View style={{flex:1}}>
+           <View>
+               <Text style={{
+                   backgroundColor:"#CC1A17",
+                   color:'white',
+                   fontWeight:'bold',
+                   fontSize:15,
+                   textAlign:'center',
+
+                   }}>
+               WEB DEVELOPMENT
+               </Text>
+           </View>
             <TabView
                 navigationState={this.state}
                 renderScene={SceneMap({
@@ -274,6 +290,7 @@ class Calendar extends React.Component {
                 style={{backgroundColor:"#F2F2F2"}}
                 indicatorStyle={{ backgroundColor: 'pink' }}
             />
+            </View>
         );
     }
 }
@@ -282,13 +299,24 @@ const styles = StyleSheet.create({
     tabBar: {
         flexDirection: 'row',
         paddingTop:0,
+        marginTop:0,
+        backgroundColor:'white',
+        borderWidth: 1,
+        borderRadius: 2,
+        borderColor: '#ddd',
+        borderBottomWidth: 0,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 2,
     
-        backgroundColor:'white'
+       
       },
       tabItem: {
         flex: 1,
         alignItems: 'center',
-        padding: 16,
+        padding: 10,
       },
     details: {
         backgroundColor: "#FFFFFF",
@@ -316,8 +344,14 @@ const styles = StyleSheet.create({
     event: {
         borderRadius: 5,
         backgroundColor: "#FFFFFF",
-        marginLeft:-25
+        marginLeft:-25,
 
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2,},
+        shadowOpacity: 0.25,
+        shadowRadius: 1,
+        elevation: 2,
+        marginRight:2
 
 
     },

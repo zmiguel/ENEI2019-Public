@@ -31,8 +31,6 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import FitImage from 'react-native-fit-image';
 
-import { Dropdown } from 'react-native-material-dropdown';
-
 
 const formatObj = (obj) => {
 
@@ -46,7 +44,7 @@ const formatObj = (obj) => {
 
 
 
-class choosePath extends React.Component {
+class calendarDetail extends React.Component {
 
     state = {
      
@@ -67,9 +65,9 @@ class choosePath extends React.Component {
     }
 
 
-    constructor() {
+    constructor(props) {
 
-        super()
+        super(props)
 
 
 
@@ -81,25 +79,15 @@ class choosePath extends React.Component {
     }
 
     render() {
-        let data = [{
-          value: 'Desenvolvimento Web',
-        }, {
-          value: 'Inteligencia artificial',
-        }, {
-          value: 'Redes e segurança',
-        }];
-     
+        const { navigation } = this.props;
+        const info = navigation.getParam('info', 'error');
+        console.log(info);
         return (
-            <View style={{width:SCREEN_WIDTH*0.7}}>
-                 <Dropdown
-            label='Career Path'
-            data={data}
-    
-          />
+            <View>
+                <Text>{info.name}, {info.description}</Text>
             </View>
-         
-        );
-      }
+        )
+    }
  
 }
 
@@ -192,4 +180,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(Actions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(choosePath);
+export default connect(mapStateToProps, mapDispatchToProps)(calendarDetail);

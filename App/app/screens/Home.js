@@ -10,7 +10,8 @@ import {
     Dimensions,
     StyleSheet,
     Image,
-    ImageBackground
+    ImageBackground, 
+    NetInfo
 } from 'react-native';
 
 import {Shadow} from 'react-native-shadow'
@@ -38,17 +39,6 @@ import {Card, Divider} from 'react-native-elements'
 
 import RNMaterialShadows from 'react-native-material-shadows';
  
-const shadowOpt = {
-    width:100,
-    height:100,
-    color:"#000",
-    border:2,
-    radius:3,
-    opacity:0.2,
-    x:0,
-    y:3,
-    style:{marginVertical:5}
-}
 
 class Home extends Component {
     
@@ -73,9 +63,11 @@ class Home extends Component {
             user: {Name: ''}
         };
     }
-
+  handleConnectivityChange = () => {
+      console.log("asdasdasdasdasd");
+      }
     componentDidMount() {
-
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
 
         this.props.hold();
         //this.props.logoutUser();
@@ -92,6 +84,9 @@ class Home extends Component {
      
 
     }
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+     }
 
     bClick() {
 
@@ -142,9 +137,6 @@ _update=()=>{
                         
                       //  marginTop:150,
                         backgroundColor: 'rgba(255,255,255,1)' , 
-                 shadowOffset:{ width: 10, height: 10, },
-shadowColor: 'black',
-shadowOpacity: 1.0
                     }
                 }>
                 

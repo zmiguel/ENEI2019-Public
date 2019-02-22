@@ -32,6 +32,7 @@ import IconFA from "react-native-vector-icons/FontAwesome5"
 import Profile from "./screens/Profile";
 import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
+import calendarDetail from './screens/calendarDetail';
 
 
 const AppStack = createBottomTabNavigator(
@@ -63,7 +64,7 @@ const AppStack = createBottomTabNavigator(
 
             navigationOptions: {
                 tabBarIcon: ({tintColor}) => (
-                    <Icon name="ios-qr-scanner" color={tintColor} size={45}/>
+                    <Icon name="ios-qr-scanner" color={tintColor} size={30}/>
                 ),
             },
         },
@@ -85,7 +86,7 @@ const AppStack = createBottomTabNavigator(
             navigationOptions: {
 
                 tabBarIcon: ({tintColor}) => (
-                    <Icon name="md-home" color={tintColor} size={30}/>
+                    <Icon name="ios-person" color={tintColor} size={30}/>
                 )
             },
         },
@@ -97,8 +98,8 @@ const AppStack = createBottomTabNavigator(
         initialRouteName: 'Home',
 
         tabBarOptions: {
-            showLabel: false, // hide labels
-            activeTintColor: '#858683', // active icon color
+            showLabel: true, // hide labels
+            activeTintColor: '#CC1A17', // active icon color
             inactiveTintColor: '#d8d6c9',  // inactive icon color
             style: {
                 backgroundColor: '#fff' // TabBar background
@@ -117,8 +118,11 @@ const Stack = createStackNavigator({
                 return {
                     headerTitle: `${navigation.state.routes[index].routeName}`,
                     headerRight: (
-                        <TouchableOpacity style={{marginRight: 20}} onPress={() => navigation.navigate('Profile')}>
+                        <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('Profile')}>
+                       
+                            <Text>editar</Text>
                             <IconFA name="user-edit" size={22}/>
+                       
                         </TouchableOpacity>
                     )
                 }
@@ -157,6 +161,9 @@ const Stack = createStackNavigator({
     },
     choosePath:{
         screen: choosePath
+    },
+    calendarDetail:{
+        screen:calendarDetail
     }
 
     
