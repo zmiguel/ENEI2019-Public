@@ -4,7 +4,7 @@ $white: #ffffff;
 $grey: #777777;
 $light-grey: #eeeeee;
 $dark-grey: #353535;
-$red: #e82d28;
+$red: #cc1a17;
 $dark-blue: #080014;
 
 //dimensions
@@ -16,10 +16,15 @@ $standard-animation-time: 150ms;
 $transition-time: 150ms;
 
 //fonts name
-$bai-font: "Bai Jamjuree";
+$mont-font: "Bai Jamjuree";
+
+//fonts weight
+$regular: 400;
+$semi-bold: 600;
+$bold: 700;
 
 /*@font-face {
-    font-family: 'Bai Jamjuree', sans-serif;
+    font-family: 'mont Jamjuree', sans-serif;
     src: url('fonts/Champagne-Limousines.eot?#iefix') format('embedded-opentype'),
     url('fonts/Champagne-Limousines.woff') format('woff'),
     url('fonts/Champagne-Limousines.ttf') format('truetype'),
@@ -63,19 +68,18 @@ $bai-font: "Bai Jamjuree";
 //icons
 $icomoon-font-path: "fonts" !default;
 
-$icon-menu: "\e903";
-$icon-plus: "\e900";
-$icon-less: "\e901";
-$icon-facebook: "\f09a";
-$icon-linkedin: "\f0e1";
-$icon-instagram: "\f16d";
 $icon-email: "\e902";
+$icon-instagram: "\e900";
+$icon-facebook: "\e901";
+$icon-linkedin: "\e904";
+$icon-menu: "\e903";
+$icon-plus: "\e905";
+$icon-less: "\e906";
 
 @font-face {
 	font-family: "icomoon";
 	src: url("#{$icomoon-font-path}/icomoon.eot?sozc77");
-	src: url("#{$icomoon-font-path}/icomoon.eot?sozc77#iefix")
-			format("embedded-opentype"),
+	src: url("#{$icomoon-font-path}/icomoon.eot?sozc77#iefix") format("embedded-opentype"),
 		url("#{$icomoon-font-path}/icomoon.ttf?sozc77") format("truetype"),
 		url("#{$icomoon-font-path}/icomoon.woff?sozc77") format("woff"),
 		url("#{$icomoon-font-path}/icomoon.svg?sozc77#icomoon") format("svg");
@@ -105,14 +109,8 @@ $icon-email: "\e902";
 .icon-less,
 .icon-plus,
 .icon-email {
-	font-size: 36px;
+	font-size: 34px;
 	color: $white;
-	@include portable {
-		font-size: 33px;
-	}
-	@include mobile {
-		font-size: 32px;
-	}
 }
 
 .icon-plus {
@@ -189,9 +187,18 @@ img {
 	height: auto;
 }
 
+h1,
+h2,
+h3,
+h4 {
+	font-family: $mont-font;
+}
+
 h1 {
-	@include font($bai-font, 38px, 34px, $dark-grey);
-	font-weight: 700;
+	font-size: 38px;
+	line-height: 34px;
+	color: $dark-grey;
+	font-weight: $bold;
 	text-transform: uppercase;
 	margin-bottom: 20px;
 	@include portable {
@@ -203,14 +210,23 @@ h1 {
 	}
 }
 
-h3 {
-	letter-spacing: 1px;
-	font-weight: normal;
-	margin-bottom: 20px;
+h2 {
+	font-size: 28px;
+	line-height: 30px;
+	color: $dark-grey;
+	font-weight: $bold;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+	@include portable {
+		font-size: 24px;
+	}
+	@include mobile {
+		font-size: 20px;
+	}
 }
 
 p {
-	@include font($bai-font, 20px, 28px, $grey);
+	@include font($mont-font, 20px, 32px, $grey);
 	@include portable {
 		font-size: 16px;
 		line-height: 24px;
@@ -219,7 +235,7 @@ p {
 
 label {
 	display: inline-block;
-	@include font($bai-font, 22px, 22px, $dark-grey);
+	@include font($mont-font, 22px, 22px, $dark-grey);
 	margin-bottom: 10px;
 	@include portable {
 		font-size: 20px;
@@ -228,7 +244,7 @@ label {
 }
 
 input {
-	@include font($bai-font, 22px, 22px, $dark-grey);
+	@include font($mont-font, 22px, 22px, $dark-grey);
 	padding: 20px 35px;
 	border: 1px solid $light-grey;
 	margin-bottom: 25px;
@@ -276,10 +292,8 @@ input[type="submit"] {
 	background-color: $red;
 	border-color: $red;
 	color: $white;
-	transition: color $standard-animation-time ease,
-		background-color $standard-animation-time ease;
-	-webkit-transition: color $standard-animation-time ease,
-		background-color $standard-animation-time ease;
+	transition: color $standard-animation-time ease, background-color $standard-animation-time ease;
+	-webkit-transition: color $standard-animation-time ease, background-color $standard-animation-time ease;
 	cursor: pointer;
 	&:hover {
 		background-color: $white;
@@ -295,6 +309,32 @@ select {
 
 .btn {
 	display: block;
+}
+
+.btn-default {
+	font-family: "Bai Jamjuree", sans-serif;
+	font-size: 17px;
+	line-height: 21px;
+	color: #353535;
+	display: table;
+	margin: 0 auto;
+	background-color: white;
+	font-weight: 700;
+	margin-top: 40px;
+	text-transform: uppercase;
+	border: 1px solid #eeeeee;
+	padding: 15px 60px;
+	transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+	-webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+	&:hover {
+		border-color: $red;
+		background-color: $red;
+		color: $white;
+	}
+	@include mobile {
+		display: inline-block;
+		margin-top: 30px;
+	}
 }
 
 hr {
@@ -343,9 +383,9 @@ hr {
 	width: 100%;
 	&.changed {
 		nav {
-			background-color: rgba(0, 0, 0, 0.75);
+			background-color: rgba(0, 0, 0, 0.8);
 			@include mobile {
-				background-color: rgba(0, 0, 0, 0.8);
+				background-color: rgba(0, 0, 0, 0.9);
 			}
 		}
 	}
@@ -355,11 +395,11 @@ hr {
 		width: 100%;
 		max-width: 1140px;
 		padding: 25px 15px;
-		background-color: rgba(0, 0, 0, 0.3);
+		background-color: rgba(0, 0, 0, 0.6);
 		transition: background-color $transition-time ease-out;
 		-webkit-transition: background-color $transition-time ease-out;
 		@include portable {
-			padding: 15px 30px;
+			padding: 20px 30px;
 		}
 		@include mobile {
 			padding: 0;
@@ -367,7 +407,9 @@ hr {
 		}
 		#open-menu-mobile {
 			display: none;
-			@include font($bai-font, 18px, 22px, $white);
+			@include font($mont-font, 18px, 22px, $white);
+			font-weight: $semi-bold;
+			letter-spacing: 2px;
 			text-transform: uppercase;
 			text-align: left;
 			padding: 15px 20px;
@@ -378,6 +420,7 @@ hr {
 			&::after {
 				content: $icon-menu;
 				@include font("icomoon", 22px, 20px, $white);
+				font-weight: $regular;
 				float: right;
 			}
 		}
@@ -388,7 +431,8 @@ hr {
 			}
 			li {
 				display: inline-block;
-				@include font($bai-font, 19px, 21px, $white);
+				@include font($mont-font, 19px, 21px, $white);
+				font-weight: $semi-bold;
 				margin: 0 20px;
 				text-transform: uppercase;
 				@include portable {
@@ -398,7 +442,7 @@ hr {
 				}
 				@include mobile {
 					width: 100%;
-					margin: 5px 0;
+					margin: 10px 0;
 				}
 				&.unavailable {
 					text-decoration: line-through;
@@ -419,10 +463,13 @@ hr {
 					}
 					&::after {
 						content: " ";
-						@include position(absolute, null, null, -10px, 0);
-						@include size(0, 1px);
+						@include position(absolute, null, null, -8px, 0);
+						@include size(0, 3px);
 						background-color: $red;
 						transition: width $transition-time ease-out;
+						@include portable {
+							bottom: -6px;
+						}
 						@include mobile {
 							display: none;
 						}
@@ -445,23 +492,17 @@ hr {
 		background-attachment: inherit;
 	}
 	.logo-enei {
-		width: 450px;
-		@include position(
-			absolute,
-			calc(50% - 210px),
-			null,
-			null,
-			calc(50% - 225px)
-		);
+		width: 221px;
+		@include position(absolute, calc(50% - 166px), null, null, calc(50% - 110px));
 		@include portable {
-			width: 350px;
-			top: calc(50% - 163px);
-			left: calc(50% - 175px);
+			width: 175px;
+			top: calc(50% - 131px);
+			left: calc(50% - 87px);
 		}
 		@include mobile {
-			width: 200px;
-			top: calc(50% - 93px);
-			left: calc(50% - 100px);
+			width: 125px;
+			top: calc(50% - 70px);
+			left: calc(50% - 62px);
 		}
 	}
 }
@@ -469,9 +510,9 @@ hr {
 #enei {
 	background-color: $white;
 	background: url("imgs/cubes-image.png") no-repeat top right;
-	background-size: 24%;
+	background-size: 20%;
 	@include portable {
-		background-size: 20%;
+		background-size: 25%;
 	}
 	@include mobile {
 		background-image: none;
@@ -479,7 +520,8 @@ hr {
 }
 
 .pre-h1 {
-	@include font($bai-font, 20px, 22px, $grey);
+	@include font($mont-font, 20px, 22px, $grey);
+	font-weight: $semi-bold;
 	text-transform: uppercase;
 	margin-bottom: 10px;
 	@include portable {
@@ -510,8 +552,8 @@ hr {
 			margin: 0 5px;
 		}
 		span {
-			@include font($bai-font, 86px, 66px, $white);
-			font-weight: 700;
+			@include font($mont-font, 86px, 66px, $white);
+			font-weight: $bold;
 			display: block;
 			margin-bottom: 20px;
 			@include portable {
@@ -525,8 +567,8 @@ hr {
 			}
 		}
 		.smalltext {
-			@include font($bai-font, 25px, 25px, $red);
-			font-weight: 700;
+			@include font($mont-font, 25px, 25px, $red);
+			font-weight: $bold;
 			display: block;
 			@include portable {
 				font-size: 22px;
@@ -608,9 +650,9 @@ hr {
 #precos {
 	text-align: center;
 	position: relative;
-	@include portable {
+	/*@include portable {
 		padding-bottom: 100px;
-	}
+	}*/
 	hr {
 		display: table;
 		margin: 0 auto 60px;
@@ -661,8 +703,8 @@ hr {
 			}
 		}
 		.price {
-			@include font($bai-font, 58px, 58px, $dark-grey);
-			font-weight: 400;
+			@include font($mont-font, 58px, 58px, $dark-grey);
+			font-weight: $semi-bold;
 			@include mobile {
 				margin: 20px 0;
 			}
@@ -680,7 +722,8 @@ hr {
 			}
 		}
 		.label {
-			@include font($bai-font, 22px, 22px, $grey);
+			@include font($mont-font, 22px, 22px, $grey);
+			font-weight: $semi-bold;
 			margin-top: 10px;
 		}
 		.type {
@@ -688,22 +731,20 @@ hr {
 			padding: 20px 0;
 			background-color: $red;
 			text-align: center;
-			@include font($bai-font, 18px, 18px, $white);
-			font-weight: 700;
+			@include font($mont-font, 18px, 18px, $white);
+			font-weight: $bold;
 			text-transform: uppercase;
 			margin-top: -1px;
 		}
 		.buy-button {
-			@include font($bai-font, 14px, 14px, $grey);
-			font-weight: 700;
+			@include font($mont-font, 14px, 14px, $grey);
+			font-weight: $bold;
 			text-transform: uppercase;
 			border: 1px solid $light-grey;
 			padding: 10px 30px;
-			transition: border-color $transition-time ease-out,
-				background-color $transition-time ease-out,
+			transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
 				color $transition-time ease-out;
-			-webkit-transition: border-color $transition-time ease-out,
-				background-color $transition-time ease-out,
+			-webkit-transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
 				color $transition-time ease-out;
 			&:hover {
 				border-color: $red;
@@ -713,6 +754,28 @@ hr {
 			@include mobile {
 				display: inline-block;
 				margin-top: 30px;
+			}
+		}
+		.options {
+			font-family: "Bai Jamjuree", sans-serif;
+			font-size: 16px;
+			line-height: 23px;
+			color: #777777;
+			font-weight: 400;
+			margin-top: 20px;
+			display: inline-block;
+		}
+		&.disable {
+			&:hover {
+				transform: scale(1);
+				-webkit-transform: scale(1);
+			}
+			.buy-button {
+				&:hover {
+					border-color: $light-grey;
+					background-color: transparent;
+					color: $grey;
+				}
 			}
 		}
 	}
@@ -736,26 +799,22 @@ hr {
 		margin-bottom: 70px;
 	}
 }
-#colFaq{
-	margin-bottom: 20px;
-}
-#faqs{
-	background:#eeeeee
-}
-.faqSub{
-	color:red,
-	
-}
+
+#faqs,
 #tickets {
 	background: url("imgs/cubes2-image.png") no-repeat bottom right;
 	background-size: 30%;
+}
+
+#faqs {
+	background-color: #eeeeee;
 }
 
 #accordion {
 	li {
 		margin-bottom: 15px;
 		&:last-child {
-			margin-bottom: 15;
+			margin-bottom: 0;
 		}
 		&.open,
 		&:hover {
@@ -766,17 +825,15 @@ hr {
 			}
 		}
 		.toggle {
-			@include font($bai-font, 22px, 22px, $dark-grey);
+			@include font($mont-font, 22px, 22px, $dark-grey);
 			text-transform: uppercase;
 			display: block;
 			padding: 20px 35px;
 			border: 1px solid $light-grey;
 			background-color: $white;
-			transition: border-color $transition-time ease-out,
-				background-color $transition-time ease-out,
+			transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
 				color $transition-time ease-out;
-			-webkit-transition: border-color $transition-time ease-out,
-				background-color $transition-time ease-out,
+			-webkit-transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
 				color $transition-time ease-out;
 			@include mobile {
 				font-size: 19px;
@@ -805,7 +862,7 @@ hr {
 	text-align: center;
 	h1 {
 		color: $black;
-		font-weight: 400;
+		font-weight: $regular;
 	}
 	hr {
 		display: table;
@@ -823,8 +880,9 @@ hr {
 #social-network {
 	text-align: center;
 	background-color: $black;
-	h1 {
-		color: $light-grey;
+	padding: 75px 0;
+	h2 {
+		color: $white;
 		margin-bottom: 30px;
 		@include portable {
 			margin-bottom: 20px;
@@ -835,38 +893,13 @@ hr {
 			display: inline-block;
 			margin: 0 10px;
 			@include portable {
-				margin: 0 5px;
+				margin: 0 7px;
 			}
 			a {
-				@include size(70px, 70px);
-				display: block;
-				border: 10px solid $white;
-				transition: border-color $transition-time ease-out;
-				-webkit-transition: border-color $transition-time ease-out;
-				@include portable {
-					@include size(55px, 55px);
-					border: 5px solid $white;
-				}
-				@include mobile {
-					@include size(50px, 50px);
-					border: 3px solid $white;
-				}
-				&::before {
-					vertical-align: middle;
-					transition: font-size $transition-time ease-out;
-					-webkit-transition: font-size $transition-time ease-out;
-				}
+				transition: color $transition-time ease-out;
+				-webkit-transition: color $transition-time ease-out;
 				&:hover {
-					border-color: $red;
-					&::before {
-						font-size: 39px;
-						@include portable {
-							font-size: 28px;
-						}
-						@include mobile {
-							font-size: 30px;
-						}
-					}
+					color: $red;
 				}
 			}
 		}
@@ -882,8 +915,8 @@ footer {
 	}
 	p {
 		color: $white;
-		font-size: 14px;
-		line-height: 16px;
+		font-size: 13px;
+		line-height: 15px;
 		@include portable {
 			font-size: 12px;
 		}
@@ -909,13 +942,11 @@ footer {
 		a {
 			border: 1px solid $dark-grey;
 			display: inline-block;
-			@include font($bai-font, 20px, 22px, $dark-grey);
+			@include font($mont-font, 20px, 22px, $dark-grey);
 			padding: 20px 15px;
-			-webkit-transition: border-color $transition-time ease,
-				color $transition-time ease,
+			-webkit-transition: border-color $transition-time ease, color $transition-time ease,
 				background-color $transition-time ease;
-			transition: border-color $transition-time ease,
-				color $transition-time ease,
+			transition: border-color $transition-time ease, color $transition-time ease,
 				background-color $transition-time ease;
 			margin-right: -1px;
 			@include portable {
