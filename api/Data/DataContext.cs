@@ -14,7 +14,13 @@ namespace api.Data
 
         public DbSet<Photo> Photos {get;set;}
 
+        public DbSet<Team> Teams {get;set;}
 
+        public DbSet<Event> Events {get;set;}
+
+        public DbSet<EventLoc> EventLocs {get;set;}
+
+        public DbSet<EventLocVisited> EventLocsVisited {get;set;}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

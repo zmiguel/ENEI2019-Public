@@ -85,6 +85,64 @@ namespace api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("api.Models.Event", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Desc");
+
+                    b.Property<string>("Nome");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("api.Models.EventLoc", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Desc");
+
+                    b.Property<int>("EventId");
+
+                    b.Property<int?>("ImgId");
+
+                    b.Property<float>("Lat");
+
+                    b.Property<float>("Long");
+
+                    b.Property<string>("Nome");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImgId");
+
+                    b.ToTable("EventLocs");
+                });
+
+            modelBuilder.Entity("api.Models.EventLocVisited", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("LocationId");
+
+                    b.Property<int?>("TeamId");
+
+                    b.Property<DateTime>("timestamp");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("EventLocsVisited");
+                });
+
             modelBuilder.Entity("api.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -130,6 +188,30 @@ namespace api.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
+            modelBuilder.Entity("api.Models.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CapId");
+
+                    b.Property<int>("EventId");
+
+                    b.Property<int>("NMembros");
+
+                    b.Property<string>("Nome");
+
+                    b.Property<int>("Pontos");
+
+                    b.Property<string>("QRcode");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CapId");
+
+                    b.ToTable("Teams");
+                });
+
             modelBuilder.Entity("api.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -165,6 +247,8 @@ namespace api.Migrations
 
                     b.Property<string>("SecurityStamp");
 
+                    b.Property<int?>("TeamId");
+
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
@@ -178,6 +262,8 @@ namespace api.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -239,12 +325,44 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("api.Models.EventLoc", b =>
+                {
+                    b.HasOne("api.Models.Photo", "Img")
+                        .WithMany()
+                        .HasForeignKey("ImgId");
+                });
+
+            modelBuilder.Entity("api.Models.EventLocVisited", b =>
+                {
+                    b.HasOne("api.Models.EventLoc", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
+                    b.HasOne("api.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId");
+                });
+
             modelBuilder.Entity("api.Models.Photo", b =>
                 {
                     b.HasOne("api.Models.User", "User")
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("api.Models.Team", b =>
+                {
+                    b.HasOne("api.Models.User", "Cap")
+                        .WithMany()
+                        .HasForeignKey("CapId");
+                });
+
+            modelBuilder.Entity("api.Models.User", b =>
+                {
+                    b.HasOne("api.Models.Team")
+                        .WithMany("Membros")
+                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("api.Models.UserRole", b =>

@@ -6,6 +6,7 @@ namespace api.Models
 {
     public class Team
     {
+        public int Id{get;set;}                         //id
         public string QRcode{get;set;}                  //QR ID code
         public int EventId{get;set;}                    //equipa para o evento ID
         public string Nome{get;set;}                    //Nome da equipa
