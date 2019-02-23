@@ -1,18 +1,30 @@
 /** @format */
 import React from 'react';
-import {AppRegistry} from 'react-native';
+import {AppRegistry, View,Text} from 'react-native';
 import {Provider} from 'react-redux';
 
 import {name as appName} from './app.json';
 
-import store from './app/store/store'; //Import the store
+import {PersistGate} from 'redux-persist/integration/react'
 
 
 import App from './app/App' //Import the component file
 
+
+import {store, persistor}   from "./app/store/store";
+
+rendeLoading=()=>{
+  <View>
+    <Text>loading........</Text>
+  </View>
+}
 const RNRedux = () => (
     <Provider store={store}>
-        <App />
+    <PersistGate persistor={persistor} loading={this.rendeLoading()}>
+    <App />
+    </PersistGate>
+   
+  
     </Provider>
 );
 

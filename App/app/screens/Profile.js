@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Card, Icon} from 'react-native-elements'
+import {Card, Divider} from 'react-native-elements'
 import {
     Image,
     ImageBackground,
@@ -10,17 +10,27 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions,
+    TextInput,
+    Button
 } from 'react-native'
 import PropTypes from 'prop-types';
 
 import {connect, Provider} from "react-redux";
 import {bindActionCreators} from "redux";
-
 import * as Actions from "../store/actions";
 
 import {createStore} from 'redux';
 
+
+import Email from '../components/Email';
+
+import Separator from '../components/Separator';
+import Tel from '../components/Telephone';
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+import Icon from "react-native-vector-icons/Ionicons"
 
 class Profile extends Component {
 
@@ -34,111 +44,73 @@ class Profile extends Component {
             tokenData: '',
             loggedIn: false,
             onHold: true,
-            user: {}
+            user: {},
+            cenas:{Name:'as'},
+            text:'',
         };
     }
-/*
-        state = {
-            telDS: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2,
-            }).cloneWithRows(this.props.tels),
-            emailDS: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2,
-            }).cloneWithRows(this.props.emails),
-        };
-*/
+    _logout = () => {
 
 
-    onPressPlace = () => {
-        console.log('place')
-    };
+        //  this.props.navigation.navigate('scan');
 
-    onPressTel = number => {
-        Linking.openURL(`tel://${number}`).catch(err =>
-            console.log('Error:', err))
-    };
-
-    onPressSms = () => {
-        console.log('sms')
-    };
-
-    onPressEmail = email => {
-        Linking.openURL(`mailto:${email}-+`).catch(err =>
-            console.log('Error:', err)
-        )
-    };
-
-    renderHeader = () => {
-        /*  const {
-              avatar,
-              avatarBackground,
-              name,
-              address: {city, country},
-          } = this.props;*/
-
-        return (
-            <View style={styles.header}>
-                <View style={styles.headerContent}>
-                    <Image style={styles.avatar}
-                           source={{uri: `${this.props.user.Avatar}`}}/>
-
-                    <Text style={styles.name}> {this.props.user.Name} {this.props.user.LastName}</Text>
-                    <Text style={styles.userInfo}> {this.props.user.City} </Text>
-                </View>
-            </View>
-        )
-    };
-
-    renderTel = () => {
-
-        return (
-            <View style={styles.telContainer}>
-                <TouchableOpacity onPress={() => this.onPressTel(`${this.props.user.Mobile}`)}>
-                    <Text>{this.props.user.Mobile}</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    };
-    /* <ListView
-                contentContainerStyle={styles.telContainer}
-                /*dataSource={this.state.telDS}
-
-        renderRow = {({id, name, number}, _, k)
-    =>
-        {
-        }
+        // this.props.logout();
+        this.props.logoutUser();
     }
-        />}*/
-
-
-    renderEmail = () => {
-        return (
-            <View styles={styles.emailContainer}>
-                <TouchableOpacity onPress={() => this.onPressEmail(`${this.props.user.Email}`)}>
-                    <Text>{this.props.user.Email} </Text>
-                </TouchableOpacity>
-            </View>
-        )
-
-        /*  <ListView
-              contentContainerStyle={styles.emailContainer}
-              /*dataSource={this.state.emailDS}
-              renderRow={({email, id, name}, _, k) => {
-
-              }}
-          />*/
-    };
 
     render() {
         return (
-            <ScrollView style={styles.scroll}>
+            <ScrollView>
                 <View style={styles.container}>
-                    {this.renderHeader()}
-                    <View style={styles.body}>
-                        {this.renderTel()}
-                        {this.renderEmail()}
+                <View style={styles.userBio}>
+                    <View style={styles.userBioRow}>  
+                            <Icon name="ios-laptop" style={styles.userBioLogo} size={25}/>
+                         
+                            <TextInput 
+                                  onFocus={this._print} 
+                                  maxLength={50} 
+                                  blurOnSubmit ={true} 
+                                 
+                                 
+                                  onChangeText={(text) => this.setState({text})}  
+                               
+                                  value={this.props.user.Job}
+                             
+                               
+                              />
+                         
+                         
                     </View>
-                </View>
+
+                    <Divider style={{ backgroundColor: 'black' }} />
+                    
+                    <View style={styles.userBioRow}>  
+                        <Icon name="ios-mail" style={styles.userBioLogo} size={25}/>
+                        <Text style={styles.userBioText}>{this.props.user.Email}</Text>
+                    </View>
+                    <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-phone-portrait" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Mobile}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-map" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioText}>{this.props.user.Address}, {this.props.user.City}</Text>
+                        </View>
+                        <Divider style={{ backgroundColor: 'black' }} />
+                        <View style={styles.userBioRow}>  
+                            <Icon name="ios-person" style={styles.userBioLogo} size={25}/>
+                            <TouchableOpacity><Text style={styles.userCurriculum}>O meu Curriculo</Text></TouchableOpacity>
+                        
+                        </View>
+                        <Button onPress={this._logout} title="LOGOUT"/>
+                       
+                    
+                    
+                    </View>
+          
+                 </View>
             </ScrollView>
         )
     }
@@ -146,45 +118,27 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
 
-    scroll: {
-        backgroundColor: '#FFF',
-    },
-    emailContainer: {
-        backgroundColor: '#FFF',
-        flex: 1,
-        paddingTop: 30,
-    },
-    telContainer: {
-        backgroundColor: '#FFF',
-        flex: 1,
-        paddingTop: 30,
-    },
+    container:{
 
-    header: {
-        backgroundColor: "#DCDCDC",
     },
-    headerContent: {
-        padding: 30,
-        alignItems: 'center',
+    userBioRow:{
+        flex:1,
+        flexDirection:'row',
+        padding:10,
     },
-    avatar: {
-        width: 130,
-        height: 130,
-        borderRadius: 63,
-        borderWidth: 4,
-        borderColor: "white",
-        marginBottom: 10,
+    userBioText:{
+
     },
-    userInfo: {
-        fontSize: 16,
-        color: "#778899",
-        fontWeight: '600',
+    userBioLogo:{
+        marginLeft: SCREEN_WIDTH*0.05,
+        width: SCREEN_WIDTH*0.15,
+    
     },
 
 
 });
 
-mapStateToProps = (state, props)  => {
+mapStateToProps = (state, props) => {
 
     return {
 

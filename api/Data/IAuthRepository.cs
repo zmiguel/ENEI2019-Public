@@ -9,6 +9,7 @@ namespace api.Data
       Task<User> Register(User user, string Password);
       
       Task<User> Login(string username, string password);
-    
+      
+
     }
 }
