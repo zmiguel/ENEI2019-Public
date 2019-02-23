@@ -7,7 +7,7 @@ namespace api.Models
 {
     public class User: IdentityUser<int>
     {
-               public string QRcode{get;set;}
+        public string QRcode{get;set;}
         public ICollection<UserRole> UserRoles{get;set;}
         public ICollection<Photo> Photos {get;set;}
         
