@@ -124,7 +124,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "Montserrat";
+  font-family: "Bai Jamjuree";
 }
 
 h1 {
@@ -171,7 +171,7 @@ h2 {
 }
 
 p {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 20px;
   line-height: 32px;
   color: #777777;
@@ -186,7 +186,7 @@ p {
 
 label {
   display: inline-block;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 22px;
   line-height: 22px;
   color: #353535;
@@ -201,7 +201,7 @@ label {
 }
 
 input {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 22px;
   line-height: 22px;
   color: #353535;
@@ -273,6 +273,36 @@ select {
 
 .btn {
   display: block;
+}
+
+.btn-default {
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 17px;
+  line-height: 21px;
+  color: #353535;
+  display: table;
+  margin: 0 auto;
+  background-color: white;
+  font-weight: 700;
+  margin-top: 40px;
+  text-transform: uppercase;
+  border: 1px solid #eeeeee;
+  padding: 15px 60px;
+  transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+  -webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.btn-default:hover {
+  border-color: #cc1a17;
+  background-color: #cc1a17;
+  color: #ffffff;
+}
+
+@media (max-width: 769px) {
+  .btn-default {
+    display: inline-block;
+    margin-top: 30px;
+  }
 }
 
 hr {
@@ -374,7 +404,7 @@ hr::after {
 
 #main-menu nav #open-menu-mobile {
   display: none;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 18px;
   line-height: 22px;
   color: #ffffff;
@@ -411,7 +441,7 @@ hr::after {
 
 #main-menu nav ul li {
   display: inline-block;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 19px;
   line-height: 21px;
   color: #ffffff;
@@ -542,7 +572,7 @@ hr::after {
 }
 
 .pre-h1 {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 20px;
   line-height: 22px;
   color: #777777;
@@ -599,7 +629,7 @@ hr::after {
 }
 
 #countdown div span {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 86px;
   line-height: 66px;
   color: #ffffff;
@@ -624,7 +654,7 @@ hr::after {
 }
 
 #countdown div .smalltext {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 25px;
   line-height: 25px;
   color: #cc1a17;
@@ -822,7 +852,7 @@ hr::after {
 }
 
 #precos .price-block .price {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 58px;
   line-height: 58px;
   color: #353535;
@@ -848,7 +878,7 @@ hr::after {
 }
 
 #precos .price-block .label {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 22px;
   line-height: 22px;
   color: #777777;
@@ -861,7 +891,7 @@ hr::after {
   padding: 20px 0;
   background-color: #cc1a17;
   text-align: center;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 18px;
   line-height: 18px;
   color: #ffffff;
@@ -871,7 +901,7 @@ hr::after {
 }
 
 #precos .price-block .buy-button {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 14px;
   line-height: 14px;
   color: #777777;
@@ -894,6 +924,27 @@ hr::after {
     display: inline-block;
     margin-top: 30px;
   }
+}
+
+#precos .price-block .options {
+  font-family: "Bai Jamjuree", sans-serif;
+  font-size: 16px;
+  line-height: 23px;
+  color: #777777;
+  font-weight: 400;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+#precos .price-block.disable:hover {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+}
+
+#precos .price-block.disable .buy-button:hover {
+  border-color: #eeeeee;
+  background-color: transparent;
+  color: #777777;
 }
 
 #precos .ps {
@@ -926,6 +977,10 @@ hr::after {
   background-size: 30%;
 }
 
+#faqs {
+  background-color: #eeeeee;
+}
+
 #accordion li {
   margin-bottom: 15px;
 }
@@ -941,7 +996,7 @@ hr::after {
 }
 
 #accordion li .toggle {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 22px;
   line-height: 22px;
   color: #353535;
@@ -1091,7 +1146,7 @@ footer p {
 #tab-links .tab-label a {
   border: 1px solid #353535;
   display: inline-block;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Bai Jamjuree", sans-serif;
   font-size: 20px;
   line-height: 22px;
   color: #353535;

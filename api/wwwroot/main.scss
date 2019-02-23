@@ -16,7 +16,7 @@ $standard-animation-time: 150ms;
 $transition-time: 150ms;
 
 //fonts name
-$mont-font: "Montserrat";
+$mont-font: "Bai Jamjuree";
 
 //fonts weight
 $regular: 400;
@@ -309,6 +309,32 @@ select {
 
 .btn {
 	display: block;
+}
+
+.btn-default {
+	font-family: "Bai Jamjuree", sans-serif;
+	font-size: 17px;
+	line-height: 21px;
+	color: #353535;
+	display: table;
+	margin: 0 auto;
+	background-color: white;
+	font-weight: 700;
+	margin-top: 40px;
+	text-transform: uppercase;
+	border: 1px solid #eeeeee;
+	padding: 15px 60px;
+	transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+	-webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+	&:hover {
+		border-color: $red;
+		background-color: $red;
+		color: $white;
+	}
+	@include mobile {
+		display: inline-block;
+		margin-top: 30px;
+	}
 }
 
 hr {
@@ -730,6 +756,28 @@ hr {
 				margin-top: 30px;
 			}
 		}
+		.options {
+			font-family: "Bai Jamjuree", sans-serif;
+			font-size: 16px;
+			line-height: 23px;
+			color: #777777;
+			font-weight: 400;
+			margin-top: 20px;
+			display: inline-block;
+		}
+		&.disable {
+			&:hover {
+				transform: scale(1);
+				-webkit-transform: scale(1);
+			}
+			.buy-button {
+				&:hover {
+					border-color: $light-grey;
+					background-color: transparent;
+					color: $grey;
+				}
+			}
+		}
 	}
 	.ps {
 		@include position(absolute, null, 20px, 20px, null);
@@ -756,6 +804,10 @@ hr {
 #tickets {
 	background: url("imgs/cubes2-image.png") no-repeat bottom right;
 	background-size: 30%;
+}
+
+#faqs {
+	background-color: #eeeeee;
 }
 
 #accordion {
