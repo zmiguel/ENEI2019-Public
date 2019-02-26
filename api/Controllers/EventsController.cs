@@ -17,29 +17,34 @@ namespace api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : ControllerBase
+    public class EventsController : ControllerBase
     {
         private readonly DataContext context;
-        private readonly IUsersRepository _repo;
+        private readonly IEventsRepository _repo;
         private readonly IMapper _mapper;
-        private readonly RoleManager<Role> _roleManager;
-        private readonly UserManager<User> _userManager;
-        public TeamsController(DataContext context,IUsersRepository repo, IMapper mapper,RoleManager<Role> roleManager,UserManager<User> UserManager)
+        public EventsController(DataContext context,IEventsRepository repo, IMapper mapper)
         {
             this.context = context;
             _mapper = mapper;
-            _roleManager = roleManager;
-            _userManager = UserManager;
             _repo = repo;
         }
         
-        // GET api/teams
-        // GET all teams
+        // GET api/events
+        // GET all events
         [HttpGet]
-        public async Task<IActionResult> GetTeams()
+        public async Task<IActionResult> GetEvents()
         {
-          var Teams = await context.Teams.ToArrayAsync();
-          return Ok(Teams);
+          var Events = await _repo.GetEvents();
+          return Ok(Events);
+        }
+
+        // GET api/events/[id]
+        // GET events id x
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEvent(int id)
+        {
+          var Event = await _repo.GetEvent(id);
+          return Ok(Event);
         }
     }
 }
