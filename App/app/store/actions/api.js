@@ -178,13 +178,18 @@ export function login(user, pass){
                 refreshToken:parsed.refresh_token,
                 valid:true
             };
-       
+            
+            var details={
+                username:user,
+                password:pass
+            }
             dispatch({
                 type: API_LOGIN, 
                 logged:true, 
                 failedAttempt:false,
                 token:obj,
-                user:{Name:'Henrique'}
+                user:{Name:'Henrique'},
+                userDetails: details
 
             });
             
@@ -423,39 +428,41 @@ function refreshToken(){
 }
 
 export function checkUser(userDetails){
-
+    var u=  userDetails;
     return (dispatch)=>{
-        
+       
         //verifica se existe utilizador em memória
-        if(userDetails.username!=undefined && 
-            userDetails.username!='' &&
-             userDetails.password!=undefined && 
-             userDetails.password!=''
-             ){
-
+        if(
+            userDetails.username != undefined && 
+            userDetails.username != ''        &&
+            userDetails.password != undefined && 
+            userDetails.password != ''
+            
+            ){
+           
             //verifica a validade do token
             if(Math.round(new Date().getTime()/1000) >= userDetails.token.expirationDateToken){
-
+                
+             
                 //se tiver expirado
                 refreshLogin().then(a=>{
                     
-                  console.log("tentativa de relogin")
+                    console.log("tentativa de relogin")
         
-                   var u=  userDetails;
-
                     dispatch({type: CHECK_USER, logged:true, onHold:false, user:{Name:'Henrique'}, userDetails:u});  
 
                 }).catch(b=>{
 
                     console.log("error");
 
-                    dispatch({type: CHECK_USER,logged:false, onHold:false});
+                    dispatch({type: CHECK_USER,logged:false, onHold:false,userDetails:u});
                 })
 
             }else{
-                console.log("chegou asui")
+                console.log("Tempo restante token: "+ Math.round((userDetails.token.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
+    
                 //dispatch home
-                dispatch({type: CHECK_USER,  logged:false, onHold:false, user:{Name:'Henrique'}});
+                dispatch({type: CHECK_USER,  logged:true, onHold:false, user:{Name:'Henrique'},userDetails:u});
 
             }
 
@@ -464,7 +471,7 @@ export function checkUser(userDetails){
         //utilizador não existe em memória
         else{
         
-            dispatch({type: CHECK_USER,logged:false, onHold:false});
+            dispatch({type: CHECK_USER,logged:false, onHold:false,userDetails:u});
             //dispatch menu de login
         }
 

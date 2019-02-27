@@ -24,16 +24,24 @@ let apiState= {
 const apiReducer = (state = apiState, action) => {
     
     switch(action.type){
+
         case REHYDRATE:
+
         console.log( action.payload)
+
               return {
-             //   ...state,
-              //  logged:false,
-                //onHold:true,
-    
-               user: action.payload.apiReducer.user,
-              
-                 userDetails:{token:{expirationDateToken:0, access_token:'',username:"", password:""}}
+        
+                user: action.payload.apiReducer.user,
+               
+                 userDetails:{
+                     token:{
+                         expirationDateToken:action.payload.apiReducer.userDetails.token.expirationDateToken, 
+                         access_token:action.payload.apiReducer.userDetails.token.access_token,
+                        
+                        },
+                        username:action.payload.apiReducer.userDetails.username,
+                        password:action.payload.apiReducer.userDetails.password
+                    }
               };
         case 'CHANGE_CONNECTION_STATUS':
              return Object.assign({}, state, {
@@ -53,7 +61,7 @@ const apiReducer = (state = apiState, action) => {
                 token:action.token, 
                 failedAttempt: action.failedAttempt, 
                 user:action.user, 
-                userDetails: {token:action.token},
+                userDetails: {token:action.token, username:action.userDetails.username, password:action.userDetails.password},
                 
                 
             });
