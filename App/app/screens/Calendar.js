@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, StyleSheet, Dimensions, Image, ScrollView, Text, Button} from 'react-native';
+import {View, StyleSheet, Dimensions, Image, ScrollView, Text, Button, TouchableOpacity, Animated} from 'react-native';
 import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
 import {
     RkButton, RkCard, RkText,
@@ -39,14 +39,14 @@ const FourthRoute = () => (
 
 
 class Calendar extends React.Component {
-
+    
     state = {
         index: 0,
         routes: [
-            {key: 'first', title: 'Sex 12'},
-            {key: 'second', title: 'Sab 13'},
-            {key: 'third', title: 'Dom 14'},
-            {key: 'fourth', title: 'Seg 15'},
+            {key: 'first', weekDay: 'sex', day:12},
+            {key: 'second', weekDay: 'sab',day:13},
+            {key: 'third', weekDay: 'dom', day:14},
+            {key: 'fourth', weekDay: 'seg', day:15},
 
         ],
     };
@@ -58,49 +58,40 @@ class Calendar extends React.Component {
         console.log(this.props.events);
     }
 
+    _openDetails=()=>{
+
+        console.log("los");
+    }
 
     renderDetail = ({item, index}) => {
+        const {navigate} = this.props.navigation;
         //  <Image source={{ uri:item.imageUrl, width:'100%' , height:100 }} style={{borderRadius:0}}/>
         return (
-
+            <TouchableOpacity  onPress={() => navigate('calendarDetail', { info: item })} >
 
             <View style={styles.event}>
+                <View style={styles.titleContainer}>
                 <Text style={[styles.title]}>{item.name}</Text>
+                <Text style={{color:'black'}}>Local: 1</Text>
+                </View>
+             
                 <View>
 
 
                     <Text style={styles.description}>{item.description}</Text>
                     <View style={styles.details}>
-                        <Progress.Bar color={'#42a5f5'} progress={0.3} unfilledColor={'white'} width={210}/>
+                        <Progress.Bar color={'#000000'} progress={item.Enrolled/item.MaxAttendees} unfilledColor={'white'} width={210}/>
                         <Text>{item.Enrolled} / {item.MaxAttendees}</Text>
                     </View>
 
                 </View>
+                
             </View>
+            </TouchableOpacity>
         );
     }
 
 
-    renderEvents = ({item, index}) => {
-
-        return (
-            <View style={styles.event}>
-                <Text style={[styles.title]}>{item.title}</Text>
-                <View>
-
-                    <Image source={{uri: item.imageUrl, width: '100%', height: 100}} style={{borderRadius: 0}}/>
-
-
-                    <Text style={styles.description}>{item.description}</Text>
-                    <View style={styles.details}>
-                        <Progress.Bar color={'#42a5f5'} progress={0.3} unfilledColor={'white'} width={210}/>
-                        <Text>1/50</Text>
-                    </View>
-
-                </View>
-            </View>
-        );
-    }
 
     _update = () => {
         this.setState({user: this.props.user});
@@ -108,10 +99,45 @@ class Calendar extends React.Component {
     }
 
 
+    _renderTabBar = props => {
+        const inputRange = props.navigationState.routes.map((x, i) => i);
+    
+        return (
+          <View style={styles.tabBar}>
+            {props.navigationState.routes.map((route, i) => {
+              const bgcolor = props.position.interpolate({
+                inputRange,
+                outputRange: inputRange.map(
+                  inputIndex => (inputIndex === i ? '#CC1A17' : 'rgba(0,0,0,0)')
+                ),
+              });
+              const color = props.position.interpolate({
+                inputRange,
+                outputRange: inputRange.map(
+                  inputIndex => (inputIndex === i ? 'white' : 'black')
+                ),
+              });
+
+
+              return (
+                <TouchableOpacity
+                  style={styles.tabItem}
+                  onPress={() => this.setState({ index: i })}>
+                    
+                    <Animated.Text style={{ color :'#7A7B7B' }}>{route.weekDay}</Animated.Text>
+                     <Animated.Text style={{ backgroundColor: bgcolor, borderRadius:90 , padding:10, marginTop:5, color:color, fontSize:15}}>{route.day}</Animated.Text>
+
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        );
+      };
+
+
     constructor() {
 
         super()
-
 
         const archeryImgSource = require('../assets/img/archery.png');
         const badmintonImgSource = require('../assets/img/badminton.png');
@@ -129,40 +155,6 @@ class Calendar extends React.Component {
         this.data = [
 
 
-            {
-                time: '09:30',
-                title: 'Sessão de Check-In',
-                description: 'Os participantes devem fazer o check-in e recolher o kit fornecido pela organização',
-                lineColor: '#009688',
-                icon: ArcheryImage,
-                imageUrl: 'https://blogsimages.adobe.com/conversations/files/2014/03/Check_In-1.jpg'
-            },
-            {
-                time: '17:45',
-                title: 'Sessão de Abertura',
-                lineColor: '#009688',
-                description: 'Bem vindo a Coimbra, a cidade dos estudantes! Obrigado por participares na 13ª edição do ENEI.',
-                icon: BadmintonImage,
-                imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png'
-            },
-            {
-                time: '19:30',
-                title: 'Jantar',
-                lineColor: '#009688',
-                description: 'Time to eat',
-                icon: BadmintonImage,
-                imageUrl: 'https://www.retailmenot.com/blog/wp-content/uploads/2016/08/kids-eat-free-hero1-1471459190.jpg'
-            },
-
-            {
-                time: '23:30',
-                title: 'Festarola',
-                lineColor: '#009688',
-                description: 'Sabes beber? Se não sabes, aprende com os da casa!',
-                icon: BadmintonImage,
-                imageUrl: 'http://www.revistaversatille.com.br/wp-content/uploads/Party.jpg'
-            },
-
 
         ]
     }
@@ -171,28 +163,36 @@ class Calendar extends React.Component {
 
         const FirstRoute = () => (
 
-
             <ScrollView contentContainerStyle={styles.contentContainer}>
 
-
-                <Button onPress={this._update} title="LOGOUT"/>
                 <Timeline
 
                     data={this.props.events}
 
-                    timeContainerStyle={{minWidth: 52, marginTop: 5}}
+                    timeContainerStyle={{ marginTop: 0}}
+
                     timeStyle={{
+
                         textAlign: 'center',
-                        backgroundColor: '#ff9797',
-                        color: 'white',
+                       // backgroundColor: 'red',
+                       
+                        height:100,
+                        color:"#CC1A17",
                         padding: 5,
-                        borderRadius: 13
+                        //marginTop:10,
+                      //  fontWeight:'bold',
+                        fontSize:23,
+                        
+                        //borderRadius: 13
                     }}
-                    descriptionStyle={{color: 'gray'}}
+                    
+                    descriptionStyle={{color: 'red'}}
 
                     renderDetail={this.renderDetail}
 
-
+                    lineColor='rgba(0,0,0,0)'
+                    lineWidth={1}
+                    separator={false}
                     flatListProps={{
                         style: {
 
@@ -210,30 +210,38 @@ class Calendar extends React.Component {
             </ScrollView>
 
         )
-
         const SecondRoute = () => (
 
-
             <ScrollView contentContainerStyle={styles.contentContainer}>
 
                 <Timeline
 
-
                     data={this.props.events}
 
-                    timeContainerStyle={{minWidth: 52, marginTop: 5}}
+                    timeContainerStyle={{ marginTop: 0}}
+
                     timeStyle={{
+
                         textAlign: 'center',
-                        backgroundColor: '#ff9797',
-                        color: 'white',
+                       // backgroundColor: 'red',
+                       
+                        height:100,
+                        color:"#CC1A17",
                         padding: 5,
-                        borderRadius: 13
+                        //marginTop:10,
+                      //  fontWeight:'bold',
+                        fontSize:23,
+                        
+                        //borderRadius: 13
                     }}
-                    descriptionStyle={{color: 'gray'}}
+                    
+                    descriptionStyle={{color: 'red'}}
 
                     renderDetail={this.renderDetail}
 
-
+                    lineColor='rgba(0,0,0,0)'
+                    lineWidth={1}
+                    separator={false}
                     flatListProps={{
                         style: {
 
@@ -251,8 +259,22 @@ class Calendar extends React.Component {
             </ScrollView>
 
         )
-        return (
 
+      
+        return (
+           <View style={{flex:1}}>
+           <View>
+               <Text style={{
+                   backgroundColor:"#CC1A17",
+                   color:'white',
+                   fontWeight:'bold',
+                   fontSize:15,
+                   textAlign:'center',
+
+                   }}>
+               WEB DEVELOPMENT
+               </Text>
+           </View>
             <TabView
                 navigationState={this.state}
                 renderScene={SceneMap({
@@ -261,39 +283,84 @@ class Calendar extends React.Component {
                     third: ThirdRoute,
                     fourth: FourthRoute
                 })}
+                renderTabBar={this._renderTabBar}
+                useNativeDriver={true}
                 onIndexChange={index => this.setState({index})}
                 initialLayout={{width: Dimensions.get('window').width, height: Dimensions.get('window').height}}
+                style={{backgroundColor:"#F2F2F2"}}
+                indicatorStyle={{ backgroundColor: 'pink' }}
             />
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    tabBar: {
+        flexDirection: 'row',
+        paddingTop:0,
+        marginTop:0,
+        backgroundColor:'white',
+        borderWidth: 1,
+        borderRadius: 2,
+        borderColor: '#ddd',
+        borderBottomWidth: 0,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 2,
+    
+       
+      },
+      tabItem: {
+        flex: 1,
+        alignItems: 'center',
+        padding: 10,
+      },
     details: {
-        backgroundColor: "#e0e0e0",
+        backgroundColor: "#FFFFFF",
         borderBottomRightRadius: 10,
         borderBottomLeftRadius: 10,
-        padding: 10
+        padding: 10,
+        paddingTop:0
+       
     },
     description: {
-        padding: 10
+        padding: 10,
+        paddingLeft:0,
+        paddingTop:0
+     
     },
     title: {
         color: '#212121',
         fontWeight: 'bold',
         fontSize: 15,
+        
+    },
+    titleContainer:{
         padding: 10
     },
     event: {
-        borderRadius: 10,
-        backgroundColor: '#eeeeee',
+        borderRadius: 5,
+        backgroundColor: "#FFFFFF",
+        marginLeft:-25,
+
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2,},
+        shadowOpacity: 0.25,
+        shadowRadius: 1,
+        elevation: 2,
+        marginRight:2
+
 
     },
     scene: {
         flex: 1,
     },
     contentContainer: {
-        paddingVertical: 20
+        //paddingVertical: 20,
+        backgroundColor:'#F2F2F2'
     }
 });
 RkTheme.setType('RkCard', 'story', {

@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { 
+  View, 
+  StyleSheet, 
+  Dimensions,
+  Text
+} from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 
@@ -38,17 +43,9 @@ export default class Eventos extends React.Component {
 
 render() {
   return (
-    <TabView
-      navigationState={this.state}
-      renderScene={SceneMap({
-        first: FirstRoute,
-        second: SecondRoute,
-        third:ThirdRoute,
-        fourth: FourthRoute
-      })}
-      onIndexChange={index => this.setState({ index })}
-      initialLayout={{ width: Dimensions.get('window').width }}
-    />
+    <View>
+      <Text>asd</Text>
+    </View>
   );
 }
 }

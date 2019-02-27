@@ -16,6 +16,15 @@ namespace api.Data
 
         public DbSet<Team> Teams {get;set;}
 
+        public DbSet<Event> Events {get;set;}
+
+        public DbSet<EventLoc> EventLocs {get;set;}
+
+        public DbSet<EventLocVisited> EventLocsVisited {get;set;}
+        
+        public DbSet<Log>Logs{get;set;}
+
+public DbSet<Product>Products{get;set;}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

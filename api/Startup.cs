@@ -45,9 +45,10 @@ namespace api
 
             services.AddAutoMapper();
             services.AddScoped<IUsersRepository, UsersRepository>();
-
+            
             //define a connection string indicada em appsettings.json
             services.AddDbContext<DataContext>(x=>x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+           
            
             IdentityBuilder builder = services.AddIdentityCore<User>(Options=>
             {
@@ -113,7 +114,7 @@ namespace api
             }
             else
             {
-                //globar exception handler 
+                //globar exception handler ∏
                 app.UseExceptionHandler(builder => {
                     
                     builder.Run(async context => {
@@ -132,11 +133,9 @@ namespace api
           // app.UseHttpsRedirection();
 
           //cores supporte
-        app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-        app.UseStatusCodePagesWithReExecute("/Error/{0}");
-        app.UseStatusCodePagesWithReExecute("/error/{0}");
-
-        app.UseMvc();
+          app.UseCors(x=>x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+         app.UseAuthentication();
+         app.UseMvc();
         }
     }
 }

@@ -14,7 +14,9 @@ import {
     ImageBackground,
     LinearGradient,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    NetInfo,
+    Animated
 
 } from 'react-native';
 
@@ -24,7 +26,7 @@ import {connect} from 'react-redux';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {UtilStyles} from './assets/styles'
 
-import * as Actions from './store/actions'; //Import your actions
+import * as Actions from './store/actions'; 
 
 import {RkButton, RkTheme, RkText, RkTextInput} from 'react-native-ui-kitten';
 
@@ -39,7 +41,9 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import Swiper from 'react-native-swiper';
 
-
+function handleConnectivityChange() {
+  console.log("asdasd");
+  }
 class App extends Component {
     
     _activate=()=>{
@@ -92,7 +96,15 @@ class App extends Component {
     checkValue=(e)=>{
         console.log("check"+e)
     }
+    _handleConnectionChange = (isConnected) => {
+      this.props.connectionState(true);
+      };
+
+    
     componentDidMount() {
+       
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+
         this.setState({isModalVisible: false})
         //verifica se o utilizador tem token guardado
         this.props.checkUser();
@@ -101,6 +113,10 @@ class App extends Component {
  
 
     }
+    componentWillUnmount() {
+        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+      }
+    
     _keyboardDidShow () {
         //alert('Keyboard Shown');
       //  this.setState({push:0})
@@ -119,7 +135,7 @@ class App extends Component {
          this.props.closeLoginQRScan();
         this.setState({username:e.data})
 
-        console.log("tentativa de login");
+        console.log("QR code lido");
 
 
 
@@ -127,24 +143,25 @@ class App extends Component {
 
     render() {
 
-        if (this.props.onHold && !this.props.logged) {
+        if  (!this.props.logged) {
 
 
             return (
                 <View style={UtilStyles.containerLoading}>
-                    <Text>CARREGANDO {this.props.onHold}</Text>
-                    <ActivityIndicator size="large" color="#0000ff"/>
+                
+                    <ActivityIndicator size="large" color="red"/>
                 </View>
             )
 
         }
+        else
         {
 
-            //console.log('token... '+ this.props.logged)
+           // console.log('token... '+ this.props.logged)
 
             //se existir token
 
-            if (this.props.logged) {
+            if (this.props.logged ) {
 
                 return (
 
@@ -152,41 +169,8 @@ class App extends Component {
                 )
             }
             return (
-                <Swiper style={styles.wrapper} 
-                    showsButtons={false}
-                    //paginationStyle={{backgroundColor: 'white'}}
-                    dot={<View style={{backgroundColor:'rgba(0,0,0,.2)', width: 15, height: 15,borderRadius: 8, marginLeft: 6, marginRight: 6, marginTop: 6, marginBottom: 6,}} />}
-                    activeDot={<View style={{backgroundColor: 'red', width: 15, height: 15, borderRadius: 8, marginLeft: 6, marginRight: 6, marginTop: 6, marginBottom: 6,}} />}
-    
-                >
+               
                   
-                  <View style={styles.slide1}>
-                  <View style={styles.logoContainer}>
-
-                    <Image style={styles.logo2} source={require('./assets/img/logo2.png')}/>
-                   
-                    </View>
-                    
-                    <ImageBackground 
-                    opacity={0.5}
-                    source={require('./assets/img/bg_coimbra.png')} 
-                    style={{
-                        width: '100%', 
-                        height: '100%',
-                        
-                      //  marginTop:150,
-                        backgroundColor: 'rgba(255,255,255,0.4)' , 
-                 
-                    }
-                }
-                    
-                    >
-                   
-                    <Text></Text>
-                
-                     </ImageBackground>
-                 
-                  </View>
     
                   <View style={styles.slide2}>
                   <Modal isVisible={this.props.UI_loginScannerActive}>
@@ -194,7 +178,7 @@ class App extends Component {
           <Button onPress={this.props.closeLoginQRScan} title={"Fechar scanner"}> </Button>
 
             <QRCodeScanner
-        onRead={this.onSuccess.bind(this)}
+        onRead={this.onSuccess}
         cameraStyle={ styles.cameraContainer}
        
         
@@ -238,8 +222,7 @@ class App extends Component {
    </View>
     </TouchableOpacity>
   
-  
-     </View>
+    </View>
                      
                     <TextInput style={styles.passwordInput} 
                      onFocus={this._print} 
@@ -292,112 +275,10 @@ class App extends Component {
               </View>
             </View>
                   </View>
-                  <View style={styles.slide3}>
-                    <Text>Manual de utilização</Text>
-                  </View>
-                  
-                </Swiper>
+                 
+             
               );
-            {
-
-                
-                //se não existir vai para o ecrã de scan QR
-                return (
-
-                    <QRCodeScanner
-                        ref={(node) => { this.scanner = node }}
-                        showMarker
-                     
-                        onRead={this.onSuccess.bind(this)}
-                        cameraStyle={{height: SCREEN_HEIGHT}}
-
-                        customMarker={
-                            
-                            
-                            <View style={styles.rectangleContainer}>
-
-                            <Modal 
-                                isVisible={this.state.isModalVisible} 
-                                style={
-                                    {
-                                        backgroundColor:'#E8E8E8', 
-                                        borderRadius:10, 
-                                        marginTop:SCREEN_HEIGHT /this.state.push,
-                                        height:SCREEN_HEIGHT/2
-                                        
-                                    }
-                                } 
-                                animationInTiming={1000}
-                                animationOutTiming={1000}
-                                >
-                            <View style={{ flex: 1}}>
-
-                            <Text></Text>
-                              <Text> Introduza a password</Text>
-
-                              <RkTextInput 
-                                    onFocus={this._print} 
-                                    maxLength={10} 
-                                    blurOnSubmit ={true} 
-                                    secureTextEntry={true} 
-                                    rkType='rounded'  
-                                    onChangeText={(text) => this.setState({text})}  
-                                    clearButtonMode='always'   
-                                    value={this.state.text}
-                                    clearTextOnFocus={true}
-                                    onSubmitEditing={Keyboard.dismiss}
-                            />
-                             
-                              <Button onPress={this._tryLogin} title="Login" color="#841584" />
-                                
-                              { this.props.failedAttempt && 
-                                <Text> Password ou QR incorrecto</Text>
-                              }
-
-                        
-                            <Text></Text>
-                            <Button onPress={this._activate} title="Scan again!" color="green" accessibilityLabel="Learn more about this purple button"/>
-                           
-                         
-                           
-
-                            </View>
-                         
-                          </Modal>
-                                <View style={styles.logo}>
-                                    <Image style={UtilStyles.loginImage}
-                                           source={require('./assets/img/logo.png')}
-                                    />
-                                </View>
-
-
-                                <View style={{flexDirection: "row"}}>
-                                    <View style={styles.leftAndRightOverlay}>
-                                    </View>
-
-                                    <View style={styles.rectangle}>
-
-                                    </View>
-
-
-                                    <View style={styles.leftAndRightOverlay}>
-                                    </View>
-                                </View>
-
-                                <View style={styles.bottomOverlay}>
-
-                                    <View style={{flex: 1, alignItems: 'center', alignContent: 'center'}}>
-                                        <RkText rkType='primary' style={styles.recover}>Recuperar pin de acesso</RkText>
-                                        <RkButton rkType='dark' style={styles.manual}>lols</RkButton>
-                                    </View>
-
-                                </View>
-                            </View>
-                        }
-                    />
-
-                )
-            }
+            
         }
     }
 }
@@ -447,7 +328,7 @@ const styles = {
 
     },
     scanQR:{
-        fontFamily: 'Open Sans',
+        
         //flexDirection: 'row',
         paddingTop:5,
         backgroundColor:10,
@@ -481,7 +362,7 @@ const styles = {
     input: {
         
         
-        fontFamily: 'Open Sans',
+       
         flex: 1,
         paddingRight: 10,
         

@@ -1,9 +1,20 @@
 import { AsyncStorage } from 'react-native';
+const axios = require('axios');
+
+import { NetInfo } from 'react-native';
 
 
 import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "./actionTypes" //Import the actions types constant we defined in our actions
 import moment from 'moment'
  
+
+export const connectionState = (status) => {
+    console.log(status);
+    return { type: 'CHANGE_CONNECTION_STATUS', isConnected: status };
+  };
+
+
+
 export function getEvents(user){
     return (dispatch)=>{
     let events = [];
@@ -15,7 +26,7 @@ export function getEvents(user){
       events.push({
           time: moment(user.Sessions[key].SessionStart).format('h:mm'),
           timeEnd: moment(user.Sessions[key].SessionEnd).format('h:mm'),
-          lineColor:'#009688',
+          //lineColor:'#009688',
           imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
           description:user.Sessions[key].Description,
           name:user.Sessions[key].Name,
@@ -68,6 +79,7 @@ const saveToken = async token => {
         obj.expirationDateToken = await AsyncStorage.getItem('expirationDateToken') || 'none';
         obj.refreshToken = await AsyncStorage.getItem('refreshToken') || 'none';
      
+         
 
     } catch (error) {
       // Error retrieving data
@@ -90,55 +102,8 @@ const deleteToken = async () => {
 const renewToken=(refresh)=>{
 
 
-    var details = {
-        
-        
-        'grant_type': 'refresh_token',
-        'refresh_token':refresh 
+   
 
-    };
-    var formBody = [];
-
-    for (var property in details) {
-
-      var encodedKey = encodeURIComponent(property);
-
-      var encodedValue = encodeURIComponent(details[property]);
-      
-      formBody.push(encodedKey + "=" + encodedValue);
-
-    }
-
-    formBody = formBody.join("&");
-
-    console.log(refresh);
-
-    fetch('http://enei2019.uingress.com/internal/api/token', {
-
-        method: 'POST',
-
-        headers: {
-
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-        },
-        
-        body: formBody
-
-    }).catch(err=>{
-
-    }).then(parsed=>{
-
-       // console.log(a);
-        var obj={
-            access_token:parsed.access_token,
-            expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
-            refreshToken:parsed.refresh_token,
-            valid:true
-        };
-
-    
-    })
-    return obj;
 }
 
 
@@ -207,7 +172,7 @@ export function login(user, pass){
             }
             var obj={
                 access_token:parsed.access_token,
-                expirationDateToken:Math.round(new Date().getTime()/1000) + parsed.expires_in,
+                expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
                 refreshToken:parsed.refresh_token,
                 valid:true
             };
@@ -287,13 +252,15 @@ export function getUserInfo(token){
     
             .then(function(res) {
               
-                
+                console.log(res);
                 let obj = JSON.parse(res._bodyText);
 
                 dispatch({ type: USER_INFO, user: obj,onHold:false, logged:true });
     
             }).catch(function(res){
-                dispatch({ type: USER_INFO, user: '',onHold:false, logged:true });
+
+                console.log("erro")
+              //  dispatch({ type: USER_INFO,onHold:false});
             })
         
        
@@ -335,7 +302,7 @@ export function checkUser(){
                 
                 a.valid=false;
                 
-                console.log('check user deu falso')
+                console.log('token não existe em memória')
                 
                 dispatch({type: CHECK_USER,token:a,logged:false, onHold:false});
               
@@ -344,40 +311,101 @@ export function checkUser(){
                 
                 a.valid=true;
 
-
-                console.log('Existe Token em memória' )
+                console.log('Existe Token em memória :'+  a.refreshToken )
 
                 //se expirar 
                 if(Math.round(new Date().getTime()/1000) >= a.expirationDateToken){
 
-                    //  a.valid=false;
-
+                    refresh=a.refreshToken
+                
                     //chamar funçao para renovar
                     console.log("expirou")
-          
-                    renewToken(a.refreshToken).then(b=>{
-                      //  a.valid=true;
-                        deleteToken();  
-                        saveToken(b);
-                        console.log("asdasdasdasd")
-                        dispatch({type: CHECK_USER, token:b, logged:true, onHold:false});             
+                    
+                    var details = {
+        
+                        'grant_type': 'refresh_token',
+                        'refresh_token':refresh 
+                
+                    };
+
+                    var formBody = [];
+                
+                    for (var property in details) {
+                
+                      var encodedKey = encodeURIComponent(property);
+                
+                      var encodedValue = encodeURIComponent(details[property]);
+                      
+                      formBody.push(encodedKey + "=" + encodedValue);
+                
+                    }
+                
+                    formBody = formBody.join("&");
+                
+                    fetch('http://enei2019.uingress.com/internal/api/token', {
+                
+                        method: 'POST',
+                
+                        headers: {
+                
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
+                        
+                        body: formBody
+                
+                    }).then(res=>res.json()).then(parsed=>{
+                
+                        console.log(parsed);
+
+                        if(parsed.error=='invalid_grant'){
+
+                            console.log(formBody);
+                            dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});    
+
+                        }else{
+
+                        var obj={
+                            access_token:parsed.access_token,
+                            expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
+                            refreshToken:parsed.refresh_token,
+                            valid:true
+
+                            
+                        };
+                   
+                       // deleteToken();  
+                        saveToken(obj).then(a=>{
+                            console.log("Token guardado" )
+                            console.log(obj)
+                            dispatch({type: CHECK_USER, token:obj, logged:true, onHold:false});             
+                
+                        })
+                    }
+                        
+                    
+                    }).catch(a=>{
+                        console.log("erro na api")
+                        dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});             
                     })
 
+                  
 
+                }else{
+
+                    console.log("Tempo restante token: "+ Math.round((a.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
+    
+                    //fazer validação da data e renovar o token
+    
+                    dispatch({type: CHECK_USER, token:a, logged:true, onHold:false, user:{Name:'Henrique'}});
                 }
 
-                console.log("Tempo restante token: "+ Math.round((a.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
-    
-                //fazer validação da data e renovar o token
-
-                dispatch({type: CHECK_USER, token:a, logged:true, onHold:false});
             }
             
            
         }).catch(a=>{
 
-            console.log('erros');
-            dispatch({type: CHECK_USER,token:false, logged:false});
+            console.log('erro a ler o token'+  a);
+            dispatch({type: CHECK_USER,token:false, logged:false, user:''});
         })
 
     

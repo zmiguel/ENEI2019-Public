@@ -31,9 +31,6 @@ namespace api.Controllers
             return View("Views/Landing/index.cshtml");
         }
 
-
- 
-
        
         
 
