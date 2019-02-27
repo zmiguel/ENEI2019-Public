@@ -1,7 +1,25 @@
 import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "../actions/actionTypes" //Import the actions types constant we defined in our actions
 import { REHYDRATE } from 'redux-persist';
  
-let apiState= { isConnected:false, token:{valid:false}, tokenData:'error', logged:false, onHold:true,user:{}, events:[], failedAttempt:false}
+let apiState= { 
+
+    isConnected:false, 
+    token:{valid:false}, 
+    tokenData:'error', 
+    logged:false, 
+    onHold:true,user:{}, 
+    events:[], 
+    failedAttempt:false,
+    userDetails:{
+        username:'', 
+        password:'',
+        token:{
+            expirationDateToken:0,
+            access_token:''
+        }
+    },
+    
+}
 
 const apiReducer = (state = apiState, action) => {
     
@@ -13,7 +31,9 @@ const apiReducer = (state = apiState, action) => {
               //  logged:false,
                 //onHold:true,
     
-               user: action.payload.apiReducer.user
+               user: action.payload.apiReducer.user,
+              
+                 userDetails:{token:{expirationDateToken:0, access_token:'',username:"", password:""}}
               };
         case 'CHANGE_CONNECTION_STATUS':
              return Object.assign({}, state, {
@@ -26,8 +46,17 @@ const apiReducer = (state = apiState, action) => {
             return state;
 
        case API_LOGIN:
-     
-            state=Object.assign({},state, { logged:action.logged, token:action.token, failedAttempt: action.failedAttempt, user:user});
+          
+   
+            state=Object.assign({},state, { 
+                logged:action.logged, 
+                token:action.token, 
+                failedAttempt: action.failedAttempt, 
+                user:action.user, 
+                userDetails: {token:action.token},
+                
+                
+            });
 
             return state;
 

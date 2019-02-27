@@ -60,7 +60,8 @@ class Home extends Component {
             token: {valid: false},
             logged: true,
             onHold: true,
-            user: {Name: ''}
+            user: {Name: ''},
+            userDetails:{}
         };
     }
   handleConnectivityChange = () => {
@@ -74,7 +75,7 @@ class Home extends Component {
 
         //console.log(this.props.token);
 
-        this.props.getUserInfo(this.props.token);
+        this.props.getUserInfo(this.props.userDetails.token);
 
 
         //console.log('logged:'+this.props.logged);
@@ -342,7 +343,8 @@ function mapStateToProps(state, props) {
 
         token: state.apiReducer.token,
         user: state.apiReducer.user,
-        logged: state.apiReducer.logged
+        logged: state.apiReducer.logged,
+        userDetails: state.apiReducer.userDetails,
 
     }
 }

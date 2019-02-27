@@ -84,7 +84,8 @@ class App extends Component {
             username:'QR code',
             failedAttempt: false,
             push:4,
-             UI_loginScannerActive:false
+             UI_loginScannerActive:false,
+             userDetails:{username:'', password:''}
 
         };
 
@@ -107,7 +108,7 @@ class App extends Component {
 
         this.setState({isModalVisible: false})
         //verifica se o utilizador tem token guardado
-        this.props.checkUser();
+        this.props.checkUser(this.props.userDetails);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
  
@@ -143,7 +144,7 @@ class App extends Component {
 
     render() {
 
-        if  (!this.props.logged) {
+        if  (!this.props.logged && this.props.onHold) {
 
 
             return (
@@ -530,7 +531,8 @@ mapStateToProps = (state, props) => {
         onHold: state.apiReducer.onHold,
         logged: state.apiReducer.logged,
         failedAttempt:state.apiReducer.failedAttempt,
-        UI_loginScannerActive: state.uiReducer.UI_loginScannerActive
+        UI_loginScannerActive: state.uiReducer.UI_loginScannerActive,
+        userDetails: state.apiReducer.userDetails,
     }
 };
 

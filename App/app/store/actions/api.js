@@ -6,6 +6,7 @@ import { NetInfo } from 'react-native';
 
 import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "./actionTypes" //Import the actions types constant we defined in our actions
 import moment from 'moment'
+import { compose } from 'redux';
  
 
 export const connectionState = (status) => {
@@ -166,7 +167,8 @@ export function login(user, pass){
                     type: API_LOGIN, 
                     logged:false, 
                     failedAttempt:true,
-                    token: obj
+                    token: obj,
+                    user:{Name:'Henrique'}
     
                 });
             }
@@ -176,39 +178,16 @@ export function login(user, pass){
                 refreshToken:parsed.refresh_token,
                 valid:true
             };
+       
+            dispatch({
+                type: API_LOGIN, 
+                logged:true, 
+                failedAttempt:false,
+                token:obj,
+                user:{Name:'Henrique'}
 
-        
-    
-            //  deviceStorage.saveItem(parsed.access_token);
-        
-                saveToken(obj).then(a=>{
-
-                    obj.valid=true;
-                
-    
-                    dispatch({
-                        type: API_LOGIN, 
-                        logged:true, 
-                        failedAttempt:false,
-                        token: obj
-        
-                    });
-
-                }).catch(a=>{
-
-                    console.log('error saving')
-
-                    obj.valid=false;
-
-                    dispatch({
-                        type: API_LOGIN, 
-                        logged:false,
-                        failedAttempt:true,
-                        token: obj
-
-        
-                    });
-                })
+            });
+            
              
        
         }
@@ -290,11 +269,209 @@ export function logoutUser(){
 }
 
 //
+function refreshToken(){
 
-export function checkUser(){
+    refresh=a.refreshToken
+                
+    //chamar funçao para renovar
+    console.log("expirou")
+    
+    var details = {
+
+        'grant_type': 'refresh_token',
+        'refresh_token':refresh 
+
+    };
+
+    var formBody = [];
+
+    for (var property in details) {
+
+      var encodedKey = encodeURIComponent(property);
+
+      var encodedValue = encodeURIComponent(details[property]);
+      
+      formBody.push(encodedKey + "=" + encodedValue);
+
+    }
+
+    formBody = formBody.join("&");
+
+    fetch('http://enei2019.uingress.com/internal/api/token', {
+
+        method: 'POST',
+
+        headers: {
+
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        
+        body: formBody
+
+    }).then(res=>res.json()).then(parsed=>{
+
+        console.log(parsed);
+
+        if(parsed.error=='invalid_grant'){
+
+            console.log(formBody);
+            dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});    
+
+        }else{
+
+        var obj={
+            access_token:parsed.access_token,
+            expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
+            refreshToken:parsed.refresh_token,
+            valid:true
+
+            
+        };
+   
+       // deleteToken();  
+        saveToken(obj).then(a=>{
+            console.log("Token guardado" )
+            console.log(obj)
+            dispatch({type: CHECK_USER, token:obj, logged:true, onHold:false});             
+
+        })
+    }
+        
+    
+    }).catch(a=>{
+        console.log("erro na api")
+        dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});             
+    })
+
+}
+
+ refreshLogin= async (user, pass)=>{
+
+  
+    console.log("login")
+
+
+    console.log('user: ' +user + ' password: '+pass );
+
+    var details = {
+        'username': user,
+        'password': pass,
+        'grant_type': 'password'
+    };
+    
+    var formBody = [];
+
+    for (var property in details) {
+        
+      var encodedKey = encodeURIComponent(property);
+      
+      var encodedValue = encodeURIComponent(details[property]);
+
+      formBody.push(encodedKey + "=" + encodedValue);
+
+    }
+
+    formBody = formBody.join("&");
+    
+    fetch('http://enei2019.uingress.com/internal/api/token', {
+
+        method: 'POST',
+
+        headers: {
+
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        
+        body: formBody
+
+    }).catch(err=>{
+
+        console.log(err);
+        
+        alert("error");
+       
+
+    }).then(res=>res.json()).then(parsed=>{
+
+        if(parsed.error_description=="Provided username and password is incorrect"){
+            throw "error";
+        }
+        var obj={
+            access_token:parsed.access_token,
+            expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
+            refreshToken:parsed.refresh_token,
+            valid:true
+        };
+
+    
+
+       return obj;
+         
+   
+    }
+               
+    )
+
+
+
+
+
+
+
+
+
+}
+
+export function checkUser(userDetails){
 
     return (dispatch)=>{
         
+        //verifica se existe utilizador em memória
+        if(userDetails.username!=undefined && 
+            userDetails.username!='' &&
+             userDetails.password!=undefined && 
+             userDetails.password!=''
+             ){
+
+            //verifica a validade do token
+            if(Math.round(new Date().getTime()/1000) >= userDetails.token.expirationDateToken){
+
+                //se tiver expirado
+                refreshLogin().then(a=>{
+                    
+                  console.log("tentativa de relogin")
+        
+                   var u=  userDetails;
+
+                    dispatch({type: CHECK_USER, logged:true, onHold:false, user:{Name:'Henrique'}, userDetails:u});  
+
+                }).catch(b=>{
+
+                    console.log("error");
+
+                    dispatch({type: CHECK_USER,logged:false, onHold:false});
+                })
+
+            }else{
+                console.log("chegou asui")
+                //dispatch home
+                dispatch({type: CHECK_USER,  logged:false, onHold:false, user:{Name:'Henrique'}});
+
+            }
+
+
+        }
+        //utilizador não existe em memória
+        else{
+        
+            dispatch({type: CHECK_USER,logged:false, onHold:false});
+            //dispatch menu de login
+        }
+
+
+
+/*
+
         getToken().then(a=>{
 
             
@@ -316,78 +493,10 @@ export function checkUser(){
                 //se expirar 
                 if(Math.round(new Date().getTime()/1000) >= a.expirationDateToken){
 
-                    refresh=a.refreshToken
-                
-                    //chamar funçao para renovar
-                    console.log("expirou")
-                    
-                    var details = {
-        
-                        'grant_type': 'refresh_token',
-                        'refresh_token':refresh 
-                
-                    };
-
-                    var formBody = [];
-                
-                    for (var property in details) {
-                
-                      var encodedKey = encodeURIComponent(property);
-                
-                      var encodedValue = encodeURIComponent(details[property]);
-                      
-                      formBody.push(encodedKey + "=" + encodedValue);
-                
-                    }
-                
-                    formBody = formBody.join("&");
-                
-                    fetch('http://enei2019.uingress.com/internal/api/token', {
-                
-                        method: 'POST',
-                
-                        headers: {
-                
-                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                        },
-                        
-                        body: formBody
-                
-                    }).then(res=>res.json()).then(parsed=>{
-                
-                        console.log(parsed);
-
-                        if(parsed.error=='invalid_grant'){
-
-                            console.log(formBody);
-                            dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});    
-
-                        }else{
-
-                        var obj={
-                            access_token:parsed.access_token,
-                            expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
-                            refreshToken:parsed.refresh_token,
-                            valid:true
-
-                            
-                        };
-                   
-                       // deleteToken();  
-                        saveToken(obj).then(a=>{
-                            console.log("Token guardado" )
-                            console.log(obj)
-                            dispatch({type: CHECK_USER, token:obj, logged:true, onHold:false});             
-                
-                        })
-                    }
-                        
-                    
-                    }).catch(a=>{
-                        console.log("erro na api")
-                        dispatch({type: CHECK_USER, token:'', logged:false, onHold:false});             
+                    refreshLogin(user, pass).then(a=>{
+                        console.log("refreseh")
                     })
-
+                  
                   
 
                 }else{
@@ -408,6 +517,5 @@ export function checkUser(){
             dispatch({type: CHECK_USER,token:false, logged:false, user:''});
         })
 
-    
-    }
-}
+    */
+    }}
