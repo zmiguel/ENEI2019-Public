@@ -1,4 +1,4 @@
-import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "../actions/actionTypes" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS } from "../actions/actionTypes" //Import the actions types constant we defined in our actions
 import { REHYDRATE } from 'redux-persist';
  
 let apiState= { 
@@ -29,14 +29,29 @@ const apiReducer = (state = apiState, action) => {
 
         console.log( action.payload)
 
+        var expirationDateTokenA=0;
+        var access_tokenA='';
+
+if(action.payload.apiReducer.userDetails.token!=undefined){
+        if(action.payload.apiReducer.userDetails.token.expirationDateToken!= undefined){
+            
+            expirationDateTokenA= action.payload.apiReducer.userDetails.token.expirationDateToken;
+        }
+        if((action.payload.apiReducer.userDetails.token.access_token!= undefined)){
+
+            access_tokenA= action.payload.apiReducer.userDetails.token.access_token;
+
+        }
+    }
               return {
-        
+                
+               // token: action.payload.apiReducer.token,
                 user: action.payload.apiReducer.user,
                
                  userDetails:{
                      token:{
-                         expirationDateToken:action.payload.apiReducer.userDetails.token.expirationDateToken, 
-                         access_token:action.payload.apiReducer.userDetails.token.access_token,
+                         expirationDateToken: expirationDateTokenA, 
+                         access_token:access_tokenA,
                         
                         },
                         username:action.payload.apiReducer.userDetails.username,
@@ -47,6 +62,11 @@ const apiReducer = (state = apiState, action) => {
              return Object.assign({}, state, {
             isConnected: action.isConnected,
           });
+        
+        case GET_CAREERS:
+          
+            state=Object.assign({},state, {  });
+            return state;
 
         case HOLD:
 
@@ -58,7 +78,7 @@ const apiReducer = (state = apiState, action) => {
    
             state=Object.assign({},state, { 
                 logged:action.logged, 
-                token:action.token, 
+                //token:action.token, 
                 failedAttempt: action.failedAttempt, 
                 user:action.user, 
                 userDetails: {token:action.token, username:action.userDetails.username, password:action.userDetails.password},
@@ -69,14 +89,17 @@ const apiReducer = (state = apiState, action) => {
             return state;
 
         case CHECK_USER:
-        
-            state=Object.assign({},state, { token:action.token,logged:action.logged, onHold:action.onHold});
+
+           var u=  action.userDetails;
+           u.token= action.token;
+
+            state=Object.assign({},state, {logged:action.logged, onHold:action.onHold, userDetails:u });
 
             return state;
 
         case LOGOUT_USER:
 
-             state=Object.assign({},state, { token:action.token, logged:false});
+             state=Object.assign({},state, { logged:false});
 
             return state;
 

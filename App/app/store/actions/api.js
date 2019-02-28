@@ -1,13 +1,17 @@
 import { AsyncStorage } from 'react-native';
-const axios = require('axios');
 
 import { NetInfo } from 'react-native';
 
 
-import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS } from "./actionTypes" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS } from "./actionTypes" //Import the actions types constant we defined in our actions
+
 import moment from 'moment'
+
 import { compose } from 'redux';
  
+const axios = require('axios');
+
+
 
 export const connectionState = (status) => {
     console.log(status);
@@ -16,34 +20,75 @@ export const connectionState = (status) => {
 
 
 
-export function getEvents(user){
+
+///Attendee/AvailableGuestlists
+
+
+const apiBaseUrl= 'https://tickets.enei.pt/internal/api'
+
+export  function getAvailableGuestlists(token){
+
+    axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+    axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
+
+
+    let completeUrl= apiBaseUrl + "/Attendee/AvailableGuestlists";
+    
     return (dispatch)=>{
+
+        console.log(completeUrl)
+        axios.get('/Attendee/AvailableGuestlists')
+        .then(function (response) {
+        
+            // handle success
+            console.log(response);
+            dispatch({
+                type: GET_CAREERS,
+                //events: events
+            
+                });
+         })
+        .catch(function (error) {
+         // handle error
+            console.log(error);
+        })
+        .then(function () {
+        // always executed
+        });
+}
+}
+
+
+export function getEvents(user){
+
+    return (dispatch)=>{
+
     let events = [];
     console.log("chegou aqui")
 
 
-  for(let key in user.Sessions){
+    for(let key in user.Sessions){
 
-      events.push({
-          time: moment(user.Sessions[key].SessionStart).format('h:mm'),
-          timeEnd: moment(user.Sessions[key].SessionEnd).format('h:mm'),
-          //lineColor:'#009688',
-          imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
-          description:user.Sessions[key].Description,
-          name:user.Sessions[key].Name,
-          Enrolled:user.Sessions[key].Enrolled,
-          MaxAttendees:user.Sessions[key].MaxAttendees
+        events.push({
+            time: moment(user.Sessions[key].SessionStart).format('h:mm'),
+            timeEnd: moment(user.Sessions[key].SessionEnd).format('h:mm'),
+            //lineColor:'#009688',
+            imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
+            description:user.Sessions[key].Description,
+            name:user.Sessions[key].Name,
+            Enrolled:user.Sessions[key].Enrolled,
+            MaxAttendees:user.Sessions[key].MaxAttendees
       })
       
-  }
+    }
 
-  dispatch({
+    dispatch({
     type: GET_EVENTS,
     events: events
 
-});
+    });
 
-}
+    }
 }
 
 const saveToken = async token => {
@@ -87,9 +132,11 @@ const saveToken = async token => {
       console.log(error.message);
     }
     return obj;
-  }
+}
+
 
 const deleteToken = async () => {
+
     try {
       await AsyncStorage.removeItem('userToken');
       await AsyncStorage.removeItem('expirationDateToken');
@@ -216,13 +263,14 @@ export function hold(){
 
 export function getUserInfo(token){
 
+
+        
     return (dispatch)=>{
 
             //TODO: verificar validade do token
 
             console.log('Chamada "getUserInfo"');
             
-
             var obj = {  
 
             method: 'GET',
@@ -399,33 +447,40 @@ function refreshToken(){
     }).then(res=>res.json()).then(parsed=>{
 
         if(parsed.error_description=="Provided username and password is incorrect"){
-            throw "error";
+
+           console.error("cenas da vida")
+
         }
-        var obj={
-            access_token:parsed.access_token,
-            expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
-            refreshToken:parsed.refresh_token,
-            valid:true
-        };
+        else{
 
-    
+            console.log(parsed)
 
-       return obj;
+            var obj={
+                access_token:parsed.access_token,
+                expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
+                refreshToken:parsed.refresh_token,
+                valid:true
+            };
          
-   
+            go();
+            return obj;
+              
+         
+        }
+
     }
                
     )
 
-
-
-
-
-
-
-
-
 }
+
+
+go=(t)=>{
+    dispatch({type: CHECK_USER, logged:true, onHold:false, user:{Name:'Henrique'}, token:t});  
+}
+
+
+
 
 export function checkUser(userDetails){
     var u=  userDetails;
@@ -444,20 +499,69 @@ export function checkUser(userDetails){
             if(Math.round(new Date().getTime()/1000) >= userDetails.token.expirationDateToken){
                 
              
-                //se tiver expirado
-                refreshLogin().then(a=>{
+                var details = {
+                    'username': userDetails.username,
+                    'password': userDetails.password,
+                    'grant_type': 'password'
+                };
+                
+                var formBody = [];
+            
+                for (var property in details) {
                     
-                    console.log("tentativa de relogin")
-        
-                    dispatch({type: CHECK_USER, logged:true, onHold:false, user:{Name:'Henrique'}, userDetails:u});  
-
-                }).catch(b=>{
-
-                    console.log("error");
-
-                    dispatch({type: CHECK_USER,logged:false, onHold:false,userDetails:u});
-                })
-
+                  var encodedKey = encodeURIComponent(property);
+                  
+                  var encodedValue = encodeURIComponent(details[property]);
+            
+                  formBody.push(encodedKey + "=" + encodedValue);
+            
+                }
+            
+                formBody = formBody.join("&");
+                
+                fetch('http://enei2019.uingress.com/internal/api/token', {
+            
+                    method: 'POST',
+            
+                    headers: {
+            
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    
+                    body: formBody
+            
+                }).catch(err=>{
+            
+                    console.log(err);
+                    
+                    alert("error");
+                   
+            
+                }).then(res=>res.json()).then(parsed=>{
+            
+                    if(parsed.error_description=="Provided username and password is incorrect"){
+            
+                       console.error("cenas da vida")
+            
+                    }
+                    else{
+            
+                        console.log(parsed)
+            
+                        var obj={
+                            access_token:parsed.access_token,
+                            expirationDateToken:Math.round(new Date().getTime()/1000) + 3598,
+                            refreshToken:parsed.refresh_token,
+                            valid:true
+                        };
+                        
+                        dispatch({type: CHECK_USER, logged:true, onHold:false, userDetails:u,token:obj}); 
+                          
+                     
+                    }
+            
+                }                          
+                )
             }else{
                 console.log("Tempo restante token: "+ Math.round((userDetails.token.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
     
@@ -474,55 +578,4 @@ export function checkUser(userDetails){
             dispatch({type: CHECK_USER,logged:false, onHold:false,userDetails:u});
             //dispatch menu de login
         }
-
-
-
-/*
-
-        getToken().then(a=>{
-
-            
-            if(a.access_token=='none'){
-                
-                a.valid=false;
-                
-                console.log('token não existe em memória')
-                
-                dispatch({type: CHECK_USER,token:a,logged:false, onHold:false});
-              
-            }
-            else{
-                
-                a.valid=true;
-
-                console.log('Existe Token em memória :'+  a.refreshToken )
-
-                //se expirar 
-                if(Math.round(new Date().getTime()/1000) >= a.expirationDateToken){
-
-                    refreshLogin(user, pass).then(a=>{
-                        console.log("refreseh")
-                    })
-                  
-                  
-
-                }else{
-
-                    console.log("Tempo restante token: "+ Math.round((a.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
-    
-                    //fazer validação da data e renovar o token
-    
-                    dispatch({type: CHECK_USER, token:a, logged:true, onHold:false, user:{Name:'Henrique'}});
-                }
-
-            }
-            
-           
-        }).catch(a=>{
-
-            console.log('erro a ler o token'+  a);
-            dispatch({type: CHECK_USER,token:false, logged:false, user:''});
-        })
-
-    */
     }}

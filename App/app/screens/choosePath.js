@@ -79,7 +79,9 @@ class choosePath extends React.Component {
 
         ]
     }
-
+    getCareerPaths=()=>{
+        this.props.getAvailableGuestlists(this.props.userDetails.token)
+    }
     render() {
         let data = [{
           value: 'Desenvolvimento Web',
@@ -90,12 +92,15 @@ class choosePath extends React.Component {
         }];
      
         return (
-            <View style={{width:SCREEN_WIDTH*0.7}}>
+            <View style={{flex:1,width:SCREEN_WIDTH*0.7, alignContent:'center'}}>
+              
                  <Dropdown
             label='Career Path'
             data={data}
     
           />
+
+                <Button onPress={this.getCareerPaths} title="teste"/>
             </View>
          
         );
@@ -182,7 +187,9 @@ function mapStateToProps(state, props) {
         token: state.apiReducer.token,
         user: state.apiReducer.user,
         logged: state.apiReducer.logged,
-        events: state.apiReducer.events
+        events: state.apiReducer.events,
+        userDetails: state.apiReducer.userDetails
+
 
     }
 }

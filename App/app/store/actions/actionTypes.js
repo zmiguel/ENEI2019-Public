@@ -9,7 +9,7 @@ export const LOGOUT_USER= 'LOGOUT_USER';
 export const USER_INFO= 'USER_INFO'
 export const HOLD='HOLD'
 export const GET_EVENTS='GET_EVENTS'
-
+export const GET_CAREERS='GET_CAREERS'
 
 
 
