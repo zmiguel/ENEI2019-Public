@@ -42,14 +42,60 @@ function changeMainMenu(scrollMovement) {
     }
 }
 
+// cookies code
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    document.cookie = name + '=; Max-Age=-99999999;';
+}
+
+// se o cookie ja existir
+/*
+var cookie = getCookie('ppkcookie');
+if (cookie) {
+    document.getElementById("apresentation").classList.add("animated");
+} else {
+    // add cookie
+    setCookie('ppkcookie', 'animatedLogo', 3);
+    setTimeout(function () {
+        document.getElementById("apresentation").classList.add("animated");
+    }, 1100);
+}
+*/
+// end cookies code
+
 $(document).ready(function () {
+
+    // inicial animation
+    setTimeout(function () {
+        document.getElementById("apresentation").classList.add("animated");
+    }, 1200);
 
     //  main menu anchors
     $("#main-menu ul li a").click(function () {
         var hrefMenuClicked = $(this).attr("href");
 
         $("html, body").animate({
-            scrollTop: ($(hrefMenuClicked).offset().top - $("#open-menu-mobile").outerHeight())
+            scrollTop: $(hrefMenuClicked).offset().top
         }, 500, function () {
             //  close submenu mobile after click
             if ($("#open-menu-mobile").css("display") == ("block")) {

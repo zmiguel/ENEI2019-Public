@@ -65,6 +65,59 @@ $bold: 700;
 	}
 }
 
+@-webkit-keyframes animateLineLogo {
+	15% {
+		fill: #c7403a;
+	}
+	30% {
+		fill: #81898e;
+	}
+	45% {
+		fill: #993d3f;
+	}
+	100% {
+		fill: #000000;
+	}
+}
+@-moz-keyframes animateLineLogo {
+	15% {
+		fill: #c7403a;
+	}
+	30% {
+		fill: #81898e;
+	}
+	45% {
+		fill: #993d3f;
+	}
+	100% {
+		fill: #000000;
+	}
+}
+
+@keyframes animateLineLogo {
+	15% {
+		fill: #c7403a;
+	}
+	30% {
+		fill: #81898e;
+	}
+	45% {
+		fill: #993d3f;
+	}
+	100% {
+		fill: #000000;
+	}
+}
+
+@keyframes animateLettersLogo {
+	from {
+		fill: transparent;
+	}
+	to {
+		fill: #ffffff;
+	}
+}
+
 //icons
 $icomoon-font-path: "fonts" !default;
 
@@ -480,30 +533,69 @@ hr {
 	}
 }
 
+#logo-enei {
+	width: 221px;
+	@include position(fixed, calc(50% - 166px), null, null, calc(50% - 110px));
+	z-index: 10;
+	@include portable {
+		width: 175px;
+		top: calc(50% - 131px);
+		left: calc(50% - 87px);
+	}
+	@include mobile {
+		width: 125px;
+		top: calc(50% - 70px);
+		left: calc(50% - 62px);
+	}
+	#linha {
+		fill: transparent;
+		-webkit-animation: animateLineLogo 1s 0.25s forwards; /* Safari & Chrome */
+		-moz-animation: animateLineLogo 1s 0.25s forwards; /* Firefox */
+		animation: animateLineLogo 1s 0.25s forwards;
+	}
+	.letras-logo {
+		fill: transparent;
+		animation: animateLettersLogo 0.25s 0.7s forwards ease-in;
+	}
+}
+
 #apresentation {
 	height: 100vh;
 	background: url("imgs/coimbra-image.jpg") no-repeat center;
 	background-size: cover;
 	background-attachment: fixed;
+	z-index: 10;
 	position: relative;
+
+	&::after {
+		content: " ";
+		@include position(fixed, 0, null, null, 0);
+		@include size(100%, 100%);
+		background-color: $white;
+		opacity: 1;
+		transition: opacity 150ms ease-out;
+	}
+	&.animated {
+		z-index: 0;
+		&::after {
+			opacity: 0;
+		}
+		#logo-enei {
+			position: absolute;
+		}
+		#linha {
+			fill: $black;
+			animation: none;
+		}
+		.letras-logo {
+			fill: $white;
+			animation: none;
+		}
+	}
 	@include mobile {
 		height: 60vh;
 		background-position: bottom right;
 		background-attachment: inherit;
-	}
-	.logo-enei {
-		width: 221px;
-		@include position(absolute, calc(50% - 166px), null, null, calc(50% - 110px));
-		@include portable {
-			width: 175px;
-			top: calc(50% - 131px);
-			left: calc(50% - 87px);
-		}
-		@include mobile {
-			width: 125px;
-			top: calc(50% - 70px);
-			left: calc(50% - 62px);
-		}
 	}
 }
 
@@ -871,7 +963,7 @@ hr {
 		display: block;
 		margin: 40px auto 0;
 		max-width: 200px;
-		filter: grayscale(.2);
+		filter: grayscale(0.2);
 		transform: scale(1);
 		transition: all $transition-time ease-in-out;
 		&:hover {
