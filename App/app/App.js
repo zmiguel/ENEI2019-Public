@@ -40,12 +40,16 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import Swiper from 'react-native-swiper';
+var TimerMixin = require('react-timer-mixin');
 
 function handleConnectivityChange() {
   console.log("asdasd");
   }
+  
 class App extends Component {
-    
+  handleConnectivityChange = isConnected => {
+    this.setState({ isConnected });
+  }
     _activate=()=>{
 
         this.setState({ isModalVisible: !this.state.isModalVisible});
@@ -84,8 +88,9 @@ class App extends Component {
             username:'QR code',
             failedAttempt: false,
             push:4,
-             UI_loginScannerActive:false
-
+             UI_loginScannerActive:false,
+             userDetails:{username:'', password:''},
+             isConnected: true
         };
 
     }
@@ -102,19 +107,19 @@ class App extends Component {
 
     
     componentDidMount() {
-       
-        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+      this.props.hold();
+      NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
 
         this.setState({isModalVisible: false})
         //verifica se o utilizador tem token guardado
-        this.props.checkUser();
+        this.props.checkUser(this.props.userDetails);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
  
 
     }
     componentWillUnmount() {
-        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
       }
     
     _keyboardDidShow () {
@@ -130,9 +135,9 @@ class App extends Component {
       }
     onSuccess = (e) => {
 
-       // this.setState({ isModalVisible: !this.state.isModalVisible });
-         //  this.props.login(e.data, 'f8908cc0');
-         this.props.closeLoginQRScan();
+        // this.setState({ isModalVisible: !this.state.isModalVisible });
+        // this.props.login(e.data, 'f8908cc0');
+        this.props.closeLoginQRScan();
         this.setState({username:e.data})
 
         console.log("QR code lido");
@@ -142,8 +147,14 @@ class App extends Component {
     };
 
     render() {
-
-        if  (!this.props.logged) {
+      if (!this.state.isConnected) {
+        return (
+          <View>
+            <Text>cenas da vida</Text>
+          </View>
+        );
+      }
+        if  (!this.props.logged && this.props.onHold) {
 
 
             return (
@@ -530,7 +541,8 @@ mapStateToProps = (state, props) => {
         onHold: state.apiReducer.onHold,
         logged: state.apiReducer.logged,
         failedAttempt:state.apiReducer.failedAttempt,
-        UI_loginScannerActive: state.uiReducer.UI_loginScannerActive
+        UI_loginScannerActive: state.uiReducer.UI_loginScannerActive,
+        userDetails: state.apiReducer.userDetails,
     }
 };
 

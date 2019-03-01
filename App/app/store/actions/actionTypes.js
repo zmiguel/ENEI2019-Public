@@ -11,7 +11,12 @@ export const HOLD='HOLD'
 export const GET_EVENTS='GET_EVENTS'
 
 
-
+//API BLUETREND CALENDÁRIO
+export const GET_CAREERS='GET_CAREERS'  //GET GEST LISTS 
+export const CHANGE_GUEST = 'CHANGE_GUEST'
+export const GET_SESSIONS= 'GET_SESSIONS'
+export const SIGN_SESSION= 'SIGN_SESSION'
+export const WAIT_CHANGE='WAIT_CHANGE'
 
 
 //UI

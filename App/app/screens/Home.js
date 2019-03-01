@@ -11,7 +11,8 @@ import {
     StyleSheet,
     Image,
     ImageBackground, 
-    NetInfo
+    NetInfo,
+    AppState
 } from 'react-native';
 
 import {Shadow} from 'react-native-shadow'
@@ -38,10 +39,14 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 import {Card, Divider} from 'react-native-elements'
 
 import RNMaterialShadows from 'react-native-material-shadows';
- 
+
+
 
 class Home extends Component {
-    
+    _handleConnectionChange = (isConnected) => {
+       // this.props.dispatch(connectionState({ status: isConnected }));
+       console.log("fck that")
+      };
     _refresh() {
         return new Promise((resolve) => {
           setTimeout(()=>{resolve()}, 2000)
@@ -60,21 +65,27 @@ class Home extends Component {
             token: {valid: false},
             logged: true,
             onHold: true,
-            user: {Name: ''}
+            user: {Name: ''},
+            userDetails:{},
+            appState: AppState.currentState,
         };
     }
-  handleConnectivityChange = () => {
+    handleConnectivityChange = () => {
       console.log("asdasdasdasdasd");
       }
-    componentDidMount() {
-        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
 
-        this.props.hold();
+    componentDidMount() {
+       
+      //  NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+
+       // this.props.hold();
+        console.log("hold"+ this.props.onHold)
         //this.props.logoutUser();
 
         //console.log(this.props.token);
 
-        this.props.getUserInfo(this.props.token);
+      
+       // this.props.getUserInfo(this.props.userDetails.token);
 
 
         //console.log('logged:'+this.props.logged);
@@ -85,7 +96,7 @@ class Home extends Component {
 
     }
     componentWillUnmount() {
-        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
+        
      }
 
     bClick() {
@@ -101,8 +112,8 @@ class Home extends Component {
         //var navigate  = this.props.navigation.navigate
     }
 _update=()=>{
-    if(this.props.token!= undefined)
-    this.props.getUserInfo(this.props.token);
+    
+    this.props.getUserInfo(this.props.userDetails.token);
     
 }
     
@@ -342,7 +353,9 @@ function mapStateToProps(state, props) {
 
         token: state.apiReducer.token,
         user: state.apiReducer.user,
-        logged: state.apiReducer.logged
+        logged: state.apiReducer.logged,
+        userDetails: state.apiReducer.userDetails,
+        onHold: state.apiReducer.onHold
 
     }
 }

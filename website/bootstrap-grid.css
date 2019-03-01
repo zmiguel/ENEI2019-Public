@@ -736,7 +736,7 @@
 .affix {
     position: fixed;
 }
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .container {
         padding-left: 10px;
         padding-right: 10px;
@@ -753,4 +753,4 @@
         padding-left: 10px;
         padding-right: 10px;
     }
-}
+} */

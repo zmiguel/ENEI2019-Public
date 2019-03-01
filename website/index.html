@@ -8,13 +8,13 @@
     <meta content="width" name="MobileOptimized">
     <meta content="true" name="HandheldFriendly">
     <!-- Place favicon.ico in the root directory -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ff0000">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
     <title>ENEI'19</title>
     <meta name="description"
         content="Página do Encontro Nacional de Estudantes de Informática 2019, no Instituto Superior de Engenharia de Coimbra (ISEC) a realizar-se entre 12 e 15 de abril de 2019. O ENEI pretende oferecer aos estudantes de todo o país um evento que promove a aprendizagem, a troca de ideias e o convívio, enquanto tenta criar fortes ligações com o mundo empresarial.">
@@ -43,34 +43,55 @@
                 <li class="unavailable">Programa</li>
                 <li><a href="#precos" title="Preços">Preços</a></li>
                 <li class="unavailable">App</li>
-                <li class="unavailable">Patrocinadores</li>
+                <li><a href="#sponsors" title="Sponsors">Sponsors</a></li>
                 <li><a href="#faqs" title="Faq's">Faq's</a></li>
             </ul>
         </nav>
     </header>
     <!-- apresentation section -->
-    <div id="apresentation">
-        <img src="imgs/logo-enei.png" alt="Logótipo ENEI" width="221" height="333" class="logo-enei">
+    <div id="apresentation" class="">
+        <!-- <img src="imgs/logo-enei.png" alt="Logótipo ENEI" width="221" height="333" class="logo-enei"> -->
+        <svg version="1.1" id="logo-enei" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            x="0px" y="0px" viewBox="0 0 225 335" style="enable-background:new 0 0 225 335;" xml:space="preserve">
+            <path id="linha" d="M220.7,5.4L5.6,63v269.1l215.2-57.6V5.4z" />
+            <path id="ee" class="letras-logo" d="M61.3,97.8c13.2-3.5,19.8-5.2,33.3-8.8c0,3.8,0,5.9,0,10c-9.4,2.5-14.1,3.8-23.4,6.2c0,5.3,0,8,0,13.6
+	c8.9-2.4,13.4-3.6,22.5-6c0,4.4,0,6.7,0,11.4c-9.1,2.4-13.6,3.6-22.5,6c0,6,0,9,0,15.2c9.6-2.5,14.5-3.8,24.4-6.5
+	c0,4.8,0,7.3,0,12.2c-13.9,3.7-20.9,5.6-34.2,9.1V97.8z" />
+            <path id="n" class="letras-logo"
+                d="M153.7,129.1c0.5-0.1,0.8-0.2,1.4-0.4c-0.1-24.4-0.1-36.5-0.2-55.8c4.1-1.1,6.1-1.6,10.2-2.7v62.2
+	c-7.7,2.1-11.6,3.2-19.5,5.3c-2.6-24-4-35.9-6.6-55.4c-0.6,0.2-0.8,0.2-1.4,0.4c0.1,20.1,0.2,32.4,0.4,57.1
+	c-4.1,1.1-6.1,1.6-10.2,2.7c-0.1-20.7-0.2-41.5-0.4-62.2c7.9-2.1,11.9-3.2,19.8-5.3C149.8,93.6,151.1,105.3,153.7,129.1" />
+            <path id="e" class="letras-logo" d="M61.3,204.9c12.9-3.4,19.7-5.2,33.3-8.9c0,4.9,0,7.4,0,12.2c-9.6,2.6-14.4,3.8-23.6,6.3
+	c0,6.1,0,9.1,0,15c8.9-2.4,13.5-3.6,22.7-6.1c0,4.6,0,6.9,0,11.4c-9.2,2.5-13.8,3.7-22.7,6.1c0,5.7,0,8.5,0,13.8
+	c9.6-2.6,14.6-3.9,24.6-6.6c0,4.1,0,6.1,0,10c-14.2,3.8-21.2,5.7-34.3,9.2V204.9z" />
+            <path id="i" class="letras-logo" d="M128.7,186.9c14.5-3.9,21.7-5.9,35.5-9.7c0,4.9,0,7.3,0,12.1c-4.9,1.4-7.4,2-12.5,3.4
+	c0.1,17.1,0.1,25.4,0.2,40.1c5-1.4,7.5-2.1,12.3-3.4c0,4.1,0,6.1,0,10c-13.3,3.7-20.5,5.7-35.1,9.7c0-3.8,0-5.8-0.1-10
+    c5.2-1.4,7.8-2.1,13-3.6c-0.1-14.7-0.2-23-0.3-40.1c-5.1,1.4-7.7,2.1-12.9,3.5C128.8,194.2,128.8,191.8,128.7,186.9" />
+        </svg>
     </div>
+
     <!-- enei section -->
     <section id="enei">
         <div class="container">
-            <div class="col-lg-7 col-sm-7">
-                <div class="pre-h1">12 A 15 ABRIL DE 2019</div>
-                <h1>ENEI</h1>
-                <hr>
-                <p>O Encontro Nacional de Estudantes de Informática é um dos maiores eventos na área da tecnologia em
-                    Portugal
-                    reunindo estudantes de informática de todas as faculdades do país.</p>
-                <p>Reconhecido pela sua qualidade e variedade de temas e atividades, tem como prioridade o contacto
-                    entre
-                    participantes e empresas, bem como a socialização, o convívio e a troca de experiências e
-                    conhecimentos
-                    entre os presentes.</p>
+            <div class="row">
+                <div class="col-lg-7 col-sm-7">
+                    <div class="pre-h1">12 A 15 ABRIL DE 2019</div>
+                    <h1>ENEI</h1>
+                    <hr>
+                    <p>O Encontro Nacional de Estudantes de Informática é um dos maiores eventos na área da tecnologia
+                        em
+                        Portugal
+                        reunindo estudantes de informática de todas as faculdades do país.</p>
+                    <p>Reconhecido pela sua qualidade e variedade de temas e atividades, tem como prioridade o contacto
+                        entre
+                        participantes e empresas, bem como a socialização, o convívio e a troca de experiências e
+                        conhecimentos
+                        entre os presentes.</p>
+                </div>
             </div>
         </div>
     </section>
-    
+
     <!-- count down section -->
     <aside id="countdown">
         <div>
@@ -94,104 +115,130 @@
     <!-- precos section -->
     <section id="precos">
         <div class="container">
-            <div class="col-lg-10 col-lg-offset-1 col-sm-12 col-xs-10 col-xs-offset-1">
-                <div class="pre-h1">ENEI'19</div>
-                <h1>Preços</h1>
-                <hr>
-                <div class="price-block">
-                    <div class="type">Early-Bird</div>
-                    <div>
-                        <div class="individual-price">
-                            <div class="price"><span>€</span>25</div>
-                            <div class="label">Grupo</div>
-                            <span class="options">*Alimentação e alojamento (pavilhão) incluídos</span>
-                        </div> 
-                    </div>
-                    <a href="https://tickets.enei.pt/group" title="Comprar" target="_blank" class="buy-button">Comprar</a>
-                </div>
-                <div class="price-block">
-                    <div class="type">Early-Bird</div>
-                    <div>
-                        <div class="individual-price">
-                            <div class="price"><span>€</span>30</div>
-                            <div class="label">Individual</div>
-                            <span class="options">*Alimentação e alojamento (pavilhão) incluídos</span>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-sm-12 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+                    <div class="pre-h1">ENEI'19</div>
+                    <h1>Preços</h1>
+                    <hr>
+                    <div class="price-block">
+                        <div class="type">Early-Bird</div>
+                        <div>
+                            <div class="individual-price">
+                                <div class="price"><span>€</span>25</div>
+                                <div class="label">Grupo</div>
+                                <span class="options">*Alimentação e alojamento (pavilhão) incluídos</span>
+                            </div>
                         </div>
+                        <a href="https://tickets.enei.pt/group" title="Comprar" target="_blank"
+                            class="buy-button">Comprar</a>
                     </div>
-                    <a href="https://tickets.enei.pt" title="Comprar" target="_blank"class="buy-button">Comprar</a>
-                </div>
-                <div class="price-block disable">
-                    <div class="type">Pontual</div>
-                    <div class="individual-price">
-                        <div class="price"><span>€</span>20</div>
-                        <div class="label">Individual</div>
-                        <span class="options">*Alimentação incluída</span>
+                    <div class="price-block">
+                        <div class="type">Early-Bird</div>
+                        <div>
+                            <div class="individual-price">
+                                <div class="price"><span>€</span>30</div>
+                                <div class="label">Individual</div>
+                                <span class="options">*Alimentação e alojamento (pavilhão) incluídos</span>
+                            </div>
+                        </div>
+                        <a href="https://tickets.enei.pt" title="Comprar" target="_blank" class="buy-button">Comprar</a>
                     </div>
-                    <span class="buy-button">Brevemente</span>
+                    <div class="price-block disable">
+                        <div class="type">Pontual</div>
+                        <div class="individual-price">
+                            <div class="price"><span>€</span>20</div>
+                            <div class="label">Individual</div>
+                            <span class="options">*Alimentação incluída</span>
+                        </div>
+                        <span class="buy-button">Brevemente</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Faqs -->
+    <!-- sponsors section -->
+    <section id="sponsors">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                    <h1>Main Sponsor</h1>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+                    <a href="https://www.criticalsoftware.com/pt/homepage" title="Critical Software" target="_blank"
+                        class="sponsor-image"><img src="imgs/critical-sponsor.svg" alt="Critical Software Image"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- faqs section -->
     <section id="faqs">
         <div class="container">
-            <div class="col-lg-5">
-                <div class="pre-h1">Perguntas Frequentes</div>
-                <h1>Faq</h1>
-                <hr>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="pre-h1">Perguntas Frequentes</div>
+                    <h1>Faq</h1>
+                    <hr>
+                </div>
             </div>
-            <div class="col-lg-10">
-                <ul id="accordion">
-                    <li>
-                        <a href="#" title="O que é o ENEI?" rel="nofollow" class="toggle">O que é o ENEI?</a>
-                        <div class="content-accordion">
-                            <p>O Encontro Nacional de Estudantes de Informática (ENEI) é um evento que pretende
-                                oferecer aos estudantes de todo o país um evento que promove a aprendizagem, a troca de
-                                ideias e o convívio, enquanto tenta criar fortes ligações com o mundo empresarial.</p>
+            <div class="row">
+                <div class="col-lg-10">
+                    <ul id="accordion">
+                        <li>
+                            <a href="#" title="O que é o ENEI?" rel="nofollow" class="toggle">O que é o ENEI?</a>
+                            <div class="content-accordion">
+                                <p>O Encontro Nacional de Estudantes de Informática (ENEI) é um evento que pretende
+                                    oferecer aos estudantes de todo o país um evento que promove a aprendizagem, a troca
+                                    de
+                                    ideias e o convívio, enquanto tenta criar fortes ligações com o mundo empresarial.
+                                </p>
 
-                            <p> A 13ª edição do evento terá lugar no Instituto Superior de Engenharia de Coimbra (ISEC)
-                                entre os dias 12 e 15 de abril de 2019 e a organização espera contar com 700 estudantes
-                                que poderão participar em palestras, workshops e painéis de discussão, contando com
-                                oradores de renome nacional e internacional.</p>
+                                <p>Esta versão do evento também incluirá os tradicionais momentos de diversão noturnos
+                                    que
+                                    muito apelam a todos os participantes das antigas edições e são uma excelente via de
+                                    networking e transferência de conhecimento!</p>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" title="Onde me posso inscrever?" rel="nofollow" class="toggle">Onde me posso
+                                inscrever?</a>
+                            <div class="content-accordion">
+                                <p>Podes adquirir o teu bilhete <a href="https://tickets.enei.pt" title="Aqui">AQUI</a>.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" title="Quando é o programa vai estar disponível?" rel="nofollow"
+                                class="toggle">Quando é o programa vai estar disponível?</a>
+                            <div class="content-accordion">
+                                <p>O programa vai sendo lançado nas próximas semanas de forma iterativa.</p>
 
-                            <p>Esta versão do evento também incluirá os tradicionais momentos de diversão noturnos que
-                                muito apelam a todos os participantes das antigas edições e são uma excelente via de
-                                networking e transferência de conhecimento!</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#" title="Onde me posso inscrever?" rel="nofollow" class="toggle">Onde me posso
-                            inscrever?</a>
-                        <div class="content-accordion">
-                            <p>Podes adquirir o teu bilhete <a href="https://tickets.enei.pt" title="Aqui">AQUI</a>.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#" title="Quando é o programa vai estar disponível?" rel="nofollow" class="toggle">Quando é o programa vai estar disponível?</a>
-                        <div class="content-accordion">
-                            <p>O programa vai sendo lançado nas próximas semanas de forma iterativa.</p>
-                          
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#" title="Quem pode participar no evento?" rel="nofollow" class="toggle">Quem pode
-                            participar no evento?</a>
-                        <div class="content-accordion">
-                            <p>Podem participar no ENEI’19 todos os estudantes de cursos relacionados com informática e
-                                todos aqueles que querem aprender mais sobre os temas abordados!</p>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#" title="Tenho acesso a todas as sessões?" rel="nofollow" class="toggle">Tenho
-                            acesso a todas as sessões?</a>
-                        <div class="content-accordion">
-                            <p>Não, as palestras e workshops necessitam de inscrições visto que têm lugares limitados.</p>
-                            <p>Brevemente poderás te inscrever na aplicação móvel do ENEI'19!</p>
-                        </div>
-                    </li>
-                </ul>
-                
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" title="Quem pode participar no evento?" rel="nofollow" class="toggle">Quem pode
+                                participar no evento?</a>
+                            <div class="content-accordion">
+                                <p>Podem participar no ENEI’19 todos os estudantes de cursos relacionados com
+                                    informática e
+                                    todos aqueles que querem aprender mais sobre os temas abordados!</p>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" title="Tenho acesso a todas as sessões?" rel="nofollow" class="toggle">Tenho
+                                acesso a todas as sessões?</a>
+                            <div class="content-accordion">
+                                <p>Não, as palestras e workshops necessitam de inscrições visto que têm lugares
+                                    limitados.</p>
+                                <p>Brevemente poderás te inscrever na aplicação móvel do ENEI'19!</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -199,25 +246,29 @@
     <!-- social network section -->
     <aside id="social-network">
         <div class="container">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h2>Segue-nos</h2>
-                <ul>
-                    <li><a href="https://www.facebook.com/ENEIConf/" title="Facebook" target="_blank"
-                            class="icon-facebook"></a></li>
-                    <li><a href="https://www.instagram.com/eneiconf/" title="Instagram" target="_blank"
-                            class="icon-instagram"></a></li>
-                    <li><a href="https://www.linkedin.com/company/enei/" title="Linkedin" target="_blank"
-                            class="icon-linkedin"></a></li>
-                    <li><a href="mailto:geral@enei.pt" title="Email" target="_blank" class="icon-email"></a></li>
-                </ul>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Segue-nos</h2>
+                    <ul>
+                        <li><a href="https://www.facebook.com/ENEIConf/" title="Facebook" target="_blank"
+                                class="icon-facebook"></a></li>
+                        <li><a href="https://www.instagram.com/eneiconf/" title="Instagram" target="_blank"
+                                class="icon-instagram"></a></li>
+                        <li><a href="https://www.linkedin.com/company/enei/" title="Linkedin" target="_blank"
+                                class="icon-linkedin"></a></li>
+                        <li><a href="mailto:geral@enei.pt" title="Email" target="_blank" class="icon-email"></a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </aside>
     <!-- footer -->
     <footer>
         <div class="container">
-            <div class="col-lg-12">
-                <p>© 2019 ENEI . Todos os direitos reservados</p>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>© 2019 ENEI . Todos os direitos reservados</p>
+                </div>
             </div>
         </div>
     </footer>
@@ -227,15 +278,15 @@
     <script type="text/javascript" src="js/scripts.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130588243-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130588243-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'UA-130588243-1');
-</script>
+        gtag('config', 'UA-130588243-1');
+    </script>
 </body>
 
 </html>
