@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { NetInfo } from 'react-native';
 
 
-import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, GET_SESSIONS } from "./actionTypes" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, GET_SESSIONS, CHANGE_GUEST, WAIT_CHANGE } from "./actionTypes" //Import the actions types constant we defined in our actions
 
 import moment from 'moment'
 
@@ -12,6 +12,14 @@ import { compose } from 'redux';
 const axios = require('axios');
 
 
+export const waitChangeGuest= ()=>{
+    return (dispatch)=>{
+        dispatch({
+            type: WAIT_CHANGE,
+            });
+    }
+
+}
 
 export const connectionState = (status) => {
     
@@ -25,11 +33,11 @@ export const connectionState = (status) => {
 ///Attendee/AvailableGuestlists
 
 
-const apiBaseUrl= 'https://tickets.enei.pt/internal/api'
+axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
 
 export  function getAvailableGuestlists(token){
 
-    axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+   
    
     axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
     
@@ -70,7 +78,7 @@ export  function getAvailableGuestlists(token){
 */
 export function changeGuestList(token, guestID){
     //http://enei2019.uingress.com/internal/api/Attendee/ChangeGuestlist/
-    axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+    
    
     axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
     
@@ -85,8 +93,8 @@ console.log(full)
             // handle success
             console.log(response);
             dispatch({
-                type: GET_CAREERS,
-                guests: response.data
+                type: CHANGE_GUEST,
+                //guests: response.data
             
                 });
          })
@@ -556,7 +564,9 @@ go=(t)=>{
 
 
 export function checkUser(userDetails){
+    
     var u=  userDetails;
+    
     return (dispatch)=>{
        
         //verifica se existe utilizador em memória

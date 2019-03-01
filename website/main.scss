@@ -65,6 +65,59 @@ $bold: 700;
 	}
 }
 
+@-webkit-keyframes animateLineLogo {
+	15% {
+		fill: #c7403a;
+	}
+	30% {
+		fill: #81898e;
+	}
+	45% {
+		fill: #993d3f;
+	}
+	100% {
+		fill: #000000;
+	}
+}
+@-moz-keyframes animateLineLogo {
+	15% {
+		fill: #c7403a;
+	}
+	30% {
+		fill: #81898e;
+	}
+	45% {
+		fill: #993d3f;
+	}
+	100% {
+		fill: #000000;
+	}
+}
+
+@keyframes animateLineLogo {
+	15% {
+		fill: #c7403a;
+	}
+	30% {
+		fill: #81898e;
+	}
+	45% {
+		fill: #993d3f;
+	}
+	100% {
+		fill: #000000;
+	}
+}
+
+@keyframes animateLettersLogo {
+	from {
+		fill: transparent;
+	}
+	to {
+		fill: #ffffff;
+	}
+}
+
 //icons
 $icomoon-font-path: "fonts" !default;
 
@@ -174,10 +227,10 @@ article,
 aside {
 	padding: 100px 0;
 	@include portable {
-		padding: 50px 0;
+		padding: 55px 0;
 	}
 	@include mobile {
-		padding: 40px 0;
+		padding: 45px 0;
 	}
 }
 
@@ -315,7 +368,7 @@ select {
 	font-family: "Bai Jamjuree", sans-serif;
 	font-size: 17px;
 	line-height: 21px;
-	color: #353535;
+	color: $dark-grey;
 	display: table;
 	margin: 0 auto;
 	background-color: white;
@@ -480,30 +533,69 @@ hr {
 	}
 }
 
+#logo-enei {
+	width: 221px;
+	@include position(fixed, calc(50% - 166px), null, null, calc(50% - 110px));
+	z-index: 10;
+	@include portable {
+		width: 175px;
+		top: calc(50% - 131px);
+		left: calc(50% - 87px);
+	}
+	@include mobile {
+		width: 125px;
+		top: calc(50% - 70px);
+		left: calc(50% - 62px);
+	}
+	#linha {
+		fill: transparent;
+		-webkit-animation: animateLineLogo 1s 0.25s forwards; /* Safari & Chrome */
+		-moz-animation: animateLineLogo 1s 0.25s forwards; /* Firefox */
+		animation: animateLineLogo 1s 0.25s forwards;
+	}
+	.letras-logo {
+		fill: transparent;
+		animation: animateLettersLogo 0.25s 0.7s forwards ease-in;
+	}
+}
+
 #apresentation {
 	height: 100vh;
 	background: url("imgs/coimbra-image.jpg") no-repeat center;
 	background-size: cover;
 	background-attachment: fixed;
+	z-index: 10;
 	position: relative;
+
+	&::after {
+		content: " ";
+		@include position(fixed, 0, null, null, 0);
+		@include size(100%, 100%);
+		background-color: $white;
+		opacity: 1;
+		transition: opacity 150ms ease-out;
+	}
+	&.animated {
+		z-index: 0;
+		&::after {
+			opacity: 0;
+		}
+		#logo-enei {
+			position: absolute;
+		}
+		#linha {
+			fill: $black;
+			animation: none;
+		}
+		.letras-logo {
+			fill: $white;
+			animation: none;
+		}
+	}
 	@include mobile {
 		height: 60vh;
 		background-position: bottom right;
 		background-attachment: inherit;
-	}
-	.logo-enei {
-		width: 221px;
-		@include position(absolute, calc(50% - 166px), null, null, calc(50% - 110px));
-		@include portable {
-			width: 175px;
-			top: calc(50% - 131px);
-			left: calc(50% - 87px);
-		}
-		@include mobile {
-			width: 125px;
-			top: calc(50% - 70px);
-			left: calc(50% - 62px);
-		}
 	}
 }
 
@@ -806,10 +898,6 @@ hr {
 	background-size: 30%;
 }
 
-#faqs {
-	background-color: #eeeeee;
-}
-
 #accordion {
 	li {
 		margin-bottom: 15px;
@@ -857,13 +945,9 @@ hr {
 	}
 }
 
-#patrocinadores {
+#sponsors {
 	background-color: $light-grey;
 	text-align: center;
-	h1 {
-		color: $black;
-		font-weight: $regular;
-	}
 	hr {
 		display: table;
 		margin: 0 auto;
@@ -875,12 +959,23 @@ hr {
 			-webkit-transform: translateX(-50%);
 		}
 	}
+	.sponsor-image {
+		display: block;
+		margin: 40px auto 0;
+		max-width: 200px;
+		filter: grayscale(0.2);
+		transform: scale(1);
+		transition: all $transition-time ease-in-out;
+		&:hover {
+			filter: grayscale(0);
+			transform: scale(1.03);
+		}
+	}
 }
 
 #social-network {
 	text-align: center;
 	background-color: $black;
-	padding: 75px 0;
 	h2 {
 		color: $white;
 		margin-bottom: 30px;

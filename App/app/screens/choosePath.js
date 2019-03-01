@@ -9,7 +9,9 @@ import {
         Button, 
         TouchableOpacity,
         Picker,
-        CheckBox
+        CheckBox,
+        ActivityIndicator,
+        SectionList
     } from 'react-native';
 
 import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
@@ -120,7 +122,12 @@ class choosePath extends React.Component {
                    style={{width:'100%'}}
                     onValueChange={(itemValue, itemIndex) =>{
                         this.setState({guest: itemValue})
+                        this.props.waitChangeGuest();
                         this.props.changeGuestList(this.props.userDetails.token,itemValue)
+                        this.props.waitChangeGuest();
+                        this.props.getAvailableSessions(this.props.userDetails.token);
+                        
+                        
                     }
                     
                     }>
@@ -135,9 +142,20 @@ class choosePath extends React.Component {
                 </View>
               
 
-                   
-                </View>
-
+                <SectionList
+  renderItem={({item, index, section}) => <Text key={index}>{item}</Text>}
+  renderSectionHeader={({section: {title}}) => (
+    <Text style={{fontWeight: 'bold'}}>{title}</Text>
+  )}
+  sections={[
+    {title: 'Title1', data: ['item1', 'item2']},
+    {title: 'Title2', data: ['item3', 'item4']},
+    {title: 'Title3', data: ['item5', 'item6']},
+  ]}
+  keyExtractor={(item, index) => item + index}
+/>
+               </View >
+               {  !this.props.changingGuest &&
                  
                     <View style={styles.block}>
                     
@@ -227,7 +245,11 @@ onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
                           
                         </View>
                     </View>
-                   
+               }
+               {this.props.changingGuest &&
+
+<ActivityIndicator size="large" color="red"/>
+                }
 
        
     
@@ -318,7 +340,9 @@ function mapStateToProps(state, props) {
         logged: state.apiReducer.logged,
         events: state.apiReducer.events,
         userDetails: state.apiReducer.userDetails,
-        calendar : state.apiReducer.calendar
+        calendar : state.apiReducer.calendar,
+        changingGuest : state.apiReducer.changingGuest,
+        sessions:state.apiReducer.sessions,
 
 
     }

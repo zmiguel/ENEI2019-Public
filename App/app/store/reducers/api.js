@@ -1,11 +1,9 @@
-import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS } from "../actions/actionTypes" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, CHANGE_GUEST, WAIT_CHANGE, GET_SESSIONS } from "../actions/actionTypes" //Import the actions types constant we defined in our actions
 import { REHYDRATE } from 'redux-persist';
  
 let apiState= { 
 
     isConnected:false, 
-    token:{valid:false}, 
-    tokenData:'error', 
     logged:false, 
     onHold:true,user:{}, 
     events:[], 
@@ -20,7 +18,9 @@ let apiState= {
     },
     calendar:{
 
-    }
+    },
+    changingGuest:false,
+    sessions:{}
     
 }
 
@@ -96,7 +96,8 @@ const apiReducer = (state = apiState, action) => {
         case CHECK_USER:
 
            var u=  action.userDetails;
-           //u.token= action.token;
+           if(action.token!=undefined)
+           u.token= action.token;
 
             state=Object.assign({},state, {logged:action.logged, onHold:action.onHold, userDetails:u });
 
@@ -160,8 +161,17 @@ const apiReducer = (state = apiState, action) => {
 
             return state;
         
-            
+        case CHANGE_GUEST:
+            state=Object.assign({},state, { changingGuest:false});
+            return state;   
 
+        case WAIT_CHANGE:
+            state=Object.assign({},state, { changingGuest:true});
+            return state; 
+
+        case GET_SESSIONS:
+            state=Object.assign({},state, { changingGuest:false, sessions:action.sessions});
+            return state; 
         default:
             return state;
     }
