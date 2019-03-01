@@ -145,7 +145,24 @@ const Stack = createStackNavigator({
                     )
                 }
             } 
-          
+            else if(navigation.state.routes[index].routeName == 'choosePath'){
+                return {
+                    headerTitle: 'Calendário',
+                    headerRight: (
+                        <View style={{flex:1, flexDirection:'row'}}>   
+                            <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('Edit')}>
+                        <Text>FAQ</Text>
+                      
+                     </TouchableOpacity>
+
+                         <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('choosePath')}>
+                         <Text>Escolher</Text>
+                          <IconFA name="user-edit" size={22}/>
+                      </TouchableOpacity></View>
+                     
+                    )
+                }
+            } 
             else {
                 return {
                     header: null

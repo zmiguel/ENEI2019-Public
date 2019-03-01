@@ -9,8 +9,13 @@ export const LOGOUT_USER= 'LOGOUT_USER';
 export const USER_INFO= 'USER_INFO'
 export const HOLD='HOLD'
 export const GET_EVENTS='GET_EVENTS'
-export const GET_CAREERS='GET_CAREERS'
 
+
+//API BLUETREND CALENDÁRIO
+export const GET_CAREERS='GET_CAREERS'  //GET GEST LISTS 
+export const CHANGE_GUEST = 'CHANGE_GUEST'
+export const GET_SESSIONS= 'GET_SESSIONS'
+export const SIGN_SESSION= 'SIGN_SESSION'
 
 
 

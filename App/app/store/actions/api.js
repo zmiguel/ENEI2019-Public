@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { NetInfo } from 'react-native';
 
 
-import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS } from "./actionTypes" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, GET_SESSIONS } from "./actionTypes" //Import the actions types constant we defined in our actions
 
 import moment from 'moment'
 
@@ -14,6 +14,7 @@ const axios = require('axios');
 
 
 export const connectionState = (status) => {
+    
     console.log(status);
     return { type: 'CHANGE_CONNECTION_STATUS', isConnected: status };
   };
@@ -29,14 +30,11 @@ const apiBaseUrl= 'https://tickets.enei.pt/internal/api'
 export  function getAvailableGuestlists(token){
 
     axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+   
     axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
-
-
-    let completeUrl= apiBaseUrl + "/Attendee/AvailableGuestlists";
     
     return (dispatch)=>{
 
-        console.log(completeUrl)
         axios.get('/Attendee/AvailableGuestlists')
         .then(function (response) {
         
@@ -44,20 +42,95 @@ export  function getAvailableGuestlists(token){
             console.log(response);
             dispatch({
                 type: GET_CAREERS,
-                //events: events
+                guests: response.data
             
                 });
          })
         .catch(function (error) {
-         // handle error
+            // handle error
             console.log(error);
         })
         .then(function () {
-        // always executed
+            // always executed
         });
-}
+    }
 }
 
+
+
+/*
+    8  - group
+    9  - IA
+    10 - NET
+    11 - MOB
+    12 - IOT
+    14 - WB
+    15 - DS
+
+*/
+export function changeGuestList(token, guestID){
+    //http://enei2019.uingress.com/internal/api/Attendee/ChangeGuestlist/
+    axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+   
+    axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
+    
+
+    return (dispatch)=>{
+
+        var full= `/Attendee/ChangeGuestlist/${guestID}`
+console.log(full)
+        axios.get(full)
+        .then(function (response) {
+        
+            // handle success
+            console.log(response);
+            dispatch({
+                type: GET_CAREERS,
+                guests: response.data
+            
+                });
+         })
+        .catch(function (error) {
+            // handle error
+            console.log(response);
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
+    }
+}
+
+export function getAvailableSessions(token){
+    //http://enei2019.uingress.com/internal/api/Attendee/AvailableSessions
+
+    axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+   
+    axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
+    
+    return (dispatch)=>{
+
+        axios.get('/Attendee/AvailableSessions')
+        .then(function (response) {
+        
+            // handle success
+            console.log(response);
+            dispatch({
+                type: GET_SESSIONS,
+               sessions: response.data
+            
+                });
+         })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
+    }
+
+}
 
 export function getEvents(user){
 

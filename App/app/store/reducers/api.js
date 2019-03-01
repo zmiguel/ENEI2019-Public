@@ -18,6 +18,9 @@ let apiState= {
             access_token:''
         }
     },
+    calendar:{
+
+    }
     
 }
 
@@ -27,47 +30,49 @@ const apiReducer = (state = apiState, action) => {
 
         case REHYDRATE:
 
-        console.log( action.payload)
+            console.log( action.payload)
 
-        var expirationDateTokenA=0;
-        var access_tokenA='';
+            var expirationDateTokenA=0;
+            var access_tokenA='';
 
-if(action.payload.apiReducer.userDetails.token!=undefined){
-        if(action.payload.apiReducer.userDetails.token.expirationDateToken!= undefined){
+            if(action.payload.apiReducer.userDetails.token!=undefined){
             
-            expirationDateTokenA= action.payload.apiReducer.userDetails.token.expirationDateToken;
-        }
-        if((action.payload.apiReducer.userDetails.token.access_token!= undefined)){
+                if(action.payload.apiReducer.userDetails.token.expirationDateToken!= undefined){
+            
+                    expirationDateTokenA= action.payload.apiReducer.userDetails.token.expirationDateToken;
+                }
+        
+                if((action.payload.apiReducer.userDetails.token.access_token!= undefined)){
 
-            access_tokenA= action.payload.apiReducer.userDetails.token.access_token;
+                    access_tokenA= action.payload.apiReducer.userDetails.token.access_token;
 
-        }
-    }
-              return {
+                }
+        
+            }
+            
+            return {
                 
                // token: action.payload.apiReducer.token,
                 user: action.payload.apiReducer.user,
                
                  userDetails:{
-                     token:{
-                         expirationDateToken: expirationDateTokenA, 
-                         access_token:access_tokenA,
+                        token:{
+                            expirationDateToken: expirationDateTokenA, 
+                            access_token:access_tokenA,
                         
                         },
                         username:action.payload.apiReducer.userDetails.username,
                         password:action.payload.apiReducer.userDetails.password
                     }
               };
+
+
         case 'CHANGE_CONNECTION_STATUS':
              return Object.assign({}, state, {
             isConnected: action.isConnected,
           });
         
-        case GET_CAREERS:
-          
-            state=Object.assign({},state, {  });
-            return state;
-
+      
         case HOLD:
 
             state=Object.assign({},state, { onHold:true });
@@ -91,7 +96,7 @@ if(action.payload.apiReducer.userDetails.token!=undefined){
         case CHECK_USER:
 
            var u=  action.userDetails;
-           u.token= action.token;
+           //u.token= action.token;
 
             state=Object.assign({},state, {logged:action.logged, onHold:action.onHold, userDetails:u });
 
@@ -114,7 +119,47 @@ if(action.payload.apiReducer.userDetails.token!=undefined){
             state=Object.assign({},state, { events: action.events});
             
             return state;
-      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        case GET_CAREERS:
+            var c= {
+                guests:action.guests
+            }
+            state=Object.assign({},state, { calendar:c });
+
+            return state;
+        
             
 
         default:
