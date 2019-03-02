@@ -45,6 +45,7 @@ namespace api
 
             services.AddAutoMapper();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IEventsRepository, EventsRepository>();
             
             //define a connection string indicada em appsettings.json
             services.AddDbContext<DataContext>(x=>x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
