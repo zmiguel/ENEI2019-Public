@@ -41,5 +41,14 @@ namespace api.Controllers
           var Teams = await context.Teams.ToArrayAsync();
           return Ok(Teams);
         }
+
+        // GET api/teams/e/[id]
+        // GET all teams for event id
+        [HttpGet("e/{id}")]
+        public async Task<IActionResult> GetTeamsEvent(int id)
+        {
+          var Teams = await context.Teams.FirstOrDefaultAsync(e=>e.EventId == id);
+          return Ok(Teams);
+        }
     }
 }
