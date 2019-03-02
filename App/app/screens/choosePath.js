@@ -11,7 +11,8 @@ import {
         Picker,
         CheckBox,
         ActivityIndicator,
-        SectionList
+        SectionList,
+        FlatList
     } from 'react-native';
 
 import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
@@ -38,6 +39,9 @@ import FitImage from 'react-native-fit-image';
 import { Dropdown } from 'react-native-material-dropdown';
 import {Card, Divider} from 'react-native-elements'
 import IconF from "react-native-vector-icons/Foundation"
+
+
+
 const formatObj = (obj) => {
 
     let a = {};
@@ -50,6 +54,7 @@ const formatObj = (obj) => {
 
 
 
+  
 class choosePath extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
@@ -99,9 +104,25 @@ class choosePath extends React.Component {
         this.props.getAvailableGuestlists(this.props.userDetails.token)
         console.log(this.props.calendar)
     }
+    _keyExtractor = (item, index) => item.id;
 
-
-
+    _renderItem = ({item}) => (
+        <MyListItem
+          id={item.id}
+          onPressItem={this._onPressItem}
+          selected={!!this.state.selected.get(item.id)}
+          title={item.title}
+        />
+      );
+      _onPressItem = (id) => {
+        // updater functions are preferred for transactional updates
+        this.setState((state) => {
+          // copy the map rather than modifying state.
+          const selected = new Map(state.selected);
+          selected.set(id, !selected.get(id)); // toggle
+          return {selected};
+        });
+      };
 
     render() {
       
@@ -140,21 +161,21 @@ class choosePath extends React.Component {
 
                     </Picker>
                 </View>
-              
+                <FlatList
+        data={this.state.data}
+        renderItem={({ item }) => (
+          <ListItem
+           
+            title={`${item.name.first} ${item.name.last}`}
+            subtitle={item.email}
+            avatar={{ uri: item.picture.thumbnail }}
+           containerStyle={{ borderBottomWidth: 0 }}
+          />
+        )}
+        keyExtractor={item => item.email}
+      />
 
-                <SectionList
-  renderItem={({item, index, section}) => <Text key={index}>{item}</Text>}
-  renderSectionHeader={({section: {title}}) => (
-    <Text style={{fontWeight: 'bold'}}>{title}</Text>
-  )}
-  sections={[
-    {title: 'Title1', data: ['item1', 'item2']},
-    {title: 'Title2', data: ['item3', 'item4']},
-    {title: 'Title3', data: ['item5', 'item6']},
-  ]}
-  keyExtractor={(item, index) => item + index}
-/>
-               </View >
+</View >
                {  !this.props.changingGuest &&
                  
                     <View style={styles.block}>
