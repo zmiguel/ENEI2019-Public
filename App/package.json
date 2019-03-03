@@ -19,6 +19,7 @@
     "react-native-app-intro-slider": "^1.0.1",
     "react-native-camera": "^1.9.2",
     "react-native-check-box": "^2.1.7",
+    "react-native-cli": "^2.0.1",
     "react-native-confirmation-code-input": "^1.0.4",
     "react-native-device-info": "^0.26.4",
     "react-native-elements": "^1.0.0",

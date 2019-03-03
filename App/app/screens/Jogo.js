@@ -5,9 +5,11 @@ import {
   View,
   ImageBackground,
   Dimensions,
-  Button
+  Button,
+  TouchableOpacity
 } from 'react-native';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
+import Modal from "react-native-modal";
 
 
 import IconF from "react-native-vector-icons/Foundation"
@@ -24,12 +26,19 @@ state = {
       progress: 20,
       progressWithOnComplete: 0,
       progressCustomized: 0,
+      isModalVisible: false,
     } ;
     increase = (key, value) => {
     this.setState({
       [key]: this.state[key] + value,
     });   
   }
+
+  _toggleModal = () =>{
+    this.setState({ isModalVisible: !this.state.isModalVisible });
+     console.log("assd")
+   }
+
   render() {
     
     const { navigate } = this.props.navigation;
@@ -40,47 +49,86 @@ state = {
     borderRadius: 0,
     borderColor: 'orange',
   };   
+
   const barWidth = Dimensions.get('screen').width - 30;
+
+
+  
+
+
     return (
 
-
+       
       <View style={styles.container}>
+       
+       <Modal 
+       isVisible={this.state.isModalVisible}
+       animationInTiming={2000}
+       
+       >
+                <View style={{ flex: 1 , backgroundColor:'white',margin:50}}>
+                <Text>Hello!</Text>
+                <TouchableOpacity onPress={this._toggleModal}>
+                <Text>Hide me!</Text>
+                </TouchableOpacity>
+                </View>
+           </Modal>
+
         <View style={styles.header}>
           <View style={styles.titleContainer}>
              <Text style={styles.title}>Jogo do ENEI'19</Text>
            
           </View>
-            <View>
-             
-            </View>          
+                    
           
         
         </View> 
+        <View style={{ height:50, backgroundColor:'white'}}>
+            <View style={{flex:1, justifyContent:'space-around', flexDirection:'row'}}>
+                <View style={{width:SCREEN_WIDTH*0.7, flex:1, flexDirection:'row',margin:10, marginLeft:SCREEN_WIDTH*0.10}}>
+                <IconFA name="trophy" size={30}/>
+                    <Text style={{fontWeight:'bold', fontSize:20,marginLeft:10}}>45</Text>
+                    <Text style={{margin:5}}>pontos</Text>
+                </View>
+                <View style={{width:SCREEN_WIDTH*0.3, marginTop:8, marginRight:SCREEN_WIDTH*0.1}}>
+                <Button
+onPress={this._toggleModal}
+ title="Prémios"
+ color="#CC1A17"
+ accessibilityLabel="Learn more about this purple button"
+/>
+                </View>
+              
+            </View>
+             
+            </View>
         <View style={styles.progress}>
           <View style={{ alignItems:'center'}}>
-            <View>
             
-              <Text style={styles.label}>Progresso no Jogo</Text>
-            </View>
           
               
                 
           </View>
           <View style={{backgroundColor:'#FDFDFD', shadowColor:"#000", shadowOffset:{height:2, width:0, shadowRadius:1}, elevation:3,}}>
           <View style={{flex:1,margin: 20, alignItems:'center',flexDirection:'row', justifyContent: 'space-around',}}>
-          <IconFA name="hourglass" size={15}/>  
+          <Text style={{fontWeight:'bold'}} > 1 </Text>
               <ProgressBarAnimated
                 width={barWidth*0.7}
                 value={this.state.progress}
                 backgroundColorOnComplete="#CC2A17"
                 />
-              <IconFA name="hourglass" size={15}/>
+            <Text style={{fontWeight:'bold'}}> 2 </Text>
           </View>
           </View>
         </View>
         <ScrollView style={{backgroundColor:'#eeeeee',marginTop:10}} horizontal={true}> 
             <ScrollView>
             <View style={styles.cromosContainer}>
+
+            
+        
+
+        <TouchableOpacity onPress={this._toggleModal}>
                 <View style={styles.cromo}>
                 <ImageBackground 
                   
@@ -99,7 +147,7 @@ state = {
                
                
                
-               
+                </TouchableOpacity>
                 
                
                 <View style={styles.cromo}>
@@ -134,10 +182,13 @@ state = {
       
                 </View>
                 
+                
+
+              
                 <View style={styles.cromo}>
                 <ImageBackground 
                   
-                 source={require('../assets/img/jogo/enei_black_2.png')}
+                  source={require('../assets/img/jogo/enei_black_2.png')}
                   style={styles.imageBg}
                 >
                     <View style={[styles.triangle, this.props.style]} />
@@ -149,24 +200,22 @@ state = {
         
       
                 </View>
-
                 <View style={styles.cromo}>
                 <ImageBackground 
                   
-                 source={require('../assets/img/jogo/enei_black_2.png')}
+                  source={require('../assets/img/jogo/enei_black_2.png')}
                   style={styles.imageBg}
                 >
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>04</Text>
+                    <Text style={styles.number}>4</Text>
                 </ImageBackground>
                 
         
       
                 </View>
-
-              <View style={styles.cromo}>
+                <View style={styles.cromo}>
                 <ImageBackground 
                   
                   source={require('../assets/img/jogo/enei_black_2.png')}
@@ -176,51 +225,6 @@ state = {
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
                     <Text style={styles.number}>5</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
                 </ImageBackground>
                 
         
@@ -239,7 +243,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>0</Text>
+                    <Text style={styles.number}>6</Text>
                 </ImageBackground>
                 
         
@@ -260,7 +264,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>1</Text>
+                    <Text style={styles.number}>7</Text>
                 </ImageBackground>
                 
         
@@ -275,7 +279,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>2</Text>
+                    <Text style={styles.number}>8</Text>
                 </ImageBackground>
                 
         
@@ -291,7 +295,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>3</Text>
+                    <Text style={styles.number}>9</Text>
                 </ImageBackground>
                 
         
@@ -307,7 +311,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>04</Text>
+                    <Text style={styles.number}>10</Text>
                 </ImageBackground>
                 
         
@@ -323,57 +327,13 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>5</Text>
+                    <Text style={styles.number}>11</Text>
                 </ImageBackground>
                 
         
       
                 </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
+              
                
          
              </View>
@@ -388,7 +348,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>0</Text>
+                    <Text style={styles.number}>12</Text>
                 </ImageBackground>
                 
         
@@ -409,7 +369,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>1</Text>
+                    <Text style={styles.number}>13</Text>
                 </ImageBackground>
                 
         
@@ -424,7 +384,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>2</Text>
+                    <Text style={styles.number}>14</Text>
                 </ImageBackground>
                 
         
@@ -440,7 +400,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>3</Text>
+                    <Text style={styles.number}>15</Text>
                 </ImageBackground>
                 
         
@@ -456,7 +416,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>04</Text>
+                    <Text style={styles.number}>16</Text>
                 </ImageBackground>
                 
         
@@ -472,57 +432,15 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>5</Text>
+                    <Text style={styles.number}>17</Text>
                 </ImageBackground>
                 
         
       
                 </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
+           
+             
+           
                
          
              </View>
@@ -538,18 +456,12 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>0</Text>
+                    <Text style={styles.number}>18</Text>
                 </ImageBackground>
-                
-        
-      
+
                 </View>
                
-               
-               
-               
-                
-               
+
                 <View style={styles.cromo}>
                 <ImageBackground 
                   
@@ -559,7 +471,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>1</Text>
+                    <Text style={styles.number}>19</Text>
                 </ImageBackground>
                 
         
@@ -574,7 +486,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>2</Text>
+                    <Text style={styles.number}>20</Text>
                 </ImageBackground>
                 
         
@@ -590,7 +502,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>3</Text>
+                    <Text style={styles.number}>21</Text>
                 </ImageBackground>
                 
         
@@ -606,7 +518,7 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>04</Text>
+                    <Text style={styles.number}>22</Text>
                 </ImageBackground>
                 
         
@@ -622,57 +534,13 @@ state = {
                     <View style={[styles.triangle, this.props.style]} />
                     <Text style={styles.points}>15</Text>
                     <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>5</Text>
+                    <Text style={styles.number}>23</Text>
                 </ImageBackground>
                 
         
       
                 </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>01</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
+               
                
          
              </View>
@@ -740,6 +608,7 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     fontSize:25,
     color:'white',
+    textAlign:'center'
     
   },
   titleContainer:{
