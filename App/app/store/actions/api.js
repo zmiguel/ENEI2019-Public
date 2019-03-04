@@ -11,6 +11,33 @@ import { compose } from 'redux';
  
 const axios = require('axios');
 
+axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+
+//http://enei2019.uingress.com/internal/api/Attendee/Edit
+
+
+export function updateUser(token, user){
+
+    axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
+
+        console.log("asdasdasdasd")
+    return (dispatch)=>{
+    axios.post('/Attendee/Edit', user).then(a=>{
+        console.log(a);
+    alert("guardado com sucesso")
+        dispatch({
+            type: UPDATE_USER
+           // guests: response.data
+            
+            });
+    }).catch(b=>{
+
+        alert("Erro a guardar os dados")
+    });
+}
+
+}
+
 
 export const waitChangeGuest= ()=>{
     return (dispatch)=>{
@@ -33,7 +60,7 @@ export const connectionState = (status) => {
 ///Attendee/AvailableGuestlists
 
 
-axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
+
 
 export  function getAvailableGuestlists(token){
 

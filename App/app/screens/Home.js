@@ -184,36 +184,6 @@ _update=()=>{
 
                   
 
-                    <View style={styles.userBio}>
-                    <View style={styles.userBioRow}>  
-                            <Icon name="ios-laptop" style={styles.userBioLogo} size={25}/>
-                            <Text style={styles.userBioText}>{this.props.user.Job}</Text>
-                        </View>
-                        <Divider style={{ backgroundColor: 'black' }} />
-                        <View style={styles.userBioRow}>  
-                            <Icon name="ios-mail" style={styles.userBioLogo} size={25}/>
-                            <Text style={styles.userBioText}>{this.props.user.Email}</Text>
-                        </View>
-                        <Divider style={{ backgroundColor: 'black' }} />
-                        <View style={styles.userBioRow}>  
-                            <Icon name="ios-phone-portrait" style={styles.userBioLogo} size={25}/>
-                            <Text style={styles.userBioText}>{this.props.user.Mobile}</Text>
-                        </View>
-                        <Divider style={{ backgroundColor: 'black' }} />
-                        <View style={styles.userBioRow}>  
-                            <Icon name="ios-map" style={styles.userBioLogo} size={25}/>
-                            <Text style={styles.userBioText}>{this.props.user.Address}, {this.props.user.City}</Text>
-                        </View>
-                        <Divider style={{ backgroundColor: 'black' }} />
-                        <View style={styles.userBioRow}>  
-                            <Icon name="ios-person" style={styles.userBioLogo} size={25}/>
-                            <TouchableOpacity><Text style={styles.userCurriculum}>O meu Curriculo</Text></TouchableOpacity>
-                        
-                        </View>
-                       
-                    
-                    
-                    </View>
               
              
                     
