@@ -130,7 +130,7 @@ export function getAvailableSessions(token){
                 });
          })
         .catch(function (error) {
-            // handle error
+            alert("Error a obter sessões disponíveis!!");
             console.log(error);
         })
         .then(function () {
@@ -205,9 +205,7 @@ const saveToken = async token => {
         obj.access_token = await AsyncStorage.getItem('userToken') || 'none';
         obj.expirationDateToken = await AsyncStorage.getItem('expirationDateToken') || 'none';
         obj.refreshToken = await AsyncStorage.getItem('refreshToken') || 'none';
-     
          
-
     } catch (error) {
       // Error retrieving data
       console.log(error.message);
@@ -230,11 +228,7 @@ const deleteToken = async () => {
 
 const renewToken=(refresh)=>{
 
-
-   
-
 }
-
 
 export function login(user, pass){
 
@@ -252,17 +246,17 @@ export function login(user, pass){
 
         for (var property in details) {
             
-          var encodedKey = encodeURIComponent(property);
+            var encodedKey = encodeURIComponent(property);
           
-          var encodedValue = encodeURIComponent(details[property]);
+            var encodedValue = encodeURIComponent(details[property]);
 
-          formBody.push(encodedKey + "=" + encodedValue);
+            formBody.push(encodedKey + "=" + encodedValue);
 
         }
 
         formBody = formBody.join("&");
         
-        fetch('http://enei2019.uingress.com/internal/api/token', {
+        fetch('https://tickets.enei.pt/internal/api/token', {
 
             method: 'POST',
 
@@ -276,6 +270,7 @@ export function login(user, pass){
         }).catch(err=>{
 
             console.log(err);
+            alert("Erro no login!!");
             
             alert("error");
             co
@@ -285,9 +280,6 @@ export function login(user, pass){
                 failedAttempt:true,
                 tokenData:'error'
             });
-
-
-
         }).then(res=>res.json()).then(parsed=>{
 
             if(parsed.error_description=="Provided username and password is incorrect"){
@@ -320,14 +312,8 @@ export function login(user, pass){
                 userDetails: details
 
             });
-            
-             
-       
-        }
-                   
-        )
-
-           
+        }                
+        )      
     }
 }
 export function hold(){
@@ -374,6 +360,7 @@ export function getUserInfo(token){
 
                 console.log("erro")
               //  dispatch({ type: USER_INFO,onHold:false});
+              alert("Erro a obter a informação pessoal.")
             })
         
        
@@ -575,7 +562,6 @@ export function checkUser(userDetails){
             userDetails.username != ''        &&
             userDetails.password != undefined && 
             userDetails.password != ''
-            
             ){
            
             //verifica a validade do token
@@ -610,22 +596,17 @@ export function checkUser(userDetails){
             
                         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
                     },
-                    
                     body: formBody
             
                 }).catch(err=>{
             
-                    console.log(err);
-                    
-                    alert("error");
-                   
-            
+                    alert("Erro a validar o utilizador");
+                          
                 }).then(res=>res.json()).then(parsed=>{
             
                     if(parsed.error_description=="Provided username and password is incorrect"){
             
-                       console.error("cenas da vida")
-            
+                        alert("Ups, password ou utilizador errada");
                     }
                     else{
             
@@ -640,12 +621,12 @@ export function checkUser(userDetails){
                         
                         dispatch({type: CHECK_USER, logged:true, onHold:false, userDetails:u,token:obj}); 
                           
-                     
                     }
             
                 }                          
                 )
             }else{
+               
                 console.log("Tempo restante token: "+ Math.round((userDetails.token.expirationDateToken-Math.round(new Date().getTime()/1000) )/60) +" Minutos");
     
                 //dispatch home

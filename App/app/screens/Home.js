@@ -85,7 +85,7 @@ class Home extends Component {
         //console.log(this.props.token);
 
       
-       // this.props.getUserInfo(this.props.userDetails.token);
+         this.props.getUserInfo(this.props.userDetails.token);
 
 
         //console.log('logged:'+this.props.logged);

@@ -40,6 +40,7 @@ import { Dropdown } from 'react-native-material-dropdown';
 import {Card, Divider} from 'react-native-elements'
 import IconF from "react-native-vector-icons/Foundation"
 
+import LinearGradient from 'react-native-linear-gradient';
 
 
 const formatObj = (obj) => {
@@ -68,7 +69,8 @@ class choosePath extends React.Component {
         });
 
     state = {
-     calendar:{}
+     calendar:{},
+     guest:'9'
     };
 
     componentDidMount() {
@@ -130,9 +132,40 @@ class choosePath extends React.Component {
         return (
             <ScrollView style={styles.page}>
 
+               
+                {this.state.guest=='9' && <LinearGradient colors={[ '#D95856', '#CC1A17']} style={styles.linearGradient}>
+                <Text style={{margin:15,marginBottom:0, fontWeight:'bold', color:'white'}}> Empresa responsável: </Text>
                 <View style={styles.companyContainer}>
-            
-                 </View>
+                      <View style={styles.companyDescription}>
+                        <Text style={{fontSize:16, fontWeight:'bold', margin:6, color:'white'}}>Critical Software</Text>
+                        <Text style={{margin:6, marginTop:0, color:'white'}}>A CRITICAL Software fornece sistemas e serviços de software para segurança e
+aplicações essenciais aos negócios.</Text>
+                      </View>
+                      <View style={styles.companyLogo}>
+                      <FitImage
+  source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png' }}
+  style={styles.fitImage}
+/>  
+                      </View>
+                      </View>
+</LinearGradient>}
+{this.state.guest=='10' && <LinearGradient colors={[ '#5887FF', '#715AFF']} style={styles.linearGradient}>
+                <Text style={{margin:15,marginBottom:0, fontWeight:'bold', color:'white'}}> Empresa responsável: </Text>
+                <View style={styles.companyContainer}>
+                      <View style={styles.companyDescription}>
+                        <Text style={{fontSize:16, fontWeight:'bold', margin:6, color:'white'}}>Altice</Text>
+                        <Text style={{margin:6, marginTop:0, color:'white'}}>Altice é uma multinacional neerlandesa de telecomunicações, conteúdos, media, entretenimento e publicidade.</Text>
+                      </View>
+                      <View style={styles.companyLogo}>
+                      <FitImage
+  source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t' }}
+  style={styles.fitImage}
+/>  
+                      </View>
+                      </View>
+</LinearGradient>}
+
+           
          
                 <View style={{flex:1,width:SCREEN_WIDTH*0.7, alignContent:'center'}}>
               
@@ -281,6 +314,20 @@ onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
 }
 
 const styles = StyleSheet.create({
+    companyLogo:{
+        backgroundColor:'white',
+        margin:20,
+        width:SCREEN_WIDTH*0.35,
+        borderRadius:3,
+        padding:5
+    },
+    companyDescription:{
+      //  backgroundColor:'white',
+        margin:20,
+        marginRight:0,
+        width:SCREEN_WIDTH*0.5, 
+        borderRadius:3,
+    },
     sessionInfo:{
         margin:5
     },
@@ -315,8 +362,11 @@ const styles = StyleSheet.create({
 
   companyContainer:{
       flex:1,
-      backgroundColor:'blue',
-      height:SCREEN_HEIGHT*0.25,
+     // backgroundColor:'blue',
+    
+      flexDirection:'row',
+      marginTop:0
+      
 
   },
 

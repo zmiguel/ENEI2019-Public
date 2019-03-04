@@ -14,13 +14,13 @@ import Modal from "react-native-modal";
 
 import IconF from "react-native-vector-icons/Foundation"
 import IconFA from "react-native-vector-icons/FontAwesome5"
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, ViewPagerAndroid } from 'react-native-gesture-handler';
 
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-
+import FitImage from 'react-native-fit-image';
 export default class Jogo extends React.Component {
 state = {
       progress: 20,
@@ -63,15 +63,65 @@ state = {
        
        <Modal 
        isVisible={this.state.isModalVisible}
-       animationInTiming={2000}
+       animationInTiming={1000}
+       animationOutTiming={800}
+      
        
        >
-                <View style={{ flex: 1 , backgroundColor:'white',margin:50}}>
-                <Text>Hello!</Text>
-                <TouchableOpacity onPress={this._toggleModal}>
-                <Text>Hide me!</Text>
-                </TouchableOpacity>
+     
+       
+                <View style={{ 
+                  flex:1,
+               
+                  alignContent:'center', 
+              margin :SCREEN_WIDTH*0.1,
+              backgroundColor:'white',
+                  marginBottom:SCREEN_HEIGHT*0.1,
+                  marginTop:SCREEN_HEIGHT*0.1,
+                  maxHeight:400
+                  }}>
+              
+               <ImageBackground 
+                    opacity={0.5}
+                  source={require('../assets/img/bg_3.jpg')}
+                  style={{
+                    width:'96%',
+                    height:'97.5%',
+                    margin:10
+                  }}
+                >
+                      <View style={{width:'100%' ,margin:-10}}>
+                      <View style={{width:30}}><Button
+                    
+                    onPress={this._toggleModal}
+                     title="X"
+                     color="#CC1A17"
+                     accessibilityLabel="Learn more about this purple button"
+                    />
+                    </View>
+                     </View>
+                     <View style={{flex:1, alignContent:'center', width:'96%', alignItems:'center'}}>
+                      <View style={{paddingTop:25,width:'40%',}}>
+                      <FitImage
+  source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png' }}
+  style={styles.fitImage}
+/>  
+                      </View>
+                      <View style={{backgroundColor:'rgba(255,255,255,0.6)', width:'100%', marginTop:35}}>
+                      <Text style={{padding:10}}>A CRITICAL Software fornece sistemas e serviços de software para segurança e
+aplicações essenciais aos negócios, ajudando a garantir que os clientes atendam aos requisitos mais exigentes de qualidade - padrões de segurança, desempenho e fiabilidade</Text>
+                     </View>
+                     <View style={{width:'100%', marginTop:10}}><TouchableOpacity><Text style={{textAlign:'center', fontWeight:'bold', fontSize:18, color:'#CC1A17'}}>website</Text></TouchableOpacity></View>
+                     </View>
+                    
+                   
+                </ImageBackground>
+             
+               
+           
                 </View>
+             
+              
            </Modal>
 
         <View style={styles.header}>
@@ -566,6 +616,11 @@ onPress={this._toggleModal}
 }
 
 const styles = StyleSheet.create({
+
+    fitImage:{
+     
+  
+    },
     points:{
         marginTop:-25,
         marginLeft:10,
@@ -591,7 +646,7 @@ const styles = StyleSheet.create({
     ,
     imageBg:{
        
-        height:'97%',
+        height:190,
         margin:5
     },
   label:{
@@ -657,7 +712,7 @@ const styles = StyleSheet.create({
     borderRightColor: 'transparent',
     borderBottomColor: 'white',
     marginLeft:54,
-    marginTop:155
+    marginTop:156
   },
   number:{
       marginTop:-18,
