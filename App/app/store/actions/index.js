@@ -5,7 +5,8 @@ export {checkUser,
     getAvailableGuestlists,
     changeGuestList,
     waitChangeGuest,
-    getAvailableSessions
+    getAvailableSessions,
+    updateUser,
 } from "./api"
 
 export {

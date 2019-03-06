@@ -29,7 +29,9 @@ const apiReducer = (state = apiState, action) => {
     switch(action.type){
 
         case REHYDRATE:
-
+        console.log(action)
+            if(action.payload!=undefined){
+            
             console.log( action.payload)
 
             var expirationDateTokenA=0;
@@ -49,7 +51,7 @@ const apiReducer = (state = apiState, action) => {
                 }
         
             }
-            
+          
             return {
                 
                // token: action.payload.apiReducer.token,
@@ -65,7 +67,7 @@ const apiReducer = (state = apiState, action) => {
                         password:action.payload.apiReducer.userDetails.password
                     }
               };
-
+            }
 
         case 'CHANGE_CONNECTION_STATUS':
              return Object.assign({}, state, {
@@ -121,6 +123,7 @@ const apiReducer = (state = apiState, action) => {
             
             return state;
         
+            
         
         
         

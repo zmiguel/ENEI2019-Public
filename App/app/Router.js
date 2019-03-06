@@ -2,7 +2,8 @@ import React from 'react';
 import {
     TouchableOpacity,
     Text,
-    View
+    View,
+    Image
 } from 'react-native';
 import {
     createStackNavigator,
@@ -17,7 +18,7 @@ import AuthLoadingScreen from './screens/AuthLoading'
 
 import Eventos from './screens/Eventos'
 
-import Social from './screens/Social'
+import Jogo from './screens/Jogo'
 import Scan from './screens/Scan'
 
 import Calendar from './screens/Calendar'
@@ -37,7 +38,7 @@ import calendarDetail from './screens/calendarDetail';
 
 const AppStack = createBottomTabNavigator(
     {
-        Calendar: {
+        Calendário: {
             screen: Calendar,
 
             navigationOptions: {
@@ -48,13 +49,14 @@ const AppStack = createBottomTabNavigator(
             },
         },
        
-        Social: {
-            screen: Social,
+        'Jogo do...': {
+            screen: Jogo,
 
             navigationOptions: {
 
                 tabBarIcon: ({tintColor}) => (
-                    <Icon name="ios-mail" color={tintColor} size={30}/>
+                  
+                    <Image style={{width:30, height:30}}source={require('./assets/img/logo2.png')}></Image>
                 )
             },
         },
@@ -100,7 +102,7 @@ const AppStack = createBottomTabNavigator(
         tabBarOptions: {
             showLabel: true, // hide labels
             activeTintColor: '#CC1A17', // active icon color
-            inactiveTintColor: '#d8d6c9',  // inactive icon color
+            inactiveTintColor: 'black',  // inactive icon color
             style: {
                 backgroundColor: '#fff' // TabBar background
             }
@@ -127,7 +129,7 @@ const Stack = createStackNavigator({
                     )
                 }
             }
-            else if(navigation.state.routes[index].routeName == 'Calendar'){
+            else if(navigation.state.routes[index].routeName == 'Calendário'){
                 return {
                     headerTitle: 'Calendário',
                     headerRight: (
