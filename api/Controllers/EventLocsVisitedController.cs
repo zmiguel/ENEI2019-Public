@@ -17,14 +17,14 @@ namespace api.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : ControllerBase
+    public class EventLocsVisitedController : ControllerBase
     {
         private readonly DataContext context;
-        private readonly ITeamsRepository _repo;
+        private readonly IEventLocsVisitedRepository _repo;
         private readonly IMapper _mapper;
         private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
-        public TeamsController(DataContext context,ITeamsRepository repo, IMapper mapper,RoleManager<Role> roleManager,UserManager<User> UserManager)
+        public EventLocsVisitedController(DataContext context,IEventLocsVisitedRepository repo, IMapper mapper,RoleManager<Role> roleManager,UserManager<User> UserManager)
         {
             this.context = context;
             _mapper = mapper;
@@ -33,22 +33,23 @@ namespace api.Controllers
             _repo = repo;
         }
         
-        // GET api/teams
-        // GET all teams
+        // GET api/EventLocsVisited
+        // GET all EventLocsVisited
         [HttpGet]
-        public async Task<IActionResult> GetTeams()
+        public async Task<IActionResult> GetEventLocsVisited()
         {
-          var Teams = await _repo.GetTeams();
-          return Ok(Teams);
+          var Locs = await _repo.GetEventLocsVisited();
+          return Ok(Locs);
         }
 
-        // GET api/teams/e/[id]
-        // GET all teams for event id
-        [HttpGet("e/{id}")]
-        public async Task<IActionResult> GetTeamsEvent(int id)
+        // GET api/EventLocsVisited/t/[id]
+        //All locs visited by team id
+        [HttpGet("t/{id}")]
+        public async Task<IActionResult> GetEventLocsVisitedTeam(int id)
         {
-          var Teams = await _repo.GetEventTeam(id);
-          return Ok(Teams);
+          var Locs = await _repo.GetEventLocsVisitedTeam(id);
+          return Ok(Locs);
         }
+
     }
 }
