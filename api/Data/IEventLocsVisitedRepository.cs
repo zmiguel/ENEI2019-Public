@@ -9,7 +9,8 @@ namespace api.Data
     {
       
         Task<IEnumerable<EventLocVisited>> GetEventLocsVisited();
-        Task<IEnumerable<EventLocVisited>> GetEventLocsVisitedTeam(int id);
+        Task<List<EventLocVisited>> GetEventLocsVisitedTeam(int id);
+        Task<List<EventLocVisited>> GetEventLocsVisitedEvent(int id);
       
 
     }
