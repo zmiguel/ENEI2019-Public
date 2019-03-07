@@ -60,5 +60,44 @@ namespace api.Controllers
           return Ok(Locs);
         }
 
+
+        // POST api/eventLocsVisited/add
+        // add new event
+        [HttpPost("add")]
+        public async Task<IActionResult> AddEventLoc(EventLocVisitedAdd EventLocVisitedData)
+        {
+
+          List<Team> uTeam = await context.Teams.Include(t=>t.Membros).ToListAsync();
+          EventLoc Loc = await context.EventLocs.FirstOrDefaultAsync(a=>a.Id == EventLocVisitedData.EventLocID);
+
+          Team TeamToEdit = new Team();
+
+          uTeam.ForEach(delegate (Team t){
+            if(t.EventId == Loc.EventId){
+              t.Membros.ForEach(delegate (User u){
+                if(u.QRcode == EventLocVisitedData.USerQR){
+                  TeamToEdit = t;
+                }
+              });
+            }
+          });
+
+          TeamToEdit.Pontos += EventLocVisitedData.pontos;
+
+          EventLocVisited toAdd = new EventLocVisited{Team = TeamToEdit,Location = Loc, timestamp = DateTime.Now};
+
+          await context.EventLocsVisited.AddAsync(toAdd);
+
+          context.Teams.Update(TeamToEdit);
+
+          var result = context.SaveChanges();
+          
+          if (result >= 1)
+            {
+                return StatusCode(201);
+            }
+          return BadRequest();
+        }
+
     }
 }

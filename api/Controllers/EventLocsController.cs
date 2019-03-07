@@ -57,5 +57,22 @@ namespace api.Controllers
           var Teams = await _repo.GetEventLocEvent(id);
           return Ok(Teams);
         }
+
+        // POST api/eventLocs/add
+        // add new event
+        [HttpPost("add")]
+        public async Task<IActionResult> AddEventLoc(EventLocAdd EventLocData)
+        {
+          EventLoc EAdd = new EventLoc{EventId = EventLocData.EventId, Lat = EventLocData.Lat, Long = EventLocData.Long, Nome = EventLocData.Nome, Desc = EventLocData.Desc, Img = EventLocData.Img};
+          await context.EventLocs.AddAsync(EAdd);
+
+          var result = context.SaveChanges();
+          
+          if (result == 1)
+            {
+                return StatusCode(201);
+            }
+          return BadRequest();
+        }
     }
 }

@@ -106,5 +106,67 @@ namespace api.Controllers
           return StatusCode(201);
           
         }
+
+        // POST api/teams/ChangeName
+        // create team
+        [HttpPost("changename")]
+        public async Task<IActionResult> ChangeName(TeamChangeName NameChange)
+        {
+
+          Team tEdit = await context.Teams.Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == NameChange.TeamID);
+
+          User cap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == NameChange.UserQR);
+
+          if(cap == tEdit.Cap){
+            tEdit.Nome = NameChange.nome;
+          }
+
+          context.Update(tEdit);
+
+          var result = context.SaveChanges();
+          
+          return StatusCode(201);
+          
+        }
+
+        // POST api/teams/delete
+        // create team
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteTeam(TeamDelete DeleteData)
+        {
+
+          Team tEdit = await context.Teams.Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == DeleteData.TeamID);
+
+          User cap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == DeleteData.UserQR);
+
+          if(cap == tEdit.Cap){
+            context.Remove(tEdit);
+            var result = context.SaveChanges();
+            return StatusCode(201);
+          }else{
+            return StatusCode(403);
+          }
+        }
+
+        // POST api/teams/remove/member
+        // remove member
+        [HttpPost("remove/member")]
+        public async Task<IActionResult> RemoveTeamMember(TeamRemoveMEmber MemberToRemove)
+        {
+
+          User rmMember = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == MemberToRemove.UserToRemoveQR);
+
+          Team tEdit = await context.Teams.Include(t=>t.Membros).FirstOrDefaultAsync(t=>t.Id == MemberToRemove.TeamID);
+
+          tEdit.NMembros--;
+          tEdit.Membros.Remove(rmMember);
+
+          context.Update(tEdit);
+
+          var result = context.SaveChanges();
+          
+          return StatusCode(201);
+          
+        }
     }
 }

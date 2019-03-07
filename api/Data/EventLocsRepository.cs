@@ -23,9 +23,16 @@ namespace api.Data
             return rEventLocs;
         }
 
-        public async Task<EventLoc> GetEventLocEvent(int id)
+        public async Task<List<EventLoc>> GetEventLocEvent(int id)
         {
-            var rEventLocs = await _context.EventLocs.FirstOrDefaultAsync(e=>e.EventId == id);
+            List<EventLoc> eLocs = await _context.EventLocs.ToListAsync();
+            List<EventLoc> rEventLocs = new List<EventLoc>();
+
+            eLocs.ForEach(delegate (EventLoc e){
+                if(e.EventId == id){
+                    rEventLocs.Add(e);
+                }
+            });
             
             return rEventLocs;
         }
