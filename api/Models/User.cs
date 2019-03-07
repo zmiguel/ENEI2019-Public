@@ -15,7 +15,8 @@ namespace api.Models
         public ICollection<Photo> Photos {get;set;}
         public int drinks{get;set;}
         public int food{get;set;}
-   
+
+        public Team team{get;set;}
         
     }
 }

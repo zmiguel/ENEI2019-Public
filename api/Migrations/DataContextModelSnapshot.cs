@@ -293,8 +293,6 @@ namespace api.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int?>("TeamId");
-
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
@@ -303,6 +301,8 @@ namespace api.Migrations
                     b.Property<int>("drinks");
 
                     b.Property<int>("food");
+
+                    b.Property<int?>("teamId");
 
                     b.HasKey("Id");
 
@@ -313,7 +313,7 @@ namespace api.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("teamId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -425,9 +425,9 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.User", b =>
                 {
-                    b.HasOne("api.Models.Team")
+                    b.HasOne("api.Models.Team", "team")
                         .WithMany("Membros")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("teamId");
                 });
 
             modelBuilder.Entity("api.Models.UserRole", b =>
