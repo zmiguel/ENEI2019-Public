@@ -51,5 +51,14 @@ namespace api.Controllers
           return Ok(Locs);
         }
 
+        // GET api/EventLocsVisited/e/[id]
+        //All locs visited by event id
+        [HttpGet("e/{id}")]
+        public async Task<IActionResult> GetEventLocsVisitedEvent(int id)
+        {
+          var Locs = await _repo.GetEventLocsVisitedEvent(id);
+          return Ok(Locs);
+        }
+
     }
 }

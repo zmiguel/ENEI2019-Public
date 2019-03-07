@@ -16,16 +16,37 @@ namespace api.Data
 
         public DataContext _context { get; }
 
-        public async Task<Team> GetEventTeam(int id)
+        public async Task<List<Team>> GetEventTeam(int id)
         {
-            var rTeam = await _context.Teams.FirstOrDefaultAsync(e=>e.EventId == id);
+            List<Team> allTeams = await _context.Teams.Include(a=>a.Cap).Include(a=>a.Membros).ToListAsync();
+            List<Team> rTeam = new List<Team>();
+            allTeams.ForEach(delegate(Team t){
+                if(t.EventId == id){
+                    rTeam.Add(t);
+                }
+            });
+            
+            return rTeam;
+        }
+
+        public async Task<List<Team>> GetUserTeam(String QR)
+        {
+            List<Team> allTeams = await _context.Teams.Include(a=>a.Cap).Include(a=>a.Membros).ToListAsync();
+            List<Team> rTeam = new List<Team>();
+            allTeams.ForEach(delegate(Team t){
+                foreach (User u in t.Membros){
+                    if(u.QRcode == QR){
+                        rTeam.Add(t);
+                    }
+                }
+            });
             
             return rTeam;
         }
 
         public async Task<IEnumerable<Team>> GetTeams()
         {
-            var rTeams = await _context.Teams.ToListAsync();
+            var rTeams = await _context.Teams.Include(a=>a.Cap).Include(a=>a.Membros).ToListAsync();
             
             return rTeams;
         }
