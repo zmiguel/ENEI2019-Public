@@ -96,14 +96,33 @@ namespace api.Controllers
 
           Team tEdit = await context.Teams.Include(t=>t.Membros).FirstOrDefaultAsync(t=>t.Id == MemberToAdd.id);
 
-          tEdit.NMembros++;
-          tEdit.Membros.Add(newMember);
+          List<Team> allTeams = await context.Teams.Include(t=>t.Membros).Include(t=>t.Cap).ToListAsync();
 
-          context.Update(tEdit);
+          var valido = true;
 
-          var result = context.SaveChanges();
-          
-          return StatusCode(201);
+          allTeams.ForEach(delegate(Team t){
+            if(newMember == t.Cap){
+              valido = false;
+            }
+            t.Membros.ForEach(delegate(User m){
+              if(newMember == m){
+                valido = false;
+              }
+            });
+          });
+
+          if(valido){
+            tEdit.NMembros++;
+            tEdit.Membros.Add(newMember);
+
+            context.Update(tEdit);
+
+            var result = context.SaveChanges();
+            
+            return StatusCode(201);
+          }
+
+          return StatusCode(403);
           
         }
 
@@ -156,7 +175,11 @@ namespace api.Controllers
 
           User rmMember = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == MemberToRemove.UserToRemoveQR);
 
-          Team tEdit = await context.Teams.Include(t=>t.Membros).FirstOrDefaultAsync(t=>t.Id == MemberToRemove.TeamID);
+          Team tEdit = await context.Teams.Include(t=>t.Membros).Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == MemberToRemove.TeamID);
+
+          if(rmMember == tEdit.Cap){
+            return StatusCode(403);
+          }
 
           tEdit.NMembros--;
           tEdit.Membros.Remove(rmMember);
