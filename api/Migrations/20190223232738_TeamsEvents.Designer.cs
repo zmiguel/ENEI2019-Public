@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190223232738_TeamsEvents")]
+    partial class TeamsEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,36 +145,6 @@ namespace api.Migrations
                     b.ToTable("EventLocsVisited");
                 });
 
-            modelBuilder.Entity("api.Models.Log", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("UserId");
-
-                    b.Property<int?>("UserId1");
-
-                    b.Property<int>("amount");
-
-                    b.Property<int>("available");
-
-                    b.Property<string>("logType");
-
-                    b.Property<int?>("productId");
-
-                    b.Property<string>("transactionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("Logs");
-                });
-
             modelBuilder.Entity("api.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -193,24 +165,6 @@ namespace api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("api.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("basePrice");
-
-                    b.Property<string>("name");
-
-                    b.Property<float>("revenue");
-
-                    b.Property<int>("sold");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("api.Models.Role", b =>
@@ -250,6 +204,8 @@ namespace api.Migrations
                     b.Property<string>("Nome");
 
                     b.Property<int>("Pontos");
+
+                    b.Property<string>("QRcode");
 
                     b.HasKey("Id");
 
@@ -299,10 +255,6 @@ namespace api.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
-
-                    b.Property<int>("drinks");
-
-                    b.Property<int>("food");
 
                     b.HasKey("Id");
 
@@ -391,21 +343,6 @@ namespace api.Migrations
                     b.HasOne("api.Models.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamId");
-                });
-
-            modelBuilder.Entity("api.Models.Log", b =>
-                {
-                    b.HasOne("api.Models.User")
-                        .WithMany("logsFebrada")
-                        .HasForeignKey("UserId");
-
-                    b.HasOne("api.Models.User")
-                        .WithMany("logsFestarola")
-                        .HasForeignKey("UserId1");
-
-                    b.HasOne("api.Models.Product", "product")
-                        .WithMany()
-                        .HasForeignKey("productId");
                 });
 
             modelBuilder.Entity("api.Models.Photo", b =>

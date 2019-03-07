@@ -7,7 +7,12 @@ import {
         ScrollView, 
         Text, 
         Button, 
-        TouchableOpacity
+        TouchableOpacity,
+        Picker,
+        CheckBox,
+        ActivityIndicator,
+        SectionList,
+        FlatList
     } from 'react-native';
 
 import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
@@ -32,6 +37,10 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 import FitImage from 'react-native-fit-image';
 
 import { Dropdown } from 'react-native-material-dropdown';
+import {Card, Divider} from 'react-native-elements'
+import IconF from "react-native-vector-icons/Foundation"
+
+import LinearGradient from 'react-native-linear-gradient';
 
 
 const formatObj = (obj) => {
@@ -46,15 +55,28 @@ const formatObj = (obj) => {
 
 
 
+  
 class choosePath extends React.Component {
 
-    state = {
+    static navigationOptions = ({ navigation }) => ({
      
+         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+            headerStyle:{
+                backgroundColor:'rgba(0,0,0,0)',
+                shadowRadius:0,
+                elevation:0
+            },
+        });
+
+    state = {
+     calendar:{},
+     guest:'9'
     };
 
     componentDidMount() {
 
-        this.props.getEvents(this.props.user);
+       // this.props.getEvents(this.props.user);
+       this.props.getAvailableGuestlists(this.props.userDetails.token)
         console.log('didMount');
         console.log(this.props.events);
     }
@@ -79,97 +101,302 @@ class choosePath extends React.Component {
 
         ]
     }
+    getCareerPaths=()=>{
+
+        this.props.getAvailableGuestlists(this.props.userDetails.token)
+        console.log(this.props.calendar)
+    }
+    _keyExtractor = (item, index) => item.id;
+
+    _renderItem = ({item}) => (
+        <MyListItem
+          id={item.id}
+          onPressItem={this._onPressItem}
+          selected={!!this.state.selected.get(item.id)}
+          title={item.title}
+        />
+      );
+      _onPressItem = (id) => {
+        // updater functions are preferred for transactional updates
+        this.setState((state) => {
+          // copy the map rather than modifying state.
+          const selected = new Map(state.selected);
+          selected.set(id, !selected.get(id)); // toggle
+          return {selected};
+        });
+      };
 
     render() {
-        let data = [{
-          value: 'Desenvolvimento Web',
-        }, {
-          value: 'Inteligencia artificial',
-        }, {
-          value: 'Redes e segurança',
-        }];
-     
+      
+
         return (
-            <View style={{width:SCREEN_WIDTH*0.7}}>
-                 <Dropdown
-            label='Career Path'
-            data={data}
-    
-          />
-            </View>
+            <ScrollView style={styles.page}>
+
+               
+                {this.state.guest=='9' && <LinearGradient colors={[ '#D95856', '#CC1A17']} style={styles.linearGradient}>
+                <Text style={{margin:15,marginBottom:0, fontWeight:'bold', color:'white'}}> Empresa responsável: </Text>
+                <View style={styles.companyContainer}>
+                      <View style={styles.companyDescription}>
+                        <Text style={{fontSize:16, fontWeight:'bold', margin:6, color:'white'}}>Critical Software</Text>
+                        <Text style={{margin:6, marginTop:0, color:'white'}}>A CRITICAL Software fornece sistemas e serviços de software para segurança e
+aplicações essenciais aos negócios.</Text>
+                      </View>
+                      <View style={styles.companyLogo}>
+                      <FitImage
+  source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png' }}
+  style={styles.fitImage}
+/>  
+                      </View>
+                      </View>
+</LinearGradient>}
+{this.state.guest=='10' && <LinearGradient colors={[ '#5887FF', '#715AFF']} style={styles.linearGradient}>
+                <Text style={{margin:15,marginBottom:0, fontWeight:'bold', color:'white'}}> Empresa responsável: </Text>
+                <View style={styles.companyContainer}>
+                      <View style={styles.companyDescription}>
+                        <Text style={{fontSize:16, fontWeight:'bold', margin:6, color:'white'}}>Altice</Text>
+                        <Text style={{margin:6, marginTop:0, color:'white'}}>Altice é uma multinacional neerlandesa de telecomunicações, conteúdos, media, entretenimento e publicidade.</Text>
+                      </View>
+                      <View style={styles.companyLogo}>
+                      <FitImage
+  source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t' }}
+  style={styles.fitImage}
+/>  
+                      </View>
+                      </View>
+</LinearGradient>}
+
+           
          
+                <View style={{flex:1,width:SCREEN_WIDTH*0.7, alignContent:'center'}}>
+              
+
+                <View style={styles.pickerCareer}>
+                    <Picker
+                    selectedValue={this.state.guest}
+                   style={{width:'100%'}}
+                    onValueChange={(itemValue, itemIndex) =>{
+                        this.setState({guest: itemValue})
+                        this.props.waitChangeGuest();
+                        this.props.changeGuestList(this.props.userDetails.token,itemValue)
+                        this.props.waitChangeGuest();
+                        this.props.getAvailableSessions(this.props.userDetails.token);
+                        
+                        
+                    }
+                    
+                    }>
+                    <Picker.Item label="Inteligência Artificial" value="9" />
+                    <Picker.Item label="Redes e Segurança" value="10" />
+                    <Picker.Item label="Data Science" value="15" />
+                    <Picker.Item label="Desenvolvimento Web" value="14" />
+                    <Picker.Item label="Internet das Coisas" value="12" />
+                    <Picker.Item label="Desenvolvimento Mobile" value="11" />   
+
+                    </Picker>
+                </View>
+                <FlatList
+        data={this.state.data}
+        renderItem={({ item }) => (
+          <ListItem
+           
+            title={`${item.name.first} ${item.name.last}`}
+            subtitle={item.email}
+            avatar={{ uri: item.picture.thumbnail }}
+           containerStyle={{ borderBottomWidth: 0 }}
+          />
+        )}
+        keyExtractor={item => item.email}
+      />
+
+</View >
+               {  !this.props.changingGuest &&
+                 
+                    <View style={styles.block}>
+                    
+                        <View style={styles.time}>
+                            <Text style={
+                                {
+                                    margin:10,
+                                    fontSize:25,
+                                    color:'#CC1A17',
+                                    marginBottom:0
+                                }
+                                }>
+                            9:00</Text>
+                            <Text style={{marginLeft:20}}>até</Text>
+                            <Text style={
+                                {
+                                    margin:10,
+                                    fontSize:25,
+                                    color:'#CC1A17',
+                                    marginTop:5
+                                }
+                                }>
+                            9:30</Text>
+                           
+                        </View>
+                        
+                        <View style={styles.sessions}>
+
+                            <View style={styles.session}>
+
+                                <CheckBox
+                                style={{margin:10}}
+                                value={this.state.checkbox1}
+                                onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
+                                />
+                                <TouchableOpacity><View style={styles.sessionInfo}>
+                                    <Text style={styles.sessionTitle}>Nome da palestra</Text>
+                                    <Text style={{marginTop:10, marginBottom:5}}>12 Lugares disponíveis</Text>
+                                    <Progress.Bar color={'#000000'} progress={0.3} unfilledColor={'white'} width={150}/>
+                                </View></TouchableOpacity>
+                                
+                              
+                               
+                            </View>
+
+                            <Divider style={{ backgroundColor: '#eeeeee' }} />
+
+                            <View style={styles.session}>
+
+<CheckBox
+style={{margin:10}}
+value={this.state.checkbox1}
+onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
+/>
+<TouchableOpacity><View style={styles.sessionInfo}>
+    <Text style={styles.sessionTitle}>Nome da palestra</Text>
+    <Text style={{marginTop:10, marginBottom:5}}>12 Lugares disponíveis</Text>
+    <Progress.Bar color={'#000000'} progress={0.3} unfilledColor={'white'} width={150}/>
+</View></TouchableOpacity>
+
+
+
+</View>
+
+<Divider style={{ backgroundColor: '#eeeeee' }} />
+
+<View style={styles.session}>
+
+<CheckBox
+style={{margin:10}}
+value={this.state.checkbox1}
+onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
+/>
+<TouchableOpacity><View style={styles.sessionInfo}>
+    <Text style={styles.sessionTitle}>Nome da palestra</Text>
+    <Text style={{marginTop:10, marginBottom:5}}>12 Lugares disponíveis</Text>
+    <Progress.Bar color={'#000000'} progress={0.3} unfilledColor={'white'} width={150}/>
+</View></TouchableOpacity>
+
+
+
+</View>
+
+<Divider style={{ backgroundColor: '#eeeeee' }} />
+
+
+                          
+                        </View>
+                    </View>
+               }
+               {this.props.changingGuest &&
+
+<ActivityIndicator size="large" color="red"/>
+                }
+
+       
+    
+            </ScrollView>
         );
       }
  
 }
 
 const styles = StyleSheet.create({
-    
-    carreerPathContainer:{
-        backgroundColor:'#CC1A17',
-        height:50,
-        flex:1,
-        alignItems:'center',
-        justifyContent:'center',
-        paddingTop:15,
+    companyLogo:{
+        backgroundColor:'white',
+        margin:20,
+        width:SCREEN_WIDTH*0.35,
+        borderRadius:3,
+        padding:5
     },
-    carreerPathText:{
-        
-        height:50,
-        color:'white',
-        fontWeight:'bold',
+    companyDescription:{
+      //  backgroundColor:'white',
+        margin:20,
+        marginRight:0,
+        width:SCREEN_WIDTH*0.5, 
+        borderRadius:3,
+    },
+    sessionInfo:{
+        margin:5
+    },
+    sessionTitle:{
+        fontSize:15,
+       fontWeight:'bold'
+    },  
+    day:{
+        margin:10
+    },
+    dayText:{
         fontSize:20,
-
-    },
-    companyHeader:{
-        backgroundColor:'#dddddd',
-       // height:150,
-        borderRadius:5,
-        margin:10,
-        padding:10
-        
-      
-    },
-    companyTitle:{
-        paddingBottom:5,
-        fontWeight:'bold',
-        color:'#777777',
-        fontSize:17,
-        
-       // padding:20
-    },
-    companyLogo: {
-
-        borderRadius: 20,
-        
-    },
-      
-    wrapper: {
+        color: '#CC1A17',
+        textAlign: 'center', 
        
     },
-    company:{
+    time:{
+        alignContent:'center',
+        width:SCREEN_WIDTH*0.20,
+        backgroundColor:'white'
+    },
+
+    block:{
+
         flex:1,
         flexDirection:'row',
-       // backgroundColor:'red',
-        color:'black'
-    },
-
-    companyLogoContainer:{
-        flex:1,
-        justifyContent: 'center',
-        width:'60%',
-       // backgroundColor:'white',
-        margin:20,
-
+        backgroundColor:'red',
+        margin:10,
+        borderRadius:5
 
     },
-    aboutCompany:{
-        width:SCREEN_WIDTH,
-        flex:1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
 
+  companyContainer:{
+      flex:1,
+     // backgroundColor:'blue',
+    
+      flexDirection:'row',
+      marginTop:0
+      
+
+  },
+
+ 
+  sessions:{
+    flex:1,
+    flexDirection:'column',
+   
+    backgroundColor:'white',
+   
+  },
+
+  page:{
+      backgroundColor:'#eeeeee',
+    
+  },
+  pickerCareer:{
+
+   paddingLeft:30,
+   paddingRight:30,
+      backgroundColor:'white',
+      width:SCREEN_WIDTH,
+
+  },
+  session:{
+    margin:10,
+    flex:1,
+    flexDirection:'row',
+ 
+  }
    
 });
 
@@ -179,10 +406,15 @@ function mapStateToProps(state, props) {
 
     return {
 
-        token: state.apiReducer.token,
+       // token: state.apiReducer.token,
         user: state.apiReducer.user,
         logged: state.apiReducer.logged,
-        events: state.apiReducer.events
+        events: state.apiReducer.events,
+        userDetails: state.apiReducer.userDetails,
+        calendar : state.apiReducer.calendar,
+        changingGuest : state.apiReducer.changingGuest,
+        sessions:state.apiReducer.sessions,
+
 
     }
 }
