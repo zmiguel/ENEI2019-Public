@@ -10,6 +10,7 @@
     "@redux-offline/redux-offline": "^2.5.1",
     "axios": "^0.18.0",
     "expo": "^32.0.5",
+    "lodash": "^4.17.11",
     "material-icons-react": "^1.0.4",
     "moment": "^2.24.0",
     "prop-types": "^15.6.2",
