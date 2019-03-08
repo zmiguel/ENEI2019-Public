@@ -23,11 +23,9 @@ namespace api.Data
             return rEventLocsVisitedList;
         }
 
-        public IEnumerable<EventLocVisited> GetEventLocsVisitedTeam(int id)
+        public Task<IEnumerable<EventLocVisited>> GetEventLocsVisitedTeam(int id)
         {
-            var allLocs = _context.EventLocsVisited.ToList();
-
-/* 
+            var allLocs = _context.EventLocsVisited.ToListAsync();
             allLocs.ForEach(i=>Console.Write("{0}\t", i));
             Console.WriteLine("teste");
             List<EventLocVisited> rList = new List<EventLocVisited>();
@@ -36,8 +34,8 @@ namespace api.Data
                     rList.Add(allLocs[i]);
                 }
             }
-           */ 
-            return allLocs;
+           
+          return allLocs;
         }
 
     }
