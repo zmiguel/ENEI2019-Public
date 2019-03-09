@@ -1,6 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace api.Models
 
@@ -16,6 +18,7 @@ namespace api.Models
         public int drinks{get;set;}
         public int food{get;set;}
 
+        [ForeignKey("teamID")]
         public Team team{get;set;}
         
     }

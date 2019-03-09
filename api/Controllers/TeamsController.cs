@@ -67,7 +67,7 @@ namespace api.Controllers
         {
 
           User tCap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == TeamAddDetails.capQR);
-
+          
           if(tCap.team == null){
             Team tAdd = new Team{EventId = TeamAddDetails.EventId, Nome = TeamAddDetails.Nome, Cap = tCap, NMembros = 1, Pontos = 0};
 
