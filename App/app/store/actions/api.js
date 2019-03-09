@@ -2,18 +2,13 @@ import { AsyncStorage } from 'react-native';
 
 import { NetInfo } from 'react-native';
 
-var _ = require('lodash');
 
-
-import {TIMERWAIT_CHANGE,SESSION_BLOCKS, DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, GET_SESSIONS, CHANGE_GUEST, WAIT_CHANGE } from "./actionTypes" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, GET_SESSIONS, CHANGE_GUEST, WAIT_CHANGE } from "./actionTypes" //Import the actions types constant we defined in our actions
 
 import moment from 'moment'
 
 import { compose } from 'redux';
-import tap from "lodash/fp/tap";
-import flow from "lodash/fp/flow";
-import groupBy from "lodash/fp/groupBy";
-
+ 
 const axios = require('axios');
 
 axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
@@ -21,22 +16,17 @@ axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
 //http://enei2019.uingress.com/internal/api/Attendee/Edit
 
 
-
-const map = require('lodash/fp/map').convert({ 'cap': false });
-
-
-
 export function updateUser(token, user){
 
     axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
 
+        console.log("asdasdasdasd")
     return (dispatch)=>{
-
-        axios.post('/Attendee/Edit', user).then(a=>{
-            console.log(a);
-            alert("guardado com sucesso")
-            dispatch({
-                type: UPDATE_USER
+    axios.post('/Attendee/Edit', user).then(a=>{
+        console.log(a);
+    alert("guardado com sucesso")
+        dispatch({
+            type: UPDATE_USER
            // guests: response.data
             
             });
@@ -53,16 +43,6 @@ export const waitChangeGuest= ()=>{
     return (dispatch)=>{
         dispatch({
             type: WAIT_CHANGE,
-            
-            });
-    }
-
-}
-export const timerChangeGuest= ()=>{
-    return (dispatch)=>{
-        dispatch({
-            type: TIMERWAIT_CHANGE,
-            
             });
     }
 
@@ -79,85 +59,13 @@ export const connectionState = (status) => {
 
 ///Attendee/AvailableGuestlists
 
-export function signSession(token, idSession){
-//http://enei2019.uingress.com/internal/api/Session/AddAttendee
-axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
 
 
-var obj={
-	"IdSession": idSession,
-	"Direction": 0
-}
-axios.post('/Session/AddAttendee', user).then(a=>{
-    console.log(a);
-    alert("guardado com sucesso")
-    dispatch({
-        type: UPDATE_USER
-   // guests: response.data
-    
-    });
-}).catch(b=>{
-
-alert("Erro a guardar os dados")
-});
-
-
-}
-
-export function getSessions(token){
-    console.log("aquiiii")
-    axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
-    
-    return (dispatch)=>{
-
-        axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
-   
-        axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
-        
-        axios.get('/Attendee/AvailableSessions')
-        .then(function (response) {
-            var careerPath='SEM'
-            var sessions= response.data;
-            var cenas=[];
-       for(let key in sessions){
-            
-            if(sessions[key].Name=='IA'){
-        
-                careerPath='IA'
-            }
-            
-               
-        }   
-            const result = flow(
-                groupBy('SessionStart'),
-               // map((Id) => ({Id})),
-                //tap(console.log)
-              )(response.data)
-              for(let key in result){
-                result[key].option=0;
-                cenas.push(result[key]);
-               
-              }
-            dispatch({
-                type: GET_SESSIONS,
-                sessions: response.data,
-                Blocks: cenas,
-                careerPath:careerPath
-                    //guests: response.data
-            
-                });
-        
-         })
-        .catch(function (error) {
-            alert("Error a obter sessões disponíveis!!");
-            console.log(error);
-        })
-    }
-
-}
 
 export  function getAvailableGuestlists(token){
 
+   
+   
     axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
     
     return (dispatch)=>{
@@ -165,9 +73,6 @@ export  function getAvailableGuestlists(token){
         axios.get('/Attendee/AvailableGuestlists')
         .then(function (response) {
         
-
-
-
             // handle success
             console.log(response);
             dispatch({
@@ -208,87 +113,28 @@ export function changeGuestList(token, guestID){
     return (dispatch)=>{
 
         var full= `/Attendee/ChangeGuestlist/${guestID}`
-
+console.log(full)
         axios.get(full)
         .then(function (response) {
         
-
-            axios.defaults.baseURL = 'http://enei2019.uingress.com/internal/api'
-   
-            axios.defaults.headers.common = {'Authorization': `bearer ${token.access_token}`}
+            // handle success
+            console.log(response);
+            dispatch({
+                type: CHANGE_GUEST,
+                //guests: response.data
             
-            axios.get('/Attendee/AvailableSessions')
-
-            .then(function (response) {
-            
-                // handle success
-                //console.log(response);
-    
-                var cenas=[];
-      
-                const result = flow(
-                    groupBy('SessionStart'),
-                   // map((Id) => ({Id})),
-                    //tap(console.log)
-                  )(response.data)
-                  for(let key in result){
-                    result[key].option=0;
-                    cenas.push(result[key]);
-                    console.log();
-                }
-                console.log(cenas);
-                dispatch({
-                    type: CHANGE_GUEST,
-                    sessions: response.data,
-                         
-                    Blocks: cenas
-                    //guests: response.data
-                
-                    });
-            
-             })
-            .catch(function (error) {
-                alert("Error a obter sessões disponíveis!!");
-                console.log(error);
-            })
-           
+                });
          })
         .catch(function (error) {
             // handle error
             console.log(response);
             console.log(error);
-            alert("Erro a mudar de career path")
         })
         .then(function () {
             // always executed
         });
     }
 }
-export function getSessionBlocks(sessions){
-    var a;
-    var cenas=[];
-  
-    const result = flow(
-        groupBy('SessionStart'),
-       // map((Id) => ({Id})),
-        //tap(console.log)
-      )(sessions)
-
-    return(dispatch)=>{
-
-        for(let key in result){
-           
-            cenas.push(result[key]);
-            console.log();
-        }
- console.log(cenas);
-
-        dispatch({
-            type:SESSION_BLOCKS,
-            Blocks: cenas
-        })
-}}
-
 
 export function getAvailableSessions(token){
     //http://enei2019.uingress.com/internal/api/Attendee/AvailableSessions
@@ -304,32 +150,19 @@ export function getAvailableSessions(token){
         
             // handle success
             console.log(response);
-
-            var cenas=[];
-  
-            const result = flow(
-                groupBy('SessionStart'),
-               // map((Id) => ({Id})),
-                //tap(console.log)
-              )(response.data)
-              for(let key in result){
-           
-                cenas.push(result[key]);
-                console.log();
-            }
-          
             dispatch({
                 type: GET_SESSIONS,
-                 sessions: response.data,
-                 
-                 Blocks: cenas
+               sessions: response.data
+            
                 });
          })
         .catch(function (error) {
             alert("Error a obter sessões disponíveis!!");
             console.log(error);
         })
-       
+        .then(function () {
+            // always executed
+        });
     }
 
 }
@@ -345,8 +178,8 @@ export function getEvents(user){
     for(let key in user.Sessions){
 
         events.push({
-            time: moment(user.Sessions[key].SessionStart).format('HH:mm'),
-            timeEnd: moment(user.Sessions[key].SessionEnd).format('HH:mm'),
+            time: moment(user.Sessions[key].SessionStart).format('h:mm'),
+            timeEnd: moment(user.Sessions[key].SessionEnd).format('h:mm'),
             //lineColor:'#009688',
             imageUrl: 'https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png',
             description:user.Sessions[key].Description,

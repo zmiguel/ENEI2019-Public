@@ -49,16 +49,13 @@ class Calendar extends React.Component {
             {key: 'fourth', weekDay: 'seg', day:15},
 
         ],
-        CP:'SEM'
     };
 
     componentDidMount() {
 
         this.props.getEvents(this.props.user);
-
-        this.props.getSessions(this.props.userDetails.token)
-
-     
+        console.log('didMount');
+        console.log(this.props.events);
     }
 
     _openDetails=()=>{
@@ -136,7 +133,6 @@ class Calendar extends React.Component {
           </View>
         );
       };
-
 
 
     constructor() {
@@ -276,7 +272,7 @@ class Calendar extends React.Component {
                    textAlign:'center',
 
                    }}>
-             {this.props.careerPath}
+               WEB DEVELOPMENT
                </Text>
            </View>
             <TabView
@@ -388,10 +384,7 @@ function mapStateToProps(state, props) {
         token: state.apiReducer.token,
         user: state.apiReducer.user,
         logged: state.apiReducer.logged,
-        events: state.apiReducer.events,
-        userDetails: state.apiReducer.userDetails,
-        sessions: state.apiReducer.sessions,
-        careerPath: state.apiReducer.careerPath
+        events: state.apiReducer.events
 
     }
 }

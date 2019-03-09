@@ -1,4 +1,4 @@
-import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, CHANGE_GUEST, WAIT_CHANGE, GET_SESSIONS, SESSION_BLOCKS, TIMERWAIT_CHANGE } from "../actions/actionTypes" //Import the actions types constant we defined in our actions
+import { DATA_AVAILABLE, API_LOGIN, CHECK_USER, LOGOUT_USER, USER_INFO, HOLD, GET_EVENTS, GET_CAREERS, CHANGE_GUEST, WAIT_CHANGE, GET_SESSIONS } from "../actions/actionTypes" //Import the actions types constant we defined in our actions
 import { REHYDRATE } from 'redux-persist';
  
 let apiState= { 
@@ -20,10 +20,7 @@ let apiState= {
 
     },
     changingGuest:false,
-    sessions:{},
-    Blocks:{},
-    onHoldBlocks:true,
-    careerPath:'SEM'
+    sessions:{}
     
 }
 
@@ -39,7 +36,6 @@ const apiReducer = (state = apiState, action) => {
 
             var expirationDateTokenA=0;
             var access_tokenA='';
-         
 
             if(action.payload.apiReducer.userDetails.token!=undefined){
             
@@ -60,7 +56,7 @@ const apiReducer = (state = apiState, action) => {
                 
                // token: action.payload.apiReducer.token,
                 user: action.payload.apiReducer.user,
-                onHoldBlocks:true,
+               
                  userDetails:{
                         token:{
                             expirationDateToken: expirationDateTokenA, 
@@ -158,9 +154,7 @@ const apiReducer = (state = apiState, action) => {
         
         
         
-        case SESSION_BLOCKS:
-            state=Object.assign({},state, { Blocks: action.Blocks, onHoldBlocks:false, changingGuest:false});
-            return state;
+        
         
         case GET_CAREERS:
             var c= {
@@ -171,18 +165,15 @@ const apiReducer = (state = apiState, action) => {
             return state;
         
         case CHANGE_GUEST:
-            state=Object.assign({},state, { changingGuest:false, sessions:action.sessions, Blocks:action.Blocks});
+            state=Object.assign({},state, { changingGuest:false});
             return state;   
 
         case WAIT_CHANGE:
             state=Object.assign({},state, { changingGuest:true});
             return state; 
 
-        case TIMERWAIT_CHANGE:
-             state=Object.assign({},state, { Blocks:true});
-         return state; 
         case GET_SESSIONS:
-            state=Object.assign({},state, { sessions:action.sessions, Blocks: action.Blocks, careerPath:action.careerPath});
+            state=Object.assign({},state, { changingGuest:false, sessions:action.sessions});
             return state; 
         default:
             return state;

@@ -3,8 +3,7 @@ import {
   View, 
   StyleSheet, 
   Dimensions,
-  Text,
-  Button
+  Text
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
@@ -45,10 +44,7 @@ export default class Eventos extends React.Component {
 render() {
   return (
     <View>
-       <Button
-          title="Febrada"
-          onPress={() => this.props.navigation.navigate('febrada')}
-        />
+      <Text>asd</Text>
     </View>
   );
 }

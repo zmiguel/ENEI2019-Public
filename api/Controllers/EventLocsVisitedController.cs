@@ -66,21 +66,14 @@ namespace api.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddEventLoc(EventLocVisitedAdd EventLocVisitedData)
         {
-
-          List<Team> uTeam = await context.Teams.Include(t=>t.Membros).ToListAsync();
           EventLoc Loc = await context.EventLocs.FirstOrDefaultAsync(a=>a.Id == EventLocVisitedData.EventLocID);
+          var userT = await context.Users.FirstOrDefaultAsync(u=>u.QRcode==EventLocVisitedData.USerQR);
 
-          Team TeamToEdit = new Team();
+          if(userT.team == null){
+            return StatusCode(403);
+          }
 
-          uTeam.ForEach(delegate (Team t){
-            if(t.EventId == Loc.EventId){
-              t.Membros.ForEach(delegate (User u){
-                if(u.QRcode == EventLocVisitedData.USerQR){
-                  TeamToEdit = t;
-                }
-              });
-            }
-          });
+          Team TeamToEdit = userT.team;
 
           TeamToEdit.Pontos += EventLocVisitedData.pontos;
 

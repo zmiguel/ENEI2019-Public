@@ -23,8 +23,7 @@ import Scan from './screens/Scan'
 
 import Calendar from './screens/Calendar'
 import Home from './screens/Home'
-import febrada from './screens/febrada'
-import compras from './screens/compras'
+
 
 
 /*Icons*/
@@ -184,12 +183,6 @@ const Stack = createStackNavigator({
     },
     calendarDetail:{
         screen:calendarDetail
-    },
-    febrada:{
-        screen:febrada
-    },
-    compras:{
-        screen: compras
     }
 
     

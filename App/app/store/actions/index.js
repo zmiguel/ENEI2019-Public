@@ -7,9 +7,6 @@ export {checkUser,
     waitChangeGuest,
     getAvailableSessions,
     updateUser,
-    getSessionBlocks,
-    timerChangeGuest,
-    getSessions,
 } from "./api"
 
 export {

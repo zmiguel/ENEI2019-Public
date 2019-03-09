@@ -14,7 +14,6 @@ import {
         SectionList,
         FlatList
     } from 'react-native';
-    import moment from 'moment'
 
 import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
 import {
@@ -43,9 +42,7 @@ import IconF from "react-native-vector-icons/Foundation"
 
 import LinearGradient from 'react-native-linear-gradient';
 
-import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
-import IconFA from "react-native-vector-icons/FontAwesome5"
 const formatObj = (obj) => {
 
     let a = {};
@@ -61,18 +58,6 @@ const formatObj = (obj) => {
   
 class choosePath extends React.Component {
 
-    _verifySession=(Id)=>{
-
-        var sessions= this.props.user.Sessions
-        for(let key in sessions){
-            
-            if(sessions[key].Id==Id)
-                return true
-          //  cenas.push(result[key]);
-            console.log();
-        }
-       
-    }
     static navigationOptions = ({ navigation }) => ({
      
          headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
@@ -88,31 +73,12 @@ class choosePath extends React.Component {
      guest:'9'
     };
 
-    _mount=()=>{
-
-        var sessions= this.props.sessions
-
-        for(let key in sessions){
-            
-            if(sessions[key].Name=='IA'){
-        
-                this.setState({guest:'9'})
-            }
-            
-               
-        }
-    }
     componentDidMount() {
 
        // this.props.getEvents(this.props.user);
        this.props.getAvailableGuestlists(this.props.userDetails.token)
-      this.props.getSessions(this.props.userDetails.token)
-      this._mount()
-
-        //console.log('didMount');
-       // console.log(this.props.events);
-
-      
+        console.log('didMount');
+        console.log(this.props.events);
     }
 
 
@@ -122,29 +88,11 @@ class choosePath extends React.Component {
         console.log(this.props.events);
     }
 
-    _findPath=(id)=> {
-    
-        var sessions= this.props.sessions
-
-        for(let key in sessions){
-            
-            if(sessions[key].Name==id){
-        
-                return true;
-            }
-               
-        }
-        return false
-    }
 
     constructor() {
 
         super()
-        this.state={
-            Blocks:[],
-            onHoldBlocks:true,
-            checked:true
-        }
+
 
 
         this.data = [
@@ -178,18 +126,14 @@ class choosePath extends React.Component {
         });
       };
 
-
-      _render=({item})=>{
-          <Text>Cenas: {item.Name}</Text>
-      }
-
     render() {
       
 
         return (
             <ScrollView style={styles.page}>
 
-                {this._findPath('IA') && <LinearGradient colors={[ '#D95856', '#CC1A17']} style={styles.linearGradient}>
+               
+                {this.state.guest=='9' && <LinearGradient colors={[ '#D95856', '#CC1A17']} style={styles.linearGradient}>
                 <Text style={{margin:15,marginBottom:0, fontWeight:'bold', color:'white'}}> Empresa responsável: </Text>
                 <View style={styles.companyContainer}>
                       <View style={styles.companyDescription}>
@@ -205,7 +149,7 @@ aplicações essenciais aos negócios.</Text>
                       </View>
                       </View>
 </LinearGradient>}
-{this._findPath('NET') && <LinearGradient colors={[ '#5887FF', '#715AFF']} style={styles.linearGradient}>
+{this.state.guest=='10' && <LinearGradient colors={[ '#5887FF', '#715AFF']} style={styles.linearGradient}>
                 <Text style={{margin:15,marginBottom:0, fontWeight:'bold', color:'white'}}> Empresa responsável: </Text>
                 <View style={styles.companyContainer}>
                       <View style={styles.companyDescription}>
@@ -231,26 +175,16 @@ aplicações essenciais aos negócios.</Text>
                     selectedValue={this.state.guest}
                    style={{width:'100%'}}
                     onValueChange={(itemValue, itemIndex) =>{
-
                         this.setState({guest: itemValue})
-                        this.props.timerChangeGuest();
                         this.props.waitChangeGuest();
-
-
                         this.props.changeGuestList(this.props.userDetails.token,itemValue)
-                      
-                       // this.props.waitChangeGuest();
-                       // this.props.getAvailableSessions(this.props.userDetails.token);
-                     
-                     
-                       // this.props.waitChangeGuest();
-
-                      //  this.props.getSessionBlocks(this.props.sessions)
+                        this.props.waitChangeGuest();
+                        this.props.getAvailableSessions(this.props.userDetails.token);
+                        
                         
                     }
                     
                     }>
-                    <Picker.Item label="Escolhe o teu career path!" value="0" />
                     <Picker.Item label="Inteligência Artificial" value="9" />
                     <Picker.Item label="Redes e Segurança" value="10" />
                     <Picker.Item label="Data Science" value="15" />
@@ -260,13 +194,26 @@ aplicações essenciais aos negócios.</Text>
 
                     </Picker>
                 </View>
-                <View style={{width:SCREEN_WIDTH}}>
-              
-        {
-            !this.props.changingGuest &&<FlatList
-            data={this.props.Blocks}
-        renderItem={({item, index}) =>  <View style={styles.block}>
-          <View style={styles.time}>
+                <FlatList
+        data={this.state.data}
+        renderItem={({ item }) => (
+          <ListItem
+           
+            title={`${item.name.first} ${item.name.last}`}
+            subtitle={item.email}
+            avatar={{ uri: item.picture.thumbnail }}
+           containerStyle={{ borderBottomWidth: 0 }}
+          />
+        )}
+        keyExtractor={item => item.email}
+      />
+
+</View >
+               {  !this.props.changingGuest &&
+                 
+                    <View style={styles.block}>
+                    
+                        <View style={styles.time}>
                             <Text style={
                                 {
                                     margin:10,
@@ -275,8 +222,8 @@ aplicações essenciais aos negócios.</Text>
                                     marginBottom:0
                                 }
                                 }>
-                            {moment(item[0].SessionStart).format('HH:mm')}</Text>
-                            <Text style={{marginLeft:20}}>às</Text>
+                            9:00</Text>
+                            <Text style={{marginLeft:20}}>até</Text>
                             <Text style={
                                 {
                                     margin:10,
@@ -285,52 +232,77 @@ aplicações essenciais aos negócios.</Text>
                                     marginTop:5
                                 }
                                 }>
-                           {moment(item[0].SessionEnd).format('HH:mm')}</Text>
+                            9:30</Text>
                            
                         </View>
+                        
                         <View style={styles.sessions}>
-                                      <FlatList
-      data={item}
-      renderItem={({data, index}) =>  <View><View style={styles.session}>
-{ this._verifySession(item[index].Id) &&
-        <TouchableOpacity>
-               <IconFA name="check-square" size={30} color={'#CC1A17'}/>
-        </TouchableOpacity>
-    }{
-        !this._verifySession(item[index].Id)
-        &&
-        <TouchableOpacity>
-           <IconFA name="square" size={30}/>
-        </TouchableOpacity>
-    }
-  
-      <TouchableOpacity><View style={styles.sessionInfo}>
-          <Text style={styles.sessionTitle}>{item[index].Name}</Text>
-          <Text style={{marginTop:10, marginBottom:5}}>{item[index].MaxAttendees - item[index].Enrolled} Lugares disponíveis</Text>
-          <Progress.Bar color={'#000000'} progress={(item[index].Enrolled/item[index].MaxAttendees)} unfilledColor={'white'} width={170}/>
-      </View></TouchableOpacity>
-      
-    
-     
-  </View>
 
-  <Divider style={{ backgroundColor: '#eeeeee' }} />
+                            <View style={styles.session}>
 
-    </View>}
-    />
-                                </View>
-                                </View>}
-      />}</View>
+                                <CheckBox
+                                style={{margin:10}}
+                                value={this.state.checkbox1}
+                                onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
+                                />
+                                <TouchableOpacity><View style={styles.sessionInfo}>
+                                    <Text style={styles.sessionTitle}>Nome da palestra</Text>
+                                    <Text style={{marginTop:10, marginBottom:5}}>12 Lugares disponíveis</Text>
+                                    <Progress.Bar color={'#000000'} progress={0.3} unfilledColor={'white'} width={150}/>
+                                </View></TouchableOpacity>
+                                
+                              
+                               
+                            </View>
+
+                            <Divider style={{ backgroundColor: '#eeeeee' }} />
+
+                            <View style={styles.session}>
+
+<CheckBox
+style={{margin:10}}
+value={this.state.checkbox1}
+onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
+/>
+<TouchableOpacity><View style={styles.sessionInfo}>
+    <Text style={styles.sessionTitle}>Nome da palestra</Text>
+    <Text style={{marginTop:10, marginBottom:5}}>12 Lugares disponíveis</Text>
+    <Progress.Bar color={'#000000'} progress={0.3} unfilledColor={'white'} width={150}/>
+</View></TouchableOpacity>
 
 
 
-        
+</View>
 
-</View >
-              
-            {(this.props.changingGuest || this.props.Blocks==true) &&
+<Divider style={{ backgroundColor: '#eeeeee' }} />
 
-<ActivityIndicator size="large" color="red" style={{flex:1, alignContent:'center'}}/>
+<View style={styles.session}>
+
+<CheckBox
+style={{margin:10}}
+value={this.state.checkbox1}
+onChange={() => this.setState({ checkbox1: !this.state.checkbox1 })}
+/>
+<TouchableOpacity><View style={styles.sessionInfo}>
+    <Text style={styles.sessionTitle}>Nome da palestra</Text>
+    <Text style={{marginTop:10, marginBottom:5}}>12 Lugares disponíveis</Text>
+    <Progress.Bar color={'#000000'} progress={0.3} unfilledColor={'white'} width={150}/>
+</View></TouchableOpacity>
+
+
+
+</View>
+
+<Divider style={{ backgroundColor: '#eeeeee' }} />
+
+
+                          
+                        </View>
+                    </View>
+               }
+               {this.props.changingGuest &&
+
+<ActivityIndicator size="large" color="red"/>
                 }
 
        
@@ -374,7 +346,7 @@ const styles = StyleSheet.create({
     },
     time:{
         alignContent:'center',
-        width:SCREEN_WIDTH*0.23,
+        width:SCREEN_WIDTH*0.20,
         backgroundColor:'white'
     },
 
@@ -442,9 +414,6 @@ function mapStateToProps(state, props) {
         calendar : state.apiReducer.calendar,
         changingGuest : state.apiReducer.changingGuest,
         sessions:state.apiReducer.sessions,
-        Blocks: state.apiReducer.Blocks,
-        onHoldBlocks:state.apiReducer.onHoldBlocks,
-        
 
 
     }
