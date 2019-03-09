@@ -68,24 +68,21 @@ namespace api.Controllers
 
           User tCap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == TeamAddDetails.capQR);
 
-          if(tCap.team == null){
-            Team tAdd = new Team{EventId = TeamAddDetails.EventId, Nome = TeamAddDetails.Nome, Cap = tCap, NMembros = 1, Pontos = 0};
+          List<User> memb = new List<User>();
 
-            tCap.team = tAdd;
+          memb.Add(tCap);
 
-            await context.Teams.AddAsync(tAdd);
-            context.Users.Update(tCap);
+          Team tAdd = new Team{EventId = TeamAddDetails.EventId, Nome = TeamAddDetails.Nome, Cap = tCap, Membros = memb, NMembros = 1, Pontos = 0};
 
-            var result = context.SaveChanges();
-            
-            if (result >= 1)
-              {
-                  return StatusCode(201);
-              }
-            return BadRequest();
-          }else{
-            return BadRequest();
-          }
+          await context.Teams.AddAsync(tAdd);
+
+          var result = context.SaveChanges();
+          
+          if (result == 1)
+            {
+                return StatusCode(201);
+            }
+          return BadRequest();
           
         }
 
@@ -97,22 +94,35 @@ namespace api.Controllers
 
           User newMember = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == MemberToAdd.newQR);
 
-          Team tEdit = await context.Teams.FirstOrDefaultAsync(t=>t.Id == MemberToAdd.id);
+          Team tEdit = await context.Teams.Include(t=>t.Membros).FirstOrDefaultAsync(t=>t.Id == MemberToAdd.id);
 
-          if(newMember.team == null){
+          List<Team> allTeams = await context.Teams.Include(t=>t.Membros).Include(t=>t.Cap).ToListAsync();
+
+          var valido = true;
+
+          allTeams.ForEach(delegate(Team t){
+            if(newMember == t.Cap){
+              valido = false;
+            }
+            t.Membros.ForEach(delegate(User m){
+              if(newMember == m){
+                valido = false;
+              }
+            });
+          });
+
+          if(valido){
             tEdit.NMembros++;
-            newMember.team = tEdit;
+            tEdit.Membros.Add(newMember);
 
-            context.Teams.Update(tEdit);
-            context.Users.Update(newMember);
+            context.Update(tEdit);
 
             var result = context.SaveChanges();
-
+            
             return StatusCode(201);
-
-          }else{
-            return StatusCode(403);
           }
+
+          return StatusCode(403);
           
         }
 
@@ -130,7 +140,7 @@ namespace api.Controllers
             tEdit.Nome = NameChange.nome;
           }
 
-          context.Teams.Update(tEdit);
+          context.Update(tEdit);
 
           var result = context.SaveChanges();
           
@@ -149,9 +159,7 @@ namespace api.Controllers
           User cap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == DeleteData.UserQR);
 
           if(cap == tEdit.Cap){
-            context.Teams.Remove(tEdit);
-            cap.team = null;
-            context.Users.Update(cap);
+            context.Remove(tEdit);
             var result = context.SaveChanges();
             return StatusCode(201);
           }else{
@@ -167,25 +175,20 @@ namespace api.Controllers
 
           User rmMember = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == MemberToRemove.UserToRemoveQR);
 
-          Team tEdit = await context.Teams.Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == MemberToRemove.TeamID);
+          Team tEdit = await context.Teams.Include(t=>t.Membros).Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == MemberToRemove.TeamID);
 
           if(rmMember == tEdit.Cap){
             return StatusCode(403);
           }
 
-          if(rmMember.team == tEdit){
-            tEdit.NMembros--;
-            rmMember.team = null;
+          tEdit.NMembros--;
+          tEdit.Membros.Remove(rmMember);
 
-            context.Teams.Update(tEdit);
-            context.Users.Update(rmMember);
+          context.Update(tEdit);
 
-            var result = context.SaveChanges();
-            
-            return StatusCode(201);
-          }else{
-            return StatusCode(403);
-          }
+          var result = context.SaveChanges();
+          
+          return StatusCode(201);
           
         }
     }
