@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api.Migrations
 {
-    public partial class TeamsEvents : Migration
+    public partial class TeamsV2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,6 +35,22 @@ namespace api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Events", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    name = table.Column<string>(nullable: true),
+                    basePrice = table.Column<int>(nullable: false),
+                    sold = table.Column<int>(nullable: false),
+                    revenue = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,6 +149,31 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Logs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    amount = table.Column<int>(nullable: false),
+                    available = table.Column<int>(nullable: false),
+                    productId = table.Column<int>(nullable: true),
+                    transactionId = table.Column<string>(nullable: true),
+                    logType = table.Column<string>(nullable: true),
+                    UserId = table.Column<int>(nullable: true),
+                    UserId1 = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Logs_Products_productId",
+                        column: x => x.productId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Photos",
                 columns: table => new
                 {
@@ -179,10 +220,9 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    QRcode = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: false),
                     Nome = table.Column<string>(nullable: true),
-                    CapId = table.Column<int>(nullable: true),
+                    CapID = table.Column<int>(nullable: true),
                     NMembros = table.Column<int>(nullable: false),
                     Pontos = table.Column<int>(nullable: false)
                 },
@@ -212,14 +252,16 @@ namespace api.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     QRcode = table.Column<string>(nullable: true),
-                    TeamId = table.Column<int>(nullable: true)
+                    drinks = table.Column<int>(nullable: false),
+                    food = table.Column<int>(nullable: false),
+                    teamID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Teams_TeamId",
-                        column: x => x.TeamId,
+                        name: "FK_AspNetUsers_Teams_teamID",
+                        column: x => x.teamID,
                         principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -290,9 +332,9 @@ namespace api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_TeamId",
+                name: "IX_AspNetUsers_teamID",
                 table: "AspNetUsers",
-                column: "TeamId");
+                column: "teamID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventLocs_ImgId",
@@ -310,14 +352,29 @@ namespace api.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Logs_UserId",
+                table: "Logs",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logs_UserId1",
+                table: "Logs",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logs_productId",
+                table: "Logs",
+                column: "productId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Photos_UserId",
                 table: "Photos",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_CapId",
+                name: "IX_Teams_CapID",
                 table: "Teams",
-                column: "CapId");
+                column: "CapID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserRoles_AspNetUsers_UserId",
@@ -352,6 +409,22 @@ namespace api.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
+                name: "FK_Logs_AspNetUsers_UserId",
+                table: "Logs",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Logs_AspNetUsers_UserId1",
+                table: "Logs",
+                column: "UserId1",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
                 name: "FK_Photos_AspNetUsers_UserId",
                 table: "Photos",
                 column: "UserId",
@@ -360,9 +433,9 @@ namespace api.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Teams_AspNetUsers_CapId",
+                name: "FK_Teams_AspNetUsers_CapID",
                 table: "Teams",
-                column: "CapId",
+                column: "CapID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -371,7 +444,7 @@ namespace api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Teams_AspNetUsers_CapId",
+                name: "FK_Teams_AspNetUsers_CapID",
                 table: "Teams");
 
             migrationBuilder.DropTable(
@@ -396,6 +469,9 @@ namespace api.Migrations
                 name: "Events");
 
             migrationBuilder.DropTable(
+                name: "Logs");
+
+            migrationBuilder.DropTable(
                 name: "Values");
 
             migrationBuilder.DropTable(
@@ -403,6 +479,9 @@ namespace api.Migrations
 
             migrationBuilder.DropTable(
                 name: "EventLocs");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Photos");

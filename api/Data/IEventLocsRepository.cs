@@ -9,7 +9,7 @@ namespace api.Data
       
         Task<IEnumerable<EventLoc>> GetEventLocs();
         Task<EventLoc> GetEventLoc(int id);
-        Task<EventLoc> GetEventLocEvent(int id);
+        Task<List<EventLoc>> GetEventLocEvent(int id);
       
 
     }

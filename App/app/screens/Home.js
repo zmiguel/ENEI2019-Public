@@ -162,8 +162,7 @@ _update=()=>{
                     </View>
                 
                     </ImageBackground>
-
-                    <TouchableOpacity  onPress={() => this.props.navigation.navigate('compras')}>
+                 
                     <View style={styles.userStats}> 
                        
                        <Text style={styles.userStatsTitle}>O meu saldo:</Text>
@@ -182,7 +181,7 @@ _update=()=>{
                            </View>
                        </View>
                    </View>
-                   </TouchableOpacity>
+
                   
 
               
