@@ -424,9 +424,10 @@ export function getEvents(user) {
   return dispatch => {
     let events = [];
     console.log("chegou aqui");
-
+var i=0
     for (let key in user.Sessions) {
       events.push({
+        key:i++,
         time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
         timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
         //lineColor:'#009688',
@@ -435,13 +436,87 @@ export function getEvents(user) {
         description: user.Sessions[key].Description,
         name: user.Sessions[key].Name,
         Enrolled: user.Sessions[key].Enrolled,
-        MaxAttendees: user.Sessions[key].MaxAttendees
+        MaxAttendees: user.Sessions[key].MaxAttendees,
+        day: moment(user.Sessions[key].SessionStart).format("DD")
+      });
+    }
+   
+
+    const result = flow(
+      groupBy("day")
+     
+    )(events);
+
+  
+      var cenas=[];
+    for (let key in result) {
+      cenas.push(result[key]);
+      console.log();
+    }
+    console.log(".--------")
+    console.log(cenas);
+    console.log(".--------")
+    
+    var a=[], b=[],c=[],d=[]
+    
+    for (let key in cenas[0]) {
+      a.push({
+        time:cenas[0][key].time ,
+        timeEnd: cenas[0][key].timeEnd,
+        imageUrl:cenas[0][key].imageUrl,
+        description: cenas[0][key].description,
+        name:cenas[0][key].name,
+        Enrolled: cenas[0][key].Enrolled,
+        MaxAttendees: cenas[0][key].MaxAttendees,
+        day: cenas[0][key].day
+      });
+    }
+    for (let key in cenas[1]) {
+      b.push({
+        time:cenas[1][key].time ,
+        timeEnd: cenas[1][key].timeEnd,
+        imageUrl:cenas[1][key].imageUrl,
+        description: cenas[1][key].description,
+        name:cenas[1][key].name,
+        Enrolled: cenas[1][key].Enrolled,
+        MaxAttendees: cenas[1][key].MaxAttendees,
+        day: cenas[1][key].day
+      });
+    }
+    for (let key in cenas[2]) {
+      c.push({
+        time:cenas[2][key].time ,
+        timeEnd: cenas[2][key].timeEnd,
+        imageUrl:cenas[2][key].imageUrl,
+        description: cenas[2][key].description,
+        name:cenas[2][key].name,
+        Enrolled: cenas[2][key].Enrolled,
+        MaxAttendees: cenas[2][key].MaxAttendees,
+        day: cenas[2][key].day
       });
     }
 
+    for (let key in cenas[3]) {
+      d.push({
+        time:cenas[3][key].time ,
+        timeEnd: cenas[3][key].timeEnd,
+        imageUrl:cenas[3][key].imageUrl,
+        description: cenas[3][key].description,
+        name:cenas[3][key].name,
+        Enrolled: cenas[3][key].Enrolled,
+        MaxAttendees: cenas[3][key].MaxAttendees,
+        day: cenas[3][key].day
+      });
+    }
     dispatch({
+
       type: GET_EVENTS,
-      events: events
+      events:a,
+      day1:a,
+      day2:b,
+      day3:c,
+      day4:d
+
     });
   };
 }

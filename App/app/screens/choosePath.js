@@ -287,9 +287,8 @@ class choosePath extends React.Component {
             </Picker>
           </View>
           <View style={{ width: SCREEN_WIDTH }}>
-          { this.state.guest==0 && <View><Text>chosse one</Text><View>}
-
-            {!this.props.changingGuest && this.state.guest!=0 && (
+          
+            {!this.props.changingGuest && (
               <FlatList
                 data={this.props.Blocks}
                 renderItem={({ item, index }) => (

@@ -40,6 +40,10 @@ let apiState = {
   Blocks: {},
   onHoldBlocks: true,
   careerPath:{name:'Sem Career Path', color:'#eeeeee'},
+  a:{},
+  b:{},
+  c:{},
+  d:{}
  
 };
 
@@ -138,7 +142,7 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case GET_EVENTS:
-      state = Object.assign({}, state, { events: action.events });
+      state = Object.assign({}, state, { events: action.events , a:action.day1, b:action.day2, c:action.day3, d:action.day4});
 
       return state;
 
