@@ -444,10 +444,11 @@ var i=0
 
     const result = flow(
       groupBy("day")
+      
      
     )(events);
 
-  
+   
       var cenas=[];
     for (let key in result) {
       cenas.push(result[key]);
@@ -471,6 +472,9 @@ var i=0
         day: cenas[0][key].day
       });
     }
+   
+    
+    
     for (let key in cenas[1]) {
       b.push({
         time:cenas[1][key].time ,
@@ -508,6 +512,10 @@ var i=0
         day: cenas[3][key].day
       });
     }
+    a=_.sortBy(a, function(o) { return o.time; });
+    b=_.sortBy(b, function(o) { return o.time; });
+    c=_.sortBy(c, function(o) { return o.time; });
+    d=_.sortBy(d, function(o) { return o.time; });
     dispatch({
 
       type: GET_EVENTS,
