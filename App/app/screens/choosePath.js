@@ -67,9 +67,12 @@ class choosePath extends React.Component {
     var sessions = this.props.sessions;
 
     for (let key in sessions) {
+
       if (sessions[key].Name == "IA") {
         this.setState({ guest: "9" });
       }
+      //...
+
     }
   };
   componentDidMount() {
@@ -284,7 +287,9 @@ class choosePath extends React.Component {
             </Picker>
           </View>
           <View style={{ width: SCREEN_WIDTH }}>
-            {!this.props.changingGuest && (
+          { this.state.guest==0 && <View><Text>chosse one</Text><View>}
+
+            {!this.props.changingGuest && this.state.guest!=0 && (
               <FlatList
                 data={this.props.Blocks}
                 renderItem={({ item, index }) => (

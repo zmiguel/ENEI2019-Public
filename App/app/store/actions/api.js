@@ -28,6 +28,7 @@ import { compose } from "redux";
 import tap from "lodash/fp/tap";
 import flow from "lodash/fp/flow";
 import groupBy from "lodash/fp/groupBy";
+import { colors } from "react-native-elements";
 
 const axios = require("axios");
 
@@ -38,9 +39,7 @@ axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 const map = require("lodash/fp/map").convert({ cap: false });
 
 export function openModal(info, t) {
-    
   return dispatch => {
-      
     dispatch({
       type: OPEN_MODAL,
       modalInfo: info,
@@ -79,7 +78,38 @@ export function updateUser(token, user) {
       });
   };
 }
+function getCareerPath(sessions) {
+  careerPath = "Sem Career Path";
+  careerColor = "white";
 
+  for (let key in sessions) {
+    if (sessions[key].Name == "IA") {
+      careerPath = "Artificial Inteligence";
+      careerColor='#CC1A17'
+    }
+    if (sessions[key].Name == "IOT") {
+      careerPath = "Internet of Things";
+      careerColor= "green"
+    }
+    if (sessions[key].Name == "WEB") {
+      careerPath = "Web Development";
+      careerColor="purple"
+    }
+    if (sessions[key].Name == "NET") {
+      careerPath = "Networking and Security";
+      careerColor="blue"
+    }
+    if (sessions[key].Name == "MOB") {
+      careerPath = "Mobile Development";
+      careerColor="orange"
+    }
+    if(sessions[key].Name=="DS"){
+      careerPath="Data Science"
+      careerColor="yellow"
+    }
+  }
+  return { name: careerPath, color: careerColor };
+}
 export const waitChangeGuest = () => {
   return dispatch => {
     dispatch({
@@ -117,25 +147,16 @@ export function signSession(token, idSession) {
       .post("/Session/AddAttendee", obj)
       //se não existir erro na chamada...
       .then(a => {
-        if (response.data.Success == true) {
+        if (a.data.Success) {
           axios
             .get("/Attendee/AvailableSessions")
 
             .then(function(response) {
               console.log(response);
 
-              var careerPath = "SEM";
-
               var sessions = response.data;
-
+              var careerPath = getCareerPath(sessions);
               var cenas = [];
-
-              for (let key in sessions) {
-                if (sessions[key].Name == "IA") {
-                  careerPath = "IA";
-                }
-                //.....
-              }
 
               const result = flow(groupBy("SessionStart"))(response.data);
 
@@ -146,19 +167,35 @@ export function signSession(token, idSession) {
 
               alert("Inscrição efectuada com sucesso");
 
-              dispatch({
-                type: SIGN_SESSION,
-                sessions: response.data,
-                Blocks: cenas
-              });
+              //obter informações pessoais:
+              axios
+                .get("/Attendee/Detail")
+
+                .catch(error => {
+                  alert(error);
+                })
+                .then(sucess => {
+                  dispatch({
+                    type: SIGN_SESSION,
+                    sessions: response.data,
+                    Blocks: cenas,
+                    changeGuestList: false,
+                    careerPath: careerPath,
+                    user: sucess.data
+                  });
+                });
             })
             .catch(function(error) {
-              alert("Error a obter sessões disponíveis!!");
+              alert("Erro a obter sessões disponíveis!!");
 
               console.log(error);
             });
         } else {
           alert("Erro a inscrever na palestra");
+          dispatch({
+            type: SIGN_SESSION,
+            waitChangeGuest: false
+          });
         }
       })
       .catch(b => {
@@ -168,7 +205,6 @@ export function signSession(token, idSession) {
 }
 
 export function getSessions(token) {
-  console.log("aquiiii");
   axios.defaults.headers.common = {
     Authorization: `bearer ${token.access_token}`
   };
@@ -183,14 +219,14 @@ export function getSessions(token) {
     axios
       .get("/Attendee/AvailableSessions")
       .then(function(response) {
-        var careerPath = "SEM";
         var sessions = response.data;
+
+        var careerPath = getCareerPath(sessions);
+
+        console.log(careerPath);
+
         var cenas = [];
-        for (let key in sessions) {
-          if (sessions[key].Name == "IA") {
-            careerPath = "IA";
-          }
-        }
+
         const result = flow(
           groupBy("SessionStart")
           // map((Id) => ({Id})),
@@ -252,6 +288,7 @@ export function getAvailableGuestlists(token) {
 
 */
 export function changeGuestList(token, guestID) {
+  
   //http://enei2019.uingress.com/internal/api/Attendee/ChangeGuestlist/
 
   axios.defaults.headers.common = {
@@ -264,6 +301,7 @@ export function changeGuestList(token, guestID) {
     axios
       .get(full)
       .then(function(response) {
+        console.log(response)
         axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 
         axios.defaults.headers.common = {
@@ -278,12 +316,13 @@ export function changeGuestList(token, guestID) {
             //console.log(response);
 
             var cenas = [];
-
+            c= getCareerPath(response.data);
             const result = flow(
               groupBy("SessionStart")
               // map((Id) => ({Id})),
               //tap(console.log)
             )(response.data);
+
             for (let key in result) {
               result[key].option = 0;
               cenas.push(result[key]);
@@ -293,8 +332,9 @@ export function changeGuestList(token, guestID) {
             dispatch({
               type: CHANGE_GUEST,
               sessions: response.data,
+              Blocks: cenas,
+              careerPath: c
 
-              Blocks: cenas
               //guests: response.data
             });
           })

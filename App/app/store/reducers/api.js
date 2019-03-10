@@ -39,7 +39,7 @@ let apiState = {
   sessions: {},
   Blocks: {},
   onHoldBlocks: true,
-  careerPath: "SEM",
+  careerPath:{name:'Sem Career Path', color:'#eeeeee'},
  
 };
 
@@ -124,7 +124,7 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case LOGOUT_USER:
-      state = Object.assign({}, state, { logged: false });
+      state = Object.assign({}, state, { user:{}, userDetails:{}, logged:false});
 
       return state;
 
@@ -161,8 +161,11 @@ const apiReducer = (state = apiState, action) => {
 
     case SIGN_SESSION:
       state = Object.assign({}, state, {
+        sessions: action.sessions,
         Blocks: action.Blocks,
-        changingGuest: false
+        careerPath: action.careerPath,
+        changingGuest: action.changingGuest,
+        user:action.user
       });
       return state;
 
@@ -186,7 +189,8 @@ const apiReducer = (state = apiState, action) => {
       state = Object.assign({}, state, {
         changingGuest: false,
         sessions: action.sessions,
-        Blocks: action.Blocks
+        Blocks: action.Blocks,
+        careerPath: action.careerPath
       });
       return state;
 

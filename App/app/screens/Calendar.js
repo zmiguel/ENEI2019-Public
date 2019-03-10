@@ -49,7 +49,9 @@ class Calendar extends React.Component {
             {key: 'fourth', weekDay: 'seg', day:15},
 
         ],
-        CP:'SEM'
+        CP:'SEM',
+        cpColor:'white',
+        careerPath:{name:'', color:''}
     };
 
     componentDidMount() {
@@ -205,6 +207,8 @@ class Calendar extends React.Component {
 
 
                     }}
+                    circleSize={0}
+                    dotColor={'#CC1A17'}
                     keyExtractor={(item, index) => index.toString()}
 
 
@@ -268,16 +272,17 @@ class Calendar extends React.Component {
         return (
            <View style={{flex:1}}>
            <View>
+               { this.props.careerPath!=undefined &&
                <Text style={{
-                   backgroundColor:"#CC1A17",
+                   backgroundColor:this.props.careerPath.color,
                    color:'white',
                    fontWeight:'bold',
                    fontSize:15,
                    textAlign:'center',
 
-                   }}>
-             {this.props.careerPath}
+                   }}>{this.props.careerPath.name}
                </Text>
+               }
            </View>
             <TabView
                 navigationState={this.state}
