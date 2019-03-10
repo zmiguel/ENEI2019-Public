@@ -10,7 +10,7 @@ namespace api.Data
       
         Task<IEnumerable<Team>> GetTeams();
         Task<List<Team>> GetEventTeam(int id);
-        Task<List<Team>> GetUserTeam(String QR);
+        Task<Team> GetUserTeam(String QR);
       
 
     }

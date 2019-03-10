@@ -18,7 +18,7 @@ namespace api.Data
 
         public async Task<List<Team>> GetEventTeam(int id)
         {
-            List<Team> allTeams = await _context.Teams.Include(a=>a.Cap).Include(a=>a.Membros).ToListAsync();
+            List<Team> allTeams = await _context.Teams.Include(a=>a.Cap).ToListAsync();
             List<Team> rTeam = new List<Team>();
             allTeams.ForEach(delegate(Team t){
                 if(t.EventId == id){
@@ -29,24 +29,16 @@ namespace api.Data
             return rTeam;
         }
 
-        public async Task<List<Team>> GetUserTeam(String QR)
+        public async Task<Team> GetUserTeam(String QR)
         {
-            List<Team> allTeams = await _context.Teams.Include(a=>a.Cap).Include(a=>a.Membros).ToListAsync();
-            List<Team> rTeam = new List<Team>();
-            allTeams.ForEach(delegate(Team t){
-                foreach (User u in t.Membros){
-                    if(u.QRcode == QR){
-                        rTeam.Add(t);
-                    }
-                }
-            });
+            var rTeam = (await _context.Users.FirstAsync(u=>u.QRcode == QR)).team;
             
             return rTeam;
         }
 
         public async Task<IEnumerable<Team>> GetTeams()
         {
-            var rTeams = await _context.Teams.Include(a=>a.Cap).Include(a=>a.Membros).ToListAsync();
+            var rTeams = await _context.Teams.Include(a=>a.Cap).ToListAsync();
             
             return rTeams;
         }

@@ -46,5 +46,22 @@ namespace api.Controllers
           var Event = await _repo.GetEvent(id);
           return Ok(Event);
         }
+
+        // POST api/events/add
+        // add new event
+        [HttpPost("add")]
+        public async Task<IActionResult> AddEvent(EventForAdd EventData)
+        {
+          Event EAdd = new Event{Nome = EventData.Nome,Desc = EventData.Desc};
+          await context.Events.AddAsync(EAdd);
+
+          var result = context.SaveChanges();
+          
+          if (result == 1)
+            {
+                return StatusCode(201);
+            }
+          return BadRequest();
+        }
     }
 }
