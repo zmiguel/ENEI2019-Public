@@ -32,7 +32,9 @@ import Swiper from 'react-native-swiper';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
 import FitImage from 'react-native-fit-image';
+
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 const formatObj = (obj) => {
@@ -132,7 +134,7 @@ class calendarDetail extends React.Component {
             </View>
         )
     };
-
+/*
 
     renderMap = () => {
         return (
@@ -154,7 +156,7 @@ class calendarDetail extends React.Component {
                 />
         )
     };
-
+*/
     renderAttendee = () => {
         return (
             <View style={{backgroundColor: '#fff', height: SCREEN_HEIGHT * 0.1}}>
@@ -211,7 +213,7 @@ class calendarDetail extends React.Component {
                     <View style={styles.infoRow}>
                         <Text style={{fontSize: 30, color: "#CC1A17"}}>Localização</Text>
                         <Divider style={{backgroundColor: '#000', marginBottom: 10}}/>
-                        {this.renderMap()}
+                     
                     </View>
                 </ScrollView>
                 <Divider style={{backgroundColor: 'black'}}/>
