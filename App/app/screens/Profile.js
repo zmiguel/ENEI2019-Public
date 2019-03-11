@@ -45,8 +45,8 @@ class Profile extends Component {
         super(props);
 
         this.state = {
-            name:this.props.user.Name,
-            userDetails:{},
+            name: this.props.user.Name,
+            userDetails: {},
             token: false,
             tokenData: '',
             loggedIn: false,
@@ -87,10 +87,10 @@ class Profile extends Component {
     };
 
 
-    _validateData = (name,jobs, email, phone, address, city) => {
+    _validateData = (name, jobs, email, phone, address, city) => {
         let valid = null;
 
-        v = Validate('name',name );
+        v = Validate('name', name);
 
 
         let v = Validate('email', email);
@@ -138,29 +138,29 @@ class Profile extends Component {
 
     saveData() {
 
-        const {name,jobs, email, phone, address, city, formValid} = this.state;
+        const {name, jobs, email, phone, address, city, formValid} = this.state;
 
-        this._validateData(name,jobs, email, phone, address, city);
+        this._validateData(name, jobs, email, phone, address, city);
 
         console.log(formValid);
 
-        if (formValid){
+        if (formValid) {
             console.log("data valid");
 
-            this.props.updateUser(this.props.userDetails.token,{
-  Name: this.state.name,
- // LastName: "Último",
-  Company: jobs,
- // Job: jobs,
-  Address: address,
-  City: city,
- // PostalCode: "3000-010",
+            this.props.updateUser(this.props.userDetails.token, {
+                Name: this.state.name,
+                // LastName: "Último",
+                Company: jobs,
+                // Job: jobs,
+                Address: address,
+                City: city,
+                // PostalCode: "3000-010",
 
-  Mobile: phone,
-  Avatar: "base64"
-} );   this.props.getUserInfo(this.props.userDetails.token);
+                Mobile: phone,
+                Avatar: "base64"
+            });
+            this.props.getUserInfo(this.props.userDetails.token);
         }
-       
 
 
         else
@@ -190,7 +190,7 @@ class Profile extends Component {
 
                                 <TextInput style={styles.userBioText}
                                            onChangeText={(n) => {
-                                               this.setState({name:n })
+                                               this.setState({name: n})
                                            }}
                                            value={this.state.name}/>
                             </View>
@@ -206,7 +206,6 @@ class Profile extends Component {
                             </View>
                             <Divider style={{backgroundColor: 'black'}}/>
 
-                            
 
                             <View style={styles.userBioRow}>
                                 <Icon name="ios-phone-portrait" style={styles.userBioLogo} size={25}/>
@@ -261,16 +260,16 @@ class Profile extends Component {
                         </View>
                         <View style={styles.userBio}>
                             <View style={styles.userBioRow}>
-                                <Text style={styles.userPassText} size={25}>
+                                <Text style={styles.userPassText} size={20}>
                                     Old Password:
                                 </Text>
 
                                 <TextInput style={styles.userBioText}
-                                    placeholder='Antiga Password' secureTextEntry={true}
+                                           placeholder='Antiga Password' secureTextEntry={true}
                                 />
                             </View>
                             <View style={styles.userBioRow}>
-                                <Text style={styles.userPassText} size={25}>
+                                <Text style={styles.userPassText} size={20}>
                                     Nova Password:
                                 </Text>
 
@@ -279,7 +278,7 @@ class Profile extends Component {
                                 />
                             </View>
                             <View style={styles.userBioRow}>
-                                <Text style={styles.userPassText} size={25}>
+                                <Text style={styles.userPassText} size={20}>
                                     Repetir Password:
                                 </Text>
 
@@ -293,9 +292,14 @@ class Profile extends Component {
                 </ScrollView>
 
 
-                    <TouchableOpacity onPress={this._logout} style={{ height: 50, justifyContent: 'center', alignItems: 'center', backgroundColor: '#CC1A17'}}>
-                        <Text style={{color:"#fff", fontWeight: 'bold'}}>Logout</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity onPress={this._logout} style={{
+                    height: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#CC1A17'
+                }}>
+                    <Text style={{color: "#fff", fontWeight: 'bold'}}>Logout</Text>
+                </TouchableOpacity>
 
             </View>
 
@@ -330,23 +334,27 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        padding: 10
+        padding: 10,
+        borderWidth: 2,
+        alignItems: 'center',
 
     },
     userBioText: {
-        width: SCREEN_WIDTH * 0.50,
+        width: SCREEN_WIDTH * 0.40,
+        flex: 2,
+        borderWidth: 2,
     },
 
     userPassText: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        //alignSelf: 'flex-start',
+        justifyContent: 'flex-end',
+        borderWidth: 2,
     },
 
     userBioLogo: {
         marginLeft: SCREEN_WIDTH * 0.05,
         width: SCREEN_WIDTH * 0.15,
-
     },
 
     bottomLogOut: {

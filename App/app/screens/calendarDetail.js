@@ -49,7 +49,7 @@ const formatObj = (obj) => {
 
 
 class calendarDetail extends React.Component {
-    
+
     static navigationOptions = ({navigation}) => ({
         header: (
             <NavAbsolute
@@ -103,33 +103,32 @@ class calendarDetail extends React.Component {
     renderDescription = (info) => {
         return (
             <View>
-                <View style={styles.infoRow}>
-                    <View style={{flexDirection: "row"}}>
-                        <Text style={styles.ramoText}>Onde está o ramo? xD </Text>
-                        <View style={styles.timeText}>
-                            <Text style={{color: "#CC1A17", fontSize: 20,}}>
-                                {info.time === info.timeEnd ? info.time : `${info.time} - ${info.timeEnd}`}
-                            </Text>
+                <View style={styles.cardContainer}>
+                        <View style={{flexDirection: "row", alignItems: 'center', alignSelf:'center'}}>
+                            <Text style={styles.ramoText}>Onde está o ramo? xD </Text>
+                            <View style={styles.timeText}>
+                                <Text style={{color: "#CC1A17", fontSize: 15}}>
+                                    {info.time === info.timeEnd ? info.time : `${info.time} - ${info.timeEnd}`}
+                                </Text>
+                            </View>
                         </View>
-                    </View>
 
-                    <View style={styles.details}>
-                        <Text style={styles.nameAttendee}>Attendee Name</Text>
-                        <Progress.Bar color={'#000000'} progress={info.Enrolled / info.MaxAttendees} height={10}
-                                      unfilledColor={'white'} width={210}/>
-                        <Text style={{alignSelf: "center"}}>{info.Enrolled} / {info.MaxAttendees}</Text>
-                    </View>
+                        <View style={styles.details}>
+                            <Text style={styles.nameAttendee}>Attendee Name</Text>
+                            <Progress.Bar color={'#000000'} progress={info.Enrolled / info.MaxAttendees} height={10}
+                                          unfilledColor={'white'} width={210}/>
+                            <Text style={{alignSelf: "center"}}>{info.Enrolled} / {info.MaxAttendees}</Text>
+                        </View>
                 </View>
 
-                <View style={styles.infoRow}>
-                    <Text style={{fontSize: 30, color: "#CC1A17"}}>Descrição</Text>
+                <View style={styles.cardContainer}>
+                    <Text style={{fontSize: 20, color: "#CC1A17"}}>Descrição</Text>
                     <Divider style={{backgroundColor: '#000'}}/>
                     <View style={{marginTop: 10}}>
-                        <Text style={{fontSize: 15}}>
+                        <Text style={{fontSize: 10}}>
                             {info.description}
                         </Text>
                     </View>
-
                 </View>
             </View>
         )
@@ -138,22 +137,22 @@ class calendarDetail extends React.Component {
 
     renderMap = () => {
         return (
-                <MapView
-                    provider={PROVIDER_GOOGLE}
-                    style={{flex: 2}}
-                    region={{
-                        latitude: 40.19092111672049,
-                        latitudeDelta: 0.007664297080957283,
-                        longitude: -8.410662319511175,
-                        longitudeDelta: 0.007551424205303192
-                    }}
-                    onRegionChangeComplete={(region) => {
+            <MapView
+                provider={PROVIDER_GOOGLE}
+                style={{flex: 2}}
+                region={{
+                    latitude: 40.19092111672049,
+                    latitudeDelta: 0.007664297080957283,
+                    longitude: -8.410662319511175,
+                    longitudeDelta: 0.007551424205303192
+                }}
+                onRegionChangeComplete={(region) => {
 
-                        console.log(region);
+                    console.log(region);
 
-                    }}
+                }}
 
-                />
+            />
         )
     };
 */
@@ -205,13 +204,14 @@ class calendarDetail extends React.Component {
             <View style={styles.mainViewStyle}>
                 <ScrollView style={styles.scroll}>
                     <View style={styles.container}>
-                        <View style={styles.cardContainer}>
+                        <View style={styles.headerContainer}>
                             {this.renderHeader(info)}
                         </View>
                         {this.renderDescription(info)}
                     </View>
-                    <View style={styles.infoRow}>
-                        <Text style={{fontSize: 30, color: "#CC1A17"}}>Localização</Text>
+                    <View style={styles.cardContainer}>
+
+                        <Text style={{fontSize: 20, color: "#CC1A17"}}>Localização</Text>
                         <Divider style={{backgroundColor: '#000', marginBottom: 10}}/>
                      
                     </View>
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
     },
 
     centerRow: {
-        alignItems: 'flex-start',
+        alignItems: 'center',
         backgroundColor: 'transparent',
         flex: 3,
         flexDirection: 'column',
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     rightRow: {
         alignItems: 'flex-end',
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
     timeText: {
         alignItems: 'flex-end',
         flex: 2,
-        marginBottom: 5,
+        lineHeight: 10,
         marginRight: 4,
     },
 
@@ -305,14 +305,23 @@ const styles = StyleSheet.create({
     },
 
     scroll: {
-        backgroundColor: '#FFF',
+        backgroundColor: '#eee',
         flex: 1,
         //marginBottom: 55,
     },
 
     cardContainer: {
         flex: 1,
+        padding: 10,
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 5,
     },
+
+    headerContainer: {
+        flex: 1,
+    },
+
     container: {
         flex: 1,
         flexDirection: 'column',
@@ -324,10 +333,10 @@ const styles = StyleSheet.create({
         height: Dimensions.get('window').width * (2 / 4),
         width: Dimensions.get('window').width,
     },
-    headerContainer: {
+    /*headerContainer: {
         alignItems: 'center',
         backgroundColor: '#FFF',
-    },
+    },*/
 
 
     carreerPathContainer: {
