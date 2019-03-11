@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.Data
 {
-    public class DataContext : IdentityDbContext<User,Role,int,IdentityUserClaim<int>,
-    UserRole,IdentityUserLogin<int>,IdentityRoleClaim<int>,IdentityUserToken<int>>
+    public class DataContext : IdentityDbContext<User,Role,int,IdentityUserClaim<int>,UserRole,IdentityUserLogin<int>,
+    IdentityRoleClaim<int>,IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions<DataContext> options):base(options) { }
     
@@ -24,31 +24,31 @@ namespace api.Data
         
         public DbSet<Log>Logs{get;set;}
 
-public DbSet<Product>Products{get;set;}
+        public DbSet<Product>Products{get;set;}
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-       base.OnModelCreating(builder);
-
-
-        //para o ef saber as relações 
-       builder.Entity<UserRole>(userRole =>
-       {
-           userRole.HasKey(ur=> new {ur.UserId, ur.RoleId});
-
-           userRole.HasOne( ur=>ur.Role)
-           .WithMany(r=>r.UserRoles)
-           .HasForeignKey(ur=> ur.RoleId)
-           .IsRequired();
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
 
 
-           userRole.HasOne( ur=>ur.User)
-           .WithMany(r=>r.UserRoles)
-           .HasForeignKey(ur=> ur.UserId)
-           .IsRequired();
-           
-       });
-    }
+                //para o ef saber as relações 
+            builder.Entity<UserRole>(userRole =>
+            {
+                userRole.HasKey(ur=> new {ur.UserId, ur.RoleId});
+
+                userRole.HasOne( ur=>ur.Role)
+                .WithMany(r=>r.UserRoles)
+                .HasForeignKey(ur=> ur.RoleId)
+                .IsRequired();
+
+
+                userRole.HasOne( ur=>ur.User)
+                .WithMany(r=>r.UserRoles)
+                .HasForeignKey(ur=> ur.UserId)
+                .IsRequired();
+                
+            });
+        }
     
     }
 }

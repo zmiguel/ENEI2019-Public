@@ -45,6 +45,8 @@ class Profile extends Component {
         super(props);
 
         this.state = {
+            name:this.props.user.Name,
+            userDetails:{},
             token: false,
             tokenData: '',
             loggedIn: false,
@@ -56,7 +58,7 @@ class Profile extends Component {
 
             formValid: true,
 
-            jobs: this.props.user.Job,
+            jobs: this.props.user.Company,
             jobsError: false,
             jobsErrorMessage: '',
 
@@ -68,7 +70,7 @@ class Profile extends Component {
             phoneError: false,
             phoneErrorMessage: '',
 
-            address: this.props.user.Adress,
+            address: this.props.user.Address,
             addressError: false,
             addressErrorMessage: '',
 
@@ -85,8 +87,11 @@ class Profile extends Component {
     };
 
 
-    _validateData = (jobs, email, phone, address, city) => {
+    _validateData = (name,jobs, email, phone, address, city) => {
         let valid = null;
+
+        v = Validate('name',name );
+
 
         let v = Validate('email', email);
         this.setState({emailError: v[0], emailErrorMessage: v[1]});
@@ -133,14 +138,31 @@ class Profile extends Component {
 
     saveData() {
 
-        const {jobs, email, phone, address, city, formValid} = this.state;
+        const {name,jobs, email, phone, address, city, formValid} = this.state;
 
-        this._validateData(jobs, email, phone, address, city);
+        this._validateData(name,jobs, email, phone, address, city);
 
         console.log(formValid);
 
-        if (formValid)
+        if (formValid){
             console.log("data valid");
+
+            this.props.updateUser(this.props.userDetails.token,{
+  Name: this.state.name,
+ // LastName: "Último",
+  Company: jobs,
+ // Job: jobs,
+  Address: address,
+  City: city,
+ // PostalCode: "3000-010",
+
+  Mobile: phone,
+  Avatar: "base64"
+} );   this.props.getUserInfo(this.props.userDetails.token);
+        }
+       
+
+
         else
             console.log("data not valid");
 
@@ -158,11 +180,21 @@ class Profile extends Component {
                             </View>
                             <View>
                                 <TouchableOpacity onPress={() => this.saveData()}>
-                                    <Icon name="ios-save" size={30}/>
+                                    <Icon name="ios-save" size={30}/><Text>Save</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         <View style={styles.userBio}>
+                            <View style={styles.userBioRow}>
+                                <Icon name="ios-person" style={styles.userBioLogo} size={25}/>
+
+                                <TextInput style={styles.userBioText}
+                                           onChangeText={(n) => {
+                                               this.setState({name:n })
+                                           }}
+                                           value={this.state.name}/>
+                            </View>
+                            <Divider style={{backgroundColor: 'black'}}/>
                             <View style={styles.userBioRow}>
                                 <Icon name="ios-laptop" style={styles.userBioLogo} size={25}/>
 
@@ -174,17 +206,7 @@ class Profile extends Component {
                             </View>
                             <Divider style={{backgroundColor: 'black'}}/>
 
-                            <View style={styles.userBioRow}>
-                                <Icon name="ios-mail" style={styles.userBioLogo} size={25}/>
-
-                                <TextInput style={styles.userBioText}
-                                           onChangeText={(email) => {
-                                               this.setState({email: email})
-                                           }}
-                                           value={this.state.email}/>
-                            </View>
-                            <Divider style={{backgroundColor: 'black'}}/>
-
+                            
 
                             <View style={styles.userBioRow}>
                                 <Icon name="ios-phone-portrait" style={styles.userBioLogo} size={25}/>
@@ -339,7 +361,8 @@ mapStateToProps = (state, props) => {
     return {
 
         token: state.apiReducer.token,
-        user: state.apiReducer.user
+        user: state.apiReducer.user,
+        userDetails: state.apiReducer.userDetails,
     }
 };
 

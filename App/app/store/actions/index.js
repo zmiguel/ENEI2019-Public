@@ -1,11 +1,20 @@
 export {checkUser, 
-    login,getEvents, 
-    hold, getUserInfo,
+    login,
+    getEvents, 
+    hold, 
+    getUserInfo,
     logoutUser,
     getAvailableGuestlists,
     changeGuestList,
     waitChangeGuest,
-    getAvailableSessions
+    getAvailableSessions,
+    updateUser,
+    getSessionBlocks,
+    timerChangeGuest,
+    getSessions,
+    signSession,
+    openModal,
+    closeModal
 } from "./api"
 
 export {

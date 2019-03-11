@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190224020609_finos")]
-    partial class finos
+    [Migration("20190309183026_TeamsV2")]
+    partial class TeamsV2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -243,7 +243,7 @@ namespace api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CapId");
+                    b.Property<int?>("CapID");
 
                     b.Property<int>("EventId");
 
@@ -253,11 +253,9 @@ namespace api.Migrations
 
                     b.Property<int>("Pontos");
 
-                    b.Property<string>("QRcode");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CapId");
+                    b.HasIndex("CapID");
 
                     b.ToTable("Teams");
                 });
@@ -297,8 +295,6 @@ namespace api.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int?>("TeamId");
-
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
@@ -307,6 +303,8 @@ namespace api.Migrations
                     b.Property<int>("drinks");
 
                     b.Property<int>("food");
+
+                    b.Property<int?>("teamID");
 
                     b.HasKey("Id");
 
@@ -317,7 +315,7 @@ namespace api.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("teamID");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -424,14 +422,14 @@ namespace api.Migrations
                 {
                     b.HasOne("api.Models.User", "Cap")
                         .WithMany()
-                        .HasForeignKey("CapId");
+                        .HasForeignKey("CapID");
                 });
 
             modelBuilder.Entity("api.Models.User", b =>
                 {
-                    b.HasOne("api.Models.Team")
-                        .WithMany("Membros")
-                        .HasForeignKey("TeamId");
+                    b.HasOne("api.Models.Team", "team")
+                        .WithMany()
+                        .HasForeignKey("teamID");
                 });
 
             modelBuilder.Entity("api.Models.UserRole", b =>
