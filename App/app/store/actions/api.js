@@ -1,6 +1,6 @@
 import { AsyncStorage } from "react-native";
 
-import { NetInfo } from "react-native";
+import { NetInfo , Alert} from "react-native";
 
 var _ = require("lodash");
 
@@ -19,7 +19,8 @@ import {
   CHANGE_GUEST,
   WAIT_CHANGE,
   SIGN_SESSION,
-  OPEN_MODAL
+  OPEN_MODAL,
+  LOADINGLOGIN
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -37,6 +38,44 @@ axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 //http://enei2019.uingress.com/internal/api/Attendee/Edit
 
 const map = require("lodash/fp/map").convert({ cap: false });
+
+
+export function waitLogin(){
+  return dispatch=>{
+    dispatch({
+      type: LOADINGLOGIN,
+  
+    });
+  }
+}
+
+
+//faz autenticação com API interna 
+export function loginInternal(userDetails){
+  axios.defaults.baseURL = "http://127.0.0.1:5000";
+  return dispatch => {
+    
+    axios.post('/api/login',{ 
+      "username": "cena", 
+      "password": "password"
+      
+    }).then(a=>{
+      console.log("sucesso!")
+      console.log(a)
+    }).catch(p=>{
+      console.log(p)
+    })
+
+    dispatch({
+      type: OPEN_MODAL,
+  
+    });
+  };
+
+
+}
+
+
 
 export function openModal(info, t) {
   return dispatch => {
@@ -613,23 +652,36 @@ export function login(user, pass) {
           type: API_LOGIN,
           logged: false,
           failedAttempt: true,
-          tokenData: "error"
+          tokenData: "error",
+          user: { Name: "" },
         });
+      })
+      .catch(err=>{
+        console.log("error")
       })
       .then(res => res.json())
       .then(parsed => {
+        console.log(parsed)
         if (
           parsed.error_description ==
           "Provided username and password is incorrect"
         ) {
+          Alert.alert("Dados Inválidos","Podes sempre fazer reset da password para o email.")
+       
           dispatch({
             type: API_LOGIN,
             logged: false,
             failedAttempt: true,
             token: obj,
-            user: { Name: "Henrique" }
+            user: { Name: "Henrique" },
+            userDetails:{},
+            waitLogin:false,
+            onHold:false
+            
           });
+          return;
         }
+        else{
         var obj = {
           access_token: parsed.access_token,
           expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
@@ -648,7 +700,7 @@ export function login(user, pass) {
           token: obj,
           user: { Name: "Henrique" },
           userDetails: details
-        });
+        });}
       });
   };
 }

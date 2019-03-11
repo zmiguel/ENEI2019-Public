@@ -14,7 +14,9 @@ export {checkUser,
     getSessions,
     signSession,
     openModal,
-    closeModal
+    closeModal,
+    loginInternal,
+    waitLogin
 } from "./api"
 
 export {
