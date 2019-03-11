@@ -261,7 +261,7 @@ class choosePath extends React.Component {
               style={{ width: "100%" }}
               onValueChange={(itemValue, itemIndex) => {
                 this.setState({ guest: itemValue });
-                this.props.timerChangeGuest();
+               // this.props.timerChangeGuest();
                 this.props.waitChangeGuest();
 
                 this.props.changeGuestList(
