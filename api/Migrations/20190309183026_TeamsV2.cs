@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api.Migrations
 {
-    public partial class finos : Migration
+    public partial class TeamsV2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -220,10 +220,9 @@ namespace api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    QRcode = table.Column<string>(nullable: true),
                     EventId = table.Column<int>(nullable: false),
                     Nome = table.Column<string>(nullable: true),
-                    CapId = table.Column<int>(nullable: true),
+                    CapID = table.Column<int>(nullable: true),
                     NMembros = table.Column<int>(nullable: false),
                     Pontos = table.Column<int>(nullable: false)
                 },
@@ -255,14 +254,14 @@ namespace api.Migrations
                     QRcode = table.Column<string>(nullable: true),
                     drinks = table.Column<int>(nullable: false),
                     food = table.Column<int>(nullable: false),
-                    TeamId = table.Column<int>(nullable: true)
+                    teamID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Teams_TeamId",
-                        column: x => x.TeamId,
+                        name: "FK_AspNetUsers_Teams_teamID",
+                        column: x => x.teamID,
                         principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -333,9 +332,9 @@ namespace api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_TeamId",
+                name: "IX_AspNetUsers_teamID",
                 table: "AspNetUsers",
-                column: "TeamId");
+                column: "teamID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventLocs_ImgId",
@@ -373,9 +372,9 @@ namespace api.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_CapId",
+                name: "IX_Teams_CapID",
                 table: "Teams",
-                column: "CapId");
+                column: "CapID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUserRoles_AspNetUsers_UserId",
@@ -434,9 +433,9 @@ namespace api.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Teams_AspNetUsers_CapId",
+                name: "FK_Teams_AspNetUsers_CapID",
                 table: "Teams",
-                column: "CapId",
+                column: "CapID",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -445,7 +444,7 @@ namespace api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Teams_AspNetUsers_CapId",
+                name: "FK_Teams_AspNetUsers_CapID",
                 table: "Teams");
 
             migrationBuilder.DropTable(

@@ -28,7 +28,6 @@ namespace api.Controllers
         public UserManager<User> _userManager { get; }
         public SignInManager<User> _signInManager { get; }
         public IUsersRepository _repo { get; }
-
         private readonly IMapper _mapper;
         private readonly RoleManager<Role> _roleManager;
 
