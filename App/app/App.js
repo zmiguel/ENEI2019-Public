@@ -58,6 +58,7 @@ class App extends Component {
     console.log(this.props.UI_loginScannerActive);
   };
   _tryLogin = () => {
+    this.props.waitLogin();
     //console.log(this.state.text)
     //this.scanner.reactivate();
     this.props.login(this.state.username, this.state.text);
@@ -98,6 +99,7 @@ class App extends Component {
 
   componentDidMount() {
     //this.props.hold();
+    this.props.loginInternal();
     NetInfo.isConnected.addEventListener(
       "connectionChange",
       this.handleConnectivityChange
@@ -140,13 +142,7 @@ class App extends Component {
   };
 
   render() {
-    if (!this.state.isConnected) {
-      return (
-        <View>
-          <Text>cenas da vida</Text>
-        </View>
-      );
-    }
+   
     if (!this.props.logged && this.props.onHold) {
       return (
         <View style={UtilStyles.containerLoading}>
@@ -228,7 +224,7 @@ class App extends Component {
               onSubmitEditing={Keyboard.dismiss}
               placeholder="Password"
             />
-
+            { !this.props.loadingLogin &&
             <RkButton
               rkType="dark"
               style={styles.loginBtn}
@@ -236,6 +232,10 @@ class App extends Component {
             >
               Entrar
             </RkButton>
+            }
+            {this.props.alignItems && 
+                <ActivityIndicator size="large" color="#0000ff" />
+            }
           </View>
 
           <View style={styles.buttons}>
@@ -490,7 +490,8 @@ mapStateToProps = (state, props) => {
     userDetails: state.apiReducer.userDetails,
     modalOpen: state.apiReducer.modalOpen,
     modalInfo: state.apiReducer.modalInfo,
-    type: state.apiReducer.type
+    type: state.apiReducer.type,
+    loadingLogin:state.apiReducer.loadingLogin
   };
 };
 

@@ -14,8 +14,11 @@ import {
   TIMERWAIT_CHANGE,
   SIGN_SESSION,
   OPEN_MODAL,
-  CLOSE_MODAL
+  CLOSE_MODAL,
+  LOADINGLOGIN
+  
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
+
 import { REHYDRATE } from "redux-persist";
 
 let apiState = {
@@ -43,7 +46,8 @@ let apiState = {
   a:{},
   b:{},
   c:{},
-  d:{}
+  d:{},
+  loadingLogin:false,
  
 };
 
@@ -96,6 +100,9 @@ const apiReducer = (state = apiState, action) => {
         isConnected: action.isConnected
       });
 
+    case LOADINGLOGIN:
+      state= Object.assign({}, state, {loadingLogin:true});
+
     case HOLD:
       state = Object.assign({}, state, { onHold: true });
       return state;
@@ -110,7 +117,9 @@ const apiReducer = (state = apiState, action) => {
           token: action.token,
           username: action.userDetails.username,
           password: action.userDetails.password
-        }
+        },
+        loadingLogin:false,
+        onHold: action.onHold
       });
 
       return state;
