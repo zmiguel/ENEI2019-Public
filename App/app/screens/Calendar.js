@@ -21,7 +21,7 @@ const formatObj = (obj) => {
 
     let a = {};
 
-    a.push({})
+    a.push({});
 
     return a
 
@@ -44,7 +44,7 @@ class Calendar extends React.Component {
         index: 0,
         routes: [
             {key: 'first', weekDay: 'sex', day:12},
-            {key: 'second', weekDay: 'sab',day:13},
+            {key: 'second', weekDay: 'sab', day:13},
             {key: 'third', weekDay: 'dom', day:14},
             {key: 'fourth', weekDay: 'seg', day:15},
 
@@ -137,7 +137,7 @@ class Calendar extends React.Component {
 
     constructor() {
 
-        super()
+        super();
 
         const archeryImgSource = require('../assets/img/archery.png');
         const badmintonImgSource = require('../assets/img/badminton.png');
@@ -209,7 +209,7 @@ class Calendar extends React.Component {
 
             </ScrollView>
 
-        )
+        );
         const SecondRoute = () => (
 
             <ScrollView contentContainerStyle={styles.contentContainer}>

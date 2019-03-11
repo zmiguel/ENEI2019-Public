@@ -22,7 +22,7 @@ let apiState= {
     changingGuest:false,
     sessions:{}
     
-}
+};
 
 const apiReducer = (state = apiState, action) => {
     
@@ -98,7 +98,7 @@ const apiReducer = (state = apiState, action) => {
         case CHECK_USER:
 
            var u=  action.userDetails;
-           if(action.token!=undefined)
+           if(action.token != undefined)
            u.token= action.token;
 
             state=Object.assign({},state, {logged:action.logged, onHold:action.onHold, userDetails:u });
