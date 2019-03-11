@@ -22,7 +22,6 @@ const FourthRoute = () => (
 );
 
 
-
 export default class Eventos extends React.Component {
     state = {
         index: 0,
@@ -38,7 +37,24 @@ export default class Eventos extends React.Component {
     renderFebrada = () => {
         return (
             <View>
-                <Text>Ola mundo</Text>
+
+
+                <View styles={styles.cardContainer}>
+                    <Text>Ola</Text>
+                    <Text style={{color: "black"}}>Local: 1</Text>
+                </View>
+
+                <View styles={styles.cardContainer}>
+                    <Text>Ola</Text>
+                    <Text style={{color: "black"}}>Local: 1</Text>
+                </View>
+
+
+                <View styles={styles.cardContainer}>
+                    <Text>Ola</Text>
+                    <Text style={{color: "black"}}>Local: 1</Text>
+                </View>
+
             </View>
         );
 
@@ -54,9 +70,9 @@ export default class Eventos extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <ScrollView styles={styles.scroll}>
-                    <View styles={styles.cardContainer}>
+            <View>
+                <ScrollView >
+                    <View>
                         {this.renderFebrada()}
                     </View>
                     <View styles={styles.cardContainer}>
@@ -78,16 +94,20 @@ const styles = StyleSheet.create({
     },
 
     scroll: {
-      flex: 1,
+        flex: 1,
     },
 
     cardContainer: {
         flex: 1,
         padding: 10,
         margin: 20,
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
         borderRadius: 5,
-        height: SCREEN_WIDTH * (1/2),
+        elevation: 2,
+        height: SCREEN_HEIGHT * 0.6,
+
+        borderWidth: 2,
+        color: "#000"
     },
 
     scene: {
