@@ -47,7 +47,7 @@ const formatObj = (obj) => {
 
 
 class calendarDetail extends React.Component {
-    
+
     static navigationOptions = ({navigation}) => ({
         header: (
             <NavAbsolute
