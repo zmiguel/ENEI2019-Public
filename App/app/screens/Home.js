@@ -155,10 +155,11 @@ _update=()=>{
                     <View style={styles.userImageContainer}>    
                         <Image style={styles.userImage} source={{uri: 'https://i.imgur.com/XXJ7LxV.jpg'}}/>
                     </View>
+                    {this.props.user!=undefined &&
                     <Text style={styles.userText}>{this.props.user.Name}</Text>
-                   
+                }
                     <Text style={styles.userTextSub}>{this.props.user.Company}</Text>
-           
+                
                     </View>
                 
                     </ImageBackground>

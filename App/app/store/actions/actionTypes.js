@@ -17,6 +17,7 @@ export const CHANGE_GUEST = 'CHANGE_GUEST'
 export const GET_SESSIONS= 'GET_SESSIONS'
 export const SIGN_SESSION= 'SIGN_SESSION'
 export const WAIT_CHANGE='WAIT_CHANGE'
+export const REMOVE_SESSION = 'REMOVE_SESSION'
 
 
 //UI

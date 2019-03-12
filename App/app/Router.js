@@ -104,10 +104,7 @@ const AppStack = createBottomTabNavigator(
 
     },
     {
-        //initialRouteName: 'Home',
-        initialRouteName: 'Eventos',
-
-        //initialRouteName: 'Calendário',
+        initialRouteName: 'Home',
 
         tabBarOptions: {
             showLabel: true, // hide labels
@@ -125,7 +122,8 @@ const Stack = createStackNavigator({
         screen: AppStack,
         navigationOptions: ({navigation}) => {
             const index = navigation.state.index;
-
+            
+          
             if (navigation.state.routes[index].routeName == 'Home') {
                 return {
                     headerTitle: `${navigation.state.routes[index].routeName}`,
