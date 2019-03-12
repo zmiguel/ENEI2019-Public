@@ -87,7 +87,9 @@ class App extends Component {
       UI_loginScannerActive: false,
       userDetails: { username: "", password: "" },
       isConnected: true,
-      modalOpen: false
+      modalOpen: false,
+      modalResetPassword:false,
+      resetText:''
     };
   }
   _print = () => {
@@ -126,6 +128,9 @@ class App extends Component {
       "connectionChange",
       this.handleConnectivityChange
     );
+  }
+  _toggle=()=>{
+    this.setState({modalResetPassword:false})
   }
 
   _keyboardDidShow() {
@@ -180,6 +185,39 @@ class App extends Component {
                 onRead={this.onSuccess}
                 cameraStyle={styles.cameraContainer}
               />
+            </View>
+          </Modal>
+          <Modal 
+            isVisible={this.state.modalResetPassword}
+            onBackdropPress={this._toggle}
+            onBackButtonPress={this._toggle}
+            >
+            <View style={{  backgroundColor: "white" , padding:20,paddingBottom:0, alignItems:'center'}}>
+            <View>
+              <Text style={{textAlign:'center',fontSize:23, fontWeight:'bold', color:'#CC1A17', margin:30}}>Reset Password</Text>
+            <Text style={{textAlign:'center', }}>Deves introduzir o email com o qual efectuaste a compra do bilhete.</Text>
+            <TextInput
+              style={styles.resetPassword}
+              onFocus={this._print}
+              maxLength={10}
+              blurOnSubmit={true}
+              secureTextEntry={true}
+              onChangeText={r => this.setState({ resetText })}
+              clearButtonMode="always"
+              value={this.state.resetText}
+              clearTextOnFocus={true}
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder="geral@enei.pt"
+            />
+           
+              <Button
+                onPress={this._toggle}
+                title={"Enviar"}
+              color={"#CC1A17"}
+              ></Button>
+                <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:0}}> Caso tenhas problemas com este processo deves contactar a comissão atravês do email geral.</Text>
+           
+              </View>
             </View>
           </Modal>
           <View
@@ -261,7 +299,7 @@ class App extends Component {
             <View style={styles.textRow}>
               <RkText rkType="primary3">Não sabes a password?</RkText>
               <RkButton rkType="clear" onPress={this.onSignUpButtonPressed}>
-                <TouchableOpacity onPress={() => <resetPassword></resetPassword>}>
+                <TouchableOpacity onPress={() => {this.setState({modalResetPassword:true})}}>
                   <RkText style={{ color: "red" }} kType="header6">
                     Recuperar Password
                   </RkText>
@@ -291,6 +329,26 @@ const overlayColor = "rgba(0,0,0,0.30)";
 const styles = {
   cameraContainer: {
       height: Dimensions.get('window').height ,
+  },
+  resetPassword:{
+  
+    borderRadius: 90,
+
+    borderColor: "#bfbdbd",
+    borderWidth: 1,
+    margin:20,
+    marginTop: 60,
+    marginBottom: 60,
+
+    width: SCREEN_WIDTH * 0.8,
+
+    backgroundColor: "white",
+
+    borderRadius: 90,
+    height: SCREEN_HEIGHT * 0.08,
+    borderColor: "#bfbdbd",
+    borderWidth: 1,
+    paddingLeft: SCREEN_WIDTH * 0.05
   },
   passwordInput: {
     borderRadius: 90,

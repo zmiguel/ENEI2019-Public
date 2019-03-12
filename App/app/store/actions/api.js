@@ -294,6 +294,9 @@ export function signSession(user, token, idSession) {
       //se não existir erro na chamada...
       .then(a => {
         if (a.data.Success) {
+          axios.defaults.headers.common = {
+            Authorization: `bearer ${token.access_token}`
+          };
           axios
             .get("/Attendee/AvailableSessions")
 
@@ -315,7 +318,7 @@ export function signSession(user, token, idSession) {
                 "Sucesso",
                 "Inscrição na sessão efectuada com sucesso"
               );
-
+              console.log("aqui1")
               //obter informações pessoais:
               axios
                 .get("/Attendee/Detail")
@@ -324,6 +327,7 @@ export function signSession(user, token, idSession) {
                   alert(error);
                 })
                 .then(sucess => {
+                  console.log("aqui2")
                   var result = getE(user);
                   dispatch({
                     type: SIGN_SESSION,
@@ -453,7 +457,7 @@ export function changeGuestList(token, guestID) {
     axios
       .get(full)
       .then(function(response) {
-        console.log(response);
+       
         axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 
         axios.defaults.headers.common = {
@@ -464,7 +468,9 @@ export function changeGuestList(token, guestID) {
           .get("/Attendee/AvailableSessions")
 
           .then(function(response) {
+
             // handle success
+            
             //console.log(response);
 
             var cenas = [];
@@ -476,11 +482,14 @@ export function changeGuestList(token, guestID) {
             )(response.data);
 
             for (let key in result) {
+              
               result[key].option = 0;
               cenas.push(result[key]);
-              console.log();
+              
             }
+            console.log("-.-.-..-.-.-.-.-.-.")
             console.log(cenas);
+            console.log("-.-.-..-.-.-.-.-.-.")
             dispatch({
               type: CHANGE_GUEST,
               sessions: response.data,
