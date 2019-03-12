@@ -78,9 +78,25 @@ class Profile extends Component {
             cityError: false,
             cityErrorMessage: '',
 
+            oldPass:'',
+            new1:'',
+            new2:'',
+
+            url:this.props.user.Url,
+            curso:this.props.user.LastName,
+            
+
         };
     }
 
+    _press=()=>{
+        this.props.changePassword(
+            this.props.userDetails.token, 
+            this.state.oldPass,
+            this.state.new1,
+            this.state.new2
+            )
+    }
     _logout = () => {
 
         this.props.logoutUser();
@@ -138,9 +154,9 @@ class Profile extends Component {
 
     saveData() {
 
-        const {name, jobs, email, phone, address, city, formValid} = this.state;
+        const {name, jobs, email, phone, address, city, formValid, url,curso} = this.state;
 
-        this._validateData(name, jobs, email, phone, address, city);
+       // this._validateData(name, jobs, email, phone, address, city,curso);
 
         console.log(formValid);
 
@@ -149,17 +165,16 @@ class Profile extends Component {
 
             this.props.updateUser(this.props.userDetails.token, {
                 Name: this.state.name,
-                // LastName: "Último",
                 Company: jobs,
-                // Job: jobs,
+                LastName: curso,
                 Address: address,
                 City: city,
-                // PostalCode: "3000-010",
-
                 Mobile: phone,
-                Avatar: "base64"
+                Avatar: "base64",
+                Url:url,
+
             });
-            this.props.getUserInfo(this.props.userDetails.token);
+            
         }
 
 
@@ -176,17 +191,13 @@ class Profile extends Component {
                     <View style={styles.container}>
                         <View style={styles.userBioRowHeader}>
                             <View style={styles.userBioRowTitle}>
-                                <Text style={{color: '#CC1A17', fontWeight: 'bold', fontSize: 20}}>User Bio</Text>
+                                <Text style={{color: '#CC1A17', fontWeight: 'bold', fontSize: 20}}>Informações Pessoais</Text>
                             </View>
-                            <View>
-                                <TouchableOpacity onPress={() => this.saveData()}>
-                                    <Icon name="ios-save" size={30}/><Text>Save</Text>
-                                </TouchableOpacity>
-                            </View>
+                           
                         </View>
                         <View style={styles.userBio}>
                             <View style={styles.userBioRow}>
-                                <Icon name="ios-person" style={styles.userBioLogo} size={25}/>
+                                <Text style={styles.userBioLogo} >Nome</Text>
 
                                 <TextInput style={styles.userBioText}
                                            onChangeText={(n) => {
@@ -196,7 +207,18 @@ class Profile extends Component {
                             </View>
                             <Divider style={{backgroundColor: 'black'}}/>
                             <View style={styles.userBioRow}>
-                                <Icon name="ios-laptop" style={styles.userBioLogo} size={25}/>
+                                <Text style={styles.userBioLogo} >Curso</Text>
+
+                                <TextInput style={styles.userBioText}
+                                           onChangeText={(cu) => {
+                                               this.setState({curso: cu})
+                                           }}
+                                           value={this.state.curso}/>
+                            </View>
+                            <Divider style={{backgroundColor: 'black'}}/>
+
+                            <View style={styles.userBioRow}>
+                                <Text style={styles.userBioLogo} >Faculdade</Text>
 
                                 <TextInput style={styles.userBioText}
                                            onChangeText={(job) => {
@@ -208,7 +230,7 @@ class Profile extends Component {
 
 
                             <View style={styles.userBioRow}>
-                                <Icon name="ios-phone-portrait" style={styles.userBioLogo} size={25}/>
+                                <Text style={styles.userBioLogo} >Telemóvel</Text>
 
                                 <TextInput style={styles.userBioText}
                                            onChangeText={(phone) => {
@@ -220,7 +242,7 @@ class Profile extends Component {
 
 
                             <View style={styles.userBioRow}>
-                                <Icon name="ios-map" style={styles.userBioLogo} size={25}/>
+                                <Text style={styles.userBioLogo} >Morada</Text>
 
                                 <TextInput style={styles.userBioText}
                                            onChangeText={(add) => {
@@ -232,22 +254,19 @@ class Profile extends Component {
                             <Divider style={{backgroundColor: 'black'}}/>
 
                             <View style={styles.userBioRow}>
-                                <Icon name="ios-map" style={styles.userBioLogo} size={25}/>
+                            <Text style={styles.userBioLogo} >LinkedIn</Text>
 
                                 <TextInput style={styles.userBioText}
-                                           onChangeText={(city) => {
-                                               this.setState({city: city})
+                                           onChangeText={(u) => {
+                                               this.setState({url: u})
                                            }}
-                                           value={this.state.city}/>
+                                           value={this.state.url}/>
                             </View>
 
-                            <Divider style={{backgroundColor: 'black'}}/>
-                            <View style={styles.userBioRow}>
-                                <Icon name="ios-person" style={styles.userBioLogo} size={25}/>
-                                <TouchableOpacity>
-                                    <Text style={styles.userCurriculum}>O meu Curriculo</Text>
-                                </TouchableOpacity>
-                            </View>
+                          
+                            <Button  onPress={() => this.saveData() } title="Guardar Alterações" color="#CC1A17"
+                                      />
+                          
                         </View>
                     </View>
 
@@ -255,51 +274,77 @@ class Profile extends Component {
                     <View style={styles.container}>
                         <View style={styles.userBioRowHeader}>
                             <View style={styles.userBioRowTitle}>
-                                <Text style={{color: '#CC1A17', fontWeight: 'bold', fontSize: 20}}>Nova Password:</Text>
+                                <Text style={{color: '#CC1A17', fontWeight: 'bold', fontSize: 20}}>Alterar Password</Text>
                             </View>
                         </View>
                         <View style={styles.userBio}>
-                            <View style={styles.userBioRow}>
-                                <Text style={styles.userPassText} size={20}>
-                                    Old Password:
-                                </Text>
+                      
 
+                            <View style={styles.userBioRow}>
+  
                                 <TextInput style={styles.userBioText}
-                                           placeholder='Antiga Password' secureTextEntry={true}
+                                           placeholder='Antiga Password' 
+                                           onChangeText={(old => {
+                                            this.setState({oldPass: old})
+                                           })}
+                                        value={this.state.oldPass}
+                                        maxLength = {20}
+                                        
+                                           secureTextEntry={true}
                                 />
                             </View>
+                            <Divider style={{backgroundColor: 'black'}}/>
+
                             <View style={styles.userBioRow}>
-                                <Text style={styles.userPassText} size={20}>
-                                    Nova Password:
-                                </Text>
+                               
 
                                 <TextInput style={styles.userBioText}
-                                           placeholder='Nova Password' secureTextEntry={true}
+                                           placeholder='Nova Password'
+                                            secureTextEntry={true}
+                                            onChangeText={(newz => {
+                                                this.setState({new1: newz})
+                                               })}
+                                            value={this.state.new1}
+                                            maxLength = {20}
                                 />
                             </View>
+                            <Divider style={{backgroundColor: 'black'}}/>
+
                             <View style={styles.userBioRow}>
-                                <Text style={styles.userPassText} size={20}>
-                                    Repetir Password:
-                                </Text>
+                                
 
                                 <TextInput style={styles.userBioText}
-                                           placeholder='Repetir Password' secureTextEntry={true}
+                                           placeholder='Repetir Password' 
+                                           secureTextEntry={true}
+                                           onChangeText={(newzz => {
+                                            this.setState({new2: newzz})
+                                           })}
+                                        value={this.state.new2}
+                                        maxLength = {20}
                                 />
                             </View>
+                           
+                            <Button onPress={this._press} title="Alterar Password" color="#CC1A17"
+                                      />
+                           
                         </View>
                     </View>
+
+                    <TouchableOpacity onPress={this._logout} style={{
+                    height: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'black',
+                    marginTop:30
+                }}>
+                    <Text style={{color: "#fff", fontWeight: 'bold'}}>Logout</Text>
+
+                </TouchableOpacity>
 
                 </ScrollView>
 
 
-                <TouchableOpacity onPress={this._logout} style={{
-                    height: 50,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#CC1A17'
-                }}>
-                    <Text style={{color: "#fff", fontWeight: 'bold'}}>Logout</Text>
-                </TouchableOpacity>
+              
 
             </View>
 
@@ -335,14 +380,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         padding: 10,
-        borderWidth: 2,
+       // borderWidth: 2,
         alignItems: 'center',
 
     },
     userBioText: {
         width: SCREEN_WIDTH * 0.40,
         flex: 2,
-        borderWidth: 2,
+     //   borderWidth: 2,
     },
 
     userPassText: {
@@ -353,8 +398,8 @@ const styles = StyleSheet.create({
     },
 
     userBioLogo: {
-        marginLeft: SCREEN_WIDTH * 0.05,
-        width: SCREEN_WIDTH * 0.15,
+        marginLeft: 10,
+        width:80,
     },
 
     bottomLogOut: {

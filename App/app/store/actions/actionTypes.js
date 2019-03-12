@@ -9,6 +9,7 @@ export const LOGOUT_USER= 'LOGOUT_USER';
 export const USER_INFO= 'USER_INFO'
 export const HOLD='HOLD'
 export const GET_EVENTS='GET_EVENTS'
+export const UPDATE_USER='UPDATE_USER'
 
 
 //API BLUETREND CALENDÁRIO
@@ -18,7 +19,6 @@ export const GET_SESSIONS= 'GET_SESSIONS'
 export const SIGN_SESSION= 'SIGN_SESSION'
 export const WAIT_CHANGE='WAIT_CHANGE'
 export const REMOVE_SESSION = 'REMOVE_SESSION'
-
 
 //UI
 

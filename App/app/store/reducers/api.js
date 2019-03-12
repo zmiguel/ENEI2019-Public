@@ -16,7 +16,9 @@ import {
   OPEN_MODAL,
   CLOSE_MODAL,
   LOADINGLOGIN,
-  REMOVE_SESSION
+  REMOVE_SESSION,
+  UPDATE_USER,
+  
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -99,6 +101,9 @@ const apiReducer = (state = apiState, action) => {
         isConnected: action.isConnected
       });
 
+    case UPDATE_USER:
+      state = Object.assign({}, state, { user:action.user});
+      return state
     case LOADINGLOGIN:
       state = Object.assign({}, state, { loadingLogin: true });
 
@@ -201,12 +206,17 @@ const apiReducer = (state = apiState, action) => {
         });
       }
       else{
+        
            state = Object.assign({}, state, {
         sessions: action.sessions,
         Blocks: action.Blocks,
         careerPath: action.careerPath,
         changingGuest: false,
-        user: action.user
+        user: action.user,
+        a:action.day1,
+        b:action.day2,
+        c:action.day3,
+        d:action.day4
       });
       }
   

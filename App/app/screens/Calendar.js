@@ -142,7 +142,7 @@ class Calendar extends React.Component {
   }
   _refresh=()=>{
     this.props.getEvents(this.props.user);
-    this.props.getSessions(this.props.userDetails.token);
+    //this.props.getSessions(this.props.userDetails.token);
   }
 
   render() {
@@ -317,8 +317,8 @@ class Calendar extends React.Component {
           style={{ backgroundColor: "#F2F2F2" }}
           indicatorStyle={{ backgroundColor: "pink" }}
         />
-         <Button onPress={this._refresh} title="Close" color="#841584"
-                                        accessibilityLabel="Learn more about this purple button"/>
+         <Button onPress={this._refresh} title="Refresh" color="#841584"
+                                      />
       </View>
 
       

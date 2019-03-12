@@ -17,7 +17,8 @@ export {checkUser,
     closeModal,
     loginInternal,
     waitLogin,
-    removeSession
+    removeSession,
+    changePassword
     
 } from "./api"
 

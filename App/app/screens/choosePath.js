@@ -346,7 +346,7 @@ class choosePath extends React.Component {
                               {!this._verifySession(item[index].Id) && (
                                 <TouchableOpacity
                                   onPress={() => {
-                                   
+                                   this.props.getUserInfo(this.props.userDetails.token)
                                       //this.props.waitChangeGuest()
                                     this.props.signSession(
                                       this.props.user,

@@ -21,7 +21,8 @@ import {
   SIGN_SESSION,
   OPEN_MODAL,
   LOADINGLOGIN,
-  REMOVE_SESSION
+  REMOVE_SESSION,
+  UPDATE_USER
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -48,6 +49,34 @@ export function waitLogin() {
   };
 }
 
+export function changePassword(token, old, new1, new2) {
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${token.access_token}`
+  };
+  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
+
+  return dispatch => {
+    if (new1 != new2) {
+      Alert.alert("ERRO!", "As passords são diferentes...");
+    } else {
+      axios
+        .post("/User/ChangePassword", {
+          OldPassword: old,
+          NewPassword: new1
+        })
+        .then(a => {
+          Alert.alert("Sucesso!", "Password alterada com sucesso")
+        })
+        .catch(p => {
+          Alert.alert("ERRO!", "Erro a alterar a password.\nA palavra original é inválida...\nCaso o erro persista verifica a tua conexão à internet e tenta novamente")
+        });
+
+      dispatch({
+        type: OPEN_MODAL
+      });
+    }
+  };
+}
 //faz autenticação com API interna
 export function loginInternal(userDetails) {
   axios.defaults.baseURL = "http://127.0.0.1:5000";
@@ -91,23 +120,29 @@ export function closeModal() {
 }
 
 export function updateUser(token, user) {
+  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
   axios.defaults.headers.common = {
     Authorization: `bearer ${token.access_token}`
   };
 
   return dispatch => {
     axios
-      .post("/Attendee/Edit", user)
+     
+    .post("/Attendee/Edit", user)
+     
       .then(a => {
-        console.log(a);
-        alert("guardado com sucesso");
+        
+        Alert.alert("Sucesso", "As informações pessoais foram guardadas com sucesso.")
+  
+     console.log(a.data)
         dispatch({
-          type: UPDATE_USER
-          // guests: response.data
+          type: UPDATE_USER,
+           user:a.data
         });
       })
       .catch(b => {
-        alert("Erro a guardar os dados");
+        Alert.alert("ERRO!","Ocorreu um erro a guardar os dados pessoais.")
+        alert(b)
       });
   };
 }
@@ -163,7 +198,7 @@ export const connectionState = status => {
   return { type: "CHANGE_CONNECTION_STATUS", isConnected: status };
 };
 
-export function removeSession(user,token, idSession) {
+export function removeSession(user, token, idSession) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${token.access_token}`
   };
@@ -179,7 +214,7 @@ export function removeSession(user,token, idSession) {
       .post("/Session/RemoveAttendee", obj)
       //se não existir erro na chamada...
       .then(a => {
-        console.log(a)
+        console.log(a);
         if (a.data.Success) {
           axios
             .get("/Attendee/AvailableSessions")
@@ -198,7 +233,10 @@ export function removeSession(user,token, idSession) {
                 cenas.push(result[key]);
               }
 
-              Alert.alert("Sucesso","A inscrição na sessão foi removida com sucesso!");
+              Alert.alert(
+                "Sucesso",
+                "A inscrição na sessão foi removida com sucesso!"
+              );
 
               //obter informações pessoais:
               axios
@@ -225,7 +263,6 @@ export function removeSession(user,token, idSession) {
               console.log(error);
             });
         } else {
-
           alert("Erro a inscrever na palestra");
           dispatch({
             type: REMOVE_SESSION,
@@ -240,7 +277,7 @@ export function removeSession(user,token, idSession) {
 }
 
 //inscrição em palestra através de ID
-export function signSession(user,token, idSession) {
+export function signSession(user, token, idSession) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${token.access_token}`
   };
@@ -274,8 +311,11 @@ export function signSession(user,token, idSession) {
                 cenas.push(result[key]);
               }
 
-              Alert.alert("Sucesso","Inscrição na sessão efectuada com sucesso");
- 
+              Alert.alert(
+                "Sucesso",
+                "Inscrição na sessão efectuada com sucesso"
+              );
+
               //obter informações pessoais:
               axios
                 .get("/Attendee/Detail")
@@ -284,24 +324,27 @@ export function signSession(user,token, idSession) {
                   alert(error);
                 })
                 .then(sucess => {
+                  var result = getE(user);
                   dispatch({
                     type: SIGN_SESSION,
                     sessions: response.data,
                     Blocks: cenas,
                     changeGuestList: false,
                     careerPath: careerPath,
-                    user: sucess.data
+                    user: sucess.data,
+                    events: result.a,
+                    day1: result.a,
+                    day2: result.b,
+                    day3: result.c,
+                    day4: result.d
                   });
-                  getEvents(user);
                 });
             })
             .catch(function(error) {
-              
               console.log(error);
             });
         } else {
-        
-          Alert.alert("ERRO!!",a.data.Error);
+          Alert.alert("ERRO!!", a.data.Error);
           dispatch({
             type: SIGN_SESSION,
             waitChangeGuest: false
@@ -309,8 +352,7 @@ export function signSession(user,token, idSession) {
         }
       })
       .catch(b => {
-     //   alert("Erro a inscrever na palestra");
-    
+        //   alert("Erro a inscrever na palestra");
       });
   };
 }
@@ -530,112 +572,112 @@ export function getAvailableSessions(token) {
   };
 }
 
+function getE(user) {
+  var cenas = [];
+  let events = [];
+  var i = 0;
+  for (let key in user.Sessions) {
+    events.push({
+      key: i++,
+      time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
+      timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
+      //lineColor:'#009688',
+      imageUrl:
+        "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png",
+      description: user.Sessions[key].Description,
+      name: user.Sessions[key].Name,
+      Enrolled: user.Sessions[key].Enrolled,
+      MaxAttendees: user.Sessions[key].MaxAttendees,
+      day: moment(user.Sessions[key].SessionStart).format("DD")
+    });
+  }
+  const result = flow(groupBy("day"))(events);
+
+  for (let key in result) {
+    cenas.push(result[key]);
+  }
+
+  var a = [],
+    b = [],
+    c = [],
+    d = [];
+
+  for (let key in cenas[0]) {
+    a.push({
+      time: cenas[0][key].time,
+      timeEnd: cenas[0][key].timeEnd,
+      imageUrl: cenas[0][key].imageUrl,
+      description: cenas[0][key].description,
+      name: cenas[0][key].name,
+      Enrolled: cenas[0][key].Enrolled,
+      MaxAttendees: cenas[0][key].MaxAttendees,
+      day: cenas[0][key].day
+    });
+  }
+
+  for (let key in cenas[1]) {
+    b.push({
+      time: cenas[1][key].time,
+      timeEnd: cenas[1][key].timeEnd,
+      imageUrl: cenas[1][key].imageUrl,
+      description: cenas[1][key].description,
+      name: cenas[1][key].name,
+      Enrolled: cenas[1][key].Enrolled,
+      MaxAttendees: cenas[1][key].MaxAttendees,
+      day: cenas[1][key].day
+    });
+  }
+  for (let key in cenas[2]) {
+    c.push({
+      time: cenas[2][key].time,
+      timeEnd: cenas[2][key].timeEnd,
+      imageUrl: cenas[2][key].imageUrl,
+      description: cenas[2][key].description,
+      name: cenas[2][key].name,
+      Enrolled: cenas[2][key].Enrolled,
+      MaxAttendees: cenas[2][key].MaxAttendees,
+      day: cenas[2][key].day
+    });
+  }
+
+  for (let key in cenas[3]) {
+    d.push({
+      time: cenas[3][key].time,
+      timeEnd: cenas[3][key].timeEnd,
+      imageUrl: cenas[3][key].imageUrl,
+      description: cenas[3][key].description,
+      name: cenas[3][key].name,
+      Enrolled: cenas[3][key].Enrolled,
+      MaxAttendees: cenas[3][key].MaxAttendees,
+      day: cenas[3][key].day
+    });
+  }
+  a = _.sortBy(a, function(o) {
+    return o.time;
+  });
+  b = _.sortBy(b, function(o) {
+    return o.time;
+  });
+  c = _.sortBy(c, function(o) {
+    return o.time;
+  });
+  d = _.sortBy(d, function(o) {
+    return o.time;
+  });
+
+  return { a, b, c, d };
+}
+
 export function getEvents(user) {
+  var result = getE(user);
   return dispatch => {
-    let events = [];
-    console.log("chegou aqui");
-    var i = 0;
-    for (let key in user.Sessions) {
-      events.push({
-        key: i++,
-        time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
-        timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
-        //lineColor:'#009688',
-        imageUrl:
-          "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png",
-        description: user.Sessions[key].Description,
-        name: user.Sessions[key].Name,
-        Enrolled: user.Sessions[key].Enrolled,
-        MaxAttendees: user.Sessions[key].MaxAttendees,
-        day: moment(user.Sessions[key].SessionStart).format("DD")
-      });
-    }
-
-    const result = flow(groupBy("day"))(events);
-
-    var cenas = [];
-    for (let key in result) {
-      cenas.push(result[key]);
-      console.log();
-    }
-    console.log(".--------");
-    console.log(cenas);
-    console.log(".--------");
-
-    var a = [],
-      b = [],
-      c = [],
-      d = [];
-
-    for (let key in cenas[0]) {
-      a.push({
-        time: cenas[0][key].time,
-        timeEnd: cenas[0][key].timeEnd,
-        imageUrl: cenas[0][key].imageUrl,
-        description: cenas[0][key].description,
-        name: cenas[0][key].name,
-        Enrolled: cenas[0][key].Enrolled,
-        MaxAttendees: cenas[0][key].MaxAttendees,
-        day: cenas[0][key].day
-      });
-    }
-
-    for (let key in cenas[1]) {
-      b.push({
-        time: cenas[1][key].time,
-        timeEnd: cenas[1][key].timeEnd,
-        imageUrl: cenas[1][key].imageUrl,
-        description: cenas[1][key].description,
-        name: cenas[1][key].name,
-        Enrolled: cenas[1][key].Enrolled,
-        MaxAttendees: cenas[1][key].MaxAttendees,
-        day: cenas[1][key].day
-      });
-    }
-    for (let key in cenas[2]) {
-      c.push({
-        time: cenas[2][key].time,
-        timeEnd: cenas[2][key].timeEnd,
-        imageUrl: cenas[2][key].imageUrl,
-        description: cenas[2][key].description,
-        name: cenas[2][key].name,
-        Enrolled: cenas[2][key].Enrolled,
-        MaxAttendees: cenas[2][key].MaxAttendees,
-        day: cenas[2][key].day
-      });
-    }
-
-    for (let key in cenas[3]) {
-      d.push({
-        time: cenas[3][key].time,
-        timeEnd: cenas[3][key].timeEnd,
-        imageUrl: cenas[3][key].imageUrl,
-        description: cenas[3][key].description,
-        name: cenas[3][key].name,
-        Enrolled: cenas[3][key].Enrolled,
-        MaxAttendees: cenas[3][key].MaxAttendees,
-        day: cenas[3][key].day
-      });
-    }
-    a = _.sortBy(a, function(o) {
-      return o.time;
-    });
-    b = _.sortBy(b, function(o) {
-      return o.time;
-    });
-    c = _.sortBy(c, function(o) {
-      return o.time;
-    });
-    d = _.sortBy(d, function(o) {
-      return o.time;
-    });
     dispatch({
       type: GET_EVENTS,
-      events: a,
-      day1: a,
-      day2: b,
-      day3: c,
-      day4: d
+      events: result.a,
+      day1: result.a,
+      day2: result.b,
+      day3: result.c,
+      day4: result.d
     });
   };
 }

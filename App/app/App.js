@@ -39,6 +39,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import Swiper from "react-native-swiper";
+import resetPassword from "./screens/resetPassword";
 var TimerMixin = require("react-timer-mixin");
 
 function handleConnectivityChange() {
@@ -46,6 +47,9 @@ function handleConnectivityChange() {
 }
 
 class App extends Component {
+
+ 
+
   handleConnectivityChange = isConnected => {
     this.setState({ isConnected });
   };
@@ -142,7 +146,10 @@ class App extends Component {
   };
 
   render() {
+    
    
+
+
     if (!this.props.logged && this.props.onHold) {
       return (
         <View style={UtilStyles.containerLoading}>
@@ -158,6 +165,7 @@ class App extends Component {
         return <Router />;
       }
       return (
+        
         <View style={styles.slide2}>
           <Modal isVisible={this.props.UI_loginScannerActive}>
             <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -253,7 +261,7 @@ class App extends Component {
             <View style={styles.textRow}>
               <RkText rkType="primary3">Não sabes a password?</RkText>
               <RkButton rkType="clear" onPress={this.onSignUpButtonPressed}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => <resetPassword></resetPassword>}>
                   <RkText style={{ color: "red" }} kType="header6">
                     Recuperar Password
                   </RkText>
@@ -282,7 +290,7 @@ const overlayColor = "rgba(0,0,0,0.30)";
 
 const styles = {
   cameraContainer: {
-    //  height: Dimensions.get('window').height ,
+      height: Dimensions.get('window').height ,
   },
   passwordInput: {
     borderRadius: 90,

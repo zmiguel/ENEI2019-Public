@@ -36,7 +36,7 @@ import Profile from "./screens/Profile";
 import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
 import calendarDetail from './screens/calendarDetail';
-
+import resetPassword from './screens/resetPassword';
 
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
@@ -198,6 +198,9 @@ const Stack = createStackNavigator({
         screen: calendarDetail,
     },
 
+    resetPassword:{
+        screen:resetPassword
+    }
 });
 
 
