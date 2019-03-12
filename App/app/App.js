@@ -132,6 +132,12 @@ class App extends Component {
   _toggle=()=>{
     this.setState({modalResetPassword:false})
   }
+  //faz call
+  _reset=()=>{
+    //fecha modal
+    this.setState({modalResetPassword:false})
+    //faz call
+  }
 
   _keyboardDidShow() {
     //alert('Keyboard Shown');
@@ -191,6 +197,8 @@ class App extends Component {
             isVisible={this.state.modalResetPassword}
             onBackdropPress={this._toggle}
             onBackButtonPress={this._toggle}
+            animationInTiming={1500}
+            animationOutTiming={1500}
             >
             <View style={{  backgroundColor: "white" , padding:20,paddingBottom:0, alignItems:'center'}}>
             <View>
@@ -211,11 +219,11 @@ class App extends Component {
             />
            
               <Button
-                onPress={this._toggle}
+                onPress={this._reset}
                 title={"Enviar"}
               color={"#CC1A17"}
               ></Button>
-                <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:0}}> Caso tenhas problemas com este processo deves contactar a comissão atravês do email geral.</Text>
+                <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5}}> Caso tenhas problemas com este processo deves contactar a comissão organizadora atravês do email geral.</Text>
            
               </View>
             </View>
@@ -249,10 +257,10 @@ class App extends Component {
                   <Icon
                     style={styles.searchIcon}
                     name="ios-qr-scanner"
-                    size={30}
+                    size={40}
                     color="#000"
                   />
-                  <Text>Scan QR</Text>
+
                 </View>
               </TouchableOpacity>
             </View>
@@ -271,13 +279,11 @@ class App extends Component {
               placeholder="Password"
             />
             { !this.props.loadingLogin &&
-            <RkButton
-              rkType="dark"
-              style={styles.loginBtn}
-              onPress={this._tryLogin}
-            >
-              Entrar
-            </RkButton>
+           <View style={{alignItems:'center', margin:20}}>
+           <TouchableOpacity  onPress={this._tryLogin} style={{backgroundColor:'#CC1A17',borderRadius:3}}>
+           <Text style={{color:'white', fontSize:20, margin:10, width:150,textAlign:'center',}}>Login</Text>
+           </TouchableOpacity>
+           </View>
             }
             {this.props.alignItems && 
                 <ActivityIndicator size="large" color="#0000ff" />
@@ -300,8 +306,8 @@ class App extends Component {
               <RkText rkType="primary3">Não sabes a password?</RkText>
               <RkButton rkType="clear" onPress={this.onSignUpButtonPressed}>
                 <TouchableOpacity onPress={() => {this.setState({modalResetPassword:true})}}>
-                  <RkText style={{ color: "red" }} kType="header6">
-                    Recuperar Password
+                  <RkText style={{ color: "#CC1A17", fontWeight:'bold' }} kType="header6">
+                   Reset Password
                   </RkText>
                 </TouchableOpacity>
               </RkButton>
@@ -332,7 +338,7 @@ const styles = {
   },
   resetPassword:{
   
-    borderRadius: 90,
+    
 
     borderColor: "#bfbdbd",
     borderWidth: 1,
@@ -344,14 +350,14 @@ const styles = {
 
     backgroundColor: "white",
 
-    borderRadius: 90,
+    borderRadius: 3,
     height: SCREEN_HEIGHT * 0.08,
     borderColor: "#bfbdbd",
     borderWidth: 1,
     paddingLeft: SCREEN_WIDTH * 0.05
   },
   passwordInput: {
-    borderRadius: 90,
+  
 
     borderColor: "#bfbdbd",
     borderWidth: 1,
@@ -361,7 +367,7 @@ const styles = {
 
     backgroundColor: "white",
 
-    borderRadius: 90,
+    borderRadius: 3,
     height: SCREEN_HEIGHT * 0.08,
     borderColor: "#bfbdbd",
     borderWidth: 1,
@@ -373,15 +379,19 @@ const styles = {
   },
   scanQR: {
     //flexDirection: 'row',
-    paddingTop: 5,
+    flex:1,
+//paddingTop: 5,
     backgroundColor: 10,
+    alignItems:'center',
+  padding:5,
+  paddingRight:15,
 
-    width: 80,
-    paddingLeft: 10,
-    backgroundColor: "#f24b4b",
-    borderBottomRightRadius: 90,
-    borderTopRightRadius: 90,
-    height: "100%"
+    //width: 80,
+   // paddingLeft: 10,
+    backgroundColor: "#CC1A17",
+    borderBottomRightRadius: 3,
+    borderTopRightRadius: 3,
+   // height: "100%"
   },
   inputSection: {
     flexDirection: "row",
@@ -389,7 +399,7 @@ const styles = {
 
     backgroundColor: "white",
 
-    borderRadius: 90,
+    borderRadius: 3,
     height: SCREEN_HEIGHT * 0.08,
     borderColor: "#bfbdbd",
     borderWidth: 1
@@ -448,7 +458,8 @@ const styles = {
 
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 200
+    marginTop: 200,
+
   },
 
   logo2: {
