@@ -180,6 +180,12 @@ const Stack = createStackNavigator({
                     )
                 }
             }
+            else if (navigation.state.routes[index].routeName == 'Eventos') {
+                return {
+                    headerTitle: 'Eventos',
+                }
+
+            }
             else {
                 return {
                     header: null
