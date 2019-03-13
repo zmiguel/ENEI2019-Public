@@ -1,5 +1,5 @@
 import * as React from "react";
-import {View, StyleSheet, Dimensions, Text, Button, ScrollView, Image} from "react-native";
+import {View, StyleSheet, Dimensions, Text, Button, ScrollView, Image, TouchableOpacity} from "react-native";
 import {TabView, TabBar, SceneMap} from "react-native-tab-view";
 
 
@@ -34,9 +34,10 @@ export default class Eventos extends React.Component {
     };
 
 
-    renderFebrada = () => {
+    renderFebrada = (navigate) => {
         return (
             <View>
+                <TouchableOpacity onPress={() => navigate('FebradaDetail')}>
                 <View style={styles.cardContainer}>
                     <Image
                         style={{
@@ -49,6 +50,7 @@ export default class Eventos extends React.Component {
                     >
                     </Image>
                 </View>
+                </TouchableOpacity>
 
             </View>
         );
@@ -98,10 +100,11 @@ export default class Eventos extends React.Component {
     };
 
     render() {
+        const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
                 <ScrollView styles={styles.scroll}>
-                    {this.renderFebrada()}
+                    {this.renderFebrada(navigate)}
                     {this.renderRally()}
                     {this.renderCaching()}
                 </ScrollView>
