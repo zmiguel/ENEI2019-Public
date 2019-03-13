@@ -104,7 +104,7 @@ const AppStack = createBottomTabNavigator(
 
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'Eventos',
 
         tabBarOptions: {
             showLabel: true, // hide labels
@@ -176,6 +176,11 @@ const Stack = createStackNavigator({
                             </TouchableOpacity></View>
 
                     )
+                }
+            }
+            else if (navigation.state.routes[index].routeName == 'Eventos') {
+                return {
+                    headerTitle: 'Eventos',
                 }
             }
             else {

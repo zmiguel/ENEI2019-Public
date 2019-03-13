@@ -1,5 +1,5 @@
 import * as React from "react";
-import {View, StyleSheet, Dimensions, Text, Button, ScrollView} from "react-native";
+import {View, StyleSheet, Dimensions, Text, Button, ScrollView, Image} from "react-native";
 import {TabView, TabBar, SceneMap} from "react-native-tab-view";
 
 
@@ -22,7 +22,6 @@ const FourthRoute = () => (
 );
 
 
-
 export default class Eventos extends React.Component {
     state = {
         index: 0,
@@ -38,7 +37,19 @@ export default class Eventos extends React.Component {
     renderFebrada = () => {
         return (
             <View>
-                <Text>Ola mundo</Text>
+                <View style={styles.cardContainer}>
+                    <Image
+                        style={{
+                            flex: 1,
+                            width: undefined,
+                            height: undefined
+                        }}
+                        resizeMode="contain"
+                        source={require('../assets/altice_logo.png')}
+                    >
+                    </Image>
+                </View>
+
             </View>
         );
 
@@ -46,25 +57,53 @@ export default class Eventos extends React.Component {
 
     renderRally = () => {
 
+        return (
+            <View>
+                <View style={styles.cardContainer}>
+                    <Image
+                        style={{
+                            flex: 1,
+                            width: undefined,
+                            height: undefined
+                        }}
+                        resizeMode="contain"
+                        source={require('../assets/altice_logo.png')}
+                    >
+                    </Image>
+                </View>
+
+            </View>
+        );
     };
 
     renderCaching = () => {
 
+        return (
+            <View>
+                <View style={styles.cardContainer}>
+                    <Image
+                        style={{
+                            flex: 1,
+                            width: undefined,
+                            height: undefined
+                        }}
+                        resizeMode="contain"
+                        source={require('../assets/altice_logo.png')}
+                    >
+                    </Image>
+                </View>
+
+            </View>
+        );
     };
 
     render() {
         return (
             <View style={styles.container}>
                 <ScrollView styles={styles.scroll}>
-                    <View styles={styles.cardContainer}>
-                        {this.renderFebrada()}
-                    </View>
-                    <View styles={styles.cardContainer}>
-
-                    </View>
-                    <View styles={styles.cardContainer}>
-
-                    </View>
+                    {this.renderFebrada()}
+                    {this.renderRally()}
+                    {this.renderCaching()}
                 </ScrollView>
             </View>
         );
@@ -75,19 +114,23 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#eee',
         flex: 1,
+        flexGrow: 1,
+        flexDirection: 'column',
     },
 
+
     scroll: {
-      flex: 1,
+        flex: 1,
     },
 
     cardContainer: {
         flex: 1,
         padding: 10,
         margin: 20,
-        backgroundColor: 'white',
+        backgroundColor: '#fff',
+        height: SCREEN_WIDTH * (1 / 2),
         borderRadius: 5,
-        height: SCREEN_WIDTH * (1/2),
+        //borderWidth: 2,
     },
 
     scene: {
