@@ -36,6 +36,7 @@ import Profile from "./screens/Profile";
 import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
 import calendarDetail from './screens/calendarDetail';
+import FebradaDetail from './screens/FebradaDetail';
 import resetPassword from './screens/resetPassword';
 
 const navigationOptions = ({navigation}) => ({
@@ -202,6 +203,10 @@ const Stack = createStackNavigator({
     calendarDetail: {
         screen: calendarDetail,
     },
+    FebradaDetail: {
+        screen: FebradaDetail,
+    },
+
 
     resetPassword:{
         screen:resetPassword
