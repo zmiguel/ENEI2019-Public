@@ -1169,6 +1169,28 @@ hr::after {
           transform: scale(1.03);
 }
 
+#sponsors .gold h1 {
+  font-size: 30px;
+  line-height: 26px;
+  margin-top: 75px;
+}
+
+@media (max-width: 1024px) {
+  #sponsors .gold h1 {
+    font-size: 27px;
+  }
+}
+
+@media (max-width: 769px) {
+  #sponsors .gold h1 {
+    font-size: 23px;
+  }
+}
+
+#sponsors .gold .sponsor-image {
+  max-width: 135px;
+}
+
 #social-network {
   text-align: center;
   background-color: #000000;
