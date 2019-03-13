@@ -18,7 +18,8 @@ export {checkUser,
     loginInternal,
     waitLogin,
     removeSession,
-    changePassword
+    changePassword,
+    resetPassword
     
 } from "./api"
 
