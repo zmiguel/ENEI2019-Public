@@ -135,6 +135,7 @@ class App extends Component {
   //faz call
   _reset=()=>{
     //fecha modal
+    this.props.resetPassword(this.props.userDetails.token,this.state.resetText), 
     this.setState({modalResetPassword:false})
     //faz call
   }
@@ -193,12 +194,12 @@ class App extends Component {
               />
             </View>
           </Modal>
-          <Modal 
+          <Modal
             isVisible={this.state.modalResetPassword}
             onBackdropPress={this._toggle}
             onBackButtonPress={this._toggle}
-            animationInTiming={1500}
-            animationOutTiming={1500}
+            animationInTiming={1100}
+            animationOutTiming={1100}
             >
             <View style={{  backgroundColor: "white" , padding:20,paddingBottom:0, alignItems:'center'}}>
             <View>
@@ -207,15 +208,15 @@ class App extends Component {
             <TextInput
               style={styles.resetPassword}
               onFocus={this._print}
-              maxLength={10}
+              maxLength={50}
               blurOnSubmit={true}
-              secureTextEntry={true}
-              onChangeText={r => this.setState({ resetText })}
+          
+              onChangeText={r => this.setState({ resetText:r })}
               clearButtonMode="always"
               value={this.state.resetText}
               clearTextOnFocus={true}
               onSubmitEditing={Keyboard.dismiss}
-              placeholder="geral@enei.pt"
+              placeholder="Email ou Qr code"
             />
            
               <Button
@@ -233,7 +234,8 @@ class App extends Component {
               width: "100%",
 
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
+              margin:20
             }}
           >
             <Image
