@@ -971,6 +971,22 @@ hr {
 			transform: scale(1.03);
 		}
 	}
+	.gold {
+		h1 {
+			font-size: 30px;
+			line-height: 26px;
+			margin-top: 75px;
+			@include portable{
+				font-size: 27px;
+			}
+			@include mobile{
+				font-size: 23px;
+			}
+		}
+		.sponsor-image {
+			max-width: 135px;
+		}
+	}
 }
 
 #social-network {

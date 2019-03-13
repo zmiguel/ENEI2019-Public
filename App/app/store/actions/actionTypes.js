@@ -10,7 +10,7 @@ export const USER_INFO= 'USER_INFO'
 export const HOLD='HOLD'
 export const GET_EVENTS='GET_EVENTS'
 export const UPDATE_USER='UPDATE_USER'
-
+export const RESET_PASSWORD='RESET_PASSWORD'
 
 //API BLUETREND CALENDÁRIO
 export const GET_CAREERS='GET_CAREERS'  //GET GEST LISTS 
