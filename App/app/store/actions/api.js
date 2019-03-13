@@ -22,11 +22,8 @@ import {
   OPEN_MODAL,
   LOADINGLOGIN,
   REMOVE_SESSION,
-  UPDATE_USER,
-  UI_LOGIN_RESET_PASSWORD,
-  RESET_PASSWORD
+  UPDATE_USER
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
-var validator = require("email-validator");
 
 import moment from "moment";
 
@@ -50,37 +47,6 @@ export function waitLogin() {
       type: LOADINGLOGIN
     });
   };
-}
-
-export function resetPassword( data){
-  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
-
-  return dispatch=>{
-
-    console.log(data)
-    http://enei2019.uingress.com/internal/api/User/RecoverPassword?input=TNQHZ3DQMM&type=1
-
-    var inputType=1;
-
-   if( validator.validate(data)) 
-      inputType=0
-
-    axios.get(`/User/RecoverPassword?input=${data}&type=${inputType}`).then(p=>{
-      
-      Alert.alert("Sucesso!","O pedido de recuperação de password foi enviado para o email." )
-    }).catch(err=>{
-      if(inputType==1){
-        Alert.alert("Erro!", "O QR code intruzido não é válido.")
-      }
-      else{
-        Alert.alert("Erro!", "O email introduzido não é válido.")
-      }
-    s
-    })
-    dispatch({
-        type:RESET_PASSWORD
-    })
-  }
 }
 
 export function changePassword(token, old, new1, new2) {
@@ -476,7 +442,6 @@ export function getAvailableGuestlists(token) {
     12 - IOT
     14 - WB
     15 - DS
-
 */
 export function changeGuestList(token, guestID) {
   //http://enei2019.uingress.com/internal/api/Attendee/ChangeGuestlist/

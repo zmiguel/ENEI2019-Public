@@ -72,7 +72,7 @@ class Calendar extends React.Component {
             <View style={styles.details}>
               <Progress.Bar
                 color={"#000000"}
-                progress={item.Enrolled / item.MaxAttendees}
+                progress={0}
                 unfilledColor={"white"}
                 width={210}
               />

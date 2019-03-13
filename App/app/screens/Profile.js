@@ -64,7 +64,7 @@ class Profile extends Component {
 
             email: this.props.user.Email,
             emailError: false,
-            emailErrorMessage: '',
+            emailErrorMessage: '',  
 
             phone: this.props.user.Mobile,
             phoneError: false,
