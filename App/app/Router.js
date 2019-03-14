@@ -152,7 +152,7 @@ const Stack = createStackNavigator({
 
                             <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                               onPress={() => navigation.navigate('choosePath')}>
-                                <Text>Escolher</Text>
+                                <Text>Inscrições</Text>
                                 <IconFA name="user-edit" size={22}/>
                             </TouchableOpacity></View>
 
