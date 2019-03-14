@@ -18,8 +18,5 @@ namespace api.Dtos
         public string ProfileIcon {get;set;}
         public string About{get;set;}
         public string PhotoUrl{get;set;}
-
-
-
     }
 }

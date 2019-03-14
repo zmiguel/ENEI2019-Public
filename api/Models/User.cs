@@ -20,6 +20,8 @@ namespace api.Models
 
         [ForeignKey("teamID")]
         public Team team{get;set;}
+
+        public List<int> cromos {get;set;}
         
     }
 }
