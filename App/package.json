@@ -9,6 +9,7 @@
   "dependencies": {
     "@redux-offline/redux-offline": "^2.5.1",
     "axios": "^0.18.0",
+    "email-validator": "^2.0.4",
     "expo": "^32.0.5",
     "material-icons-react": "^1.0.4",
     "moment": "^2.24.0",
@@ -17,6 +18,7 @@
     "react-native": "0.57.8",
     "react-native-action-button": "^2.8.5",
     "react-native-app-intro-slider": "^1.0.1",
+    "react-native-awesome-alerts": "^1.2.0",
     "react-native-camera": "^1.9.2",
     "react-native-check-box": "^2.1.7",
     "react-native-cli": "^2.0.1",
@@ -30,6 +32,7 @@
     "react-native-linear-gradient": "^2.5.3",
     "react-native-loader": "^1.2.1",
     "react-native-loading-spinner-overlay": "^1.0.1",
+    "react-native-maps": "^0.23.0",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-material-shadows": "0.0.2",
     "react-native-modal": "^7.0.2",

@@ -3,15 +3,22 @@ import {
     TouchableOpacity,
     Text,
     View,
-    Image
+    Image,
+
 } from 'react-native';
 import {
     createStackNavigator,
     createAppContainer,
     createSwitchNavigator,
-    createBottomTabNavigator
+    createBottomTabNavigator,
+    HeaderBackButton
 } from 'react-navigation';
 import * as Screens from './screens';
+
+/*Icons*/
+import Icon from "react-native-vector-icons/Ionicons"
+import IconF from "react-native-vector-icons/Foundation"
+import IconFA from "react-native-vector-icons/FontAwesome5"
 
 
 import AuthLoadingScreen from './screens/AuthLoading'
@@ -25,16 +32,18 @@ import Calendar from './screens/Calendar'
 import Home from './screens/Home'
 
 
-
-/*Icons*/
-import Icon from "react-native-vector-icons/Ionicons"
-import IconF from "react-native-vector-icons/Foundation"
-import IconFA from "react-native-vector-icons/FontAwesome5"
 import Profile from "./screens/Profile";
 import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
 import calendarDetail from './screens/calendarDetail';
+import FebradaDetail from './screens/FebradaDetail';
+import resetPassword from './screens/resetPassword';
 
+const navigationOptions = ({navigation}) => ({
+    headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
+    headerStyle: {backgroundColor: 'transparent', zIndex: 100 },
+
+});
 
 const AppStack = createBottomTabNavigator(
     {
@@ -48,15 +57,15 @@ const AppStack = createBottomTabNavigator(
                 )
             },
         },
-       
+
         'Jogo do...': {
             screen: Jogo,
 
             navigationOptions: {
 
                 tabBarIcon: ({tintColor}) => (
-                  
-                    <Image style={{width:30, height:30}}source={require('./assets/img/logo2.png')}></Image>
+
+                    <Image style={{width: 30, height: 30}} source={require('./assets/img/logo2.png')}></Image>
                 )
             },
         },
@@ -71,8 +80,8 @@ const AppStack = createBottomTabNavigator(
             },
         },
 
-       
- Eventos: {
+
+        Eventos: {
             screen: Eventos,
 
             navigationOptions: {
@@ -82,7 +91,7 @@ const AppStack = createBottomTabNavigator(
                 )
             },
         },
-       
+
         Home: {
             screen: Home,
             navigationOptions: {
@@ -94,10 +103,9 @@ const AppStack = createBottomTabNavigator(
         },
 
 
-
     },
     {
-        initialRouteName: 'Home',
+        initialRouteName: 'Eventos',
 
         tabBarOptions: {
             showLabel: true, // hide labels
@@ -115,56 +123,67 @@ const Stack = createStackNavigator({
         screen: AppStack,
         navigationOptions: ({navigation}) => {
             const index = navigation.state.index;
-
+            
+          
             if (navigation.state.routes[index].routeName == 'Home') {
                 return {
                     headerTitle: `${navigation.state.routes[index].routeName}`,
                     headerRight: (
-                        <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('Profile')}>
-                       
+                        <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
+                                          onPress={() => navigation.navigate('Profile')}>
+
                             <Text>editar</Text>
                             <IconFA name="user-edit" size={22}/>
-                       
+
                         </TouchableOpacity>
                     )
                 }
             }
-            else if(navigation.state.routes[index].routeName == 'Calendário'){
+            else if (navigation.state.routes[index].routeName == 'Calendário') {
                 return {
                     headerTitle: 'Calendário',
                     headerRight: (
-                        <View style={{flex:1, flexDirection:'row'}}>   
-                            <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('Edit')}>
-                        <Text>FAQ</Text>
-                      
-                     </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
+                                              onPress={() => navigation.navigate('Edit')}>
+                                <Text>FAQ</Text>
 
-                         <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('choosePath')}>
-                         <Text>Escolher</Text>
-                          <IconFA name="user-edit" size={22}/>
-                      </TouchableOpacity></View>
-                     
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
+                                              onPress={() => navigation.navigate('choosePath')}>
+                                <Text>Escolher</Text>
+                                <IconFA name="user-edit" size={22}/>
+                            </TouchableOpacity></View>
+
                     )
                 }
-            } 
-            else if(navigation.state.routes[index].routeName == 'choosePath'){
+            }
+            else if (navigation.state.routes[index].routeName == 'choosePath') {
                 return {
                     headerTitle: 'Calendário',
                     headerRight: (
-                        <View style={{flex:1, flexDirection:'row'}}>   
-                            <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('Edit')}>
-                        <Text>FAQ</Text>
-                      
-                     </TouchableOpacity>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
+                            <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
+                                              onPress={() => navigation.navigate('Edit')}>
+                                <Text>FAQ</Text>
 
-                         <TouchableOpacity style={{marginRight: 20, flex:1, flexDirection:'row'}} onPress={() => navigation.navigate('choosePath')}>
-                         <Text>Escolher</Text>
-                          <IconFA name="user-edit" size={22}/>
-                      </TouchableOpacity></View>
-                     
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
+                                              onPress={() => navigation.navigate('choosePath')}>
+                                <Text>Escolher</Text>
+                                <IconFA name="user-edit" size={22}/>
+                            </TouchableOpacity></View>
+
                     )
                 }
-            } 
+            }
+            else if (navigation.state.routes[index].routeName == 'Eventos') {
+                return {
+                    headerTitle: 'Eventos',
+                }
+            }
             else {
                 return {
                     header: null
@@ -175,18 +194,23 @@ const Stack = createStackNavigator({
     Profile: {
         screen: Profile
     },
-    Edit:{
+    Edit: {
         screen: editCalendar
     },
-    choosePath:{
+    choosePath: {
         screen: choosePath
     },
-    calendarDetail:{
-        screen:calendarDetail
+    calendarDetail: {
+        screen: calendarDetail,
+    },
+    FebradaDetail: {
+        screen: FebradaDetail,
+    },
+
+
+    resetPassword:{
+        screen:resetPassword
     }
-
-    
-
 });
 
 
@@ -194,7 +218,7 @@ export default createAppContainer(createSwitchNavigator(
     {
         AuthLoading: AuthLoadingScreen,
         App: Stack,
-        
+
 
     },
     {
