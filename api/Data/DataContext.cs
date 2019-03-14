@@ -21,6 +21,8 @@ namespace api.Data
         public DbSet<EventLoc> EventLocs {get;set;}
 
         public DbSet<EventLocVisited> EventLocsVisited {get;set;}
+
+        public DbSet<Cromos> Cromos {get;set;}
         
         public DbSet<Log>Logs{get;set;}
 
