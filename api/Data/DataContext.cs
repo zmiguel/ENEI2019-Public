@@ -22,7 +22,7 @@ namespace api.Data
 
         public DbSet<EventLocVisited> EventLocsVisited {get;set;}
 
-        public DbSet<Chromos> Chromos {get;set;}
+        public DbSet<Cromos> Chromos {get;set;}
         
         public DbSet<Log>Logs{get;set;}
 
