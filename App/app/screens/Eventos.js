@@ -1,10 +1,14 @@
 import * as React from "react";
+
 import {View, StyleSheet, Dimensions, Text, Button, ScrollView, Image, TouchableOpacity} from "react-native";
+
 import {TabView, TabBar, SceneMap} from "react-native-tab-view";
 
+import rallyImg from '../assets/rallyTascas.jpg';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
 
 const FirstRoute = () => (
     <View style={[styles.scene, {backgroundColor: "#ff4081"}]}/>
@@ -51,7 +55,6 @@ export default class Eventos extends React.Component {
                     </Image>
                 </View>
                 </TouchableOpacity>
-
             </View>
         );
 
@@ -128,6 +131,7 @@ const styles = StyleSheet.create({
 
     cardContainer: {
         flex: 1,
+        flexDirection: 'row',
         padding: 10,
         margin: 20,
         backgroundColor: '#fff',
