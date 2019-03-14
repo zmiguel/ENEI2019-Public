@@ -261,7 +261,7 @@ class choosePath extends React.Component {
               style={{ width: "100%" }}
               onValueChange={(itemValue, itemIndex) => {
                 this.setState({ guest: itemValue });
-                this.props.timerChangeGuest();
+               // this.props.timerChangeGuest();
                 this.props.waitChangeGuest();
 
                 this.props.changeGuestList(
@@ -324,7 +324,14 @@ class choosePath extends React.Component {
                             <View style={styles.session}>
                               {this._verifySession(item[index].Id) && (
                                 <TouchableOpacity
-                                  onPress={() => {}}
+                                  onPress={() => {
+                                   
+                                    this.props.removeSession(
+                                      this.props.user,
+                                      this.props.userDetails.token,
+                                      item[index].Id
+                                    );
+                                  }}
                                   style={{ flex: 1, alignSelf: "center" }}
                                 >
                                   <View>
@@ -339,11 +346,14 @@ class choosePath extends React.Component {
                               {!this._verifySession(item[index].Id) && (
                                 <TouchableOpacity
                                   onPress={() => {
-                                      this.props.waitChangeGuest()
+                                  
+                                      //this.props.waitChangeGuest()
                                     this.props.signSession(
+                                      this.props.user,
                                       this.props.userDetails.token,
                                       item[index].Id
                                     );
+                                 
                                   }}
                                   style={{ flex: 1, alignSelf: "center" }}
                                 >
@@ -395,11 +405,12 @@ class choosePath extends React.Component {
         </View>
 
         {(this.props.changingGuest || this.props.Blocks == true) && (
+          <View style={{ flex:1, height:SCREEN_HEIGHT*0.6, alignSelf:'center',}}>
           <ActivityIndicator
             size="large"
             color="red"
-            style={{ flex: 1, alignContent: "center" }}
-          />
+            style={{  alignContent: "center" , alignSelf:'center', marginTop:SCREEN_HEIGHT*0.2}}
+          /></View>
         )}
       </ScrollView>
       </View>

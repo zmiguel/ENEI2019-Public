@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 
 namespace api.Controllers
 {
@@ -30,15 +32,18 @@ namespace api.Controllers
         public IUsersRepository _repo { get; }
         private readonly IMapper _mapper;
         private readonly RoleManager<Role> _roleManager;
+        private readonly System.Net.Http.IHttpClientFactory clientFactory;
 
-        public AuthController(IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper, RoleManager<Role> roleManager, IUsersRepository repo)
+        public AuthController(IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper, RoleManager<Role> roleManager, IUsersRepository repo, System.Net.Http.IHttpClientFactory clientFactory)
         {
              _mapper = mapper;
             _roleManager = roleManager;
             _repo = repo;
+            this.clientFactory = clientFactory;
             this.config = config;
             _userManager = UserManager;
             _signInManager = SignInManager;
+            
         }
      
 
@@ -79,6 +84,40 @@ namespace api.Controllers
             return Unauthorized();
 
         }
+
+        [HttpPost("loginQR")]
+        public async Task<IActionResult> loginQr(UserForLoginDto userLoginDTO){
+            
+                var token= "_A6q1cVGa12QutCrYCsYETfz9nPspnbcnPqjD-87kDaYPr99ArEfpdRTbkEzA4p-WEJzPFQhsMX7nG5BmUm0E6RTju8vQHnaTjGd80NIqUCr-jXefUtGwyl6I00fGD4sN6psW714JnCFuZRbtZbIXsdIRKmD3b8YUpPo2lvYP8SzjoEgACyabj13T3CLpHF43PI8Dvny6ylW6j0ka5qGNvw5MHVvYFURUPiTA7hlxoyQ35eOqHE8-eIiLNSTUJW7q-o8CxIGqGWSkltKPxbrY-Xo5iYagUucesqmj64VxYs";
+                using (var client = new HttpClient())
+                {
+                    try{
+                        
+                        var url = "http://enei2019.uingress.com/internal/api/Attendee/Detail";
+                    
+                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                    
+
+                        var response = await client.GetStringAsync(url);
+
+                        Console.WriteLine(response);
+
+                        //var resource = JObject.Parse(response);
+                    
+                        return Ok(response);
+
+                    }catch(Exception e){
+
+                        Console.WriteLine(e);
+
+                        return Unauthorized();
+
+                    }
+                    
+
+                }
+        }
+
 
         private async Task<string> GenerateJwtToken(User user)
         {

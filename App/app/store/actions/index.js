@@ -16,7 +16,11 @@ export {checkUser,
     openModal,
     closeModal,
     loginInternal,
-    waitLogin
+    waitLogin,
+    removeSession,
+    changePassword,
+    resetPassword
+    
 } from "./api"
 
 export {

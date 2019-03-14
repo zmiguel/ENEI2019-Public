@@ -1,5 +1,7 @@
 import * as React from "react";
-import {View, StyleSheet, Dimensions, Text, Button, ScrollView, ImageBackground} from "react-native";
+
+import {View, StyleSheet, Dimensions, Text, Button, ScrollView, Image, TouchableOpacity} from "react-native";
+
 import {TabView, TabBar, SceneMap} from "react-native-tab-view";
 
 import rallyImg from '../assets/rallyTascas.jpg';
@@ -36,32 +38,23 @@ export default class Eventos extends React.Component {
     };
 
 
-    renderFebrada = () => {
+    renderFebrada = (navigate) => {
         return (
             <View>
-                <View styles={styles.cardContainer}>
-                    <ImageBackground
+                <TouchableOpacity onPress={() => navigate('FebradaDetail')}>
+                <View style={styles.cardContainer}>
+                    <Image
                         style={{
                             flex: 1,
-                            width: '100%',
-                            height: '100%',
-
+                            width: undefined,
+                            height: undefined
                         }}
-                        source={require('../assets/rallyTascas.jpg')}
-                    />
+                        resizeMode="contain"
+                        source={require('../assets/altice_logo.png')}
+                    >
+                    </Image>
                 </View>
-
-                <View styles={styles.cardContainer}>
-                    <Text>Ola</Text>
-                    <Text style={{color: "black"}}>Local: 1</Text>
-                </View>
-
-
-                <View styles={styles.cardContainer}>
-                    <Text>Ola</Text>
-                    <Text style={{color: "black"}}>Local: 1</Text>
-                </View>
-
+                </TouchableOpacity>
             </View>
         );
 
@@ -69,25 +62,54 @@ export default class Eventos extends React.Component {
 
     renderRally = () => {
 
+        return (
+            <View>
+                <View style={styles.cardContainer}>
+                    <Image
+                        style={{
+                            flex: 1,
+                            width: undefined,
+                            height: undefined
+                        }}
+                        resizeMode="contain"
+                        source={require('../assets/altice_logo.png')}
+                    >
+                    </Image>
+                </View>
+
+            </View>
+        );
     };
 
     renderCaching = () => {
 
+        return (
+            <View>
+                <View style={styles.cardContainer}>
+                    <Image
+                        style={{
+                            flex: 1,
+                            width: undefined,
+                            height: undefined
+                        }}
+                        resizeMode="contain"
+                        source={require('../assets/altice_logo.png')}
+                    >
+                    </Image>
+                </View>
+
+            </View>
+        );
     };
 
     render() {
+        const {navigate} = this.props.navigation;
         return (
-            <View>
-                <ScrollView>
-                    <View style={styles.cardContainer}>
-                        {this.renderFebrada()}
-                    </View>
-                    <View styles={styles.cardContainer}>
-
-                    </View>
-                    <View styles={styles.cardContainer}>
-
-                    </View>
+            <View style={styles.container}>
+                <ScrollView styles={styles.scroll}>
+                    {this.renderFebrada(navigate)}
+                    {this.renderRally()}
+                    {this.renderCaching()}
                 </ScrollView>
             </View>
         );
@@ -98,7 +120,10 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#eee',
         flex: 1,
+        flexGrow: 1,
+        flexDirection: 'column',
     },
+
 
     scroll: {
         flex: 1,
@@ -110,11 +135,9 @@ const styles = StyleSheet.create({
         padding: 10,
         margin: 20,
         backgroundColor: '#fff',
+        height: SCREEN_WIDTH * (1 / 2),
         borderRadius: 5,
-        elevation: 2,
-        height: (SCREEN_WIDTH * (1 / 2)),
-        borderWidth: 2,
-        color: "#000"
+        //borderWidth: 2,
     },
 
     scene: {

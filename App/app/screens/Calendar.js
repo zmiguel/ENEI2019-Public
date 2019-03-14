@@ -19,7 +19,7 @@ import * as Progress from "react-native-progress";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-
+import PTRView from 'react-native-pull-to-refresh';
 import * as Actions from "../store/actions"; //Import your actionss
 
 const formatObj = obj => {
@@ -72,7 +72,7 @@ class Calendar extends React.Component {
             <View style={styles.details}>
               <Progress.Bar
                 color={"#000000"}
-                progress={item.Enrolled / item.MaxAttendees}
+                progress={0}
                 unfilledColor={"white"}
                 width={210}
               />
@@ -139,6 +139,10 @@ class Calendar extends React.Component {
 
   constructor() {
     super();
+  }
+  _refresh=()=>{
+    this.props.getEvents(this.props.user);
+    //this.props.getSessions(this.props.userDetails.token);
   }
 
   render() {
@@ -275,7 +279,9 @@ class Calendar extends React.Component {
     );
 
     return (
+     
       <View style={{ flex: 1 }}>
+
         <View>
           {this.props.careerPath != undefined && (
             <Text
@@ -292,6 +298,7 @@ class Calendar extends React.Component {
             </Text>
           )}
         </View>
+     
         <TabView
           navigationState={this.state}
           renderScene={SceneMap({
@@ -310,7 +317,11 @@ class Calendar extends React.Component {
           style={{ backgroundColor: "#F2F2F2" }}
           indicatorStyle={{ backgroundColor: "pink" }}
         />
+         <Button onPress={this._refresh} title="Refresh" color="#841584"
+                                      />
       </View>
+
+      
     );
   }
 }

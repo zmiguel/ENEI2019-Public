@@ -1,6 +1,6 @@
 import { AsyncStorage } from "react-native";
 
-import { NetInfo , Alert} from "react-native";
+import { NetInfo, Alert } from "react-native";
 
 var _ = require("lodash");
 
@@ -20,7 +20,9 @@ import {
   WAIT_CHANGE,
   SIGN_SESSION,
   OPEN_MODAL,
-  LOADINGLOGIN
+  LOADINGLOGIN,
+  REMOVE_SESSION,
+  UPDATE_USER
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -39,43 +41,64 @@ axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 
 const map = require("lodash/fp/map").convert({ cap: false });
 
-
-export function waitLogin(){
-  return dispatch=>{
-    dispatch({
-      type: LOADINGLOGIN,
-  
-    });
-  }
-}
-
-
-//faz autenticação com API interna 
-export function loginInternal(userDetails){
-  axios.defaults.baseURL = "http://127.0.0.1:5000";
+export function waitLogin() {
   return dispatch => {
-    
-    axios.post('/api/login',{ 
-      "username": "cena", 
-      "password": "password"
-      
-    }).then(a=>{
-      console.log("sucesso!")
-      console.log(a)
-    }).catch(p=>{
-      console.log(p)
-    })
-
     dispatch({
-      type: OPEN_MODAL,
-  
+      type: LOADINGLOGIN
     });
   };
-
-
 }
 
+export function changePassword(token, old, new1, new2) {
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${token.access_token}`
+  };
+  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 
+  return dispatch => {
+    if (new1 != new2) {
+      Alert.alert("ERRO!", "As passords são diferentes...");
+    } else {
+      axios
+        .post("/User/ChangePassword", {
+          OldPassword: old,
+          NewPassword: new1
+        })
+        .then(a => {
+          Alert.alert("Sucesso!", "Password alterada com sucesso")
+        })
+        .catch(p => {
+          Alert.alert("ERRO!", "Erro a alterar a password.\nA palavra original é inválida...\nCaso o erro persista verifica a tua conexão à internet e tenta novamente")
+        });
+
+      dispatch({
+        type: OPEN_MODAL
+      });
+    }
+  };
+}
+//faz autenticação com API interna
+export function loginInternal(userDetails) {
+  axios.defaults.baseURL = "http://127.0.0.1:5000";
+  return dispatch => {
+    axios
+      .post("/api/login", {
+        username: "cena",
+        password: "password"
+      })
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+      })
+      .catch(p => {
+        console.log(p);
+      });
+
+    dispatch({
+      type: OPEN_MODAL
+    });
+  };
+}
 
 export function openModal(info, t) {
   return dispatch => {
@@ -97,23 +120,29 @@ export function closeModal() {
 }
 
 export function updateUser(token, user) {
+  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
   axios.defaults.headers.common = {
     Authorization: `bearer ${token.access_token}`
   };
 
   return dispatch => {
     axios
-      .post("/Attendee/Edit", user)
+     
+    .post("/Attendee/Edit", user)
+     
       .then(a => {
-        console.log(a);
-        alert("guardado com sucesso");
+        
+        Alert.alert("Sucesso", "As informações pessoais foram guardadas com sucesso.")
+  
+     console.log(a.data)
         dispatch({
-          type: UPDATE_USER
-          // guests: response.data
+          type: UPDATE_USER,
+           user:a.data
         });
       })
       .catch(b => {
-        alert("Erro a guardar os dados");
+        Alert.alert("ERRO!","Ocorreu um erro a guardar os dados pessoais.")
+        alert(b)
       });
   };
 }
@@ -124,27 +153,27 @@ function getCareerPath(sessions) {
   for (let key in sessions) {
     if (sessions[key].Name == "IA") {
       careerPath = "Artificial Inteligence";
-      careerColor='#CC1A17'
+      careerColor = "#CC1A17";
     }
     if (sessions[key].Name == "IOT") {
       careerPath = "Internet of Things";
-      careerColor= "green"
+      careerColor = "green";
     }
     if (sessions[key].Name == "WEB") {
       careerPath = "Web Development";
-      careerColor="purple"
+      careerColor = "purple";
     }
     if (sessions[key].Name == "NET") {
       careerPath = "Networking and Security";
-      careerColor="blue"
+      careerColor = "blue";
     }
     if (sessions[key].Name == "MOB") {
       careerPath = "Mobile Development";
-      careerColor="orange"
+      careerColor = "orange";
     }
-    if(sessions[key].Name=="DS"){
-      careerPath="Data Science"
-      careerColor="yellow"
+    if (sessions[key].Name == "DS") {
+      careerPath = "Data Science";
+      careerColor = "yellow";
     }
   }
   return { name: careerPath, color: careerColor };
@@ -169,8 +198,7 @@ export const connectionState = status => {
   return { type: "CHANGE_CONNECTION_STATUS", isConnected: status };
 };
 
-//inscrição em palestra através de ID
-export function signSession(token, idSession) {
+export function removeSession(user, token, idSession) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${token.access_token}`
   };
@@ -183,9 +211,10 @@ export function signSession(token, idSession) {
   return dispatch => {
     //adiciona participante a uma palestra
     axios
-      .post("/Session/AddAttendee", obj)
+      .post("/Session/RemoveAttendee", obj)
       //se não existir erro na chamada...
       .then(a => {
+        console.log(a);
         if (a.data.Success) {
           axios
             .get("/Attendee/AvailableSessions")
@@ -204,7 +233,10 @@ export function signSession(token, idSession) {
                 cenas.push(result[key]);
               }
 
-              alert("Inscrição efectuada com sucesso");
+              Alert.alert(
+                "Sucesso",
+                "A inscrição na sessão foi removida com sucesso!"
+              );
 
               //obter informações pessoais:
               axios
@@ -215,13 +247,14 @@ export function signSession(token, idSession) {
                 })
                 .then(sucess => {
                   dispatch({
-                    type: SIGN_SESSION,
+                    type: REMOVE_SESSION,
                     sessions: response.data,
                     Blocks: cenas,
                     changeGuestList: false,
                     careerPath: careerPath,
                     user: sucess.data
                   });
+                  getEvents(user);
                 });
             })
             .catch(function(error) {
@@ -232,13 +265,98 @@ export function signSession(token, idSession) {
         } else {
           alert("Erro a inscrever na palestra");
           dispatch({
-            type: SIGN_SESSION,
+            type: REMOVE_SESSION,
             waitChangeGuest: false
           });
         }
       })
       .catch(b => {
         alert("Erro a inscrever na palestra");
+      });
+  };
+}
+
+//inscrição em palestra através de ID
+export function signSession(user, token, idSession) {
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${token.access_token}`
+  };
+
+  var obj = {
+    IdSession: idSession,
+    Direction: 0
+  };
+
+  return dispatch => {
+    //adiciona participante a uma palestra
+    axios
+      .post("/Session/AddAttendee", obj)
+      //se não existir erro na chamada...
+      .then(a => {
+        if (a.data.Success) {
+          axios.defaults.headers.common = {
+            Authorization: `bearer ${token.access_token}`
+          };
+          axios
+            .get("/Attendee/AvailableSessions")
+
+            .then(function(response) {
+              console.log(response);
+
+              var sessions = response.data;
+              var careerPath = getCareerPath(sessions);
+              var cenas = [];
+
+              const result = flow(groupBy("SessionStart"))(response.data);
+
+              for (let key in result) {
+                result[key].option = 0;
+                cenas.push(result[key]);
+              }
+
+              Alert.alert(
+                "Sucesso",
+                "Inscrição na sessão efectuada com sucesso"
+              );
+              console.log("aqui1")
+              //obter informações pessoais:
+              axios
+                .get("/Attendee/Detail")
+
+                .catch(error => {
+                  alert(error);
+                })
+                .then(sucess => {
+                  console.log("aqui2")
+                  var result = getE(user);
+                  dispatch({
+                    type: SIGN_SESSION,
+                    sessions: response.data,
+                    Blocks: cenas,
+                    changeGuestList: false,
+                    careerPath: careerPath,
+                    user: sucess.data,
+                    events: result.a,
+                    day1: result.a,
+                    day2: result.b,
+                    day3: result.c,
+                    day4: result.d
+                  });
+                });
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
+        } else {
+          Alert.alert("ERRO!!", a.data.Error);
+          dispatch({
+            type: SIGN_SESSION,
+            waitChangeGuest: false
+          });
+        }
+      })
+      .catch(b => {
+        //   alert("Erro a inscrever na palestra");
       });
   };
 }
@@ -324,10 +442,8 @@ export function getAvailableGuestlists(token) {
     12 - IOT
     14 - WB
     15 - DS
-
 */
 export function changeGuestList(token, guestID) {
-  
   //http://enei2019.uingress.com/internal/api/Attendee/ChangeGuestlist/
 
   axios.defaults.headers.common = {
@@ -340,7 +456,7 @@ export function changeGuestList(token, guestID) {
     axios
       .get(full)
       .then(function(response) {
-        console.log(response)
+       
         axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 
         axios.defaults.headers.common = {
@@ -351,11 +467,13 @@ export function changeGuestList(token, guestID) {
           .get("/Attendee/AvailableSessions")
 
           .then(function(response) {
+
             // handle success
+            
             //console.log(response);
 
             var cenas = [];
-            c= getCareerPath(response.data);
+            c = getCareerPath(response.data);
             const result = flow(
               groupBy("SessionStart")
               // map((Id) => ({Id})),
@@ -363,11 +481,14 @@ export function changeGuestList(token, guestID) {
             )(response.data);
 
             for (let key in result) {
+              
               result[key].option = 0;
               cenas.push(result[key]);
-              console.log();
+              
             }
+            console.log("-.-.-..-.-.-.-.-.-.")
             console.log(cenas);
+            console.log("-.-.-..-.-.-.-.-.-.")
             dispatch({
               type: CHANGE_GUEST,
               sessions: response.data,
@@ -459,111 +580,112 @@ export function getAvailableSessions(token) {
   };
 }
 
+function getE(user) {
+  var cenas = [];
+  let events = [];
+  var i = 0;
+  for (let key in user.Sessions) {
+    events.push({
+      key: i++,
+      time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
+      timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
+      //lineColor:'#009688',
+      imageUrl:
+        "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png",
+      description: user.Sessions[key].Description,
+      name: user.Sessions[key].Name,
+      Enrolled: user.Sessions[key].Enrolled,
+      MaxAttendees: user.Sessions[key].MaxAttendees,
+      day: moment(user.Sessions[key].SessionStart).format("DD")
+    });
+  }
+  const result = flow(groupBy("day"))(events);
+
+  for (let key in result) {
+    cenas.push(result[key]);
+  }
+
+  var a = [],
+    b = [],
+    c = [],
+    d = [];
+
+  for (let key in cenas[0]) {
+    a.push({
+      time: cenas[0][key].time,
+      timeEnd: cenas[0][key].timeEnd,
+      imageUrl: cenas[0][key].imageUrl,
+      description: cenas[0][key].description,
+      name: cenas[0][key].name,
+      Enrolled: cenas[0][key].Enrolled,
+      MaxAttendees: cenas[0][key].MaxAttendees,
+      day: cenas[0][key].day
+    });
+  }
+
+  for (let key in cenas[1]) {
+    b.push({
+      time: cenas[1][key].time,
+      timeEnd: cenas[1][key].timeEnd,
+      imageUrl: cenas[1][key].imageUrl,
+      description: cenas[1][key].description,
+      name: cenas[1][key].name,
+      Enrolled: cenas[1][key].Enrolled,
+      MaxAttendees: cenas[1][key].MaxAttendees,
+      day: cenas[1][key].day
+    });
+  }
+  for (let key in cenas[2]) {
+    c.push({
+      time: cenas[2][key].time,
+      timeEnd: cenas[2][key].timeEnd,
+      imageUrl: cenas[2][key].imageUrl,
+      description: cenas[2][key].description,
+      name: cenas[2][key].name,
+      Enrolled: cenas[2][key].Enrolled,
+      MaxAttendees: cenas[2][key].MaxAttendees,
+      day: cenas[2][key].day
+    });
+  }
+
+  for (let key in cenas[3]) {
+    d.push({
+      time: cenas[3][key].time,
+      timeEnd: cenas[3][key].timeEnd,
+      imageUrl: cenas[3][key].imageUrl,
+      description: cenas[3][key].description,
+      name: cenas[3][key].name,
+      Enrolled: cenas[3][key].Enrolled,
+      MaxAttendees: cenas[3][key].MaxAttendees,
+      day: cenas[3][key].day
+    });
+  }
+  a = _.sortBy(a, function(o) {
+    return o.time;
+  });
+  b = _.sortBy(b, function(o) {
+    return o.time;
+  });
+  c = _.sortBy(c, function(o) {
+    return o.time;
+  });
+  d = _.sortBy(d, function(o) {
+    return o.time;
+  });
+
+  return { a, b, c, d };
+}
+
 export function getEvents(user) {
+  var result = getE(user);
   return dispatch => {
-    let events = [];
-    console.log("chegou aqui");
-var i=0
-    for (let key in user.Sessions) {
-      events.push({
-        key:i++,
-        time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
-        timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
-        //lineColor:'#009688',
-        imageUrl:
-          "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png",
-        description: user.Sessions[key].Description,
-        name: user.Sessions[key].Name,
-        Enrolled: user.Sessions[key].Enrolled,
-        MaxAttendees: user.Sessions[key].MaxAttendees,
-        day: moment(user.Sessions[key].SessionStart).format("DD")
-      });
-    }
-   
-
-    const result = flow(
-      groupBy("day")
-      
-     
-    )(events);
-
-   
-      var cenas=[];
-    for (let key in result) {
-      cenas.push(result[key]);
-      console.log();
-    }
-    console.log(".--------")
-    console.log(cenas);
-    console.log(".--------")
-    
-    var a=[], b=[],c=[],d=[]
-    
-    for (let key in cenas[0]) {
-      a.push({
-        time:cenas[0][key].time ,
-        timeEnd: cenas[0][key].timeEnd,
-        imageUrl:cenas[0][key].imageUrl,
-        description: cenas[0][key].description,
-        name:cenas[0][key].name,
-        Enrolled: cenas[0][key].Enrolled,
-        MaxAttendees: cenas[0][key].MaxAttendees,
-        day: cenas[0][key].day
-      });
-    }
-   
-    
-    
-    for (let key in cenas[1]) {
-      b.push({
-        time:cenas[1][key].time ,
-        timeEnd: cenas[1][key].timeEnd,
-        imageUrl:cenas[1][key].imageUrl,
-        description: cenas[1][key].description,
-        name:cenas[1][key].name,
-        Enrolled: cenas[1][key].Enrolled,
-        MaxAttendees: cenas[1][key].MaxAttendees,
-        day: cenas[1][key].day
-      });
-    }
-    for (let key in cenas[2]) {
-      c.push({
-        time:cenas[2][key].time ,
-        timeEnd: cenas[2][key].timeEnd,
-        imageUrl:cenas[2][key].imageUrl,
-        description: cenas[2][key].description,
-        name:cenas[2][key].name,
-        Enrolled: cenas[2][key].Enrolled,
-        MaxAttendees: cenas[2][key].MaxAttendees,
-        day: cenas[2][key].day
-      });
-    }
-
-    for (let key in cenas[3]) {
-      d.push({
-        time:cenas[3][key].time ,
-        timeEnd: cenas[3][key].timeEnd,
-        imageUrl:cenas[3][key].imageUrl,
-        description: cenas[3][key].description,
-        name:cenas[3][key].name,
-        Enrolled: cenas[3][key].Enrolled,
-        MaxAttendees: cenas[3][key].MaxAttendees,
-        day: cenas[3][key].day
-      });
-    }
-    a=_.sortBy(a, function(o) { return o.time; });
-    b=_.sortBy(b, function(o) { return o.time; });
-    c=_.sortBy(c, function(o) { return o.time; });
-    d=_.sortBy(d, function(o) { return o.time; });
     dispatch({
-
       type: GET_EVENTS,
-      events:a,
-      day1:a,
-      day2:b,
-      day3:c,
-      day4:d
-
+      events: result.a,
+      day1: result.a,
+      day2: result.b,
+      day3: result.c,
+      day4: result.d
     });
   };
 }
@@ -653,54 +775,56 @@ export function login(user, pass) {
           logged: false,
           failedAttempt: true,
           tokenData: "error",
-          user: { Name: "" },
+          user: { Name: "" }
         });
       })
-      .catch(err=>{
-        console.log("error")
+      .catch(err => {
+        console.log("error");
       })
       .then(res => res.json())
       .then(parsed => {
-        console.log(parsed)
+        console.log(parsed);
         if (
           parsed.error_description ==
           "Provided username and password is incorrect"
         ) {
-          Alert.alert("Dados Inválidos","Podes sempre fazer reset da password para o email.")
-       
+          Alert.alert(
+            "Dados Inválidos",
+            "Podes sempre fazer reset da password para o email."
+          );
+
           dispatch({
             type: API_LOGIN,
             logged: false,
             failedAttempt: true,
             token: obj,
             user: { Name: "Henrique" },
-            userDetails:{},
-            waitLogin:false,
-            onHold:false
-            
+            userDetails: {},
+            waitLogin: false,
+            onHold: false
           });
           return;
-        }
-        else{
-        var obj = {
-          access_token: parsed.access_token,
-          expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
-          refreshToken: parsed.refresh_token,
-          valid: true
-        };
+        } else {
+          var obj = {
+            access_token: parsed.access_token,
+            expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
+            refreshToken: parsed.refresh_token,
+            valid: true
+          };
 
-        var details = {
-          username: user,
-          password: pass
-        };
-        dispatch({
-          type: API_LOGIN,
-          logged: true,
-          failedAttempt: false,
-          token: obj,
-          user: { Name: "Henrique" },
-          userDetails: details
-        });}
+          var details = {
+            username: user,
+            password: pass
+          };
+          dispatch({
+            type: API_LOGIN,
+            logged: true,
+            failedAttempt: false,
+            token: obj,
+            user: { Name: "Henrique" },
+            userDetails: details
+          });
+        }
       });
   };
 }

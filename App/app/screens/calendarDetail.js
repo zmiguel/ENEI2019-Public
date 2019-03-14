@@ -32,7 +32,9 @@ import Swiper from 'react-native-swiper';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
 import FitImage from 'react-native-fit-image';
+
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 const formatObj = (obj) => {
@@ -48,11 +50,12 @@ const formatObj = (obj) => {
 
 class calendarDetail extends React.Component {
 
+   
     static navigationOptions = ({navigation}) => ({
         header: (
             <NavAbsolute
                 navigation={navigation}
-                title={navigation.state.params.info.name}
+               // title={navigation.state.params.info.name}
             />
         ),
     });
@@ -65,6 +68,11 @@ class calendarDetail extends React.Component {
         this.props.getEvents(this.props.user);
         console.log('didMount');
         console.log(this.props.events);
+        const {navigation} = this.props;
+        const info = navigation.getParam('info', 'error');
+        console.log("putas")
+        console.log(info)
+        
     }
 
 
@@ -101,29 +109,35 @@ class calendarDetail extends React.Component {
     renderDescription = (info) => {
         return (
             <View>
-                <View style={styles.cardContainer}>
+                <View style={styles.header}>
                         <View style={{flexDirection: "row", alignItems: 'center', alignSelf:'center'}}>
-                            <Text style={styles.ramoText}>Onde está o ramo? xD </Text>
+
                             <View style={styles.timeText}>
                                 <Text style={{color: "#CC1A17", fontSize: 15}}>
                                     {info.time === info.timeEnd ? info.time : `${info.time} - ${info.timeEnd}`}
                                 </Text>
                             </View>
                         </View>
-
-                        <View style={styles.details}>
-                            <Text style={styles.nameAttendee}>Attendee Name</Text>
+                        <View><Text style={{margin:10,marginTop:0, fontSize:20, color:'#CC1A17'}}>{info.name}</Text></View>
+                     
+                        <View style={{margin:10}}>
+                          
                             <Progress.Bar color={'#000000'} progress={info.Enrolled / info.MaxAttendees} height={10}
                                           unfilledColor={'white'} width={210}/>
-                            <Text style={{alignSelf: "center"}}>{info.Enrolled} / {info.MaxAttendees}</Text>
+                            <Text >{info.Enrolled} / {info.MaxAttendees}</Text>
+                        </View>
+                        <Divider style={{backgroundColor: '#000'}}/>
+                        <View>
+                            <Text style={{fontSize:15, color:'#CC1A17', padding:10}}>Descrição</Text>
+                            <Text style={{paddingLeft:10, paddingRigh:10}}></Text>
                         </View>
                 </View>
 
-                <View style={styles.cardContainer}>
+                <View style={styles.block}>
                     <Text style={{fontSize: 20, color: "#CC1A17"}}>Descrição</Text>
                     <Divider style={{backgroundColor: '#000'}}/>
                     <View style={{marginTop: 10}}>
-                        <Text style={{fontSize: 10}}>
+                        <Text>
                             {info.description}
                         </Text>
                     </View>
@@ -131,7 +145,7 @@ class calendarDetail extends React.Component {
             </View>
         )
     };
-
+/*
 
     renderMap = () => {
         return (
@@ -153,7 +167,7 @@ class calendarDetail extends React.Component {
             />
         )
     };
-
+*/
     renderAttendee = () => {
         return (
             <View style={{backgroundColor: '#fff', height: SCREEN_HEIGHT * 0.1}}>
@@ -195,7 +209,7 @@ class calendarDetail extends React.Component {
     render() {
         const {navigation} = this.props;
         const info = navigation.getParam('info', 'error');
-        console.log(info);
+      
 
         return (
 
@@ -207,15 +221,15 @@ class calendarDetail extends React.Component {
                         </View>
                         {this.renderDescription(info)}
                     </View>
-                    <View style={styles.cardContainer}>
+                    <View style={styles.block}>
 
                         <Text style={{fontSize: 20, color: "#CC1A17"}}>Localização</Text>
                         <Divider style={{backgroundColor: '#000', marginBottom: 10}}/>
-                        {this.renderMap()}
+
                     </View>
                 </ScrollView>
                 <Divider style={{backgroundColor: 'black'}}/>
-                {this.renderAttendee()}
+               
             </View>
 
         )
@@ -225,6 +239,12 @@ class calendarDetail extends React.Component {
 
 const styles = StyleSheet.create({
 
+    block:{
+        marginTop:15,
+
+        backgroundColor:'white',
+        padding:20
+    },
     AttendeeContainer: {
         flexDirection: 'row',
         height: 55,
@@ -284,8 +304,8 @@ const styles = StyleSheet.create({
     ramoText: {
         alignSelf: 'flex-start',
         marginBottom: 5,
-        color: '#000',
-        fontSize: 20,
+        color: 'white',
+        fontSize: 17,
         fontWeight: '400',
     },
 
@@ -308,10 +328,17 @@ const styles = StyleSheet.create({
         //marginBottom: 55,
     },
 
+    header:{
+        flex: 1,
+        padding: 10,
+        backgroundColor: 'white',
+        borderRadius: 0,
+        
+    },
     cardContainer: {
         flex: 1,
         padding: 10,
-        margin: 20,
+       //    margin: 20,
         backgroundColor: 'white',
         borderRadius: 5,
     },
@@ -410,7 +437,8 @@ function mapStateToProps(state, props) {
         token: state.apiReducer.token,
         user: state.apiReducer.user,
         logged: state.apiReducer.logged,
-        events: state.apiReducer.events
+        events: state.apiReducer.events,
+        careerPath: state.apiReducer.careerPath,
 
     }
 }

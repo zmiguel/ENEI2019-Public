@@ -36,7 +36,8 @@ import Profile from "./screens/Profile";
 import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
 import calendarDetail from './screens/calendarDetail';
-
+import FebradaDetail from './screens/FebradaDetail';
+import resetPassword from './screens/resetPassword';
 
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
@@ -104,10 +105,7 @@ const AppStack = createBottomTabNavigator(
 
     },
     {
-        //initialRouteName: 'Home',
         initialRouteName: 'Eventos',
-
-        //initialRouteName: 'Calendário',
 
         tabBarOptions: {
             showLabel: true, // hide labels
@@ -125,7 +123,8 @@ const Stack = createStackNavigator({
         screen: AppStack,
         navigationOptions: ({navigation}) => {
             const index = navigation.state.index;
-
+            
+          
             if (navigation.state.routes[index].routeName == 'Home') {
                 return {
                     headerTitle: `${navigation.state.routes[index].routeName}`,
@@ -205,7 +204,13 @@ const Stack = createStackNavigator({
     calendarDetail: {
         screen: calendarDetail,
     },
+    FebradaDetail: {
+        screen: FebradaDetail,
+    },
 
+    resetPassword:{
+        screen:resetPassword
+    }
 });
 
 

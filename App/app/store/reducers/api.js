@@ -15,7 +15,9 @@ import {
   SIGN_SESSION,
   OPEN_MODAL,
   CLOSE_MODAL,
-  LOADINGLOGIN
+  LOADINGLOGIN,
+  REMOVE_SESSION,
+  UPDATE_USER,
   
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
@@ -42,13 +44,12 @@ let apiState = {
   sessions: {},
   Blocks: {},
   onHoldBlocks: true,
-  careerPath:{name:'Sem Career Path', color:'#eeeeee'},
-  a:{},
-  b:{},
-  c:{},
-  d:{},
-  loadingLogin:false,
- 
+  careerPath: { name: "Sem Career Path", color: "#eeeeee" },
+  a: {},
+  b: {},
+  c: {},
+  d: {},
+  loadingLogin: false
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -100,8 +101,11 @@ const apiReducer = (state = apiState, action) => {
         isConnected: action.isConnected
       });
 
+    case UPDATE_USER:
+      state = Object.assign({}, state, { user:action.user});
+      return state
     case LOADINGLOGIN:
-      state= Object.assign({}, state, {loadingLogin:true});
+      state = Object.assign({}, state, { loadingLogin: true });
 
     case HOLD:
       state = Object.assign({}, state, { onHold: true });
@@ -118,7 +122,7 @@ const apiReducer = (state = apiState, action) => {
           username: action.userDetails.username,
           password: action.userDetails.password
         },
-        loadingLogin:false,
+        loadingLogin: false,
         onHold: action.onHold
       });
 
@@ -137,7 +141,11 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case LOGOUT_USER:
-      state = Object.assign({}, state, { user:{}, userDetails:{}, logged:false});
+      state = Object.assign({}, state, {
+        user: {},
+        userDetails: {},
+        logged: false
+      });
 
       return state;
 
@@ -151,12 +159,28 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case GET_EVENTS:
-      state = Object.assign({}, state, { events: action.events , a:action.day1, b:action.day2, c:action.day3, d:action.day4});
+      state = Object.assign({}, state, {
+        events: action.events,
+        a: action.day1,
+        b: action.day2,
+        c: action.day3,
+        d: action.day4
+      });
 
       return state;
 
+    case REMOVE_SESSION:
+      state = Object.assign({}, state, {
+        sessions: action.sessions,
+        Blocks: action.Blocks,
+        careerPath: action.careerPath,
+        changingGuest: action.changingGuest,
+        user: action.user
+      });
+      return state;
+
     case OPEN_MODAL:
-    console.log("open modal")
+      console.log("open modal");
       state = Object.assign({}, state, {
         modalOpen: true,
         modalInfo: action.modalInfo,
@@ -173,13 +197,30 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case SIGN_SESSION:
-      state = Object.assign({}, state, {
+
+      if(action.sessions==undefined ||  action.Blocks==undefined || action.user==undefined){
+        state = Object.assign({}, state, {
+        
+          changingGuest: false,
+      
+        });
+      }
+      else{
+        
+           state = Object.assign({}, state, {
         sessions: action.sessions,
         Blocks: action.Blocks,
         careerPath: action.careerPath,
-        changingGuest: action.changingGuest,
-        user:action.user
+        changingGuest: false,
+        user: action.user,
+        a:action.day1,
+        b:action.day2,
+        c:action.day3,
+        d:action.day4
       });
+      }
+  
+    
       return state;
 
     case SESSION_BLOCKS:

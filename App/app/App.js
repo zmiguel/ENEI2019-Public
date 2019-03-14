@@ -39,6 +39,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import Swiper from "react-native-swiper";
+import resetPassword from "./screens/resetPassword";
 var TimerMixin = require("react-timer-mixin");
 
 function handleConnectivityChange() {
@@ -46,6 +47,9 @@ function handleConnectivityChange() {
 }
 
 class App extends Component {
+
+ 
+
   handleConnectivityChange = isConnected => {
     this.setState({ isConnected });
   };
@@ -83,7 +87,9 @@ class App extends Component {
       UI_loginScannerActive: false,
       userDetails: { username: "", password: "" },
       isConnected: true,
-      modalOpen: false
+      modalOpen: false,
+      modalResetPassword:false,
+      resetText:''
     };
   }
   _print = () => {
@@ -123,6 +129,16 @@ class App extends Component {
       this.handleConnectivityChange
     );
   }
+  _toggle=()=>{
+    this.setState({modalResetPassword:false})
+  }
+  //faz call
+  _reset=()=>{
+    //fecha modal
+    this.props.resetPassword(this.props.userDetails.token,this.state.resetText), 
+    this.setState({modalResetPassword:false})
+    //faz call
+  }
 
   _keyboardDidShow() {
     //alert('Keyboard Shown');
@@ -142,7 +158,10 @@ class App extends Component {
   };
 
   render() {
+    
    
+
+
     if (!this.props.logged && this.props.onHold) {
       return (
         <View style={UtilStyles.containerLoading}>
@@ -158,6 +177,7 @@ class App extends Component {
         return <Router />;
       }
       return (
+        
         <View style={styles.slide2}>
           <Modal isVisible={this.props.UI_loginScannerActive}>
             <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -174,12 +194,48 @@ class App extends Component {
               />
             </View>
           </Modal>
+          <Modal
+            isVisible={this.state.modalResetPassword}
+            onBackdropPress={this._toggle}
+            onBackButtonPress={this._toggle}
+            animationInTiming={1100}
+            animationOutTiming={1100}
+            >
+            <View style={{  backgroundColor: "white" , padding:20,paddingBottom:0, alignItems:'center'}}>
+            <View>
+              <Text style={{textAlign:'center',fontSize:23, fontWeight:'bold', color:'#CC1A17', margin:30}}>Reset Password</Text>
+            <Text style={{textAlign:'center', }}>Deves introduzir o email com o qual efectuaste a compra do bilhete.</Text>
+            <TextInput
+              style={styles.resetPassword}
+              onFocus={this._print}
+              maxLength={50}
+              blurOnSubmit={true}
+          
+              onChangeText={r => this.setState({ resetText:r })}
+              clearButtonMode="always"
+              value={this.state.resetText}
+              clearTextOnFocus={true}
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder="Email ou Qr code"
+            />
+           
+              <Button
+                onPress={this._reset}
+                title={"Enviar"}
+              color={"#CC1A17"}
+              ></Button>
+                <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5}}> Caso tenhas problemas com este processo deves contactar a comissão organizadora atravês do email geral.</Text>
+           
+              </View>
+            </View>
+          </Modal>
           <View
             style={{
               width: "100%",
 
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
+              margin:20
             }}
           >
             <Image
@@ -203,10 +259,10 @@ class App extends Component {
                   <Icon
                     style={styles.searchIcon}
                     name="ios-qr-scanner"
-                    size={30}
+                    size={40}
                     color="#000"
                   />
-                  <Text>Scan QR</Text>
+
                 </View>
               </TouchableOpacity>
             </View>
@@ -225,13 +281,11 @@ class App extends Component {
               placeholder="Password"
             />
             { !this.props.loadingLogin &&
-            <RkButton
-              rkType="dark"
-              style={styles.loginBtn}
-              onPress={this._tryLogin}
-            >
-              Entrar
-            </RkButton>
+           <View style={{alignItems:'center', margin:20}}>
+           <TouchableOpacity  onPress={this._tryLogin} style={{backgroundColor:'#CC1A17',borderRadius:3}}>
+           <Text style={{color:'white', fontSize:20, margin:10, width:150,textAlign:'center',}}>Login</Text>
+           </TouchableOpacity>
+           </View>
             }
             {this.props.alignItems && 
                 <ActivityIndicator size="large" color="#0000ff" />
@@ -253,9 +307,9 @@ class App extends Component {
             <View style={styles.textRow}>
               <RkText rkType="primary3">Não sabes a password?</RkText>
               <RkButton rkType="clear" onPress={this.onSignUpButtonPressed}>
-                <TouchableOpacity>
-                  <RkText style={{ color: "red" }} kType="header6">
-                    Recuperar Password
+                <TouchableOpacity onPress={() => {this.setState({modalResetPassword:true})}}>
+                  <RkText style={{ color: "#CC1A17", fontWeight:'bold' }} kType="header6">
+                   Reset Password
                   </RkText>
                 </TouchableOpacity>
               </RkButton>
@@ -282,10 +336,30 @@ const overlayColor = "rgba(0,0,0,0.30)";
 
 const styles = {
   cameraContainer: {
-    //  height: Dimensions.get('window').height ,
+      height: Dimensions.get('window').height ,
+  },
+  resetPassword:{
+  
+    
+
+    borderColor: "#bfbdbd",
+    borderWidth: 1,
+    margin:20,
+    marginTop: 60,
+    marginBottom: 60,
+
+    width: SCREEN_WIDTH * 0.8,
+
+    backgroundColor: "white",
+
+    borderRadius: 3,
+    height: SCREEN_HEIGHT * 0.08,
+    borderColor: "#bfbdbd",
+    borderWidth: 1,
+    paddingLeft: SCREEN_WIDTH * 0.05
   },
   passwordInput: {
-    borderRadius: 90,
+  
 
     borderColor: "#bfbdbd",
     borderWidth: 1,
@@ -295,7 +369,7 @@ const styles = {
 
     backgroundColor: "white",
 
-    borderRadius: 90,
+    borderRadius: 3,
     height: SCREEN_HEIGHT * 0.08,
     borderColor: "#bfbdbd",
     borderWidth: 1,
@@ -307,15 +381,19 @@ const styles = {
   },
   scanQR: {
     //flexDirection: 'row',
-    paddingTop: 5,
+    flex:1,
+//paddingTop: 5,
     backgroundColor: 10,
+    alignItems:'center',
+  padding:5,
+  paddingRight:15,
 
-    width: 80,
-    paddingLeft: 10,
-    backgroundColor: "#f24b4b",
-    borderBottomRightRadius: 90,
-    borderTopRightRadius: 90,
-    height: "100%"
+    //width: 80,
+   // paddingLeft: 10,
+    backgroundColor: "#CC1A17",
+    borderBottomRightRadius: 3,
+    borderTopRightRadius: 3,
+   // height: "100%"
   },
   inputSection: {
     flexDirection: "row",
@@ -323,7 +401,7 @@ const styles = {
 
     backgroundColor: "white",
 
-    borderRadius: 90,
+    borderRadius: 3,
     height: SCREEN_HEIGHT * 0.08,
     borderColor: "#bfbdbd",
     borderWidth: 1
@@ -382,7 +460,8 @@ const styles = {
 
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 200
+    marginTop: 200,
+
   },
 
   logo2: {
