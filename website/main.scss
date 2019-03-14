@@ -892,6 +892,61 @@ hr {
 	}
 }
 
+#ctf{
+	 background-image: url("imgs/image.png");
+	text-align: center;
+	
+	
+	
+	h1 {
+		color: white;
+		margin-top: 80px;
+		margin-bottom: 50px;
+
+	}
+	.button-ctf {
+		&:hover {
+			border-color: #cc1a17;
+			background-color: white;
+			color: $grey;
+		}
+	}
+
+	
+	
+}
+
+
+.prectf-h1{
+	
+	@include font($mont-font, 20px, 22px, $grey);
+	font-weight: $semi-bold;
+	text-transform: uppercase;
+	margin-bottom:100px;
+	@include portable {
+		font-size: 17px;
+	}
+	@include mobile {
+		margin-bottom: 5px;
+	}
+	color: #cc1a17;
+}
+.button-ctf{
+	
+		font-family: "Bai Jamjuree", sans-serif;
+		font-size: 18px;
+		line-height: 14px;
+		color: #CC1A17;
+		font-weight: 700;
+		text-transform: uppercase;
+		border: 1px solid #eeeeee;
+		padding: 20px 40px;
+		margin: 200;
+		transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+		-webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+	
+
+}
 #faqs,
 #tickets {
 	background: url("imgs/cubes2-image.png") no-repeat bottom right;
