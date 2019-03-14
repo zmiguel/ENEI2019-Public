@@ -183,6 +183,7 @@ const Stack = createStackNavigator({
                 return {
                     headerTitle: 'Eventos',
                 }
+
             }
             else {
                 return {
@@ -206,7 +207,6 @@ const Stack = createStackNavigator({
     FebradaDetail: {
         screen: FebradaDetail,
     },
-
 
     resetPassword:{
         screen:resetPassword
