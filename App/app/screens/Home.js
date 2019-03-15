@@ -78,7 +78,7 @@ class Home extends Component {
 
     //console.log(this.props.token);
 
-    this.props.getUserInfo(this.props.userDetails.token);
+    this.props.getUserInfo(this.props.token);
 
     //console.log('logged:'+this.props.logged);
 
@@ -97,7 +97,7 @@ class Home extends Component {
     //var navigate  = this.props.navigation.navigate
   }
   _update = () => {
-    this.props.getUserInfo(this.props.userDetails.token);
+    this.props.getUserInfo(this.props.token);
   };
 
   render() {

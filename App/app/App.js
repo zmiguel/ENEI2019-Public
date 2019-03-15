@@ -81,7 +81,7 @@ class App extends Component {
       logged: false,
       isModalVisible: false,
       state: { text: "" },
-      username: "QR code",
+      username: "QR code ou",
       failedAttempt: false,
       push: 4,
       UI_loginScannerActive: false,
@@ -105,23 +105,13 @@ class App extends Component {
 
   componentDidMount() {
     //this.props.hold();
-    this.props.loginInternal();
-    NetInfo.isConnected.addEventListener(
-      "connectionChange",
-      this.handleConnectivityChange
-    );
+   // this.props.loginInternal();
+
 
     this.setState({ isModalVisible: false });
     //verifica se o utilizador tem token guardado
-    this.props.checkUser(this.props.userDetails);
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      this._keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      this._keyboardDidHide
-    );
+    this.props.checkUser(this.props.token);
+   
   }
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener(
@@ -135,7 +125,7 @@ class App extends Component {
   //faz call
   _reset=()=>{
     //fecha modal
-    this.props.resetPassword(this.props.userDetails.token,this.state.resetText), 
+    this.props.resetPassword(this.props.token,this.state.resetText), 
     this.setState({modalResetPassword:false})
     //faz call
   }
@@ -249,7 +239,7 @@ class App extends Component {
                 style={styles.input}
                 placeholder={this.state.username}
                 onChangeText={searchString => {
-                  this.setState({ searchString });
+                  this.setState({ username:searchString });
                 }}
                 maxLength={15}
                 underlineColorAndroid="transparent"
