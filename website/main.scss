@@ -360,6 +360,12 @@ select {
 	margin-left: 25px;
 }
 
+.vertically-aligned{
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .btn {
 	display: block;
 }
@@ -1015,8 +1021,8 @@ hr {
 		}
 	}
 	.sponsor-image {
-		display: block;
-		margin: 40px auto 0;
+		display: inline-block;
+		margin: 40px 20px 0;
 		max-width: 200px;
 		filter: grayscale(0.2);
 		transform: scale(1);
@@ -1024,6 +1030,10 @@ hr {
 		&:hover {
 			filter: grayscale(0);
 			transform: scale(1.03);
+		}
+		@include mobile{
+			max-width: 160px;
+			margin: 40px 15px 0;
 		}
 	}
 	.gold {

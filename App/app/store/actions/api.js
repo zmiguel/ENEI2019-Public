@@ -35,9 +35,8 @@ import { colors } from "react-native-elements";
 
 const axios = require("axios");
 
-axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
+axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
-//http://enei2019.uingress.com/internal/api/Attendee/Edit
 
 const map = require("lodash/fp/map").convert({ cap: false });
 
@@ -49,32 +48,118 @@ export function waitLogin() {
   };
 }
 
-export function changePassword(token, old, new1, new2) {
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
-  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
+var checkAndRefresh = function(token) {
+  return new Promise(function(resolve, reject) {
+    //verificar se já expirou a validade do token
+    if (token == undefined || token.access_token == undefined) {
+      reject("user logged out");
+      console.log("fds");
+    } else if (
+      Math.round(new Date().getTime() / 1000) >= token.expirationDateToken
+    ) {
+      console.log("vai renovar");
+      var obj;
 
-  return dispatch => {
-    if (new1 != new2) {
-      Alert.alert("ERRO!", "As passords são diferentes...");
-    } else {
-      axios
-        .post("/User/ChangePassword", {
-          OldPassword: old,
-          NewPassword: new1
+      var details = {
+        refresh_token: token.refresh_token,
+        grant_type: "refresh_token"
+      };
+
+      var formBody = [];
+
+      for (var property in details) {
+        var encodedKey = encodeURIComponent(property);
+
+        var encodedValue = encodeURIComponent(details[property]);
+
+        formBody.push(encodedKey + "=" + encodedValue);
+      }
+
+      formBody = formBody.join("&");
+
+      fetch("https://tickets.enei.pt/internal/api/token", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+
+        body: formBody
+      })
+        .catch(err => {
+          console.log(err);
+          alert("Erro no login!!");
+
+          alert("error");
+          reject("ERRRO");
         })
-        .then(a => {
-          Alert.alert("Sucesso!", "Password alterada com sucesso")
-        })
-        .catch(p => {
-          Alert.alert("ERRO!", "Erro a alterar a password.\nA palavra original é inválida...\nCaso o erro persista verifica a tua conexão à internet e tenta novamente")
+        .then(res => res.json())
+        .then(parsed => {
+          if (parsed.error == "invalid_grant") {
+            reject("erro");
+          } else {
+            var obj = {
+              access_token: parsed.access_token,
+              refresh_token: parsed.refresh_token,
+              expirationDateToken:
+                Math.round(new Date().getTime() / 1000) + 3598
+            };
+            resolve(obj);
+            console.log(parsed);
+          }
         });
-
-      dispatch({
-        type: OPEN_MODAL
-      });
+    } else {
+      console.log(
+        "Tempo restante token: " +
+          Math.round(
+            (token.expirationDateToken -
+              Math.round(new Date().getTime() / 1000)) /
+              60
+          ) +
+          " Minutos"
+      );
+      resolve(token);
     }
+  });
+};
+
+export function changePassword(token, old, new1, new2) {
+  return dispatch => {
+    axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+    checkAndRefresh(token)
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
+        if (new1 != new2) {
+          Alert.alert("ERRO!", "As passords são diferentes...");
+        } else {
+          axios
+            .post("/User/ChangePassword", {
+              OldPassword: old,
+              NewPassword: new1
+            })
+            .then(a => {
+              Alert.alert("Sucesso!", "Password alterada com sucesso");
+            })
+            .catch(p => {
+              Alert.alert(
+                "ERRO!",
+                "Erro a alterar a password.\nA palavra original é inválida...\nCaso o erro persista verifica a tua conexão à internet e tenta novamente"
+              );
+            });
+
+          dispatch({
+            type: OPEN_MODAL
+          });
+        }
+      })
+      .catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
+      });
   };
 }
 //faz autenticação com API interna
@@ -120,29 +205,43 @@ export function closeModal() {
 }
 
 export function updateUser(token, user) {
-  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
   return dispatch => {
-    axios
-     
-    .post("/Attendee/Edit", user)
-     
-      .then(a => {
-        
-        Alert.alert("Sucesso", "As informações pessoais foram guardadas com sucesso.")
-  
-     console.log(a.data)
-        dispatch({
-          type: UPDATE_USER,
-           user:a.data
-        });
+    checkAndRefresh(token)
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
+        axios
+
+          .post("/Attendee/Edit", user)
+
+          .then(a => {
+            Alert.alert(
+              "Sucesso",
+              "As informações pessoais foram guardadas com sucesso."
+            );
+
+            console.log(a.data);
+            dispatch({
+              type: UPDATE_USER,
+              user: a.data
+            });
+          })
+          .catch(b => {
+            Alert.alert(
+              "ERRO!",
+              "Ocorreu um erro a guardar os dados pessoais."
+            );
+            alert(b);
+          });
       })
-      .catch(b => {
-        Alert.alert("ERRO!","Ocorreu um erro a guardar os dados pessoais.")
-        alert(b)
+      .catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
       });
   };
 }
@@ -199,17 +298,20 @@ export const connectionState = status => {
 };
 
 export function removeSession(user, token, idSession) {
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
 
-  var obj = {
+   var obj = {
     IdSession: idSession,
     Direction: 0
   };
 
   return dispatch => {
     //adiciona participante a uma palestra
+    checkAndRefresh(token)
+    .then(newToken => {
+    axios.defaults.headers.common = {
+      Authorization: `bearer ${newToken.access_token}`
+    };
+  
     axios
       .post("/Session/RemoveAttendee", obj)
       //se não existir erro na chamada...
@@ -273,14 +375,19 @@ export function removeSession(user, token, idSession) {
       .catch(b => {
         alert("Erro a inscrever na palestra");
       });
+    })
+    .catch(err => {
+      Alert.alert(
+        "Token ERROR!",
+        "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+      );
+    });
   };
 }
 
 //inscrição em palestra através de ID
 export function signSession(user, token, idSession) {
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
+ 
 
   var obj = {
     IdSession: idSession,
@@ -288,6 +395,13 @@ export function signSession(user, token, idSession) {
   };
 
   return dispatch => {
+
+    checkAndRefresh(token)
+    .then(newToken => {
+      axios.defaults.headers.common = {
+        Authorization: `bearer ${newToken.access_token}`
+      };
+
     //adiciona participante a uma palestra
     axios
       .post("/Session/AddAttendee", obj)
@@ -318,7 +432,7 @@ export function signSession(user, token, idSession) {
                 "Sucesso",
                 "Inscrição na sessão efectuada com sucesso"
               );
-              console.log("aqui1")
+              console.log("aqui1");
               //obter informações pessoais:
               axios
                 .get("/Attendee/Detail")
@@ -327,7 +441,7 @@ export function signSession(user, token, idSession) {
                   alert(error);
                 })
                 .then(sucess => {
-                  console.log("aqui2")
+                  console.log("aqui2");
                   var result = getE(user);
                   dispatch({
                     type: SIGN_SESSION,
@@ -358,16 +472,28 @@ export function signSession(user, token, idSession) {
       .catch(b => {
         //   alert("Erro a inscrever na palestra");
       });
+    })
+    .catch(err => {
+      Alert.alert(
+        "Token ERROR!",
+        "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+      );
+    });
   };
 }
 
 export function getSessions(token) {
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
+  
 
   return dispatch => {
-    axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
+
+    checkAndRefresh(token)
+    .then(newToken => {
+      axios.defaults.headers.common = {
+        Authorization: `bearer ${newToken.access_token}`
+      };
+
+    axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
     axios.defaults.headers.common = {
       Authorization: `bearer ${token.access_token}`
@@ -405,15 +531,26 @@ export function getSessions(token) {
         alert("Error a obter sessões disponíveis!!");
         console.log(error);
       });
+    })
+    .catch(err => {
+      Alert.alert(
+        "Token ERROR!",
+        "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+      );
+    });
   };
 }
 
 export function getAvailableGuestlists(token) {
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
+  
 
   return dispatch => {
+
+    checkAndRefresh(token)
+    .then(newToken => {
+      axios.defaults.headers.common = {
+        Authorization: `bearer ${newToken.access_token}`
+      };
     axios
       .get("/Attendee/AvailableGuestlists")
       .then(function(response) {
@@ -430,6 +567,12 @@ export function getAvailableGuestlists(token) {
       })
       .then(function() {
         // always executed
+      });})
+      .catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
       });
   };
 }
@@ -444,32 +587,30 @@ export function getAvailableGuestlists(token) {
     15 - DS
 */
 export function changeGuestList(token, guestID) {
-  //http://enei2019.uingress.com/internal/api/Attendee/ChangeGuestlist/
+  
 
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
-
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
   return dispatch => {
+
+    checkAndRefresh(token)
+    .then(newToken => {
+      axios.defaults.headers.common = {
+        Authorization: `bearer ${newToken.access_token}`
+      };
+    
     var full = `/Attendee/ChangeGuestlist/${guestID}`;
 
     axios
       .get(full)
       .then(function(response) {
        
-        axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
-
-        axios.defaults.headers.common = {
-          Authorization: `bearer ${token.access_token}`
-        };
 
         axios
           .get("/Attendee/AvailableSessions")
 
           .then(function(response) {
-
             // handle success
-            
+
             //console.log(response);
 
             var cenas = [];
@@ -481,14 +622,12 @@ export function changeGuestList(token, guestID) {
             )(response.data);
 
             for (let key in result) {
-              
               result[key].option = 0;
               cenas.push(result[key]);
-              
             }
-            console.log("-.-.-..-.-.-.-.-.-.")
+            console.log("-.-.-..-.-.-.-.-.-.");
             console.log(cenas);
-            console.log("-.-.-..-.-.-.-.-.-.")
+            console.log("-.-.-..-.-.-.-.-.-.");
             dispatch({
               type: CHANGE_GUEST,
               sessions: response.data,
@@ -511,6 +650,11 @@ export function changeGuestList(token, guestID) {
       })
       .then(function() {
         // always executed
+      });}).catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
       });
   };
 }
@@ -539,15 +683,19 @@ export function getSessionBlocks(sessions) {
 }
 
 export function getAvailableSessions(token) {
-  //http://enei2019.uingress.com/internal/api/Attendee/AvailableSessions
 
-  axios.defaults.baseURL = "http://enei2019.uingress.com/internal/api";
 
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${token.access_token}`
-  };
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+
+  
 
   return dispatch => {
+
+    checkAndRefresh(token)
+    .then(newToken => {
+      axios.defaults.headers.common = {
+        Authorization: `bearer ${newToken.access_token}`
+      };
     axios
       .get("/Attendee/AvailableSessions")
       .then(function(response) {
@@ -576,88 +724,161 @@ export function getAvailableSessions(token) {
       .catch(function(error) {
         alert("Error a obter sessões disponíveis!!");
         console.log(error);
+      });})
+      .catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
       });
   };
 }
 
+
+//ESTA FUNÇÃO TEM MUITO CÓDIGO MAL FEITO...
+
 function getE(user) {
+
   var cenas = [];
   let events = [];
+  var alimentacao=[];
+  var alojamento=[];
+  var acesso=[]
   var i = 0;
+  console.log(user.Sessions)
   for (let key in user.Sessions) {
+
+    //se forem sessões de bilhete, adiciona a outra lista
+    if(
+      user.Sessions[key].Id==1 || //dia 12 de abril
+      user.Sessions[key].Id==22 || //jantar 12 de abril
+      user.Sessions[key].Id==23 || //almoço e jantar 13 de abril
+      user.Sessions[key].Id==24 || //almoço e jantar 14 de abril
+      user.Sessions[key].Id==25 || //almoço  15 de abril
+      user.Sessions[key].Id==26 || //alojamento 12 de abril
+      user.Sessions[key].Id==29 || //alojamento 13 de abril
+      user.Sessions[key].Id==31 || //alojamento 14 de abril
+      user.Sessions[key].Id==32 || //dia 13 de abril
+      user.Sessions[key].Id==33 || //dia 14 de abril
+      user.Sessions[key].Id==34 || //dia 15 de abril
+      user.Sessions[key].Id==35 || //jantar dia 12 de abril
+      user.Sessions[key].Id==36 || //jantar dia 13 de abril
+      user.Sessions[key].Id==37  //jantar dia 14 de abril
+      ){
+       // bilhete.push( user.Sessions[key])
+
+        if(user.Sessions[key].Id==1){
+         
+          acesso.push("dia 12")
+          
+        }
+        
+        if(user.Sessions[key].Id==22)
+          alimentacao.push("dia 12")
+        
+        if(user.Sessions[key].Id==23)
+          alimentacao.push("dia 13")
+        
+        if(user.Sessions[key].Id==24)
+          alimentacao.push("dia 14")
+        
+        if(user.Sessions[key].Id==25)
+          alimentacao.push("dia 15")
+        
+        if(user.Sessions[key].Id==26)
+         alojamento.push("dia 12")
+        if(user.Sessions[key].Id==29)
+        alojamento.push("dia 13")
+        if(user.Sessions[key].Id==31)
+        alojamento.push("dia 14")
+
+        if(user.Sessions[key].Id==32)
+       acesso.push("dia 13")
+        if(user.Sessions[key].Id==33)
+        acesso.push("dia 14")
+        if(user.Sessions[key].Id==34)
+        acesso.push("dia 15")
+
+  
+
+      }else{
+       
     events.push({
       key: i++,
       time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
       timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
       //lineColor:'#009688',
       imageUrl:
-        "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png",
+        "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/"+user.Sessions[key].Image,
       description: user.Sessions[key].Description,
       name: user.Sessions[key].Name,
       Enrolled: user.Sessions[key].Enrolled,
       MaxAttendees: user.Sessions[key].MaxAttendees,
       day: moment(user.Sessions[key].SessionStart).format("DD")
     });
-  }
+  }}
+  
+
+
+
   const result = flow(groupBy("day"))(events);
-
-  for (let key in result) {
-    cenas.push(result[key]);
-  }
-
   var a = [],
-    b = [],
-    c = [],
-    d = [];
+  b = [],
+  c = [],
+  d = [];
 
-  for (let key in cenas[0]) {
+
+
+  //MEU DEUS QUE É ISTO???
+
+  for (let key in result["12"]) {
     a.push({
-      time: cenas[0][key].time,
-      timeEnd: cenas[0][key].timeEnd,
-      imageUrl: cenas[0][key].imageUrl,
-      description: cenas[0][key].description,
-      name: cenas[0][key].name,
-      Enrolled: cenas[0][key].Enrolled,
-      MaxAttendees: cenas[0][key].MaxAttendees,
-      day: cenas[0][key].day
+      time: result["12"][key].time,
+      timeEnd: result["12"][key].timeEnd,
+      imageUrl:result["12"][key].imageUrl,
+      description: result["12"][key].description,
+      name:result["12"][key].name,
+      Enrolled: result["12"][key].Enrolled,
+      MaxAttendees: result["12"][key].MaxAttendees,
+      day: result["12"][key].day
     });
   }
 
-  for (let key in cenas[1]) {
+  for (let key in result["13"]) {
     b.push({
-      time: cenas[1][key].time,
-      timeEnd: cenas[1][key].timeEnd,
-      imageUrl: cenas[1][key].imageUrl,
-      description: cenas[1][key].description,
-      name: cenas[1][key].name,
-      Enrolled: cenas[1][key].Enrolled,
-      MaxAttendees: cenas[1][key].MaxAttendees,
-      day: cenas[1][key].day
+      time: result["13"][key].time,
+      timeEnd: result["13"][key].timeEnd,
+      imageUrl: result["13"][key].imageUrl,
+      description:result["13"][key].description,
+      name: result["13"][key].name,
+      Enrolled:result["13"][key].Enrolled,
+      MaxAttendees: result["13"][key].MaxAttendees,
+      day: result["13"][key].day
     });
   }
-  for (let key in cenas[2]) {
+  for (let key in result["14"]) {
     c.push({
-      time: cenas[2][key].time,
-      timeEnd: cenas[2][key].timeEnd,
-      imageUrl: cenas[2][key].imageUrl,
-      description: cenas[2][key].description,
-      name: cenas[2][key].name,
-      Enrolled: cenas[2][key].Enrolled,
-      MaxAttendees: cenas[2][key].MaxAttendees,
-      day: cenas[2][key].day
+      time: result["14"][key].time,
+      timeEnd: result["14"][key].timeEnd,
+      imageUrl: result["14"][key].imageUrl,
+      description: result["14"][key].description,
+      name:result["14"][key].name,
+      Enrolled: result["14"][key].Enrolled,
+      MaxAttendees: result["14"][key].MaxAttendees,
+      day: result["14"][key].day
     });
   }
 
-  for (let key in cenas[3]) {
+  for (let key in result["15"]) {
     d.push({
-      time: cenas[3][key].time,
-      timeEnd: cenas[3][key].timeEnd,
-      imageUrl: cenas[3][key].imageUrl,
-      description: cenas[3][key].description,
-      name: cenas[3][key].name,
-      Enrolled: cenas[3][key].Enrolled,
-      MaxAttendees: cenas[3][key].MaxAttendees,
-      day: cenas[3][key].day
+      time: result["15"][key].time,
+      timeEnd: result["15"][key].timeEnd,
+      imageUrl:result["15"][key].imageUrl,
+      description: result["15"][key].description,
+      name: result["15"][key].name,
+      Enrolled: result["15"][key].Enrolled,
+      MaxAttendees: result["15"][key].MaxAttendees,
+      day: result["15"][key].day
     });
   }
   a = _.sortBy(a, function(o) {
@@ -673,11 +894,13 @@ function getE(user) {
     return o.time;
   });
 
-  return { a, b, c, d };
+  console.log(alimentacao)
+  return { a, b, c, d ,ab:alimentacao, acc: acesso, al:alojamento};
 }
 
 export function getEvents(user) {
   var result = getE(user);
+  
   return dispatch => {
     dispatch({
       type: GET_EVENTS,
@@ -685,53 +908,13 @@ export function getEvents(user) {
       day1: result.a,
       day2: result.b,
       day3: result.c,
-      day4: result.d
+      day4: result.d,
+      alimentacao: result.ab,
+      acesso: result.acc,
+      alojamento: result.al
     });
   };
 }
-
-const saveToken = async token => {
-  try {
-    await AsyncStorage.setItem("refreshToken", token.refreshToken).catch(
-      a => {}
-    );
-    await AsyncStorage.setItem("userToken", token.access_token).catch(a => {});
-    await AsyncStorage.setItem(
-      "expirationDateToken",
-      token.expirationDateToken.toString()
-    ).catch(a => {});
-  } catch (error) {
-    // Error retrieving data
-    console.log(error.message);
-  }
-};
-
-const getToken = async () => {
-  obj = {};
-  try {
-    obj.access_token = (await AsyncStorage.getItem("userToken")) || "none";
-    obj.expirationDateToken =
-      (await AsyncStorage.getItem("expirationDateToken")) || "none";
-    obj.refreshToken = (await AsyncStorage.getItem("refreshToken")) || "none";
-  } catch (error) {
-    // Error retrieving data
-    console.log(error.message);
-  }
-  return obj;
-};
-
-const deleteToken = async () => {
-  try {
-    await AsyncStorage.removeItem("userToken");
-    await AsyncStorage.removeItem("expirationDateToken");
-    await AsyncStorage.removeItem("refreshToken");
-  } catch (error) {
-    // Error retrieving data
-    console.log(error.message);
-  }
-};
-
-const renewToken = refresh => {};
 
 export function login(user, pass) {
   return dispatch => {
@@ -755,7 +938,7 @@ export function login(user, pass) {
 
     formBody = formBody.join("&");
 
-    fetch("http://enei2019.uingress.com/internal/api/token", {
+    fetch("https://tickets.enei.pt/internal/api/token", {
       method: "POST",
 
       headers: {
@@ -808,7 +991,7 @@ export function login(user, pass) {
           var obj = {
             access_token: parsed.access_token,
             expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
-            refreshToken: parsed.refresh_token,
+            refresh_token: parsed.refresh_token,
             valid: true
           };
 
@@ -840,288 +1023,76 @@ export function hold() {
 export function getUserInfo(token) {
   return dispatch => {
     //TODO: verificar validade do token
+    checkAndRefresh(token)
+      .then(newToken => {
+        console.log('Chamada "getUserInfo"');
 
-    console.log('Chamada "getUserInfo"');
+        var obj = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${newToken.access_token}`
+          }
+        };
 
-    var obj = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token.access_token}`
-      }
-    };
+        fetch("https://tickets.enei.pt/internal/api/Attendee/Detail", obj)
+          .then(function(res) {
+            console.log(res);
+            let obj = JSON.parse(res._bodyText);
 
-    fetch("http://enei2019.uingress.com/internal/api/Attendee/Detail", obj)
-      .then(function(res) {
-        console.log(res);
-        let obj = JSON.parse(res._bodyText);
-
-        dispatch({ type: USER_INFO, user: obj, onHold: false, logged: true });
+            dispatch({
+              type: USER_INFO,
+              user: obj,
+              onHold: false,
+              logged: true,
+              token: newToken
+            });
+          })
+          .catch(function(res) {
+            console.log("erro");
+            //  dispatch({ type: USER_INFO,onHold:false});
+            alert("Erro a obter a informação pessoal.");
+          });
       })
-      .catch(function(res) {
-        console.log("erro");
-        //  dispatch({ type: USER_INFO,onHold:false});
-        alert("Erro a obter a informação pessoal.");
+      .catch(err => {
+        console.log("cenas da vida");
       });
   };
 }
 
 export function logoutUser() {
   return dispatch => {
-    deleteToken()
-      .then(a => {
-        console.log("token apagado");
+    console.log("token apagado");
+    dispatch({
+      type: LOGOUT_USER,
+      loggedIn: false,
+      tokenData: "error",
+      token: false
+    });
+  };
+}
+
+export function checkUser(token) {
+  return dispatch => {
+    checkAndRefresh(token)
+      .catch(err => {
+        Alert("ERRO a fazer login");
+        console.log(err);
         dispatch({
-          type: LOGOUT_USER,
-          loggedIn: false,
-          tokenData: "error",
-          token: false
+          type: CHECK_USER,
+          logged: true,
+          onHold: false,
+          userDetails: u,
+          token: obj
         });
       })
-      .catch(err => {
-        console.log("errors");
-      });
-  };
-}
-
-//
-function refreshToken() {
-  refresh = a.refreshToken;
-
-  //chamar funçao para renovar
-  console.log("expirou");
-
-  var details = {
-    grant_type: "refresh_token",
-    refresh_token: refresh
-  };
-
-  var formBody = [];
-
-  for (var property in details) {
-    var encodedKey = encodeURIComponent(property);
-
-    var encodedValue = encodeURIComponent(details[property]);
-
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-
-  formBody = formBody.join("&");
-
-  fetch("http://enei2019.uingress.com/internal/api/token", {
-    method: "POST",
-
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-    },
-
-    body: formBody
-  })
-    .then(res => res.json())
-    .then(parsed => {
-      console.log(parsed);
-
-      if (parsed.error == "invalid_grant") {
-        console.log(formBody);
-        dispatch({ type: CHECK_USER, token: "", logged: false, onHold: false });
-      } else {
-        var obj = {
-          access_token: parsed.access_token,
-          expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
-          refreshToken: parsed.refresh_token,
-          valid: true
-        };
-
-        // deleteToken();
-        saveToken(obj).then(a => {
-          console.log("Token guardado");
-          console.log(obj);
-          dispatch({
-            type: CHECK_USER,
-            token: obj,
-            logged: true,
-            onHold: false
-          });
-        });
-      }
-    })
-    .catch(a => {
-      console.log("erro na api");
-      dispatch({ type: CHECK_USER, token: "", logged: false, onHold: false });
-    });
-}
-
-refreshLogin = async (user, pass) => {
-  console.log("login");
-
-  console.log("user: " + user + " password: " + pass);
-
-  var details = {
-    username: user,
-    password: pass,
-    grant_type: "password"
-  };
-
-  var formBody = [];
-
-  for (var property in details) {
-    var encodedKey = encodeURIComponent(property);
-
-    var encodedValue = encodeURIComponent(details[property]);
-
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-
-  formBody = formBody.join("&");
-
-  fetch("http://enei2019.uingress.com/internal/api/token", {
-    method: "POST",
-
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-    },
-
-    body: formBody
-  })
-    .catch(err => {
-      console.log(err);
-
-      alert("error");
-    })
-    .then(res => res.json())
-    .then(parsed => {
-      if (
-        parsed.error_description ==
-        "Provided username and password is incorrect"
-      ) {
-        console.error("cenas da vida");
-      } else {
-        console.log(parsed);
-
-        var obj = {
-          access_token: parsed.access_token,
-          expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
-          refreshToken: parsed.refresh_token,
-          valid: true
-        };
-
-        go();
-        return obj;
-      }
-    });
-};
-
-go = t => {
-  dispatch({
-    type: CHECK_USER,
-    logged: true,
-    onHold: false,
-    user: { Name: "Henrique" },
-    token: t
-  });
-};
-
-export function checkUser(userDetails) {
-  var u = userDetails;
-
-  return dispatch => {
-    //verifica se existe utilizador em memória
-    if (
-      userDetails.username != undefined &&
-      userDetails.username != "" &&
-      userDetails.password != undefined &&
-      userDetails.password != ""
-    ) {
-      //verifica a validade do token
-      if (
-        Math.round(new Date().getTime() / 1000) >=
-        userDetails.token.expirationDateToken
-      ) {
-        var details = {
-          username: userDetails.username,
-          password: userDetails.password,
-          grant_type: "password"
-        };
-
-        var formBody = [];
-
-        for (var property in details) {
-          var encodedKey = encodeURIComponent(property);
-
-          var encodedValue = encodeURIComponent(details[property]);
-
-          formBody.push(encodedKey + "=" + encodedValue);
-        }
-
-        formBody = formBody.join("&");
-
-        fetch("http://enei2019.uingress.com/internal/api/token", {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-          },
-          body: formBody
-        })
-          .catch(err => {
-            alert("Erro a validar o utilizador");
-          })
-          .then(res => res.json())
-          .then(parsed => {
-            if (
-              parsed.error_description ==
-              "Provided username and password is incorrect"
-            ) {
-              alert("Ups, password ou utilizador errada");
-            } else {
-              console.log(parsed);
-
-              var obj = {
-                access_token: parsed.access_token,
-                expirationDateToken:
-                  Math.round(new Date().getTime() / 1000) + 3598,
-                refreshToken: parsed.refresh_token,
-                valid: true
-              };
-
-              dispatch({
-                type: CHECK_USER,
-                logged: true,
-                onHold: false,
-                userDetails: u,
-                token: obj
-              });
-            }
-          });
-      } else {
-        console.log(
-          "Tempo restante token: " +
-            Math.round(
-              (userDetails.token.expirationDateToken -
-                Math.round(new Date().getTime() / 1000)) /
-                60
-            ) +
-            " Minutos"
-        );
-
-        //dispatch home
+      .then(newToken => {
         dispatch({
           type: CHECK_USER,
           logged: true,
           onHold: false,
           user: { Name: "Henrique" },
-          userDetails: u
+          token: newToken
         });
-      }
-    }
-    //utilizador não existe em memória
-    else {
-      dispatch({
-        type: CHECK_USER,
-        logged: false,
-        onHold: false,
-        userDetails: u
       });
-      //dispatch menu de login
-    }
   };
 }

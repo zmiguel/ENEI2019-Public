@@ -77,8 +77,8 @@ class choosePath extends React.Component {
   };
   componentDidMount() {
     // this.props.getEvents(this.props.user);
-    this.props.getAvailableGuestlists(this.props.userDetails.token);
-    this.props.getSessions(this.props.userDetails.token);
+    this.props.getAvailableGuestlists(this.props.token);
+    this.props.getSessions(this.props.token);
     this._mount();
 
     //console.log('didMount');
@@ -120,10 +120,10 @@ class choosePath extends React.Component {
 
   _s() {
     
-    this.props.signSession(this.props.userDetails.token, item[index].Id);
+    this.props.signSession(this.props.token, item[index].Id);
   }
   getCareerPaths = () => {
-    this.props.getAvailableGuestlists(this.props.userDetails.token);
+    this.props.getAvailableGuestlists(this.props.token);
     console.log(this.props.calendar);
   };
   _keyExtractor = (item, index) => item.id;
@@ -265,13 +265,12 @@ class choosePath extends React.Component {
                 this.props.waitChangeGuest();
 
                 this.props.changeGuestList(
-                  this.props.userDetails.token,
+                  this.props.token,
                   itemValue
                 );
 
                 // this.props.waitChangeGuest();
-                // this.props.getAvailableSessions(this.props.userDetails.token);
-
+              
                 // this.props.waitChangeGuest();
 
                 //  this.props.getSessionBlocks(this.props.sessions)
@@ -328,7 +327,7 @@ class choosePath extends React.Component {
                                    
                                     this.props.removeSession(
                                       this.props.user,
-                                      this.props.userDetails.token,
+                                      this.props.token,
                                       item[index].Id
                                     );
                                   }}
@@ -350,7 +349,7 @@ class choosePath extends React.Component {
                                       //this.props.waitChangeGuest()
                                     this.props.signSession(
                                       this.props.user,
-                                      this.props.userDetails.token,
+                                      this.props.token,
                                       item[index].Id
                                     );
                                  
@@ -505,7 +504,8 @@ function mapStateToProps(state, props) {
     changingGuest: state.apiReducer.changingGuest,
     sessions: state.apiReducer.sessions,
     Blocks: state.apiReducer.Blocks,
-    showAlert: state.apiReducer.showAlert
+    showAlert: state.apiReducer.showAlert,
+    token: state.apiReducer.token
   };
 }
 

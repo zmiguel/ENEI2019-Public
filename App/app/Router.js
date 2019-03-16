@@ -105,7 +105,7 @@ const AppStack = createBottomTabNavigator(
 
     },
     {
-        initialRouteName: 'Eventos',
+        initialRouteName: 'Home',
 
         tabBarOptions: {
             showLabel: true, // hide labels
@@ -132,7 +132,7 @@ const Stack = createStackNavigator({
                         <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                           onPress={() => navigation.navigate('Profile')}>
 
-                            <Text>editar</Text>
+                            <Text>Editar dados</Text>
                             <IconFA name="user-edit" size={22}/>
 
                         </TouchableOpacity>
@@ -152,7 +152,7 @@ const Stack = createStackNavigator({
 
                             <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                               onPress={() => navigation.navigate('choosePath')}>
-                                <Text>Escolher</Text>
+                                <Text>Inscrições</Text>
                                 <IconFA name="user-edit" size={22}/>
                             </TouchableOpacity></View>
 
@@ -183,6 +183,7 @@ const Stack = createStackNavigator({
                 return {
                     headerTitle: 'Eventos',
                 }
+
             }
             else {
                 return {
@@ -206,7 +207,6 @@ const Stack = createStackNavigator({
     FebradaDetail: {
         screen: FebradaDetail,
     },
-
 
     resetPassword:{
         screen:resetPassword

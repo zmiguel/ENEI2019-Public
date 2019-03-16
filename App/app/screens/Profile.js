@@ -91,7 +91,7 @@ class Profile extends Component {
 
     _press=()=>{
         this.props.changePassword(
-            this.props.userDetails.token, 
+            this.props.token, 
             this.state.oldPass,
             this.state.new1,
             this.state.new2
@@ -163,7 +163,7 @@ class Profile extends Component {
         if (formValid) {
             console.log("data valid");
 
-            this.props.updateUser(this.props.userDetails.token, {
+            this.props.updateUser(this.props.token, {
                 Name: this.state.name,
                 Company: jobs,
                 LastName: curso,

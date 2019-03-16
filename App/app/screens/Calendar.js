@@ -47,7 +47,7 @@ class Calendar extends React.Component {
   componentDidMount() {
     this.props.getEvents(this.props.user);
 
-    this.props.getSessions(this.props.userDetails.token);
+    this.props.getSessions(this.props.token);
   }
 
   _openDetails = () => {
@@ -142,7 +142,7 @@ class Calendar extends React.Component {
   }
   _refresh=()=>{
     this.props.getEvents(this.props.user);
-    //this.props.getSessions(this.props.userDetails.token);
+    
   }
 
   render() {

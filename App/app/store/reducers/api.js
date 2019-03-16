@@ -36,7 +36,8 @@ let apiState = {
     password: "",
     token: {
       expirationDateToken: 0,
-      access_token: ""
+      access_token: "",
+      refresh_token:""
     }
   },
   calendar: {},
@@ -49,7 +50,10 @@ let apiState = {
   b: {},
   c: {},
   d: {},
-  loadingLogin: false
+  loadingLogin: false,
+  alimentacao:[],
+  acesso:[],
+  alojamento:[]
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -61,22 +65,31 @@ const apiReducer = (state = apiState, action) => {
 
         var expirationDateTokenA = 0;
         var access_tokenA = "";
+        var refresh_tokenA= "puta";
 
-        if (action.payload.apiReducer.userDetails.token != undefined) {
+        if (action.payload.apiReducer.token != undefined) {
           if (
-            action.payload.apiReducer.userDetails.token.expirationDateToken !=
+            action.payload.apiReducer.token.expirationDateToken !=
             undefined
           ) {
             expirationDateTokenA =
-              action.payload.apiReducer.userDetails.token.expirationDateToken;
+              action.payload.apiReducer.token.expirationDateToken;
           }
 
           if (
-            action.payload.apiReducer.userDetails.token.access_token !=
+            action.payload.apiReducer.token.access_token !=
             undefined
           ) {
             access_tokenA =
-              action.payload.apiReducer.userDetails.token.access_token;
+              action.payload.apiReducer.token.access_token;
+          }
+          if (
+            action.payload.apiReducer.token.refresh_token !=
+            undefined
+          ) {
+
+            refresh_tokenA =
+              action.payload.apiReducer.token.refresh_token;
           }
         }
 
@@ -88,11 +101,13 @@ const apiReducer = (state = apiState, action) => {
           userDetails: {
             token: {
               expirationDateToken: expirationDateTokenA,
-              access_token: access_tokenA
+              access_token: access_tokenA,
+              refresh_token:refresh_tokenA,
             },
             username: action.payload.apiReducer.userDetails.username,
             password: action.payload.apiReducer.userDetails.password
-          }
+          },
+        token:action.payload.apiReducer.token
         };
       }
 
@@ -123,19 +138,19 @@ const apiReducer = (state = apiState, action) => {
           password: action.userDetails.password
         },
         loadingLogin: false,
-        onHold: action.onHold
+        onHold: action.onHold,
+        token:action.token
       });
 
       return state;
 
     case CHECK_USER:
-      var u = action.userDetails;
-      if (action.token != undefined) u.token = action.token;
-
+      
       state = Object.assign({}, state, {
         logged: action.logged,
         onHold: action.onHold,
-        userDetails: u
+       // userDetails: u,
+        token:action.token
       });
 
       return state;
@@ -144,16 +159,20 @@ const apiReducer = (state = apiState, action) => {
       state = Object.assign({}, state, {
         user: {},
         userDetails: {},
+        token:{},
         logged: false
       });
 
       return state;
 
     case USER_INFO:
+     
       state = Object.assign({}, state, {
         user: action.user,
         loggedIn: action.loggedIn,
-        onHold: action.onHold
+        onHold: action.onHold,
+        token: action.token
+        
       });
 
       return state;
@@ -164,7 +183,11 @@ const apiReducer = (state = apiState, action) => {
         a: action.day1,
         b: action.day2,
         c: action.day3,
-        d: action.day4
+        d: action.day4,
+        alimentacao: action.alimentacao,
+        alojamento: action.alojamento,
+        acesso:action.acesso
+
       });
 
       return state;
