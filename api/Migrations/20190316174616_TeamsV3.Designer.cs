@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190316162716_cromos")]
-    partial class cromos
+    [Migration("20190316174616_TeamsV3")]
+    partial class TeamsV3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -267,7 +267,7 @@ namespace api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CapID");
+                    b.Property<string>("CapQR");
 
                     b.Property<int>("EventId");
 
@@ -278,8 +278,6 @@ namespace api.Migrations
                     b.Property<int>("Pontos");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CapID");
 
                     b.ToTable("Teams");
                 });
@@ -449,13 +447,6 @@ namespace api.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("api.Models.Team", b =>
-                {
-                    b.HasOne("api.Models.User", "Cap")
-                        .WithMany()
-                        .HasForeignKey("CapID");
                 });
 
             modelBuilder.Entity("api.Models.User", b =>

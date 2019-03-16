@@ -29,11 +29,12 @@ namespace api.Controllers
         
         // GET api/cromos/QR
         // GET cromos do user QR
-        [HttpGet]
+        [HttpGet("{QR}")]
         public async Task<List<Cromos>> GetCromos(string QR)
         {
             var usr = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == QR);
-            var usrCromos = usr.cromos.Split(",");
+            string[] usrCromos = usr.cromos.Substring(1).Split(",");
+            Console.WriteLine(usrCromos[0]);
             var allCromos = await context.Cromos.ToListAsync();
 
             List<Cromos> rList = new List<Cromos>();

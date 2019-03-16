@@ -41,7 +41,9 @@ namespace api.Controllers
             ScanReturn toReturn = new ScanReturn{tipo = -1};
 
             if(userAProcurar != null){
-                _mapper.Map(toReturn.user,userAProcurar);
+                UserForListDto ru = new UserForListDto();
+                _mapper.Map(userAProcurar,ru);
+                toReturn.user = ru;
                 toReturn.tipo=1;
                 return toReturn;
             }else{
@@ -59,7 +61,7 @@ namespace api.Controllers
                 return toReturn;
             }
 
-            return toReturn;
+            //return toReturn;
         }
 
     }

@@ -67,7 +67,7 @@ namespace api.Controllers
         public async Task<IActionResult> AddEventLoc(EventLocVisitedAdd EventLocVisitedData)
         {
           EventLoc Loc = await context.EventLocs.FirstOrDefaultAsync(a=>a.Id == EventLocVisitedData.EventLocID);
-          var userT = await context.Users.FirstOrDefaultAsync(u=>u.QRcode==EventLocVisitedData.USerQR);
+          var userT = await context.Users.Include(a=>a.team).FirstOrDefaultAsync(u=>u.QRcode==EventLocVisitedData.UserQR);
 
           if(userT.team == null){
             return StatusCode(403);
