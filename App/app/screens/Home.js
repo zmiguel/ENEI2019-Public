@@ -82,7 +82,8 @@ class Home extends Component {
 
     //console.log('logged:'+this.props.logged);
 
-    //console.log(th2is.props)
+    //console.log(th2is.props
+    this.props.getEvents(this.props.user);
   }
   componentWillUnmount() {}
 
@@ -98,6 +99,7 @@ class Home extends Component {
   }
   _update = () => {
     this.props.getUserInfo(this.props.token);
+    this.props.getEvents(this.props.user);
   };
 
   render() {
@@ -143,14 +145,46 @@ class Home extends Component {
               </ImageBackground>
 
               <View style={styles.userStats}>
-                <View style={{backgroundColor:'orange'}}>
-                <Text style={styles.userStatsTitle}>Informações Importantes</Text>
+                <View style={{ backgroundColor: "orange" }}>
+                  <Text style={styles.userStatsTitle}>
+                    O que inclui o meu bilhete?
+                  </Text>
+                </View>
+                <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
+                <View style={styles.colBilhete}>
+                  <Text style={styles.titleBilhete}>Acesso </Text>
+                <FlatList
+                  data={this.props.acesso}
+                  renderItem={({item}) => 
+                  <View style={styles.boxStyle}>
+                  <Text><IconFA name="check" size={18} color={'#CC1A17'}/>   {item}</Text>
+                  </View>}
+                />
+                </View>
+                <View style={styles.colBilhete}>
+                  <Text  style={styles.titleBilhete}>Alojamento</Text>
+<FlatList
+                  data={this.props.alojamento}
+                  renderItem={({item}) => 
+                  <View style={styles.boxStyle}>
+                  <Text><IconFA name="check" size={18} color={'#CC1A17'}/>   {item}</Text>
+                  </View>}
+                />      
+                </View>
+                <View style={styles.colBilhete}>
+                  <Text  style={styles.titleBilhete}>Alimentação</Text>
+                <FlatList
+            
+            data={this.props.alimentacao}
+            renderItem={({item}) => 
+            <View style={styles.boxStyle}>
+            <Text><IconFA name="check" size={18} color={'#CC1A17'}/>   {item}</Text>
+            </View>}
+          />
                 </View>
                 
-                <View style={styles.userStatsBox}>
-                  <Text style={{margin:10}}>Grupo de ....</Text>
-                  <Text style={{margin:10}}>Alojamento</Text>
-                </View>
+
+      </View>
               </View>
 
               <View>
@@ -162,32 +196,44 @@ class Home extends Component {
                     borderRadius: 3
                   }}
                 >
-                  <View style={{ backgroundColor: "#CC1A17" , flex:1, flexDirection:'row'}}>
-                    <View style={{width:'79%'}}>
-                    <Text
-                      style={{
-                        fontSize: 25,
-                        color: "white",
-                        margin: 10,
-                        fontWeight: "bold",
-                        marginBottom: 0
-                      }}
-                    >
-                      Os tones
-                    </Text>
-                    <Text
-                      style={{
-                        color: "white",
-                        marginLeft: 10,
-                        marginBottom: 5
-                      }}
-                    >
-                      5/6 elementos
-                    </Text>
+                  <View
+                    style={{
+                      backgroundColor: "#CC1A17",
+                      flex: 1,
+                      flexDirection: "row"
+                    }}
+                  >
+                    <View style={{ width: "79%" }}>
+                      <Text
+                        style={{
+                          fontSize: 25,
+                          color: "white",
+                          margin: 10,
+                          fontWeight: "bold",
+                          marginBottom: 0
+                        }}
+                      >
+                        Os tones
+                      </Text>
+                      <Text
+                        style={{
+                          color: "white",
+                          marginLeft: 10,
+                          marginBottom: 5
+                        }}
+                      >
+                        5/6 elementos
+                      </Text>
                     </View>
-                    <View style={{alignItems:'center', alignContent:'center',alignSelf:'center'}}>
-                        <IconFA name="plus"  color={'white'} size={30} />
-                        <Text style={{color:'white'}}>Adicionar</Text>
+                    <View
+                      style={{
+                        alignItems: "center",
+                        alignContent: "center",
+                        alignSelf: "center"
+                      }}
+                    >
+                      <IconFA name="plus" color={"white"} size={30} />
+                      <Text style={{ color: "white" }}>Adicionar</Text>
                     </View>
                   </View>
 
@@ -203,8 +249,7 @@ class Home extends Component {
                         </View>
 
                         <TouchableOpacity style={styles.userRemove}>
-                        
-                          <Text style={{fontWeight:'bold'}}>rm equipa</Text>
+                          <Text style={{ fontWeight: "bold" }}>rm equipa</Text>
                         </TouchableOpacity>
                       </View>
                       <Divider style={{ backgroundColor: "black" }} />
@@ -267,8 +312,6 @@ class Home extends Component {
                           <Text>remover</Text>
                         </TouchableOpacity>
                       </View>
-                     
-                      
                     </View>
                   </View>
                 </View>
@@ -288,21 +331,40 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-    userName:{
-        fontSize:16,
-        fontWeight:'bold'
-    },
+  titleBilhete:{
+    textAlign:'center',
+    fontSize:15,
+    fontWeight:'bold',
+    marginBottom:10
+  },
+  colBilhete:{
+    width:'33%',
+    padding:10
+  },
+  boxStyle: {
+    
+    
+   padding:10,
+    borderWidth: 1, 
+    marginBottom: 5,
+    borderColor:'#CC1A17'
+  
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: "bold"
+  },
   userRemove: {
     alignContent: "center",
     alignItems: "center",
-   
-    alignSelf:'center'
+
+    alignSelf: "center"
   },
   userT: {
     margin: 10,
 
-    width: "55%",
-   // backgroundColor: "red"
+    width: "55%"
+    // backgroundColor: "red"
   },
   userLogo: {
     paddingLeft: 10,
@@ -328,7 +390,7 @@ const styles = StyleSheet.create({
   },
   userStatsBox: {
     flex: 1,
-    backgroundColor:'white',
+    backgroundColor: "white",
     flexDirection: "row"
   },
   userBox: {
@@ -389,15 +451,15 @@ const styles = StyleSheet.create({
   },
   userStats: {
     backgroundColor: "white",
-    height: SCREEN_HEIGHT * 0.2,
-  //  padding: 10,
+    //height: SCREEN_HEIGHT * 0.2,
+    //  padding: 10,
     margin: 10,
     borderRadius: 5,
     marginTop: 10,
     marginBottom: 0
   },
   userStatsTitle: {
-    margin:10,
+    margin: 10,
     color: "white",
     fontSize: 17,
     fontWeight: "bold",
@@ -415,7 +477,11 @@ function mapStateToProps(state, props) {
     user: state.apiReducer.user,
     logged: state.apiReducer.logged,
     userDetails: state.apiReducer.userDetails,
-    onHold: state.apiReducer.onHold
+    onHold: state.apiReducer.onHold,
+    bilhete: state.apiReducer.bilhete,
+    alimentacao: state.apiReducer.alimentacao,
+    alojamento: state.apiReducer.alojamento,
+    acesso: state.apiReducer.acesso
   };
 }
 

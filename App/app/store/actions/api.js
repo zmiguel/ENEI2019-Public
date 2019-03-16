@@ -734,84 +734,151 @@ export function getAvailableSessions(token) {
   };
 }
 
+
+//ESTA FUNÇÃO TEM MUITO CÓDIGO MAL FEITO...
+
 function getE(user) {
+
   var cenas = [];
   let events = [];
+  var alimentacao=[];
+  var alojamento=[];
+  var acesso=[]
   var i = 0;
+  console.log(user.Sessions)
   for (let key in user.Sessions) {
+
+    //se forem sessões de bilhete, adiciona a outra lista
+    if(
+      user.Sessions[key].Id==1 || //dia 12 de abril
+      user.Sessions[key].Id==22 || //jantar 12 de abril
+      user.Sessions[key].Id==23 || //almoço e jantar 13 de abril
+      user.Sessions[key].Id==24 || //almoço e jantar 14 de abril
+      user.Sessions[key].Id==25 || //almoço  15 de abril
+      user.Sessions[key].Id==26 || //alojamento 12 de abril
+      user.Sessions[key].Id==29 || //alojamento 13 de abril
+      user.Sessions[key].Id==31 || //alojamento 14 de abril
+      user.Sessions[key].Id==32 || //dia 13 de abril
+      user.Sessions[key].Id==33 || //dia 14 de abril
+      user.Sessions[key].Id==34 || //dia 15 de abril
+      user.Sessions[key].Id==35 || //jantar dia 12 de abril
+      user.Sessions[key].Id==36 || //jantar dia 13 de abril
+      user.Sessions[key].Id==37  //jantar dia 14 de abril
+      ){
+       // bilhete.push( user.Sessions[key])
+
+        if(user.Sessions[key].Id==1){
+         
+          acesso.push("dia 12")
+          
+        }
+        
+        if(user.Sessions[key].Id==22)
+          alimentacao.push("dia 12")
+        
+        if(user.Sessions[key].Id==23)
+          alimentacao.push("dia 13")
+        
+        if(user.Sessions[key].Id==24)
+          alimentacao.push("dia 14")
+        
+        if(user.Sessions[key].Id==25)
+          alimentacao.push("dia 15")
+        
+        if(user.Sessions[key].Id==26)
+         alojamento.push("dia 12")
+        if(user.Sessions[key].Id==29)
+        alojamento.push("dia 13")
+        if(user.Sessions[key].Id==31)
+        alojamento.push("dia 14")
+
+        if(user.Sessions[key].Id==32)
+       acesso.push("dia 13")
+        if(user.Sessions[key].Id==33)
+        acesso.push("dia 14")
+        if(user.Sessions[key].Id==34)
+        acesso.push("dia 15")
+
+  
+
+      }else{
+       
     events.push({
       key: i++,
       time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
       timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
       //lineColor:'#009688',
       imageUrl:
-        "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/Vjkyj2hBg/welcome-white-sign-with-falling-colorful-confetti-animation-on-white-background_sglmmh3qm__F0013.png",
+        "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/"+user.Sessions[key].Image,
       description: user.Sessions[key].Description,
       name: user.Sessions[key].Name,
       Enrolled: user.Sessions[key].Enrolled,
       MaxAttendees: user.Sessions[key].MaxAttendees,
       day: moment(user.Sessions[key].SessionStart).format("DD")
     });
-  }
+  }}
+  
+
+
+
   const result = flow(groupBy("day"))(events);
-
-  for (let key in result) {
-    cenas.push(result[key]);
-  }
-
   var a = [],
-    b = [],
-    c = [],
-    d = [];
+  b = [],
+  c = [],
+  d = [];
 
-  for (let key in cenas[0]) {
+
+
+  //MEU DEUS QUE É ISTO???
+
+  for (let key in result["12"]) {
     a.push({
-      time: cenas[0][key].time,
-      timeEnd: cenas[0][key].timeEnd,
-      imageUrl: cenas[0][key].imageUrl,
-      description: cenas[0][key].description,
-      name: cenas[0][key].name,
-      Enrolled: cenas[0][key].Enrolled,
-      MaxAttendees: cenas[0][key].MaxAttendees,
-      day: cenas[0][key].day
+      time: result["12"][key].time,
+      timeEnd: result["12"][key].timeEnd,
+      imageUrl:result["12"][key].imageUrl,
+      description: result["12"][key].description,
+      name:result["12"][key].name,
+      Enrolled: result["12"][key].Enrolled,
+      MaxAttendees: result["12"][key].MaxAttendees,
+      day: result["12"][key].day
     });
   }
 
-  for (let key in cenas[1]) {
+  for (let key in result["13"]) {
     b.push({
-      time: cenas[1][key].time,
-      timeEnd: cenas[1][key].timeEnd,
-      imageUrl: cenas[1][key].imageUrl,
-      description: cenas[1][key].description,
-      name: cenas[1][key].name,
-      Enrolled: cenas[1][key].Enrolled,
-      MaxAttendees: cenas[1][key].MaxAttendees,
-      day: cenas[1][key].day
+      time: result["13"][key].time,
+      timeEnd: result["13"][key].timeEnd,
+      imageUrl: result["13"][key].imageUrl,
+      description:result["13"][key].description,
+      name: result["13"][key].name,
+      Enrolled:result["13"][key].Enrolled,
+      MaxAttendees: result["13"][key].MaxAttendees,
+      day: result["13"][key].day
     });
   }
-  for (let key in cenas[2]) {
+  for (let key in result["14"]) {
     c.push({
-      time: cenas[2][key].time,
-      timeEnd: cenas[2][key].timeEnd,
-      imageUrl: cenas[2][key].imageUrl,
-      description: cenas[2][key].description,
-      name: cenas[2][key].name,
-      Enrolled: cenas[2][key].Enrolled,
-      MaxAttendees: cenas[2][key].MaxAttendees,
-      day: cenas[2][key].day
+      time: result["14"][key].time,
+      timeEnd: result["14"][key].timeEnd,
+      imageUrl: result["14"][key].imageUrl,
+      description: result["14"][key].description,
+      name:result["14"][key].name,
+      Enrolled: result["14"][key].Enrolled,
+      MaxAttendees: result["14"][key].MaxAttendees,
+      day: result["14"][key].day
     });
   }
 
-  for (let key in cenas[3]) {
+  for (let key in result["15"]) {
     d.push({
-      time: cenas[3][key].time,
-      timeEnd: cenas[3][key].timeEnd,
-      imageUrl: cenas[3][key].imageUrl,
-      description: cenas[3][key].description,
-      name: cenas[3][key].name,
-      Enrolled: cenas[3][key].Enrolled,
-      MaxAttendees: cenas[3][key].MaxAttendees,
-      day: cenas[3][key].day
+      time: result["15"][key].time,
+      timeEnd: result["15"][key].timeEnd,
+      imageUrl:result["15"][key].imageUrl,
+      description: result["15"][key].description,
+      name: result["15"][key].name,
+      Enrolled: result["15"][key].Enrolled,
+      MaxAttendees: result["15"][key].MaxAttendees,
+      day: result["15"][key].day
     });
   }
   a = _.sortBy(a, function(o) {
@@ -827,11 +894,13 @@ function getE(user) {
     return o.time;
   });
 
-  return { a, b, c, d };
+  console.log(alimentacao)
+  return { a, b, c, d ,ab:alimentacao, acc: acesso, al:alojamento};
 }
 
 export function getEvents(user) {
   var result = getE(user);
+  
   return dispatch => {
     dispatch({
       type: GET_EVENTS,
@@ -839,7 +908,10 @@ export function getEvents(user) {
       day1: result.a,
       day2: result.b,
       day3: result.c,
-      day4: result.d
+      day4: result.d,
+      alimentacao: result.ab,
+      acesso: result.acc,
+      alojamento: result.al
     });
   };
 }

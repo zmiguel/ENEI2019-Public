@@ -50,7 +50,10 @@ let apiState = {
   b: {},
   c: {},
   d: {},
-  loadingLogin: false
+  loadingLogin: false,
+  alimentacao:[],
+  acesso:[],
+  alojamento:[]
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -180,7 +183,11 @@ const apiReducer = (state = apiState, action) => {
         a: action.day1,
         b: action.day2,
         c: action.day3,
-        d: action.day4
+        d: action.day4,
+        alimentacao: action.alimentacao,
+        alojamento: action.alojamento,
+        acesso:action.acesso
+
       });
 
       return state;
