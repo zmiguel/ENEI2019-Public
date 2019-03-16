@@ -22,7 +22,8 @@ import {
   OPEN_MODAL,
   LOADINGLOGIN,
   REMOVE_SESSION,
-  UPDATE_USER
+  UPDATE_USER,
+  SESSION_DETAIL
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -54,9 +55,7 @@ var checkAndRefresh = function(token) {
     if (token == undefined || token.access_token == undefined) {
       reject("user logged out");
       console.log("fds");
-    } else if (
-      Math.round(new Date().getTime() / 1000) >= token.expirationDateToken
-    ) {
+    } else if (Math.round(new Date().getTime() / 1000) >= token.expirationDateToken) {
       console.log("vai renovar");
       var obj;
 
@@ -95,17 +94,23 @@ var checkAndRefresh = function(token) {
         })
         .then(res => res.json())
         .then(parsed => {
+          console.log("parsed")
+          console.log(parsed)
+          console.log("parsed")
           if (parsed.error == "invalid_grant") {
+            console.log("Erro de invalid grant")
             reject("erro");
-          } else {
+          } 
+          else {
             var obj = {
               access_token: parsed.access_token,
               refresh_token: parsed.refresh_token,
               expirationDateToken:
                 Math.round(new Date().getTime() / 1000) + 3598
             };
-            resolve(obj);
+            
             console.log(parsed);
+            resolve(obj);
           }
         });
     } else {
@@ -204,6 +209,32 @@ export function closeModal() {
   };
 }
 
+export function getSessionDetails(token, sessionId){
+  http://enei2019.uingress.com/internal/api/Session/Detail/1
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+  return dispatch => {
+     checkAndRefresh(token)
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
+
+        axios.get(`/Session/Detail/${sessionId}`)
+        .then(result=>{
+          console.log(result.data)
+          dispatch({
+            type: SESSION_DETAIL,
+            sessionDetail: result.data,
+            token:newToken
+          });
+        }).catch(err=>{
+          Alert.alert("ERROR!!", "Aconteceu um erro a obter os detalhes da sessão.")
+          console.log(err)
+        })
+      })
+    }
+}
+
 export function updateUser(token, user) {
   axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
@@ -226,7 +257,8 @@ export function updateUser(token, user) {
             console.log(a.data);
             dispatch({
               type: UPDATE_USER,
-              user: a.data
+              user: a.data,
+              token: newToken
             });
           })
           .catch(b => {
@@ -354,9 +386,10 @@ export function removeSession(user, token, idSession) {
                     Blocks: cenas,
                     changeGuestList: false,
                     careerPath: careerPath,
-                    user: sucess.data
+                    user: sucess.data,
+                    token: newToken
                   });
-                  getEvents(user);
+                  getEvents(user,careerPath);
                 });
             })
             .catch(function(error) {
@@ -454,7 +487,8 @@ export function signSession(user, token, idSession) {
                     day1: result.a,
                     day2: result.b,
                     day3: result.c,
-                    day4: result.d
+                    day4: result.d,
+                    token:newToken
                   });
                 });
             })
@@ -523,7 +557,8 @@ export function getSessions(token) {
           type: GET_SESSIONS,
           sessions: response.data,
           Blocks: cenas,
-          careerPath: careerPath
+          careerPath: careerPath,
+          token: newToken
           //guests: response.data
         });
       })
@@ -558,7 +593,8 @@ export function getAvailableGuestlists(token) {
         console.log(response);
         dispatch({
           type: GET_CAREERS,
-          guests: response.data
+          guests: response.data,
+          token: newToken
         });
       })
       .catch(function(error) {
@@ -632,7 +668,8 @@ export function changeGuestList(token, guestID) {
               type: CHANGE_GUEST,
               sessions: response.data,
               Blocks: cenas,
-              careerPath: c
+              careerPath: c,
+              token:newToken
 
               //guests: response.data
             });
@@ -664,8 +701,7 @@ export function getSessionBlocks(sessions) {
 
   const result = flow(
     groupBy("SessionStart")
-    // map((Id) => ({Id})),
-    //tap(console.log)
+   
   )(sessions);
 
   return dispatch => {
@@ -706,8 +742,6 @@ export function getAvailableSessions(token) {
 
         const result = flow(
           groupBy("SessionStart")
-          // map((Id) => ({Id})),
-          //tap(console.log)
         )(response.data);
         for (let key in result) {
           cenas.push(result[key]);
@@ -717,8 +751,9 @@ export function getAvailableSessions(token) {
         dispatch({
           type: GET_SESSIONS,
           sessions: response.data,
+          Blocks: cenas,
+          token: newToken
 
-          Blocks: cenas
         });
       })
       .catch(function(error) {
@@ -737,8 +772,9 @@ export function getAvailableSessions(token) {
 
 //ESTA FUNÇÃO TEM MUITO CÓDIGO MAL FEITO...
 
-function getE(user) {
+function getE(user, careerPath) {
 
+  console.log("career path: ")
   var cenas = [];
   let events = [];
   var alimentacao=[];
@@ -805,6 +841,7 @@ function getE(user) {
        
     events.push({
       key: i++,
+      Id: user.Sessions[key].Id,
       time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
       timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
       //lineColor:'#009688',
@@ -833,6 +870,7 @@ function getE(user) {
 
   for (let key in result["12"]) {
     a.push({
+      Id: result["12"][key].Id,
       time: result["12"][key].time,
       timeEnd: result["12"][key].timeEnd,
       imageUrl:result["12"][key].imageUrl,
@@ -846,6 +884,7 @@ function getE(user) {
 
   for (let key in result["13"]) {
     b.push({
+      Id: result["13"][key].Id,
       time: result["13"][key].time,
       timeEnd: result["13"][key].timeEnd,
       imageUrl: result["13"][key].imageUrl,
@@ -858,6 +897,7 @@ function getE(user) {
   }
   for (let key in result["14"]) {
     c.push({
+      Id: result["14"][key].Id,
       time: result["14"][key].time,
       timeEnd: result["14"][key].timeEnd,
       imageUrl: result["14"][key].imageUrl,
@@ -871,6 +911,7 @@ function getE(user) {
 
   for (let key in result["15"]) {
     d.push({
+      Id: result["15"][key].Id,
       time: result["15"][key].time,
       timeEnd: result["15"][key].timeEnd,
       imageUrl:result["15"][key].imageUrl,
@@ -898,8 +939,8 @@ function getE(user) {
   return { a, b, c, d ,ab:alimentacao, acc: acesso, al:alojamento};
 }
 
-export function getEvents(user) {
-  var result = getE(user);
+export function getEvents(user,careerPath) {
+  var result = getE(user,careerPath);
   
   return dispatch => {
     dispatch({
@@ -1079,10 +1120,10 @@ export function checkUser(token) {
         console.log(err);
         dispatch({
           type: CHECK_USER,
-          logged: true,
+          logged: false,
           onHold: false,
           userDetails: u,
-          token: obj
+          token: false
         });
       })
       .then(newToken => {

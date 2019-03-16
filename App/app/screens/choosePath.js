@@ -156,6 +156,7 @@ class choosePath extends React.Component {
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
     <View>
         
@@ -364,7 +365,7 @@ class choosePath extends React.Component {
 
                               <TouchableOpacity
                                 onPress={() =>
-                                  this.props.navigation.navigate("febrada")
+                                  { navigate("calendarDetail", { info: item[index] })}
                                 }
                               >
                                 <View style={styles.sessionInfo}>

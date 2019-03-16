@@ -19,7 +19,8 @@ export {checkUser,
     waitLogin,
     removeSession,
     changePassword,
-    resetPassword
+    resetPassword,
+    getSessionDetails
     
 } from "./api"
 

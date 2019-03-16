@@ -18,7 +18,7 @@ import {
   LOADINGLOGIN,
   REMOVE_SESSION,
   UPDATE_USER,
-  
+  SESSION_DETAIL
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -31,13 +31,14 @@ let apiState = {
   events: [],
   showAlert: true,
   failedAttempt: false,
+  token:'',
   userDetails: {
     username: "",
     password: "",
     token: {
       expirationDateToken: 0,
       access_token: "",
-      refresh_token:""
+      refresh_token: ""
     }
   },
   calendar: {},
@@ -51,9 +52,10 @@ let apiState = {
   c: {},
   d: {},
   loadingLogin: false,
-  alimentacao:[],
-  acesso:[],
-  alojamento:[]
+  alimentacao: [],
+  acesso: [],
+  alojamento: [],
+  sessionDetail:{}
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -65,31 +67,21 @@ const apiReducer = (state = apiState, action) => {
 
         var expirationDateTokenA = 0;
         var access_tokenA = "";
-        var refresh_tokenA= "puta";
+        var refresh_tokenA = "puta";
 
         if (action.payload.apiReducer.token != undefined) {
           if (
-            action.payload.apiReducer.token.expirationDateToken !=
-            undefined
+            action.payload.apiReducer.token.expirationDateToken != undefined
           ) {
             expirationDateTokenA =
               action.payload.apiReducer.token.expirationDateToken;
           }
 
-          if (
-            action.payload.apiReducer.token.access_token !=
-            undefined
-          ) {
-            access_tokenA =
-              action.payload.apiReducer.token.access_token;
+          if (action.payload.apiReducer.token.access_token != undefined) {
+            access_tokenA = action.payload.apiReducer.token.access_token;
           }
-          if (
-            action.payload.apiReducer.token.refresh_token !=
-            undefined
-          ) {
-
-            refresh_tokenA =
-              action.payload.apiReducer.token.refresh_token;
+          if (action.payload.apiReducer.token.refresh_token != undefined) {
+            refresh_tokenA = action.payload.apiReducer.token.refresh_token;
           }
         }
 
@@ -102,12 +94,12 @@ const apiReducer = (state = apiState, action) => {
             token: {
               expirationDateToken: expirationDateTokenA,
               access_token: access_tokenA,
-              refresh_token:refresh_tokenA,
+              refresh_token: refresh_tokenA
             },
             username: action.payload.apiReducer.userDetails.username,
             password: action.payload.apiReducer.userDetails.password
           },
-        token:action.payload.apiReducer.token
+          token: action.payload.apiReducer.token
         };
       }
 
@@ -116,12 +108,19 @@ const apiReducer = (state = apiState, action) => {
         isConnected: action.isConnected
       });
 
+    case SESSION_DETAIL:
+      state = Object.assign({}, state, {
+        token: action.token,
+        sessionDetail: action.sessionDetail
+        });
+      return state;
+
     case UPDATE_USER:
-      state = Object.assign({}, state, { user:action.user});
-      return state
+      state = Object.assign({}, state, { user: action.user , toke: action.token});
+      return state;
     case LOADINGLOGIN:
       state = Object.assign({}, state, { loadingLogin: true });
-
+      return state;
     case HOLD:
       state = Object.assign({}, state, { onHold: true });
       return state;
@@ -139,18 +138,17 @@ const apiReducer = (state = apiState, action) => {
         },
         loadingLogin: false,
         onHold: action.onHold,
-        token:action.token
+        token: action.token
       });
 
       return state;
 
     case CHECK_USER:
-      
       state = Object.assign({}, state, {
         logged: action.logged,
         onHold: action.onHold,
-       // userDetails: u,
-        token:action.token
+        // userDetails: u,
+        token: action.token
       });
 
       return state;
@@ -159,20 +157,18 @@ const apiReducer = (state = apiState, action) => {
       state = Object.assign({}, state, {
         user: {},
         userDetails: {},
-        token:{},
+        token: {},
         logged: false
       });
 
       return state;
 
     case USER_INFO:
-     
       state = Object.assign({}, state, {
         user: action.user,
         loggedIn: action.loggedIn,
         onHold: action.onHold,
         token: action.token
-        
       });
 
       return state;
@@ -186,8 +182,7 @@ const apiReducer = (state = apiState, action) => {
         d: action.day4,
         alimentacao: action.alimentacao,
         alojamento: action.alojamento,
-        acesso:action.acesso
-
+        acesso: action.acesso
       });
 
       return state;
@@ -198,7 +193,8 @@ const apiReducer = (state = apiState, action) => {
         Blocks: action.Blocks,
         careerPath: action.careerPath,
         changingGuest: action.changingGuest,
-        user: action.user
+        user: action.user,
+        token: action.token
       });
       return state;
 
@@ -220,30 +216,29 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case SIGN_SESSION:
-
-      if(action.sessions==undefined ||  action.Blocks==undefined || action.user==undefined){
+      if (
+        action.sessions == undefined ||
+        action.Blocks == undefined ||
+        action.user == undefined
+      ) {
         state = Object.assign({}, state, {
-        
+          changingGuest: false
+        });
+      } else {
+        state = Object.assign({}, state, {
+          sessions: action.sessions,
+          Blocks: action.Blocks,
+          careerPath: action.careerPath,
           changingGuest: false,
-      
+          user: action.user,
+          a: action.day1,
+          b: action.day2,
+          c: action.day3,
+          d: action.day4,
+          token: action.token
         });
       }
-      else{
-        
-           state = Object.assign({}, state, {
-        sessions: action.sessions,
-        Blocks: action.Blocks,
-        careerPath: action.careerPath,
-        changingGuest: false,
-        user: action.user,
-        a:action.day1,
-        b:action.day2,
-        c:action.day3,
-        d:action.day4
-      });
-      }
-  
-    
+
       return state;
 
     case SESSION_BLOCKS:
@@ -258,7 +253,7 @@ const apiReducer = (state = apiState, action) => {
       var c = {
         guests: action.guests
       };
-      state = Object.assign({}, state, { calendar: c });
+      state = Object.assign({}, state, { calendar: c, token: action.token });
 
       return state;
 
@@ -267,7 +262,8 @@ const apiReducer = (state = apiState, action) => {
         changingGuest: false,
         sessions: action.sessions,
         Blocks: action.Blocks,
-        careerPath: action.careerPath
+        careerPath: action.careerPath,
+        token: action.token
       });
       return state;
 
@@ -278,11 +274,13 @@ const apiReducer = (state = apiState, action) => {
     case TIMERWAIT_CHANGE:
       state = Object.assign({}, state, { Blocks: true });
       return state;
+
     case GET_SESSIONS:
       state = Object.assign({}, state, {
         sessions: action.sessions,
         Blocks: action.Blocks,
-        careerPath: action.careerPath
+        careerPath: action.careerPath,
+        token: action.token
       });
       return state;
     default:
