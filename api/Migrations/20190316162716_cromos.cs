@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api.Migrations
 {
-    public partial class TeamsV2 : Migration
+    public partial class cromos : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -191,6 +191,30 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Cromos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    QRCode = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: true),
+                    DescLocked = table.Column<string>(nullable: true),
+                    DescUnlocked = table.Column<string>(nullable: true),
+                    DescMostrar = table.Column<string>(nullable: true),
+                    imgId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cromos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cromos_Photos_imgId",
+                        column: x => x.imgId,
+                        principalTable: "Photos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EventLocs",
                 columns: table => new
                 {
@@ -254,7 +278,8 @@ namespace api.Migrations
                     QRcode = table.Column<string>(nullable: true),
                     drinks = table.Column<int>(nullable: false),
                     food = table.Column<int>(nullable: false),
-                    teamID = table.Column<int>(nullable: true)
+                    teamID = table.Column<int>(nullable: true),
+                    cromos = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -335,6 +360,11 @@ namespace api.Migrations
                 name: "IX_AspNetUsers_teamID",
                 table: "AspNetUsers",
                 column: "teamID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cromos_imgId",
+                table: "Cromos",
+                column: "imgId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EventLocs_ImgId",
@@ -461,6 +491,9 @@ namespace api.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Cromos");
 
             migrationBuilder.DropTable(
                 name: "EventLocsVisited");

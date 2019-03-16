@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190309183026_TeamsV2")]
-    partial class TeamsV2
+    [Migration("20190316162716_cromos")]
+    partial class cromos
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,30 @@ namespace api.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("api.Models.Cromos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DescLocked");
+
+                    b.Property<string>("DescMostrar");
+
+                    b.Property<string>("DescUnlocked");
+
+                    b.Property<string>("Nome");
+
+                    b.Property<string>("QRCode");
+
+                    b.Property<int?>("imgId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("imgId");
+
+                    b.ToTable("Cromos");
                 });
 
             modelBuilder.Entity("api.Models.Event", b =>
@@ -300,6 +324,8 @@ namespace api.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<string>("cromos");
+
                     b.Property<int>("drinks");
 
                     b.Property<int>("food");
@@ -375,6 +401,13 @@ namespace api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("api.Models.Cromos", b =>
+                {
+                    b.HasOne("api.Models.Photo", "img")
+                        .WithMany()
+                        .HasForeignKey("imgId");
                 });
 
             modelBuilder.Entity("api.Models.EventLoc", b =>
