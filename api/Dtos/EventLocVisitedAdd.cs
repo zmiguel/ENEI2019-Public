@@ -8,7 +8,7 @@ namespace api.Dtos
     public class EventLocVisitedAdd
     {
         [Required]
-        public String USerQR{get;set;}    //User ID
+        public String UserQR{get;set;}    //User ID
 
         [Required]
         public int EventLocID{get;set;}      //Loc id

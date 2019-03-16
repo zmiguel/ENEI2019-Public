@@ -29,24 +29,26 @@ namespace api.Controllers
         
         // GET api/cromos/QR
         // GET cromos do user QR
-        [HttpGet]
+        [HttpGet("{QR}")]
         public async Task<List<Cromos>> GetCromos(string QR)
         {
-            var usr = await context.Users.Include(a=>a.cromos).FirstOrDefaultAsync(u=>u.QRcode == QR);
+            var usr = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == QR);
+            string[] usrCromos = usr.cromos.Substring(1).Split(",");
+            Console.WriteLine(usrCromos[0]);
             var allCromos = await context.Cromos.ToListAsync();
 
             List<Cromos> rList = new List<Cromos>();
             
             allCromos.ForEach(delegate(Cromos c){
-                usr.cromos.ForEach(delegate(int cid){
-                    if(c.Id == cid){    //user tem o cromo
+                for(int i=0;i<usrCromos.Length;i++){
+                    if(Int32.Parse(usrCromos[i])==c.Id){
                         Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescUnlocked,QRCode=c.QRCode,img=c.img};
                         rList.Add(toAdd);
                     }else{              //user NAO tem o cromo
                         Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescLocked,QRCode=c.QRCode,img=c.img};
                         rList.Add(toAdd);
                     }
-                });
+                }
             });
             return rList;
         }

@@ -36,28 +36,67 @@ namespace api.Controllers
         // GET api/teams
         // GET all teams
         [HttpGet]
-        public async Task<IActionResult> GetTeams()
+        public async Task<List<TeamToReturn>> GetTeams()
         {
-          var Teams = await _repo.GetTeams();
-          return Ok(Teams);
+          List<Team> allTeams = await context.Teams.ToListAsync();
+          List<TeamToReturn> rTeams = new List<TeamToReturn>();
+
+          for(var i = 0; i < allTeams.Count;i++){
+            TeamToReturn tR = new TeamToReturn();
+            _mapper.Map(allTeams[i],tR);
+            var usr = await context.Users.FirstOrDefaultAsync(a=>a.QRcode == allTeams[i].CapQR);
+            UserForListDto uT = new UserForListDto();
+            _mapper.Map(usr,uT);
+            tR.Cap = uT;
+            rTeams.Add(tR);
+          }
+
+          return rTeams;
         }
 
         // GET api/teams/e/[id]
         // GET all teams for event id
         [HttpGet("e/{id}")]
-        public async Task<IActionResult> GetTeamsEvent(int id)
+        public async Task<List<TeamToReturn>> GetTeamsEvent(int id)
         {
-          var Teams = await _repo.GetEventTeam(id);
-          return Ok(Teams);
+          List<Team> allTeams = await context.Teams.ToListAsync();
+          List<TeamToReturn> rTeam = new List<TeamToReturn>();
+          TeamToReturn tR = new TeamToReturn();
+
+          for(var i = 0; i < allTeams.Count;i++){
+             if(allTeams[i].EventId == id){
+                _mapper.Map(allTeams[i],tR);
+                var usr = await context.Users.FirstOrDefaultAsync(a=>a.QRcode == allTeams[i].CapQR);
+                UserForListDto uT = new UserForListDto();
+                _mapper.Map(usr,uT);
+                tR.Cap = uT;
+                rTeam.Add(tR);
+             }
+          }
+            
+          return rTeam;
         }
 
-        // GET api/teams/e/[id]
-        // GET all teams for event id
+        // GET api/teams/u/[id]
+        // GET all teams for user id
         [HttpGet("u/{QR}")]
-        public async Task<IActionResult> GetTeamsUser(String QR)
+        public async Task<TeamToReturn> GetTeamsUser(String QR)
         {
-          var Teams = await _repo.GetUserTeam(QR);
-          return Ok(Teams);
+          var rUsr = await context.Users.Include(b=>b.team).FirstOrDefaultAsync(a=>a.QRcode == QR);
+          List<Team> allTeams = await context.Teams.ToListAsync();
+          TeamToReturn rTeam = new TeamToReturn();
+
+          for(var i = 0; i < allTeams.Count;i++){
+             if(allTeams[i].Id == rUsr.team.Id){
+                _mapper.Map(allTeams[i],rTeam);
+                var usr = await context.Users.FirstOrDefaultAsync(a=>a.QRcode == allTeams[i].CapQR);
+                UserForListDto uT = new UserForListDto();
+                _mapper.Map(usr,uT);
+                rTeam.Cap = uT;
+             }
+          }
+            
+          return rTeam;
         }
 
         // POST api/teams/add
@@ -66,10 +105,10 @@ namespace api.Controllers
         public async Task<IActionResult> CreateTeam(TeamForAdd TeamAddDetails)
         {
 
-          User tCap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == TeamAddDetails.capQR);
+          User tCap = await context.Users.Include(a=>a.team).FirstOrDefaultAsync(u=>u.QRcode == TeamAddDetails.capQR);
           
           if(tCap.team == null){
-            Team tAdd = new Team{EventId = TeamAddDetails.EventId, Nome = TeamAddDetails.Nome, Cap = tCap, NMembros = 1, Pontos = 0};
+            Team tAdd = new Team{EventId = TeamAddDetails.EventId, Nome = TeamAddDetails.Nome, CapQR = tCap.QRcode, NMembros = 1, Pontos = 0};
 
             tCap.team = tAdd;
 
@@ -122,11 +161,11 @@ namespace api.Controllers
         public async Task<IActionResult> ChangeName(TeamChangeName NameChange)
         {
 
-          Team tEdit = await context.Teams.Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == NameChange.TeamID);
+          Team tEdit = await context.Teams.FirstOrDefaultAsync(t=>t.Id == NameChange.TeamID);
 
           User cap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == NameChange.UserQR);
 
-          if(cap == tEdit.Cap){
+          if(cap.QRcode == tEdit.CapQR){
             tEdit.Nome = NameChange.nome;
           }
 
@@ -144,11 +183,11 @@ namespace api.Controllers
         public async Task<IActionResult> DeleteTeam(TeamDelete DeleteData)
         {
 
-          Team tEdit = await context.Teams.Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == DeleteData.TeamID);
+          Team tEdit = await context.Teams.FirstOrDefaultAsync(t=>t.Id == DeleteData.TeamID);
 
           User cap = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == DeleteData.UserQR);
 
-          if(cap == tEdit.Cap){
+          if(cap.QRcode == tEdit.CapQR){
             context.Teams.Remove(tEdit);
             cap.team = null;
             context.Users.Update(cap);
@@ -167,9 +206,9 @@ namespace api.Controllers
 
           User rmMember = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == MemberToRemove.UserToRemoveQR);
 
-          Team tEdit = await context.Teams.Include(t=>t.Cap).FirstOrDefaultAsync(t=>t.Id == MemberToRemove.TeamID);
+          Team tEdit = await context.Teams.FirstOrDefaultAsync(t=>t.Id == MemberToRemove.TeamID);
 
-          if(rmMember == tEdit.Cap){
+          if(rmMember.QRcode == tEdit.CapQR){
             return StatusCode(403);
           }
 

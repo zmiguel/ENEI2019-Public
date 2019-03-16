@@ -85,6 +85,30 @@ namespace api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("api.Models.Cromos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DescLocked");
+
+                    b.Property<string>("DescMostrar");
+
+                    b.Property<string>("DescUnlocked");
+
+                    b.Property<string>("Nome");
+
+                    b.Property<string>("QRCode");
+
+                    b.Property<int?>("imgId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("imgId");
+
+                    b.ToTable("Cromos");
+                });
+
             modelBuilder.Entity("api.Models.Event", b =>
                 {
                     b.Property<int>("Id")
@@ -241,7 +265,7 @@ namespace api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CapID");
+                    b.Property<string>("CapQR");
 
                     b.Property<int>("EventId");
 
@@ -252,8 +276,6 @@ namespace api.Migrations
                     b.Property<int>("Pontos");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CapID");
 
                     b.ToTable("Teams");
                 });
@@ -297,6 +319,8 @@ namespace api.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("cromos");
 
                     b.Property<int>("drinks");
 
@@ -375,6 +399,13 @@ namespace api.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("api.Models.Cromos", b =>
+                {
+                    b.HasOne("api.Models.Photo", "img")
+                        .WithMany()
+                        .HasForeignKey("imgId");
+                });
+
             modelBuilder.Entity("api.Models.EventLoc", b =>
                 {
                     b.HasOne("api.Models.Photo", "Img")
@@ -414,13 +445,6 @@ namespace api.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("api.Models.Team", b =>
-                {
-                    b.HasOne("api.Models.User", "Cap")
-                        .WithMany()
-                        .HasForeignKey("CapID");
                 });
 
             modelBuilder.Entity("api.Models.User", b =>

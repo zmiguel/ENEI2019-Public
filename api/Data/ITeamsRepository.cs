@@ -7,11 +7,5 @@ namespace api.Data
 {
     public interface ITeamsRepository
     {
-      
-        Task<IEnumerable<Team>> GetTeams();
-        Task<List<Team>> GetEventTeam(int id);
-        Task<Team> GetUserTeam(String QR);
-      
-
     }
 }

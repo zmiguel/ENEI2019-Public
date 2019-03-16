@@ -39,7 +39,7 @@ namespace api.Data
 
         public async Task<IEnumerable<EventLoc>> GetEventLocs()
         {
-            var rEventLocs = await _context.EventLocs.ToListAsync();
+            var rEventLocs = await _context.EventLocs.Include(a=>a.Img).ToListAsync();
             
             return rEventLocs;
         }

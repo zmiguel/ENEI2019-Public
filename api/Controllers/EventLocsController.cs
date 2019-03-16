@@ -50,7 +50,7 @@ namespace api.Controllers
           return Ok(Teams);
         }
 
-        // GET api/EventLocs/[id]
+        // GET api/EventLocs/e/[id]
         [HttpGet("e/{id}")]
         public async Task<IActionResult> GetEventLocEvent(int id)
         {

@@ -13,6 +13,7 @@ namespace api.Helpers
             CreateMap<User, UserForDetailedDto>();
             CreateMap<Photo,PhotosForDetailedDto>();
             CreateMap<UserForUpdateDto,User>();
+            CreateMap<Team,TeamToReturn>();
         }
 
 
