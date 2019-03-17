@@ -19,7 +19,8 @@ import {
   REMOVE_SESSION,
   UPDATE_USER,
   SESSION_DETAIL,
-  GET_TEAM
+  GET_TEAM,
+GET_INTERNAL_EVENTS
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -58,8 +59,8 @@ let apiState = {
   alojamento: [],
   sessionDetail:{},
   team:{},
-  internalToken: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg"
-
+  internalToken: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg",
+  events:[]
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -105,9 +106,11 @@ const apiReducer = (state = apiState, action) => {
           },
           token: action.payload.apiReducer.token,
           team: action.payload.apiReducer.team,
+          events: action.payload.apiReducer.events
         };
       }
 
+   
     case "CHANGE_CONNECTION_STATUS":
       return Object.assign({}, state, {
         isConnected: action.isConnected
@@ -153,6 +156,10 @@ const apiReducer = (state = apiState, action) => {
       
   
       team: action.team
+    });
+    case GET_INTERNAL_EVENTS:
+    return Object.assign({}, state, {
+     events: action.events
     });
 
     return state;

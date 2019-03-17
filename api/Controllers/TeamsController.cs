@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos;
@@ -109,25 +110,27 @@ namespace api.Controllers
 
                     var users = await context.Users.ToListAsync();
 
-                    List<UserForListDto> usersToReturn= new List<UserForListDto>();
+                    List<UserForListDto> usersToReturn = new List<UserForListDto>();
 
-                    for (var t = 0; t < users.Count; t++){
-                      
-                      if(users[t].team!= null  && users[t].team.Id == allTeams[i].Id){
-                          
-                           UserForListDto u = new UserForListDto();
-                  
-                           _mapper.Map(users[t], u);
+                    for (var t = 0; t < users.Count; t++)
+                    {
 
-                          usersToReturn.Add(u);
-                      }
+                        if (users[t].team != null && users[t].team.Id == allTeams[i].Id)
+                        {
+
+                            UserForListDto u = new UserForListDto();
+
+                            _mapper.Map(users[t], u);
+
+                            usersToReturn.Add(u);
+                        }
                     }
 
                     UserForListDto uT = new UserForListDto();
 
                     _mapper.Map(usr, uT);
 
-                    rTeam.Membros= usersToReturn;
+                    rTeam.Membros = usersToReturn;
                     rTeam.Cap = uT;
 
                 }
@@ -253,32 +256,48 @@ namespace api.Controllers
         public async Task<IActionResult> RemoveTeamMember(TeamRemoveMEmber MemberToRemove)
         {
 
-            User rmMember = await context.Users.FirstOrDefaultAsync(u => u.QRcode == MemberToRemove.UserToRemoveQR);
+            Console.WriteLine(MemberToRemove.TeamID);
+            //obtem o user para remover
 
-            Team tEdit = await context.Teams.FirstOrDefaultAsync(t => t.Id == MemberToRemove.TeamID);
+            try
+            {
+                User rmMember = await context.Users.FirstOrDefaultAsync(u => u.QRcode == MemberToRemove.UserToRemoveQR);
 
-            if (rmMember.QRcode == tEdit.CapQR)
+                Console.WriteLine(rmMember.QRcode);
+               
+                //encontra a equipa de onde quer remover o user
+                Team tEdit = await context.Teams.FirstOrDefaultAsync(t => t.Id == MemberToRemove.TeamID);
+              
+                Console.WriteLine(tEdit.Nome);
+              
+                var id = 0;
+
+                if (rmMember.QRcode == tEdit.CapQR)
+                {
+                    return StatusCode(403);
+                }
+
+                if (rmMember.team == tEdit)
+                {
+                    tEdit.NMembros--;
+                    rmMember.team = null;
+
+                    context.Teams.Update(tEdit);
+                    context.Users.Update(rmMember);
+
+                    var result = context.SaveChanges();
+
+                    return StatusCode(201);
+                }
+                else
+                {
+                    return StatusCode(403);
+                }
+            }
+            catch (Exception e)
             {
                 return StatusCode(403);
             }
-
-            if (rmMember.team == tEdit)
-            {
-                tEdit.NMembros--;
-                rmMember.team = null;
-
-                context.Teams.Update(tEdit);
-                context.Users.Update(rmMember);
-
-                var result = context.SaveChanges();
-
-                return StatusCode(201);
-            }
-            else
-            {
-                return StatusCode(403);
-            }
-
         }
     }
 }

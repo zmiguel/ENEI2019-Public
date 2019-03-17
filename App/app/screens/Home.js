@@ -80,8 +80,7 @@ class Home extends Component {
     this.props.getUserInfo(this.props.token);
 
     console.log(this.props.internalToken)
-    this.props.getUserTeam(this.props.user, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg"
-    );
+    this.props.getUserTeam(this.props.user, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ"  );
     this.props.getEvents(this.props.user);
   }
   componentWillUnmount() {}
@@ -99,14 +98,18 @@ class Home extends Component {
   _update = () => {
     this.props.getUserInfo(this.props.token);
     this.props.getEvents(this.props.user);
+    this.props.getUserTeam(this.props.user,"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ" )
   };
   onSuccess=e=>{
     //fecha o scanner 
-    this.props.addUserTeam({id:this.props.team.id, newQr:e.data}, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg"
-    )
+    this.props.addUserTeam({id:this.props.team.id, newQr:e.data}, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ" )
     this.setState({addUser:!this.state.addUser})
     
   
+  }
+  _rm=(qr)=>{
+    this.props.removeUserTeam({TeamId: this.props.team.id, UserQR: this.props.team.cap.qRcode, UserToRemoveQR: qr},"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ"
+   )
   }
 _toggle=()=>{
   this.setState({addUser:!this.state.addUser})
@@ -302,8 +305,8 @@ _toggle=()=>{
                                 </Text>
                                 <Text>{item.qRcode}</Text>
                               </View>
-
-                              <TouchableOpacity style={styles.userRemove}>
+       
+                              <TouchableOpacity style={styles.userRemove}  onPress={()=>this._rm(item.qRcode)}>
                                 <Text style={{ fontWeight: "bold" }}>
                                   remover
                                 </Text>

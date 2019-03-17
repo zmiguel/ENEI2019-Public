@@ -24,7 +24,8 @@ import {
   REMOVE_SESSION,
   UPDATE_USER,
   SESSION_DETAIL,
-  GET_TEAM
+  GET_TEAM,
+  GET_INTERNAL_EVENTS
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -41,6 +42,71 @@ axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
 const map = require("lodash/fp/map").convert({ cap: false });
 
+
+export function getAllEvents(tokenInternal){
+
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
+  axios.defaults.baseURL = "http://127.0.0.1:5000/api";
+  return dispatch => {
+    axios
+      .get('/Events')
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+        dispatch({
+          type: GET_INTERNAL_EVENTS,
+          events:a.data
+        });
+      })
+      .catch(p => {
+
+        console.log(p);
+        Alert.alert("ERRO!", "erro a obter os eventos")
+      });
+
+    dispatch({
+      type: OPEN_MODAL
+    });
+  };
+}
+
+
+
+
+
+export function removeUserTeam(data, tokenInternal){
+
+  //remove/member
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
+
+axios.defaults.baseURL = "http://127.0.0.1:5000";
+return dispatch => {
+  axios
+    .post("/api/Teams/remove/member",data)
+    .then(a => {
+
+      if(a.status==201){
+        console.log("sucesso!");
+        console.log(a.data);
+        Alert.alert("Sucesso!","Elemento removido com sucesso!!")
+      }
+    
+    })
+    .catch(p => {
+      console.log(p);
+      Alert.alert("ERRO!!", "Erro a remover!")
+    });
+
+  dispatch({
+    type: OPEN_MODAL
+  });
+};
+}
+
 export function addUserTeam(data, tokenInternal){
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
@@ -48,13 +114,19 @@ export function addUserTeam(data, tokenInternal){
   axios.defaults.baseURL = "http://127.0.0.1:5000";
   return dispatch => {
     axios
-      .post("/api/add/member",data)
+      .post("/api/Teams/add/member",data)
       .then(a => {
-        console.log("sucesso!");
-        console.log(a.data);
+
+        if(a.status==201){
+          console.log("sucesso!");
+          console.log(a.data);
+          Alert.alert("Sucesso!","Elemento adicionado com sucesso!!")
+        }
+      
       })
       .catch(p => {
         console.log(p);
+        Alert.alert("ERRO!!", "Esse utlizador já se encontra numa equipa!!")
       });
 
     dispatch({

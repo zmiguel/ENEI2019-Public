@@ -9,8 +9,8 @@ namespace api.Models
 {
     public class User: IdentityUser<int>
     {
-      // public string fullName{get;set;}
-      // public string university{get;set;}
+       public string fullName{get;set;}
+       public string university{get;set;}
         public string QRcode{get;set;}
         public ICollection<UserRole> UserRoles{get;set;}
         public ICollection<Log> logsFebrada{get;set;}
