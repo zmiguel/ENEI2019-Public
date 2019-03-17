@@ -1,3 +1,11 @@
+//MINHA API
+
+export const GET_TEAM='GET_TEAM'
+
+
+
+
+
 
 
 //API BLUETREND

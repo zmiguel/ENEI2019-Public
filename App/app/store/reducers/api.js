@@ -18,7 +18,8 @@ import {
   LOADINGLOGIN,
   REMOVE_SESSION,
   UPDATE_USER,
-  SESSION_DETAIL
+  SESSION_DETAIL,
+  GET_TEAM
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -55,7 +56,10 @@ let apiState = {
   alimentacao: [],
   acesso: [],
   alojamento: [],
-  sessionDetail:{}
+  sessionDetail:{},
+  team:{},
+  internalToken: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg"
+
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -99,7 +103,8 @@ const apiReducer = (state = apiState, action) => {
             username: action.payload.apiReducer.userDetails.username,
             password: action.payload.apiReducer.userDetails.password
           },
-          token: action.payload.apiReducer.token
+          token: action.payload.apiReducer.token,
+          team: action.payload.apiReducer.team,
         };
       }
 
@@ -142,6 +147,15 @@ const apiReducer = (state = apiState, action) => {
       });
 
       return state;
+
+    case GET_TEAM:
+    state = Object.assign({}, state, {
+      
+  
+      team: action.team
+    });
+
+    return state;
 
     case CHECK_USER:
       state = Object.assign({}, state, {

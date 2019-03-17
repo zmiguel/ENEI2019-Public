@@ -20,7 +20,9 @@ export {checkUser,
     removeSession,
     changePassword,
     resetPassword,
-    getSessionDetails
+    getSessionDetails,
+    getUserTeam,
+    addUserTeam
     
 } from "./api"
 

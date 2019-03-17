@@ -23,7 +23,8 @@ import {
   LOADINGLOGIN,
   REMOVE_SESSION,
   UPDATE_USER,
-  SESSION_DETAIL
+  SESSION_DETAIL,
+  GET_TEAM
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -38,8 +39,56 @@ const axios = require("axios");
 
 axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
-
 const map = require("lodash/fp/map").convert({ cap: false });
+
+export function addUserTeam(data, tokenInternal){
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
+  axios.defaults.baseURL = "http://127.0.0.1:5000";
+  return dispatch => {
+    axios
+      .post("/api/add/member",data)
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a.data);
+      })
+      .catch(p => {
+        console.log(p);
+      });
+
+    dispatch({
+      type: OPEN_MODAL
+    });
+  };
+  add/member
+}
+
+export function getUserTeam(user, tokenInternal) {
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
+  axios.defaults.baseURL = "http://127.0.0.1:5000";
+  return dispatch => {
+    axios
+      .get(`/api/Teams/u/${user.Code}`)
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+        dispatch({
+          type: GET_TEAM,
+          team:a.data
+        });
+      })
+      .catch(p => {
+        console.log(p);
+      });
+
+    dispatch({
+      type: OPEN_MODAL
+    });
+  };
+}
 
 export function waitLogin() {
   return dispatch => {
@@ -55,7 +104,9 @@ var checkAndRefresh = function(token) {
     if (token == undefined || token.access_token == undefined) {
       reject("user logged out");
       console.log("fds");
-    } else if (Math.round(new Date().getTime() / 1000) >= token.expirationDateToken) {
+    } else if (
+      Math.round(new Date().getTime() / 1000) >= token.expirationDateToken
+    ) {
       console.log("vai renovar");
       var obj;
 
@@ -94,21 +145,20 @@ var checkAndRefresh = function(token) {
         })
         .then(res => res.json())
         .then(parsed => {
-          console.log("parsed")
-          console.log(parsed)
-          console.log("parsed")
+          console.log("parsed");
+          console.log(parsed);
+          console.log("parsed");
           if (parsed.error == "invalid_grant") {
-            console.log("Erro de invalid grant")
+            console.log("Erro de invalid grant");
             reject("erro");
-          } 
-          else {
+          } else {
             var obj = {
               access_token: parsed.access_token,
               refresh_token: parsed.refresh_token,
               expirationDateToken:
                 Math.round(new Date().getTime() / 1000) + 3598
             };
-            
+
             console.log(parsed);
             resolve(obj);
           }
@@ -209,30 +259,34 @@ export function closeModal() {
   };
 }
 
-export function getSessionDetails(token, sessionId){
-  http://enei2019.uingress.com/internal/api/Session/Detail/1
-  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+export function getSessionDetails(token, sessionId) {
+  //enei2019.uingress.com/internal/api/Session/Detail/1
+  http: axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
   return dispatch => {
-     checkAndRefresh(token)
-      .then(newToken => {
-        axios.defaults.headers.common = {
-          Authorization: `bearer ${newToken.access_token}`
-        };
+    checkAndRefresh(token).then(newToken => {
+      axios.defaults.headers.common = {
+        Authorization: `bearer ${newToken.access_token}`
+      };
 
-        axios.get(`/Session/Detail/${sessionId}`)
-        .then(result=>{
-          console.log(result.data)
+      axios
+        .get(`/Session/Detail/${sessionId}`)
+        .then(result => {
+          console.log(result.data);
           dispatch({
             type: SESSION_DETAIL,
             sessionDetail: result.data,
-            token:newToken
+            token: newToken
           });
-        }).catch(err=>{
-          Alert.alert("ERROR!!", "Aconteceu um erro a obter os detalhes da sessão.")
-          console.log(err)
         })
-      })
-    }
+        .catch(err => {
+          Alert.alert(
+            "ERROR!!",
+            "Aconteceu um erro a obter os detalhes da sessão."
+          );
+          console.log(err);
+        });
+    });
+  };
 }
 
 export function updateUser(token, user) {
@@ -330,280 +384,271 @@ export const connectionState = status => {
 };
 
 export function removeSession(user, token, idSession) {
-
-   var obj = {
-    IdSession: idSession,
-    Direction: 0
-  };
-
-  return dispatch => {
-    //adiciona participante a uma palestra
-    checkAndRefresh(token)
-    .then(newToken => {
-    axios.defaults.headers.common = {
-      Authorization: `bearer ${newToken.access_token}`
-    };
-  
-    axios
-      .post("/Session/RemoveAttendee", obj)
-      //se não existir erro na chamada...
-      .then(a => {
-        console.log(a);
-        if (a.data.Success) {
-          axios
-            .get("/Attendee/AvailableSessions")
-
-            .then(function(response) {
-              console.log(response);
-
-              var sessions = response.data;
-              var careerPath = getCareerPath(sessions);
-              var cenas = [];
-
-              const result = flow(groupBy("SessionStart"))(response.data);
-
-              for (let key in result) {
-                result[key].option = 0;
-                cenas.push(result[key]);
-              }
-
-              Alert.alert(
-                "Sucesso",
-                "A inscrição na sessão foi removida com sucesso!"
-              );
-
-              //obter informações pessoais:
-              axios
-                .get("/Attendee/Detail")
-
-                .catch(error => {
-                  alert(error);
-                })
-                .then(sucess => {
-                  dispatch({
-                    type: REMOVE_SESSION,
-                    sessions: response.data,
-                    Blocks: cenas,
-                    changeGuestList: false,
-                    careerPath: careerPath,
-                    user: sucess.data,
-                    token: newToken
-                  });
-                  getEvents(user,careerPath);
-                });
-            })
-            .catch(function(error) {
-              alert("Erro a obter sessões disponíveis!!");
-
-              console.log(error);
-            });
-        } else {
-          alert("Erro a inscrever na palestra");
-          dispatch({
-            type: REMOVE_SESSION,
-            waitChangeGuest: false
-          });
-        }
-      })
-      .catch(b => {
-        alert("Erro a inscrever na palestra");
-      });
-    })
-    .catch(err => {
-      Alert.alert(
-        "Token ERROR!",
-        "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
-      );
-    });
-  };
-}
-
-//inscrição em palestra através de ID
-export function signSession(user, token, idSession) {
- 
-
   var obj = {
     IdSession: idSession,
     Direction: 0
   };
 
   return dispatch => {
-
-    checkAndRefresh(token)
-    .then(newToken => {
-      axios.defaults.headers.common = {
-        Authorization: `bearer ${newToken.access_token}`
-      };
-
     //adiciona participante a uma palestra
-    axios
-      .post("/Session/AddAttendee", obj)
-      //se não existir erro na chamada...
-      .then(a => {
-        if (a.data.Success) {
-          axios.defaults.headers.common = {
-            Authorization: `bearer ${token.access_token}`
-          };
-          axios
-            .get("/Attendee/AvailableSessions")
+    checkAndRefresh(token)
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
 
-            .then(function(response) {
-              console.log(response);
-
-              var sessions = response.data;
-              var careerPath = getCareerPath(sessions);
-              var cenas = [];
-
-              const result = flow(groupBy("SessionStart"))(response.data);
-
-              for (let key in result) {
-                result[key].option = 0;
-                cenas.push(result[key]);
-              }
-
-              Alert.alert(
-                "Sucesso",
-                "Inscrição na sessão efectuada com sucesso"
-              );
-              console.log("aqui1");
-              //obter informações pessoais:
+        axios
+          .post("/Session/RemoveAttendee", obj)
+          //se não existir erro na chamada...
+          .then(a => {
+            console.log(a);
+            if (a.data.Success) {
               axios
-                .get("/Attendee/Detail")
+                .get("/Attendee/AvailableSessions")
 
-                .catch(error => {
-                  alert(error);
+                .then(function(response) {
+                  console.log(response);
+
+                  var sessions = response.data;
+                  var careerPath = getCareerPath(sessions);
+                  var cenas = [];
+
+                  const result = flow(groupBy("SessionStart"))(response.data);
+
+                  for (let key in result) {
+                    result[key].option = 0;
+                    cenas.push(result[key]);
+                  }
+
+                  Alert.alert(
+                    "Sucesso",
+                    "A inscrição na sessão foi removida com sucesso!"
+                  );
+
+                  //obter informações pessoais:
+                  axios
+                    .get("/Attendee/Detail")
+
+                    .catch(error => {
+                      alert(error);
+                    })
+                    .then(sucess => {
+                      dispatch({
+                        type: REMOVE_SESSION,
+                        sessions: response.data,
+                        Blocks: cenas,
+                        changeGuestList: false,
+                        careerPath: careerPath,
+                        user: sucess.data,
+                        token: newToken
+                      });
+                      getEvents(user, careerPath);
+                    });
                 })
-                .then(sucess => {
-                  console.log("aqui2");
-                  var result = getE(user);
-                  dispatch({
-                    type: SIGN_SESSION,
-                    sessions: response.data,
-                    Blocks: cenas,
-                    changeGuestList: false,
-                    careerPath: careerPath,
-                    user: sucess.data,
-                    events: result.a,
-                    day1: result.a,
-                    day2: result.b,
-                    day3: result.c,
-                    day4: result.d,
-                    token:newToken
-                  });
+                .catch(function(error) {
+                  alert("Erro a obter sessões disponíveis!!");
+
+                  console.log(error);
                 });
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-        } else {
-          Alert.alert("ERRO!!", a.data.Error);
-          dispatch({
-            type: SIGN_SESSION,
-            waitChangeGuest: false
+            } else {
+              alert("Erro a inscrever na palestra");
+              dispatch({
+                type: REMOVE_SESSION,
+                waitChangeGuest: false
+              });
+            }
+          })
+          .catch(b => {
+            alert("Erro a inscrever na palestra");
           });
-        }
       })
-      .catch(b => {
-        //   alert("Erro a inscrever na palestra");
+      .catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
       });
-    })
-    .catch(err => {
-      Alert.alert(
-        "Token ERROR!",
-        "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
-      );
-    });
+  };
+}
+
+//inscrição em palestra através de ID
+export function signSession(user, token, idSession) {
+  var obj = {
+    IdSession: idSession,
+    Direction: 0
+  };
+
+  return dispatch => {
+    checkAndRefresh(token)
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
+
+        //adiciona participante a uma palestra
+        axios
+          .post("/Session/AddAttendee", obj)
+          //se não existir erro na chamada...
+          .then(a => {
+            if (a.data.Success) {
+              axios.defaults.headers.common = {
+                Authorization: `bearer ${token.access_token}`
+              };
+              axios
+                .get("/Attendee/AvailableSessions")
+
+                .then(function(response) {
+                  console.log(response);
+
+                  var sessions = response.data;
+                  var careerPath = getCareerPath(sessions);
+                  var cenas = [];
+
+                  const result = flow(groupBy("SessionStart"))(response.data);
+
+                  for (let key in result) {
+                    result[key].option = 0;
+                    cenas.push(result[key]);
+                  }
+
+                  Alert.alert(
+                    "Sucesso",
+                    "Inscrição na sessão efectuada com sucesso"
+                  );
+                  console.log("aqui1");
+                  //obter informações pessoais:
+                  axios
+                    .get("/Attendee/Detail")
+
+                    .catch(error => {
+                      alert(error);
+                    })
+                    .then(sucess => {
+                      console.log("aqui2");
+                      var result = getE(user);
+                      dispatch({
+                        type: SIGN_SESSION,
+                        sessions: response.data,
+                        Blocks: cenas,
+                        changeGuestList: false,
+                        careerPath: careerPath,
+                        user: sucess.data,
+                        events: result.a,
+                        day1: result.a,
+                        day2: result.b,
+                        day3: result.c,
+                        day4: result.d,
+                        token: newToken
+                      });
+                    });
+                })
+                .catch(function(error) {
+                  console.log(error);
+                });
+            } else {
+              Alert.alert("ERRO!!", a.data.Error);
+              dispatch({
+                type: SIGN_SESSION,
+                waitChangeGuest: false
+              });
+            }
+          })
+          .catch(b => {
+            //   alert("Erro a inscrever na palestra");
+          });
+      })
+      .catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
+      });
   };
 }
 
 export function getSessions(token) {
-  
-
   return dispatch => {
-
     checkAndRefresh(token)
-    .then(newToken => {
-      axios.defaults.headers.common = {
-        Authorization: `bearer ${newToken.access_token}`
-      };
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
 
-    axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+        axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
-    axios.defaults.headers.common = {
-      Authorization: `bearer ${token.access_token}`
-    };
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${token.access_token}`
+        };
 
-    axios
-      .get("/Attendee/AvailableSessions")
-      .then(function(response) {
-        var sessions = response.data;
+        axios
+          .get("/Attendee/AvailableSessions")
+          .then(function(response) {
+            var sessions = response.data;
 
-        var careerPath = getCareerPath(sessions);
+            var careerPath = getCareerPath(sessions);
 
-        console.log(careerPath);
+            console.log(careerPath);
 
-        var cenas = [];
+            var cenas = [];
 
-        const result = flow(
-          groupBy("SessionStart")
-          // map((Id) => ({Id})),
-          //tap(console.log)
-        )(response.data);
-        for (let key in result) {
-          result[key].option = 0;
-          cenas.push(result[key]);
-        }
-        dispatch({
-          type: GET_SESSIONS,
-          sessions: response.data,
-          Blocks: cenas,
-          careerPath: careerPath,
-          token: newToken
-          //guests: response.data
-        });
+            const result = flow(
+              groupBy("SessionStart")
+              // map((Id) => ({Id})),
+              //tap(console.log)
+            )(response.data);
+            for (let key in result) {
+              result[key].option = 0;
+              cenas.push(result[key]);
+            }
+            dispatch({
+              type: GET_SESSIONS,
+              sessions: response.data,
+              Blocks: cenas,
+              careerPath: careerPath,
+              token: newToken
+              //guests: response.data
+            });
+          })
+          .catch(function(error) {
+            alert("Error a obter sessões disponíveis!!");
+            console.log(error);
+          });
       })
-      .catch(function(error) {
-        alert("Error a obter sessões disponíveis!!");
-        console.log(error);
+      .catch(err => {
+        Alert.alert(
+          "Token ERROR!",
+          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+        );
       });
-    })
-    .catch(err => {
-      Alert.alert(
-        "Token ERROR!",
-        "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
-      );
-    });
   };
 }
 
 export function getAvailableGuestlists(token) {
-  
-
   return dispatch => {
-
     checkAndRefresh(token)
-    .then(newToken => {
-      axios.defaults.headers.common = {
-        Authorization: `bearer ${newToken.access_token}`
-      };
-    axios
-      .get("/Attendee/AvailableGuestlists")
-      .then(function(response) {
-        // handle success
-        console.log(response);
-        dispatch({
-          type: GET_CAREERS,
-          guests: response.data,
-          token: newToken
-        });
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
+        axios
+          .get("/Attendee/AvailableGuestlists")
+          .then(function(response) {
+            // handle success
+            console.log(response);
+            dispatch({
+              type: GET_CAREERS,
+              guests: response.data,
+              token: newToken
+            });
+          })
+          .catch(function(error) {
+            // handle error
+            console.log(error);
+          })
+          .then(function() {
+            // always executed
+          });
       })
-      .catch(function(error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function() {
-        // always executed
-      });})
       .catch(err => {
         Alert.alert(
           "Token ERROR!",
@@ -623,71 +668,68 @@ export function getAvailableGuestlists(token) {
     15 - DS
 */
 export function changeGuestList(token, guestID) {
-  
-
   axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
   return dispatch => {
-
     checkAndRefresh(token)
-    .then(newToken => {
-      axios.defaults.headers.common = {
-        Authorization: `bearer ${newToken.access_token}`
-      };
-    
-    var full = `/Attendee/ChangeGuestlist/${guestID}`;
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
 
-    axios
-      .get(full)
-      .then(function(response) {
-       
+        var full = `/Attendee/ChangeGuestlist/${guestID}`;
 
         axios
-          .get("/Attendee/AvailableSessions")
-
+          .get(full)
           .then(function(response) {
-            // handle success
+            axios
+              .get("/Attendee/AvailableSessions")
 
-            //console.log(response);
+              .then(function(response) {
+                // handle success
 
-            var cenas = [];
-            c = getCareerPath(response.data);
-            const result = flow(
-              groupBy("SessionStart")
-              // map((Id) => ({Id})),
-              //tap(console.log)
-            )(response.data);
+                //console.log(response);
 
-            for (let key in result) {
-              result[key].option = 0;
-              cenas.push(result[key]);
-            }
-            console.log("-.-.-..-.-.-.-.-.-.");
-            console.log(cenas);
-            console.log("-.-.-..-.-.-.-.-.-.");
-            dispatch({
-              type: CHANGE_GUEST,
-              sessions: response.data,
-              Blocks: cenas,
-              careerPath: c,
-              token:newToken
+                var cenas = [];
+                c = getCareerPath(response.data);
+                const result = flow(
+                  groupBy("SessionStart")
+                  // map((Id) => ({Id})),
+                  //tap(console.log)
+                )(response.data);
 
-              //guests: response.data
-            });
+                for (let key in result) {
+                  result[key].option = 0;
+                  cenas.push(result[key]);
+                }
+                console.log("-.-.-..-.-.-.-.-.-.");
+                console.log(cenas);
+                console.log("-.-.-..-.-.-.-.-.-.");
+                dispatch({
+                  type: CHANGE_GUEST,
+                  sessions: response.data,
+                  Blocks: cenas,
+                  careerPath: c,
+                  token: newToken
+
+                  //guests: response.data
+                });
+              })
+              .catch(function(error) {
+                alert("Error a obter sessões disponíveis!!");
+                console.log(error);
+              });
           })
           .catch(function(error) {
-            alert("Error a obter sessões disponíveis!!");
+            // handle error
+            console.log(response);
             console.log(error);
+            alert("Erro a mudar de career path");
+          })
+          .then(function() {
+            // always executed
           });
       })
-      .catch(function(error) {
-        // handle error
-        console.log(response);
-        console.log(error);
-        alert("Erro a mudar de career path");
-      })
-      .then(function() {
-        // always executed
-      });}).catch(err => {
+      .catch(err => {
         Alert.alert(
           "Token ERROR!",
           "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
@@ -699,10 +741,7 @@ export function getSessionBlocks(sessions) {
   var a;
   var cenas = [];
 
-  const result = flow(
-    groupBy("SessionStart")
-   
-  )(sessions);
+  const result = flow(groupBy("SessionStart"))(sessions);
 
   return dispatch => {
     for (let key in result) {
@@ -719,47 +758,40 @@ export function getSessionBlocks(sessions) {
 }
 
 export function getAvailableSessions(token) {
-
-
   axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
 
-  
-
   return dispatch => {
-
     checkAndRefresh(token)
-    .then(newToken => {
-      axios.defaults.headers.common = {
-        Authorization: `bearer ${newToken.access_token}`
-      };
-    axios
-      .get("/Attendee/AvailableSessions")
-      .then(function(response) {
-        // handle success
-        console.log(response);
+      .then(newToken => {
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
+        axios
+          .get("/Attendee/AvailableSessions")
+          .then(function(response) {
+            // handle success
+            console.log(response);
 
-        var cenas = [];
+            var cenas = [];
 
-        const result = flow(
-          groupBy("SessionStart")
-        )(response.data);
-        for (let key in result) {
-          cenas.push(result[key]);
-          console.log();
-        }
+            const result = flow(groupBy("SessionStart"))(response.data);
+            for (let key in result) {
+              cenas.push(result[key]);
+              console.log();
+            }
 
-        dispatch({
-          type: GET_SESSIONS,
-          sessions: response.data,
-          Blocks: cenas,
-          token: newToken
-
-        });
+            dispatch({
+              type: GET_SESSIONS,
+              sessions: response.data,
+              Blocks: cenas,
+              token: newToken
+            });
+          })
+          .catch(function(error) {
+            alert("Error a obter sessões disponíveis!!");
+            console.log(error);
+          });
       })
-      .catch(function(error) {
-        alert("Error a obter sessões disponíveis!!");
-        console.log(error);
-      });})
       .catch(err => {
         Alert.alert(
           "Token ERROR!",
@@ -769,102 +801,80 @@ export function getAvailableSessions(token) {
   };
 }
 
-
 //ESTA FUNÇÃO TEM MUITO CÓDIGO MAL FEITO...
 
 function getE(user, careerPath) {
-
-  console.log("career path: ")
+  console.log("career path: ");
   var cenas = [];
   let events = [];
-  var alimentacao=[];
-  var alojamento=[];
-  var acesso=[]
+  var alimentacao = [];
+  var alojamento = [];
+  var acesso = [];
   var i = 0;
-  console.log(user.Sessions)
+  console.log(user.Sessions);
   for (let key in user.Sessions) {
-
     //se forem sessões de bilhete, adiciona a outra lista
-    if(
-      user.Sessions[key].Id==1 || //dia 12 de abril
-      user.Sessions[key].Id==22 || //jantar 12 de abril
-      user.Sessions[key].Id==23 || //almoço e jantar 13 de abril
-      user.Sessions[key].Id==24 || //almoço e jantar 14 de abril
-      user.Sessions[key].Id==25 || //almoço  15 de abril
-      user.Sessions[key].Id==26 || //alojamento 12 de abril
-      user.Sessions[key].Id==29 || //alojamento 13 de abril
-      user.Sessions[key].Id==31 || //alojamento 14 de abril
-      user.Sessions[key].Id==32 || //dia 13 de abril
-      user.Sessions[key].Id==33 || //dia 14 de abril
-      user.Sessions[key].Id==34 || //dia 15 de abril
-      user.Sessions[key].Id==35 || //jantar dia 12 de abril
-      user.Sessions[key].Id==36 || //jantar dia 13 de abril
-      user.Sessions[key].Id==37  //jantar dia 14 de abril
-      ){
-       // bilhete.push( user.Sessions[key])
+    if (
+      user.Sessions[key].Id == 1 || //dia 12 de abril
+      user.Sessions[key].Id == 22 || //jantar 12 de abril
+      user.Sessions[key].Id == 23 || //almoço e jantar 13 de abril
+      user.Sessions[key].Id == 24 || //almoço e jantar 14 de abril
+      user.Sessions[key].Id == 25 || //almoço  15 de abril
+      user.Sessions[key].Id == 26 || //alojamento 12 de abril
+      user.Sessions[key].Id == 29 || //alojamento 13 de abril
+      user.Sessions[key].Id == 31 || //alojamento 14 de abril
+      user.Sessions[key].Id == 32 || //dia 13 de abril
+      user.Sessions[key].Id == 33 || //dia 14 de abril
+      user.Sessions[key].Id == 34 || //dia 15 de abril
+      user.Sessions[key].Id == 35 || //jantar dia 12 de abril
+      user.Sessions[key].Id == 36 || //jantar dia 13 de abril
+      user.Sessions[key].Id == 37 //jantar dia 14 de abril
+    ) {
+      // bilhete.push( user.Sessions[key])
 
-        if(user.Sessions[key].Id==1){
-         
-          acesso.push("dia 12")
-          
-        }
-        
-        if(user.Sessions[key].Id==22)
-          alimentacao.push("dia 12")
-        
-        if(user.Sessions[key].Id==23)
-          alimentacao.push("dia 13")
-        
-        if(user.Sessions[key].Id==24)
-          alimentacao.push("dia 14")
-        
-        if(user.Sessions[key].Id==25)
-          alimentacao.push("dia 15")
-        
-        if(user.Sessions[key].Id==26)
-         alojamento.push("dia 12")
-        if(user.Sessions[key].Id==29)
-        alojamento.push("dia 13")
-        if(user.Sessions[key].Id==31)
-        alojamento.push("dia 14")
+      if (user.Sessions[key].Id == 1) {
+        acesso.push("dia 12");
+      }
 
-        if(user.Sessions[key].Id==32)
-       acesso.push("dia 13")
-        if(user.Sessions[key].Id==33)
-        acesso.push("dia 14")
-        if(user.Sessions[key].Id==34)
-        acesso.push("dia 15")
+      if (user.Sessions[key].Id == 22) alimentacao.push("dia 12");
 
-  
+      if (user.Sessions[key].Id == 23) alimentacao.push("dia 13");
 
-      }else{
-       
-    events.push({
-      key: i++,
-      Id: user.Sessions[key].Id,
-      time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
-      timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
-      //lineColor:'#009688',
-      imageUrl:
-        "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/"+user.Sessions[key].Image,
-      description: user.Sessions[key].Description,
-      name: user.Sessions[key].Name,
-      Enrolled: user.Sessions[key].Enrolled,
-      MaxAttendees: user.Sessions[key].MaxAttendees,
-      day: moment(user.Sessions[key].SessionStart).format("DD")
-    });
-  }}
-  
+      if (user.Sessions[key].Id == 24) alimentacao.push("dia 14");
 
+      if (user.Sessions[key].Id == 25) alimentacao.push("dia 15");
 
+      if (user.Sessions[key].Id == 26) alojamento.push("dia 12");
+      if (user.Sessions[key].Id == 29) alojamento.push("dia 13");
+      if (user.Sessions[key].Id == 31) alojamento.push("dia 14");
+
+      if (user.Sessions[key].Id == 32) acesso.push("dia 13");
+      if (user.Sessions[key].Id == 33) acesso.push("dia 14");
+      if (user.Sessions[key].Id == 34) acesso.push("dia 15");
+    } else {
+      events.push({
+        key: i++,
+        Id: user.Sessions[key].Id,
+        time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
+        timeEnd: moment(user.Sessions[key].SessionEnd).format("HH:mm"),
+        //lineColor:'#009688',
+        imageUrl:
+          "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/" +
+          user.Sessions[key].Image,
+        description: user.Sessions[key].Description,
+        name: user.Sessions[key].Name,
+        Enrolled: user.Sessions[key].Enrolled,
+        MaxAttendees: user.Sessions[key].MaxAttendees,
+        day: moment(user.Sessions[key].SessionStart).format("DD")
+      });
+    }
+  }
 
   const result = flow(groupBy("day"))(events);
   var a = [],
-  b = [],
-  c = [],
-  d = [];
-
-
+    b = [],
+    c = [],
+    d = [];
 
   //MEU DEUS QUE É ISTO???
 
@@ -873,9 +883,9 @@ function getE(user, careerPath) {
       Id: result["12"][key].Id,
       time: result["12"][key].time,
       timeEnd: result["12"][key].timeEnd,
-      imageUrl:result["12"][key].imageUrl,
+      imageUrl: result["12"][key].imageUrl,
       description: result["12"][key].description,
-      name:result["12"][key].name,
+      name: result["12"][key].name,
       Enrolled: result["12"][key].Enrolled,
       MaxAttendees: result["12"][key].MaxAttendees,
       day: result["12"][key].day
@@ -888,9 +898,9 @@ function getE(user, careerPath) {
       time: result["13"][key].time,
       timeEnd: result["13"][key].timeEnd,
       imageUrl: result["13"][key].imageUrl,
-      description:result["13"][key].description,
+      description: result["13"][key].description,
       name: result["13"][key].name,
-      Enrolled:result["13"][key].Enrolled,
+      Enrolled: result["13"][key].Enrolled,
       MaxAttendees: result["13"][key].MaxAttendees,
       day: result["13"][key].day
     });
@@ -902,7 +912,7 @@ function getE(user, careerPath) {
       timeEnd: result["14"][key].timeEnd,
       imageUrl: result["14"][key].imageUrl,
       description: result["14"][key].description,
-      name:result["14"][key].name,
+      name: result["14"][key].name,
       Enrolled: result["14"][key].Enrolled,
       MaxAttendees: result["14"][key].MaxAttendees,
       day: result["14"][key].day
@@ -914,7 +924,7 @@ function getE(user, careerPath) {
       Id: result["15"][key].Id,
       time: result["15"][key].time,
       timeEnd: result["15"][key].timeEnd,
-      imageUrl:result["15"][key].imageUrl,
+      imageUrl: result["15"][key].imageUrl,
       description: result["15"][key].description,
       name: result["15"][key].name,
       Enrolled: result["15"][key].Enrolled,
@@ -935,13 +945,13 @@ function getE(user, careerPath) {
     return o.time;
   });
 
-  console.log(alimentacao)
-  return { a, b, c, d ,ab:alimentacao, acc: acesso, al:alojamento};
+  console.log(alimentacao);
+  return { a, b, c, d, ab: alimentacao, acc: acesso, al: alojamento };
 }
 
-export function getEvents(user,careerPath) {
-  var result = getE(user,careerPath);
-  
+export function getEvents(user, careerPath) {
+  var result = getE(user, careerPath);
+
   return dispatch => {
     dispatch({
       type: GET_EVENTS,

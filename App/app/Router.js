@@ -36,9 +36,10 @@ import Profile from "./screens/Profile";
 import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
 import calendarDetail from './screens/calendarDetail';
-import FebradaDetail from './screens/FebradaDetail';
+
 import resetPassword from './screens/resetPassword';
 
+import eventDetail from './screens/eventDetail'
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
     headerStyle: {backgroundColor: 'transparent', zIndex: 100 },
@@ -144,11 +145,8 @@ const Stack = createStackNavigator({
                     headerTitle: 'Calendário',
                     headerRight: (
                         <View style={{flex: 1, flexDirection: 'row'}}>
-                            <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
-                                              onPress={() => navigation.navigate('Edit')}>
-                                <Text>FAQ</Text>
-
-                            </TouchableOpacity>
+                          
+                        
 
                             <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                               onPress={() => navigation.navigate('choosePath')}>
@@ -204,8 +202,8 @@ const Stack = createStackNavigator({
     calendarDetail: {
         screen: calendarDetail,
     },
-    FebradaDetail: {
-        screen: FebradaDetail,
+    eventDetail: {
+        screen: eventDetail,
     },
 
     resetPassword:{

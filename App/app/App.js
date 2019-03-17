@@ -167,23 +167,34 @@ class App extends Component {
         return <Router />;
       }
       return (
-        
+      
         <View style={styles.slide2}>
-          <Modal isVisible={this.props.UI_loginScannerActive}>
-            <View style={{ flex: 1, backgroundColor: "white" }}>
-              <Button
-                onPress={this.props.closeLoginQRScan}
-                title={"Fechar scanner"}
-              >
-                {" "}
-              </Button>
-
-              <QRCodeScanner
-                onRead={this.onSuccess}
-                cameraStyle={styles.cameraContainer}
-              />
-            </View>
-          </Modal>
+           
+          <Modal
+                 isVisible={this.props.UI_loginScannerActive}
+                 onBackdropPress={this._toggle}
+                 onBackButtonPress={this._toggle}
+                 animationInTiming={1100}
+                 animationOutTiming={1100}
+                style={{marginTop:-20}}
+                 >
+    
+                 <QRCodeScanner
+      onRead={this.onSuccess}
+       
+      cameraStyle={styles.cameraContainer}
+      showMarker={true}
+      />
+                   <Button
+                     onPress={this.props.closeLoginQRScan}
+                     title={"Fechar Scan"}
+                   color={"#CC1A17"}
+                   ></Button>
+                     <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5, color:'white'}}>Sim, o quadrado não está centrado. Era só para testar a tua atenção!</Text>
+           
+           
+                  
+               </Modal>
           <Modal
             isVisible={this.state.modalResetPassword}
             onBackdropPress={this._toggle}
@@ -191,6 +202,7 @@ class App extends Component {
             animationInTiming={1100}
             animationOutTiming={1100}
             >
+            
             <View style={{  backgroundColor: "white" , padding:20,paddingBottom:0, alignItems:'center'}}>
             <View>
               <Text style={{textAlign:'center',fontSize:23, fontWeight:'bold', color:'#CC1A17', margin:30}}>Reset Password</Text>
@@ -213,8 +225,8 @@ class App extends Component {
                 onPress={this._reset}
                 title={"Enviar"}
               color={"#CC1A17"}
-              ></Button>
-                <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5}}> Caso tenhas problemas com este processo deves contactar a comissão organizadora atravês do email geral.</Text>
+              ></Button>  
+                 <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5}}> Caso tenhas problemas com este processo deves contactar a comissão organizadora atravês do email geral.</Text>
            
               </View>
             </View>
@@ -233,6 +245,7 @@ class App extends Component {
               source={require("./assets/img/logo2.png")}
             />
           </View>
+          {!this.props.loadingLogin  &&
           <View styles={styles.loginContainer}>
             <View style={styles.inputSection}>
               <TextInput
@@ -277,11 +290,14 @@ class App extends Component {
            </TouchableOpacity>
            </View>
             }
-            {this.props.alignItems && 
-                <ActivityIndicator size="large" color="#0000ff" />
-            }
+           
           </View>
-
+}{
+  this.props.loadingLogin &&
+  <View style={{margin:100}}>  
+  <ActivityIndicator size="large" color="#CC1A17" />
+  </View>
+}
           <View style={styles.buttons}>
             <TouchableOpacity style={styles.button}>
               <Icon name="logo-facebook" size={40} />

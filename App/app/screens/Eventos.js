@@ -27,6 +27,7 @@ const FourthRoute = () => (
 
 
 export default class Eventos extends React.Component {
+    
     state = {
         index: 0,
         routes: [
@@ -41,7 +42,7 @@ export default class Eventos extends React.Component {
     renderFebrada = (navigate) => {
         return (
             <View>
-                <TouchableOpacity onPress={() => navigate('FebradaDetail')}>
+                <TouchableOpacity onPress={() => navigate('eventDetail')}>
                 <View style={styles.cardContainer}>
                     <Image
                         style={{

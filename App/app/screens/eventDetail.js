@@ -20,7 +20,7 @@ import {bindActionCreators} from "redux";
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-class FebradaDetail extends React.Component {
+class eventDetail extends React.Component {
 
 
     static navigationOptions = ({navigation}) => ({
@@ -243,4 +243,4 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(Actions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FebradaDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(eventDetail);
