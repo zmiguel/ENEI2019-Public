@@ -69,10 +69,10 @@ _update=()=> {
             <View style={styles.container}>
                 <ScrollView styles={styles.scroll}>
                 <FlatList
-  data={this.props.events}
+  data={this.props.eventsInternal}
   renderItem={({item}) => 
   <View>
-  <TouchableOpacity onPress={() => navigate('eventDetail')}>
+  <TouchableOpacity onPress={() => navigate('eventDetail',{ info: item })}>
   <View style={styles.cardContainer}>
       <Image
           style={{
@@ -173,7 +173,7 @@ function mapStateToProps(state, props) {
       acesso: state.apiReducer.acesso,
       team: state.apiReducer.team,
       internalToken: state.apiReducer.internalToken,
-      events:state.apiReducer.events
+      eventsInternal:state.apiReducer.eventsInternal
     };
   }
   

@@ -104,8 +104,7 @@ class Home extends Component {
     //fecha o scanner 
     this.props.addUserTeam({id:this.props.team.id, newQr:e.data}, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ" )
     this.setState({addUser:!this.state.addUser})
-    
-  
+
   }
   _rm=(qr)=>{
     this.props.removeUserTeam({TeamId: this.props.team.id, UserQR: this.props.team.cap.qRcode, UserToRemoveQR: qr},"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ"
@@ -282,9 +281,10 @@ _toggle=()=>{
                         alignSelf: "center",
                         marginTop:7
                       }}
-                    >
+                    >{this.props.team.nMembros<6 &&
                       <IconFA name="plus" color={"white"} size={30} />
-                      <Text style={{ color: "white" }}>Adicionar</Text>
+                    }{this.props.team.nMembros<6 &&
+                      <Text style={{ color: "white" }}>Adicionar</Text>}
                     </View>
                     </TouchableOpacity>
                   </View>
@@ -301,7 +301,7 @@ _toggle=()=>{
                               </View>
                               <View style={styles.userT}>
                                 <Text style={styles.userName}>
-                                  {item.username}
+                                  {item.fullName}
                                 </Text>
                                 <Text>{item.qRcode}</Text>
                               </View>

@@ -59,21 +59,17 @@ class eventDetail extends React.Component {
   state = {};
 
   componentDidMount() {
-    this.props.getEvents(this.props.user);
+ 
 
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");
 
 
-    var a = moment(info.SessionStart);
-    var b = moment(info.SessionEnd);
-
-    console.log(b.diff(a, "minutes")); // 44700
   }
 
   _update = () => {
     this.setState({ user: this.props.user });
-    console.log(this.props.events);
+
   };
 
   constructor(props) {
@@ -98,7 +94,7 @@ class eventDetail extends React.Component {
         <View style={styles.coverContainer}>
           <ImageBackground
             source={{
-              uri: `https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/${this.props.sessionDetail.Image}`
+              uri: info.imagem
             }}
             style={styles.coverImage}
           />
@@ -116,7 +112,7 @@ class eventDetail extends React.Component {
                 >
                   <View style={styles.timeText}>
                     <Text style={{ color: "#CC1A17", fontSize: 15 }}>
-                      {`${moment(this.props.sessionDetail.SessionStart).format("HH:mm")}H - ${moment(this.props.sessionDetail.SessionEnd).format("HH:mm")}H`}
+                      {info.hora}
                     </Text>
                   </View>
                 </View>
@@ -130,27 +126,17 @@ class eventDetail extends React.Component {
                       color: "#CC1A17"
                     }}
                   >
-                    {this.props.sessionDetail.Name}
+                    {info.nome}
                   </Text>
                   
                 </View>
 
                 <View style={{ margin: 10 }}>
-                  <Progress.Bar
-                    color={"#000000"}
-                    progress={this.props.sessionDetail.Enrolled / this.props.sessionDetail.MaxAttendees}
-                    height={10}
-                    unfilledColor={"white"}
-                    width={210}
-                  />
-                  <Text>
-                    {this.props.sessionDetail.Enrolled} / {this.props.sessionDetail.MaxAttendees}
-                  </Text>
+                
+                  
                 </View>
-                {this.props.sessionDetail != undefined && (
-                  <FlatList
-                    data={this.props.sessionDetail.Speakers}
-                    renderItem={({ item }) => (
+            
+                   
                       <View>
                         <View
                           style={{
@@ -176,16 +162,16 @@ class eventDetail extends React.Component {
                                 margin: 10
                               }}
                             >
-                              {item.Name}
+                           {info.nome}
                             </Text>
                             <Text style={{ marginLeft: 10 }}>
-                              {item.MoreInfo}
+                              {info.nome}
                             </Text>
                             <TouchableOpacity>
                               <Text
                                 style={{ color: "#CC1A17", marginLeft: 10 }}
                               >
-                                {item.Title}
+                                     {info.nome}
                               </Text>
                             </TouchableOpacity>
                           </View>
@@ -202,12 +188,12 @@ class eventDetail extends React.Component {
                           >
                             Descrição do orador:
                           </Text>
-                          <Text style={{ margin: 10 }}>{item.Description}</Text>
+                          <Text style={{ margin: 10 }}>{info.desc}</Text>
                         </View>
                       </View>
-                    )}
-                  />
-                )}
+                  
+          
+            
               </View>
 
               <View style={styles.block}>
@@ -218,7 +204,7 @@ class eventDetail extends React.Component {
                 </Text>
                 <Divider style={{ backgroundColor: "#000" }} />
                 <View style={{ marginTop: 10 }}>
-                  <Text>{this.props.sessionDetail.Description}</Text>
+                  <Text>{info.desc}</Text>
                 </View>
               </View>
             </View>
@@ -444,7 +430,6 @@ function mapStateToProps(state, props) {
     token: state.apiReducer.token,
     user: state.apiReducer.user,
     logged: state.apiReducer.logged,
-    events: state.apiReducer.events,
     careerPath: state.apiReducer.careerPath,
     sessionDetail: state.apiReducer.sessionDetail
   };

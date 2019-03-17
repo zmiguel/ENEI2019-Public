@@ -106,7 +106,7 @@ const AppStack = createBottomTabNavigator(
 
     },
     {
-        initialRouteName: 'Eventos',
+        initialRouteName: 'Home',
 
         tabBarOptions: {
             showLabel: true, // hide labels

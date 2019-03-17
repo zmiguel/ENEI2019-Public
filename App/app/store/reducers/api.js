@@ -60,7 +60,7 @@ let apiState = {
   sessionDetail:{},
   team:{},
   internalToken: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg",
-  events:[]
+  eventsInternal:[]
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -106,7 +106,10 @@ const apiReducer = (state = apiState, action) => {
           },
           token: action.payload.apiReducer.token,
           team: action.payload.apiReducer.team,
-          events: action.payload.apiReducer.events
+          eventsInternal: action.payload.apiReducer.eventsInternal,
+          alimentacao:  action.payload.apiReducer.alimentacao,
+          acesso:  action.payload.apiReducer.acesso,
+          alojamento:  action.payload.apiReducer.alojamento
         };
       }
 
@@ -159,7 +162,7 @@ const apiReducer = (state = apiState, action) => {
     });
     case GET_INTERNAL_EVENTS:
     return Object.assign({}, state, {
-     events: action.events
+     eventsInternal: action.eventsInternal
     });
 
     return state;
@@ -195,6 +198,8 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case GET_EVENTS:
+    console.log("aaaaaaqqquii")
+    console.log(action)
       state = Object.assign({}, state, {
         events: action.events,
         a: action.day1,

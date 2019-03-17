@@ -57,7 +57,7 @@ export function getAllEvents(tokenInternal){
         console.log(a);
         dispatch({
           type: GET_INTERNAL_EVENTS,
-          events:a.data
+          eventsInternal:a.data
         });
       })
       .catch(p => {
@@ -456,6 +456,7 @@ export const connectionState = status => {
 };
 
 export function removeSession(user, token, idSession) {
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
   var obj = {
     IdSession: idSession,
     Direction: 0
@@ -544,7 +545,9 @@ export function removeSession(user, token, idSession) {
 }
 
 //inscrição em palestra através de ID
+
 export function signSession(user, token, idSession) {
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
   var obj = {
     IdSession: idSession,
     Direction: 0
@@ -696,6 +699,7 @@ export function getSessions(token) {
 }
 
 export function getAvailableGuestlists(token) {
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
   return dispatch => {
     checkAndRefresh(token)
       .then(newToken => {
@@ -1023,7 +1027,9 @@ function getE(user, careerPath) {
 
 export function getEvents(user, careerPath) {
   var result = getE(user, careerPath);
-
+console.log("putaaaaaaa")
+  console.log(result)
+  console.log("putaaaaaaa")
   return dispatch => {
     dispatch({
       type: GET_EVENTS,
