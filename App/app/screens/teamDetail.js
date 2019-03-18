@@ -5,7 +5,16 @@
 */
 
 import * as React from "react";
-import {View, StyleSheet, Dimensions, Text, Button, ScrollView} from "react-native";
+import {View,
+     StyleSheet,
+     Dimensions, 
+     Text, 
+     Button, 
+     ScrollView, 
+     FlatList,
+      TouchableOpacity,
+      Image
+    } from "react-native";
 import {TabView, TabBar, SceneMap} from "react-native-tab-view";
 
 import * as Actions from "../store/actions";
@@ -16,10 +25,14 @@ import {bindActionCreators} from "redux";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
-export default class rallyDetail extends React.Component {
+class teamDetail extends React.Component {
 
+    componentDidMount(){
+        this.props.getEventLocsVisited(this.props.team.id,this.props.internalToken);
+    }
     render() {
         return (
+            <ScrollView>
             <View>
                 <View style={styles.container}>
                     <View style={{height: SCREEN_HEIGHT * 0.1, paddingBottom: 10}}>
@@ -39,7 +52,7 @@ export default class rallyDetail extends React.Component {
 
                     <View style={{height: SCREEN_HEIGHT * 0.15, paddingBottom: 10}}>
                         <View style={styles.row}>
-                            <ScrollView horizontal>
+                        
                                 <View>
                                     <Text>jdasdnoa</Text>
                                 </View><View>
@@ -66,40 +79,21 @@ export default class rallyDetail extends React.Component {
                                 <Text>çpolx</Text>
                             </View>
 
-                            </ScrollView>
+                            
                         </View>
                     </View>
 
-                    <ScrollView style={styles.row}>
-                        <FlatList
-                            data={this.props.eventsInternal}
-                            renderItem={({item}) =>
-                                <View>
-                                    <TouchableOpacity onPress={() => navigate('eventDetail', {info: item})}>
-                                        <View style={styles.cardContainer}>
-                                            <Image
-                                                style={{
-                                                    flex: 1,
-                                                    width: undefined,
-                                                    height: undefined
-                                                }}
-                                                resizeMode="contain"
-                                                source={{uri: item.imagem}}
-
-                                            >
-                                            </Image>
-                                            <View style={styles.cardDesc}>
-                                                <Text style={styles.cardDescText}>{item.nome}</Text>
-                                                <Text style={styles.cardHours}>{item.horas}</Text>
-                                            </View>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>}
-                        />
-
-                    </ScrollView>
+                  <View style={{width:'100%', backgroundColor:'red'}}>{
+                    this.props.locais &&
+                  
+                  <FlatList
+  data={this.props.locais}
+  renderItem={({item}) => <Text>{item.location.nome}</Text>}
+/>}
+                  </View>
                 </View>
             </View>
+            </ScrollView>
         )
 
 
@@ -163,3 +157,30 @@ const styles = StyleSheet.create({
     },
 
 });
+
+function mapStateToProps(state, props) {
+    return {
+        token: state.apiReducer.token,
+        user: state.apiReducer.user,
+        logged: state.apiReducer.logged,
+        userDetails: state.apiReducer.userDetails,
+        onHold: state.apiReducer.onHold,
+        bilhete: state.apiReducer.bilhete,
+        alimentacao: state.apiReducer.alimentacao,
+        alojamento: state.apiReducer.alojamento,
+        acesso: state.apiReducer.acesso,
+        team: state.apiReducer.team,
+        internalToken: state.apiReducer.internalToken,
+        eventsInternal: state.apiReducer.eventsInternal,
+        locais:state.apiReducer.locais
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(teamDetail);
