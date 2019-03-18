@@ -98,16 +98,18 @@ namespace api.Controllers
 
             TeamToReturn rTeam = new TeamToReturn();
 
+
             for (var i = 0; i < allTeams.Count; i++)
             {
 
                 if (allTeams[i].Id == rUsr.team.Id)
                 {
-
+                    
+                    rTeam.ativa= allTeams[i].pagamento;
                     _mapper.Map(allTeams[i], rTeam);
 
                     var usr = await context.Users.FirstOrDefaultAsync(a => a.QRcode == allTeams[i].CapQR);
-
+            
                     var users = await context.Users.ToListAsync();
 
                     List<UserForListDto> usersToReturn = new List<UserForListDto>();

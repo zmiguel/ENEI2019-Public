@@ -12,8 +12,9 @@ namespace api.Dtos
         public string Nome{get;set;}                    //Nome da equipa
         public UserForListDto Cap{get;set;}                       //Capitao da equipa
         public int NMembros {get;set;}                  //Numero de Membros na equipa
-
         public  List<UserForListDto> Membros{get;set;}
         public int Pontos {get;set;}                    //Postos da equipa
+
+        public Boolean ativa{get;set;}
     }
 }
