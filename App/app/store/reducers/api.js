@@ -60,7 +60,7 @@ let apiState = {
   acesso: [],
   alojamento: [],
   sessionDetail:{},
-  team:{},
+  team:undefined,
   internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyOTI4NTgyLCJleHAiOjE1NTMwMTQ5ODIsImlhdCI6MTU1MjkyODU4Mn0.Kwc-vu9lTGFDTKOAt7LKvBb0pnEnF6v30kF-4RjjU8swAwTJLF_oymF-MKOYtpY0a9IRaBK9yrED5b5Wkc2aoQ",
   eventsInternal:[],
   cromos:[]

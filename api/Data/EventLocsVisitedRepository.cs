@@ -26,11 +26,22 @@ namespace api.Data
         public async Task<List<EventLocVisited>> GetEventLocsVisitedTeam(int id)
         {
             List<EventLocVisited> allLocs = await _context.EventLocsVisited.Include(e=>e.Team).Include(e=>e.Location).ToListAsync();
+
             List<EventLocVisited> rList = new List<EventLocVisited>();
+           
             for(var i=0;i<allLocs.Count;i++){
+                
+                EventLocVisited a=allLocs[i];
+               
                 if(allLocs[i].Team.Id == id){
-                    rList.Add(allLocs[i]);
+                    
+                
+                        a.complete=true;
+                }else{
+                    a.complete=false;
                 }
+
+                rList.Add(a);
             }
             return rList;
         }
