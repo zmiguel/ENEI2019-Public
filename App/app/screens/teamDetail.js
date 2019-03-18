@@ -55,11 +55,20 @@ class teamDetail extends React.Component {
 
                         <View style={{height: SCREEN_HEIGHT * 0.15, paddingBottom: 10}}>
                             <View style={styles.row}>
-                                <View style={styles.memberImage}>
-                                    <Image
-                                        source={{uri: 'https://centrik.in/wp-content/uploads/2017/02/user-image-.png'}}
-                                    />
-                                </View>
+                                {this.props.team.membros &&
+
+                                <FlatList
+                                    data={this.props.team.membros}
+                                    renderItem={({member}) =>
+                                        <View style={styles.memberImage}>
+                                            <Image
+                                                style={{width: 50, height: 50}}
+                                                source={{uri: `${member.photo.Url}`}}
+                                            />
+                                        </View>
+                                    }
+                                />}
+
 
                             </View>
                         </View>
