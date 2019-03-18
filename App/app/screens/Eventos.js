@@ -30,6 +30,7 @@ class Eventos extends React.Component {
     
 _update=()=> {
     this.props.getAllEvents(this.props.internalToken);
+    this.props.getEventLocsVisited(this.props.team.id,this.props.internalToken);
 }
     state = {
         index: 0,
@@ -43,6 +44,7 @@ _update=()=> {
 
     componentDidMount(){
         this.props.getAllEvents(this.props.internalToken);
+        this.props.getEventLocsVisited(this.props.team.id,this.props.internalToken);
     }
 
 

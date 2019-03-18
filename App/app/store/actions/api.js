@@ -28,7 +28,8 @@ import {
   GET_INTERNAL_EVENTS,
   CREATE_TEAM,
   DELETE_TEAM,
-  GET_CROMOS
+  GET_CROMOS,
+  GET_LOCS_VISITED
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -45,9 +46,33 @@ axios.defaults.baseURL = "https://api.enei.pt/internal/api";
 
 const map = require("lodash/fp/map").convert({ cap: false });
 
+export function getEventLocsVisited(teamId, tokenInternal ) {
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
+  axios.defaults.baseURL = "https://api.enei.pt/api";
 
+  return dispatch => {
+    axios
+      .get(`/EventLocsVisited/t/${teamId}`)
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+        dispatch({
+          type: GET_LOCS_VISITED,
+          locais: a.data
+        });
+      })
+      .catch(p => {
+        console.log(p);
+        Alert.alert("ERRO!", "erro a obter os locais visitados");
+      });
 
-export function getCromos(user,tokenInternal){
+   
+  };
+}
+
+export function getCromos(user, tokenInternal) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
@@ -60,13 +85,12 @@ export function getCromos(user,tokenInternal){
         console.log(a);
         dispatch({
           type: GET_CROMOS,
-           cromos: a.data
+          cromos: a.data
         });
       })
       .catch(p => {
-
         console.log(p);
-        Alert.alert("ERRO!", "erro a obter os eventos")
+        Alert.alert("ERRO!", "erro a obter os eventos");
       });
 
     dispatch({
@@ -75,86 +99,71 @@ export function getCromos(user,tokenInternal){
   };
 }
 
-
-export function deleteTeam(data,tokenInternal){
-
- axios.defaults.baseURL = "https://api.enei.pt";
-  axios.defaults.headers.common = {
-    Authorization: `bearer ${tokenInternal}`
-  };
-  console.log(data)
-  return dispatch=>{
-    
-    axios
-    .post("/api/Teams/delete",data)
-    .then(a => {
-      console.log(a.data)
-      Alert.alert("SUCESSO!", "A equipa foi removida com sucesso")
-      dispatch({
-        type: DELETE_TEAM,
-  
-      });
-    }).catch(err=>{
-console.log(err)
-      Alert.alert("ERRO!", "Existiu um erro na remoção da equipa")
-    })
-
-
-  }
-}
-
-
-
-export function createTeam(team, tokenInternal){
+export function deleteTeam(data, tokenInternal) {
   axios.defaults.baseURL = "https://api.enei.pt";
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
-  
-  return dispatch=>{
-    
+  console.log(data);
+  return dispatch => {
     axios
-    .post("/api/Teams/add",team)
-    .then(a => {
-      console.log(a.data)
-      Alert.alert("SUCESSO!", "A equipa foi criada com sucesso")
-      dispatch({
-        type: CREATE_TEAM,
-  
+      .post("/api/Teams/delete", data)
+      .then(a => {
+        console.log(a.data);
+        Alert.alert("SUCESSO!", "A equipa foi removida com sucesso");
+        dispatch({
+          type: DELETE_TEAM
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert("ERRO!", "Existiu um erro na remoção da equipa");
       });
-    }).catch(err=>{
-console.log(err)
-      Alert.alert("ERRO!", "Existiu um erro na criação da equipa")
-    })
-
-
-  }
+  };
 }
 
+export function createTeam(team, tokenInternal) {
+  axios.defaults.baseURL = "https://api.enei.pt";
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
 
+  return dispatch => {
+    axios
+      .post("/api/Teams/add", team)
+      .then(a => {
+        console.log(a.data);
+        Alert.alert("SUCESSO!", "A equipa foi criada com sucesso");
+        dispatch({
+          type: CREATE_TEAM
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert("ERRO!", "Existiu um erro na criação da equipa");
+      });
+  };
+}
 
-
-export function getAllEvents(tokenInternal){
-
+export function getAllEvents(tokenInternal) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
   axios.defaults.baseURL = "https://api.enei.pt/api";
   return dispatch => {
     axios
-      .get('/Events')
+      .get("/Events")
       .then(a => {
         console.log("sucesso!");
         console.log(a);
         dispatch({
           type: GET_INTERNAL_EVENTS,
-          eventsInternal:a.data
+          eventsInternal: a.data
         });
       })
       .catch(p => {
-
         console.log(p);
-        Alert.alert("ERRO!", "erro a obter os eventos")
+        Alert.alert("ERRO!", "erro a obter os eventos");
       });
 
     dispatch({
@@ -163,68 +172,59 @@ export function getAllEvents(tokenInternal){
   };
 }
 
-
-
-
-
-export function removeUserTeam(data, tokenInternal){
-
+export function removeUserTeam(data, tokenInternal) {
   //remove/member
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
 
-axios.defaults.baseURL = "https://api.enei.pt";
-return dispatch => {
-  axios
-    .post("/api/Teams/remove/member",data)
-    .then(a => {
+  axios.defaults.baseURL = "https://api.enei.pt";
+  return dispatch => {
+    axios
+      .post("/api/Teams/remove/member", data)
+      .then(a => {
+        if (a.status == 201) {
+          console.log("sucesso!");
+          console.log(a.data);
+          Alert.alert("Sucesso!", "Elemento removido com sucesso!!");
+        }
+      })
+      .catch(p => {
+        console.log(p);
+        Alert.alert("ERRO!!", "Erro a remover!");
+      });
 
-      if(a.status==201){
-        console.log("sucesso!");
-        console.log(a.data);
-        Alert.alert("Sucesso!","Elemento removido com sucesso!!")
-      }
-    
-    })
-    .catch(p => {
-      console.log(p);
-      Alert.alert("ERRO!!", "Erro a remover!")
+    dispatch({
+      type: OPEN_MODAL
     });
-
-  dispatch({
-    type: OPEN_MODAL
-  });
-};
+  };
 }
 
-export function addUserTeam(data, tokenInternal){
+export function addUserTeam(data, tokenInternal) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
   axios.defaults.baseURL = "https://api.enei.pt";
   return dispatch => {
     axios
-      .post("/api/Teams/add/member",data)
+      .post("/api/Teams/add/member", data)
       .then(a => {
-
-        if(a.status==201){
+        if (a.status == 201) {
           console.log("sucesso!");
           console.log(a.data);
-          Alert.alert("Sucesso!","Elemento adicionado com sucesso!!")
+          Alert.alert("Sucesso!", "Elemento adicionado com sucesso!!");
         }
-      
       })
       .catch(p => {
         console.log(p);
-        Alert.alert("ERRO!!", "Esse utlizador já se encontra numa equipa!!")
+        Alert.alert("ERRO!!", "Esse utlizador já se encontra numa equipa!!");
       });
 
     dispatch({
       type: OPEN_MODAL
     });
   };
-  add/member
+  add / member;
 }
 
 export function getUserTeam(user, tokenInternal) {
@@ -240,14 +240,14 @@ export function getUserTeam(user, tokenInternal) {
         console.log(a);
         dispatch({
           type: GET_TEAM,
-          team:a.data
+          team: a.data
         });
       })
       .catch(p => {
         console.log(p);
         dispatch({
           type: GET_TEAM,
-          team:'none'
+          team: "none"
         });
       });
 
@@ -1122,9 +1122,9 @@ function getE(user, careerPath) {
 
 export function getEvents(user, careerPath) {
   var result = getE(user, careerPath);
-console.log("putaaaaaaa")
-  console.log(result)
-  console.log("putaaaaaaa")
+  console.log("putaaaaaaa");
+  console.log(result);
+  console.log("putaaaaaaa");
   return dispatch => {
     dispatch({
       type: GET_EVENTS,

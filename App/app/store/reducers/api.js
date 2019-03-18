@@ -22,7 +22,8 @@ import {
   GET_TEAM,
 GET_INTERNAL_EVENTS,
 CREATE_TEAM,
-GET_CROMOS
+GET_CROMOS,
+GET_LOCS_VISITED
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -63,7 +64,8 @@ let apiState = {
   team:undefined,
   internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyOTI4NTgyLCJleHAiOjE1NTMwMTQ5ODIsImlhdCI6MTU1MjkyODU4Mn0.Kwc-vu9lTGFDTKOAt7LKvBb0pnEnF6v30kF-4RjjU8swAwTJLF_oymF-MKOYtpY0a9IRaBK9yrED5b5Wkc2aoQ",
   eventsInternal:[],
-  cromos:[]
+  cromos:[],
+  locais:[],
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -122,7 +124,11 @@ const apiReducer = (state = apiState, action) => {
         cromos: action.cromos
       });
 
-   
+   case GET_LOCS_VISITED:
+   return Object.assign({}, state, {
+    locais: action.locais
+  });
+
     case "CHANGE_CONNECTION_STATUS":
       return Object.assign({}, state, {
         isConnected: action.isConnected
