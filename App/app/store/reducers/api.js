@@ -142,7 +142,7 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case UPDATE_USER:
-      state = Object.assign({}, state, { user: action.user , toke: action.token});
+      state = Object.assign({}, state, { user: action.user , toke: action.token, onHold:false});
       return state;
     case LOADINGLOGIN:
       state = Object.assign({}, state, { loadingLogin: true });

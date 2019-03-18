@@ -14,6 +14,7 @@ import {
     Dimensions,
     TextInput,
     Button,
+    ActivityIndicator
 } from 'react-native'
 import PropTypes from 'prop-types';
 
@@ -160,6 +161,7 @@ class Profile extends Component {
 
         console.log(formValid);
 
+        this.props.hold();
         if (formValid) {
             console.log("data valid");
 
@@ -185,6 +187,14 @@ class Profile extends Component {
 
 
     render() {
+        if (this.props.onHold) {
+            return (
+              <View style={{marginTop:SCREEN_HEIGHT*0.40}}>
+                
+                <ActivityIndicator size="large" color="#CC1A17" />
+              </View>
+            );
+          }
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={{backgroundColor: '#eee'}}>
@@ -357,7 +367,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        margin: 20,
+        margin: 10,
         backgroundColor: 'white',
         borderRadius: 5,
     },
@@ -416,6 +426,7 @@ mapStateToProps = (state, props) => {
         token: state.apiReducer.token,
         user: state.apiReducer.user,
         userDetails: state.apiReducer.userDetails,
+        onHold:state.apiReducer.onHold
     }
 };
 
