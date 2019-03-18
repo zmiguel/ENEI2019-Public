@@ -41,7 +41,7 @@ import resetPassword from './screens/resetPassword';
 
 import eventDetail from './screens/eventDetail';
 
-import rally from './screens/rallyDetail';
+import teamDetail from './screens/teamDetail';
 
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
@@ -209,8 +209,8 @@ const Stack = createStackNavigator({
     eventDetail: {
         screen: eventDetail,
     },
-    rally:{
-        screen: rally,
+    teamDetail:{
+        screen: teamDetail,
     },
 
     resetPassword:{

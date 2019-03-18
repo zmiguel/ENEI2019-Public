@@ -353,7 +353,7 @@ _creatTeam=()=>{
                     }}
                   >
                     <View style={{ width: "60%" }}>
-                      <Text onPress={() => navigate('rally')}
+                      <Text onPress={() => navigate('teamDetail')}
                         style={{
                           fontSize: 25,
                           color: "white",
