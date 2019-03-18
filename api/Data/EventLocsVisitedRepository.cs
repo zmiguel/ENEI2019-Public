@@ -18,40 +18,50 @@ namespace api.Data
 
         public async Task<IEnumerable<EventLocVisited>> GetEventLocsVisited()
         {
-            var rEventLocsVisitedList = await _context.EventLocsVisited.Include(e=>e.Team).Include(e=>e.Location).ToListAsync();
-            
+            var rEventLocsVisitedList = await _context.EventLocsVisited.Include(e => e.Team).Include(e => e.Location).ToListAsync();
+
             return rEventLocsVisitedList;
         }
 
         public async Task<List<EventLocVisited>> GetEventLocsVisitedTeam(int id)
         {
-            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Include(e=>e.Team).Include(e=>e.Location).ToListAsync();
+            List<EventLoc> allPlaces = await _context.EventLocs.ToListAsync();
+
+            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Include(e => e.Team).Include(e => e.Location).ToListAsync();
 
             List<EventLocVisited> rList = new List<EventLocVisited>();
-           
-            for(var i=0;i<allLocs.Count;i++){
-                
-                EventLocVisited a=allLocs[i];
-               
-                if(allLocs[i].Team.Id == id){
-                    
-                
-                        a.complete=true;
-                }else{
-                    a.complete=false;
+
+            for (int j = 0; j < allPlaces.Count; j++)
+            {
+
+                EventLocVisited novo=new EventLocVisited();
+
+                novo.Location= allPlaces[j];
+             
+                novo.complete=false;
+
+                for (var i = 0; i < allLocs.Count; i++)
+                {   
+                    if(allPlaces[j].Id == allLocs[i].Id){
+                        novo.complete=true;
+                    }
                 }
 
-                rList.Add(a);
+
+                rList.Add(novo);
             }
+
             return rList;
         }
 
-         public async Task<List<EventLocVisited>> GetEventLocsVisitedEvent(int id)
+        public async Task<List<EventLocVisited>> GetEventLocsVisitedEvent(int id)
         {
-            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Include(e=>e.Team).Include(e=>e.Location).ToListAsync();
+            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Include(e => e.Team).Include(e => e.Location).ToListAsync();
             List<EventLocVisited> rList = new List<EventLocVisited>();
-            for(var i=0;i<allLocs.Count;i++){
-                if(allLocs[i].Location.EventId == id){
+            for (var i = 0; i < allLocs.Count; i++)
+            {
+                if (allLocs[i].Location.EventId == id)
+                {
                     rList.Add(allLocs[i]);
                 }
             }

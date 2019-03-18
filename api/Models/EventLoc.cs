@@ -13,6 +13,6 @@ namespace api.Models
         public String Nome{get;set;}    //Nome da localização
         public String Desc{get;set;}    //Descrição
         public Photo Img{get;set;}      //Foto da localização
-        
+    
     }
 }

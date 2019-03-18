@@ -174,6 +174,8 @@ namespace api.Migrations
 
                     b.Property<int?>("TeamId");
 
+                    b.Property<bool>("complete");
+
                     b.Property<DateTime>("timestamp");
 
                     b.HasKey("Id");

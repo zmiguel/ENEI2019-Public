@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190318021814_cromosV2")]
-    partial class cromosV2
+    [Migration("20190318183120_completev1")]
+    partial class completev1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,6 +175,8 @@ namespace api.Migrations
                     b.Property<int?>("LocationId");
 
                     b.Property<int?>("TeamId");
+
+                    b.Property<bool>("complete");
 
                     b.Property<DateTime>("timestamp");
 
