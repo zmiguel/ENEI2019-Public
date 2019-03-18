@@ -53,19 +53,21 @@ class teamDetail extends React.Component {
                             </View>
                         </View>
 
-                        <View style={{height: SCREEN_HEIGHT * 0.15, paddingBottom: 10}}>
+                        <View style={{ paddingBottom: 10}}>
                             <View style={styles.row}>
                                 {this.props.team.membros &&
-
                                 <FlatList
                                     data={this.props.team.membros}
+                                    numColumns={6} // Número de colunas
                                     renderItem={({member}) =>
                                         <View style={styles.memberImage}>
+                                      
                                             <Image
-                                                style={{width: 50, height: 50}}
-                                                source={{uri: `${member.photo.Url}`}}
-                                            />
+                                            style={{width: 50, height: 50}}
+                                            source={require('../assets/logo_black.jpg')}
+                                        />
                                         </View>
+                                     
                                     }
                                 />}
 
