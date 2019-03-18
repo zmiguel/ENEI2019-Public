@@ -28,23 +28,24 @@ import Email from '../components/Email';
 
 import Separator from '../components/Separator';
 import Tel from '../components/Telephone';
+
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import Icon from "react-native-vector-icons/Ionicons"
-
 
 
 import Swiper from 'react-native-swiper';
 
 class editCalendar extends Component {
 
-    static navigationOptions = ({ navigation }) => ({
+    static navigationOptions = ({navigation}) => ({
         title: 'Editar Calendário',
-         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
-            headerStyle:{
-                backgroundColor:'white',
-            },
-        });
+        headerTitleStyle: {textAlign: 'center', alignSelf: 'center'},
+        headerStyle: {
+            backgroundColor: 'white',
+        },
+    });
+
     constructor(props) {
 
         super(props);
@@ -55,89 +56,88 @@ class editCalendar extends Component {
             loggedIn: false,
             onHold: true,
             user: {},
-            cenas:{Name:'as'},
-            text:'',
+            cenas: {Name: 'as'},
+            text: '',
         };
-        
+
     }
-  
+
     render() {
         return (
             <ScrollView>
                 <View styles={styles.header}>
-                    <View style={styles.carreerPath}> 
+                    <View style={styles.carreerPath}>
                         <Text style={styles.carreerPathText}>Carreer Paths</Text>
                     </View>
                     <View style={styles.carreerPathDescription}>
-                    <Text >Nesta edição do enei vai ser possível aos participantes ecolherem uma área</Text>
-              
+                        <Text>Nesta edição do enei vai ser possível aos participantes ecolherem uma área</Text>
+
                     </View>
                     <TouchableOpacity style={{marginRight: 20}} onPress={() => navigation.navigate('Profile')}>
-                            <Text>Escolher path</Text>
-                        </TouchableOpacity>
+                        <Text>Escolher path</Text>
+                    </TouchableOpacity>
 
 
                 </View>
                 <View>
 
-            </View>
-            
+                </View>
+
             </ScrollView>
-         
+
         )
     }
 }
 
 const styles = StyleSheet.create({
 
-    header:{
-        flex:1,
-        height: SCREEN_HEIGHT*0.1,
-        backgroundColor:'red'
+    header: {
+        flex: 1,
+        height: SCREEN_HEIGHT * 0.1,
+        backgroundColor: 'red'
     },
-    carreerPath:{
-        flex:1,
+    carreerPath: {
+        flex: 1,
 
-        backgroundColor:'#CC1A17',
-        height:SCREEN_HEIGHT*0.1,
+        backgroundColor: '#CC1A17',
+        height: SCREEN_HEIGHT * 0.1,
         justifyContent: 'center',
         alignItems: 'center',
-        
+
     },
-    carreerPathText:{
-        fontSize:20,
+    carreerPathText: {
+        fontSize: 20,
         fontWeight: 'bold',
-        color:'white'
-        
+        color: 'white'
+
     },
-    carreerPathDescription:{
-padding:10,
-marginBottom:100
+    carreerPathDescription: {
+        padding: 10,
+        marginBottom: 100
     },
-    wrapper: {
-    },
+    wrapper: {},
     slide1: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#9DD6EB',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#9DD6EB',
     },
     slide2: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#97CAE5',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#97CAE5',
     },
     slide3: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#92BBD9',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#92BBD9',
     },
     text: {
-      color: '#fff',
-      fontSize: 30,
-      fontWeight: 'bold',
+        color: '#fff',
+        fontSize: 30,
+        fontWeight: 'bold',
     }
 
 

@@ -5,7 +5,7 @@
 */
 
 import * as React from "react";
-import {View, StyleSheet, Dimensions, Text, Button, ScrollView} from "react-native";
+import {View, StyleSheet, Dimensions, Text, Button, ScrollView, Image} from "react-native";
 import {TabView, TabBar, SceneMap} from "react-native-tab-view";
 
 import * as Actions from "../store/actions";
@@ -40,31 +40,11 @@ export default class rallyDetail extends React.Component {
                     <View style={{height: SCREEN_HEIGHT * 0.15, paddingBottom: 10}}>
                         <View style={styles.row}>
                             <ScrollView horizontal>
-                                <View>
-                                    <Text>jdasdnoa</Text>
-                                </View><View>
-                                <Text>asd</Text>
-                            </View><View>
-                                <Text>ccc</Text>
-                            </View><View>
-                                <Text>jdasddddddnoa</Text>
-                            </View><View>
-                                <Text>fddsdfe</Text>
-                            </View><View>
-                                <Text>ertfvvc</Text>
-                            </View><View>
-                                <Text>cxaqwee</Text>
-                            </View><View>
-                                <Text>pokmdhjene</Text>
-                            </View><View>
-                                <Text>mndjheke</Text>
-                            </View><View>
-                                <Text>qaploef</Text>
-                            </View><View>
-                                <Text>ploçter</Text>
-                            </View><View>
-                                <Text>çpolx</Text>
-                            </View>
+                                <View style={styles.memberImage}>
+                                    <Image
+                                        source={{uri: 'https://centrik.in/wp-content/uploads/2017/02/user-image-.png'}}
+                                    />
+                                </View>
 
                             </ScrollView>
                         </View>
@@ -160,6 +140,18 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         marginRight: 4,
         alignSelf: "center"
+    },
+
+    memberImage: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignSelf: "center",
+        marginRight: 4,
+        height: 50,
+        width: 50,
+        backgroundColor: "transparent",
+
     },
 
 });
