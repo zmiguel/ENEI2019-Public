@@ -190,7 +190,9 @@ class App extends Component {
                      title={"Fechar Scan"}
                    color={"#CC1A17"}
                    ></Button>
-                     <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5, color:'white'}}>Sim, o quadrado não está centrado. Era só para testar a tua atenção!</Text>
+                     <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5, color:'white'}}>
+                         Sim, o quadrado não está centrado. Era só para testar a tua atenção!
+                     </Text>
            
            
                   
