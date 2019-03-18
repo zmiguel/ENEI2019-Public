@@ -39,7 +39,10 @@ import calendarDetail from './screens/calendarDetail';
 
 import resetPassword from './screens/resetPassword';
 
-import eventDetail from './screens/eventDetail'
+import eventDetail from './screens/eventDetail';
+
+import rally from './screens/rallyDetail';
+
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
     headerStyle: {backgroundColor: 'transparent', zIndex: 100 },
@@ -106,8 +109,8 @@ const AppStack = createBottomTabNavigator(
 
     },
     {
-        // initialRouteName: 'Home',
         initialRouteName: 'Home',
+
 
         tabBarOptions: {
             showLabel: true, // hide labels
@@ -205,6 +208,9 @@ const Stack = createStackNavigator({
     },
     eventDetail: {
         screen: eventDetail,
+    },
+    rally:{
+        screen: rally,
     },
 
     resetPassword:{

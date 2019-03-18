@@ -353,7 +353,7 @@ _creatTeam=()=>{
                     }}
                   >
                     <View style={{ width: "60%" }}>
-                      <Text
+                      <Text onPress={() => navigate('rally')}
                         style={{
                           fontSize: 25,
                           color: "white",
@@ -374,7 +374,7 @@ _creatTeam=()=>{
                         {this.props.team.nMembros}/6 elementos
                       </Text>
                     </View>
-                    { this.props.team!= undefined && this.props.team.cap.qRcode == this.props.user.Code && <TouchableOpacity onPress={this._delTeam}>
+                    { this.props.team != undefined && this.props.team.cap.qRcode == this.props.user.Code && <TouchableOpacity onPress={this._delTeam}>
                     <View
                       style={{
                         alignItems: "center",
