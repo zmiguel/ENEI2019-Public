@@ -266,7 +266,7 @@ _creatTeam=()=>{
                   </View>
                 </View>
               </View>
-              { this.props.team=='none' &&
+              { this.props.team != 'none' || this.props.team !== undefined &&
             <View style={{backgroundColor:'white', margin:10}}>
             <View style={{backgroundColor:'#CC1A17'}}>
               <Text style={{    fontSize: 18,
@@ -334,7 +334,7 @@ _creatTeam=()=>{
             </View>
             }
             {
-              this.props.team!='none' &&
+                (this.props.team!='none' || this.props.team !== undefined)&&
             
               <View>
                 <View

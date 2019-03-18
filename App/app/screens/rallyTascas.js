@@ -17,7 +17,24 @@ export default class rallyTascas extends React.Component {
     render() {
         return (
             <View>
+                <View style={styles.headerRow}>
+                    <View style={styles.leftRow}>
+                        <Text styles={styles.headerText}>
+                            ndjiew
+                        </Text>
+                    </View>
+                    <View style={styles.rightRow}>
+                        <Text style={styles.headerText}>
+                            rfmeof
+                        </Text>
+                    </View>
+                </View>
+                <ScrollView horizontal style={}>
 
+                </ScrollView>
+                <ScrollView>
+
+                </ScrollView>
             </View>
         )
 
@@ -25,6 +42,45 @@ export default class rallyTascas extends React.Component {
     }
 }
 
+const styles = StyleSheet.create({
+
+    headerRow: {
+        flex: 1,
+        flexDirection: "row",
+    },
+
+    headerText: {
+        fontSize: 15,
+        color: "#CC1A17",
+        fontWeight: "bold",
+    },
+
+    centerRow: {
+        alignItems: "center",
+        backgroundColor: "transparent",
+        flex: 3,
+        flexDirection: "column",
+        justifyContent: "center"
+    },
+
+    leftRow: {
+        backgroundColor: "transparent",
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignSelf: "center"
+    },
+    rightRow: {
+        alignItems: "flex-end",
+        backgroundColor: "transparent",
+        flex: 2,
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        marginRight: 4,
+        alignSelf: "center"
+    },
+
+});
 
 
 function mapStateToProps(state, props) {
