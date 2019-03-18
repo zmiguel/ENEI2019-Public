@@ -14,9 +14,11 @@ import {
   NetInfo,
   AppState,
   TextInput,
-  Keyboard
+  Keyboard,
+  Switch,
+  Alert
 } from "react-native";
-
+import ToggleSwitch from 'toggle-switch-react-native'
 import Modal from "react-native-modal";
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { Shadow } from "react-native-shadow";
@@ -67,7 +69,9 @@ class Home extends Component {
       user: { Name: "" },
       userDetails: {},
       appState: AppState.currentState,
-      addUser:false
+      addUser:false,
+      switch:false,
+      team:""
     };
   }
   handleConnectivityChange = () => {
@@ -80,7 +84,7 @@ class Home extends Component {
     this.props.getUserInfo(this.props.token);
 
     console.log(this.props.internalToken)
-    this.props.getUserTeam(this.props.user, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ"  );
+    this.props.getUserTeam(this.props.user, this.props.internalToken  );
     this.props.getEvents(this.props.user);
   }
   componentWillUnmount() {}
@@ -98,21 +102,49 @@ class Home extends Component {
   _update = () => {
     this.props.getUserInfo(this.props.token);
     this.props.getEvents(this.props.user);
-    this.props.getUserTeam(this.props.user,"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ" )
+    this.props.getUserTeam(this.props.user, this.props.internalToken )
   };
   onSuccess=e=>{
     //fecha o scanner 
-    this.props.addUserTeam({id:this.props.team.id, newQr:e.data}, "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ" )
+    this.props.addUserTeam({id:this.props.team.id, newQr:e.data},this.props.internalToken)
     this.setState({addUser:!this.state.addUser})
 
   }
   _rm=(qr)=>{
-    this.props.removeUserTeam({TeamId: this.props.team.id, UserQR: this.props.team.cap.qRcode, UserToRemoveQR: qr},"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ"
-   )
+    this.props.removeUserTeam({TeamId: this.props.team.id, UserQR: this.props.team.cap.qRcode, UserToRemoveQR: qr}, this.props.internalToken)
   }
 _toggle=()=>{
+
+
   this.setState({addUser:!this.state.addUser})
 
+}
+_delTeam=()=>{
+  Alert.alert(
+    'Apagar equipa',
+    'Tens a certeza que queres apagar a tua equipa?\n\nAo apagares a equipa, todos os dados serão perdidos... \n\nThere is no coming back..\n\n',
+    [
+      {text: 'No, bring my mommy', onPress: () => alert('pussy!!!!')},
+      
+      {text: 'YES', onPress: () => this.props.deleteTeam({TeamId: this.props.team.id, UserQr: this.props.user.Code},this.props.internalToken)},
+    ],
+    {cancelable: false},
+  );
+}
+_creatTeam=()=>{
+  var tipo
+  if(this.state.switch)
+    tipo=1 
+  else{
+    tipo=3
+  }
+  var o={
+    EventId:tipo,
+    Nome:this.state.team,
+    capQR:this.props.user.Code
+  }
+
+  this.props.createTeam(o, this.props.internalToken)
 }
   render() {
     const { navigate } = this.props.navigation;
@@ -234,7 +266,76 @@ _toggle=()=>{
                   </View>
                 </View>
               </View>
+              { this.props.team=='none' &&
+            <View style={{backgroundColor:'white', margin:10}}>
+            <View style={{backgroundColor:'#CC1A17'}}>
+              <Text style={{    fontSize: 18,
+                          color: "white",
+                          margin: 10,
+                          fontWeight: "bold",
+                          marginBottom: 10}}>Equipas Rally / Caching</Text>
+            </View>
+              <View style={{margin:10}}>
+              <Text style={{fontSize:12, textAlign:'center'}}>Para participares no ENEI caching ou no Rally Tascas deves formar uma equipa (4 a 6) elementos.</Text>
+              <Text style={{fontSize:12, textAlign:'center', margin:5}}>Ao criares a equipa, ficas como capitão. Podes adicionar e remover outros elementos.</Text>
+              <TextInput
+              style={{
+                borderColor: "#bfbdbd",
+                borderWidth: 1,
+                margin:30,
+              
+            
+                width: SCREEN_WIDTH * 0.8,
+            
+                backgroundColor: "white",
+            
+                borderRadius: 3,
+                height: SCREEN_HEIGHT * 0.08,
+                borderColor: "#bfbdbd",
+                borderWidth: 1,
+                paddingLeft: SCREEN_WIDTH * 0.05}}
+              onFocus={this._print}
+              maxLength={50}
+              blurOnSubmit={true}
+          
+              onChangeText={t => this.setState({ team:t})}
+              clearButtonMode="always"
+              value={this.state.team}
+              clearTextOnFocus={true}
+              onSubmitEditing={Keyboard.dismiss}
+              placeholder="Nome da Equipa"
+            />
+            <View style={{flex:1 ,flexDirection:'row', margin:20, marginBottom:40, alignSelf:'center'}}>
+            <View style={{width:'33%',alignSelf:'center'}}>
+              <Text style={{fontWeight:'bold', fontSize:17, textAlign:'center'}}>ENEI Caching</Text>
+            </View>
+           <ToggleSwitch
+    isOn={this.state.switch}
+    onColor='#CC1A17'
+    offColor='#eeeeee'
+    labelStyle={{color: 'black', fontWeight: '900'}}
+    size='large'
+    onToggle={ (isOn) => this.setState({switch:!this.state.switch}) }
 
+/><View style={{width:'33%',alignSelf:'center'}}>
+              <Text style={{fontWeight:'bold', fontSize:17, textAlign:'center'}}>Rally Tascas</Text>
+            </View>
+</View><Text style={{fontSize:12, textAlign:'center', margin:5}}>A incrição no Rally tem custo de 5€ por elemento. A equipa apenas fica ativa quando efectuar o pagamento na banca no ENEI</Text>
+             
+<Button
+                onPress={this._creatTeam}
+                disabled={this.state.team==""}
+                title={"Criar Equipa"}
+              color={"#CC1A17"}
+              >
+              </Button> 
+          
+              </View>
+            </View>
+            }
+            {
+              this.props.team!='none' &&
+            
               <View>
                 <View
                   style={{
@@ -251,7 +352,7 @@ _toggle=()=>{
                       flexDirection: "row"
                     }}
                   >
-                    <View style={{ width: "79%" }}>
+                    <View style={{ width: "60%" }}>
                       <Text
                         style={{
                           fontSize: 25,
@@ -273,20 +374,41 @@ _toggle=()=>{
                         {this.props.team.nMembros}/6 elementos
                       </Text>
                     </View>
-                    <TouchableOpacity onPress={this._toggle}>
+                    {this.props.team.cap.qRcode == this.props.user.Code && <TouchableOpacity onPress={this._delTeam}>
                     <View
                       style={{
                         alignItems: "center",
                         alignContent: "center",
                         alignSelf: "center",
-                        marginTop:7
+                       
+                        margin:10
                       }}
-                    >{this.props.team.nMembros<6 &&
-                      <IconFA name="plus" color={"white"} size={30} />
-                    }{this.props.team.nMembros<6 &&
-                      <Text style={{ color: "white" }}>Adicionar</Text>}
+                    >
+                      <IconFA name="trash-alt" color={"white"} size={30} />
+                  
+                      <View>
+                      <Text style={{ color: "white" }}>rm Team </Text>
+                      </View>
+                    
                     </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
+                    {this.props.team.nMembros<6 && <TouchableOpacity onPress={this._toggle}>
+                    <View
+                      style={{
+                        alignItems: "center",
+                        alignContent: "center",
+                        alignSelf: "center",
+                      margin:10
+                      }}
+                    >
+                      <IconFA name="plus" color={"white"} size={30} />
+                  
+                      <View>
+                      <Text style={{ color: "white" }}> Add</Text>
+                      </View>
+                    
+                    </View>
+                    </TouchableOpacity>}
                   </View>
 
                   <View>
@@ -320,6 +442,7 @@ _toggle=()=>{
                   </View>
                 </View>
               </View>
+              }
             </View>
           </ScrollView>
         </PTRView>

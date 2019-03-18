@@ -24,27 +24,12 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 
-const FirstRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#ff4081"}]}/>
-);
-const SecondRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#673ab7"}]}/>
-);
-
-const ThirdRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#673ab7"}]}/>
-);
-
-const FourthRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#673ab7"}]}/>
-);
 import PTRView from "react-native-pull-to-refresh";
 
 class Eventos extends React.Component {
     
 _update=()=> {
-    this.props.getAllEvents("eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ"
-    );
+    this.props.getAllEvents(this.props.internalToken);
 }
     state = {
         index: 0,
@@ -57,8 +42,7 @@ _update=()=> {
     };
 
     componentDidMount(){
-        this.props.getAllEvents("eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODQ3NTg5LCJleHAiOjE1NTI5MzM5ODksImlhdCI6MTU1Mjg0NzU4OX0.geNuHNEmo8EGn9yK5FyykDuDRhNQTAcEhheY-nwXTVFbs8hmHLbzPkV4xbPq2qMzEDffzxoc7WWdPwC6D-uTEQ"
-        );
+        this.props.getAllEvents(this.props.internalToken);
     }
 
 
@@ -151,7 +135,7 @@ const styles = StyleSheet.create({
         margin: 20,
         marginBottom:0,
         backgroundColor: '#fff',
-        height: SCREEN_WIDTH * (1  /2),
+        height: SCREEN_WIDTH * 0.62,
         borderRadius: 5,
         //borderWidth: 2,
     },

@@ -18,6 +18,8 @@ namespace api.Models
         public string localizacao{get;set;}
 
         public string notas{get;set;}
+
+        public string custo{get;set;}
         
     }
 }

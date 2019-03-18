@@ -44,6 +44,7 @@
     "react-native-qrcode-scanner": "^1.1.2",
     "react-native-shadow": "^1.2.2",
     "react-native-swiper": "^1.5.14",
+    "react-native-switch": "^1.5.0",
     "react-native-timeline-feed": "^1.0.1",
     "react-native-timeline-listview": "^0.2.3",
     "react-native-ui-kitten": "^3.1.2",
@@ -54,7 +55,8 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "toggle-switch-react-native": "^2.0.2"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",

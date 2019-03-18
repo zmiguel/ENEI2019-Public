@@ -24,7 +24,10 @@ export {checkUser,
     getUserTeam,
     addUserTeam,
     removeUserTeam,
-    getAllEvents
+    getAllEvents,
+    createTeam,
+    deleteTeam,
+    getCromos
     
 } from "./api"
 

@@ -20,7 +20,9 @@ import {
   UPDATE_USER,
   SESSION_DETAIL,
   GET_TEAM,
-GET_INTERNAL_EVENTS
+GET_INTERNAL_EVENTS,
+CREATE_TEAM,
+GET_CROMOS
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -59,8 +61,9 @@ let apiState = {
   alojamento: [],
   sessionDetail:{},
   team:{},
-  internalToken: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg",
-  eventsInternal:[]
+  internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyOTI4NTgyLCJleHAiOjE1NTMwMTQ5ODIsImlhdCI6MTU1MjkyODU4Mn0.Kwc-vu9lTGFDTKOAt7LKvBb0pnEnF6v30kF-4RjjU8swAwTJLF_oymF-MKOYtpY0a9IRaBK9yrED5b5Wkc2aoQ",
+  eventsInternal:[],
+  cromos:[]
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -109,9 +112,15 @@ const apiReducer = (state = apiState, action) => {
           eventsInternal: action.payload.apiReducer.eventsInternal,
           alimentacao:  action.payload.apiReducer.alimentacao,
           acesso:  action.payload.apiReducer.acesso,
-          alojamento:  action.payload.apiReducer.alojamento
+          alojamento:  action.payload.apiReducer.alojamento,
+          internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODcwODcwLCJleHAiOjE1NTU0NTkyNzAsImlhdCI6MTU1Mjg3MDg3MH0.wkBk-CUDMCaU-K9jI0pTRJ794IGCl-C9md39dMfHqa5zTf-gNpD76xEYea3PhIbW2dnUVgo0m1fxR1sW7k9LMg" 
         };
       }
+
+      case GET_CROMOS:
+      return Object.assign({}, state, {
+        cromos: action.cromos
+      });
 
    
     case "CHANGE_CONNECTION_STATUS":

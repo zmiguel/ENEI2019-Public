@@ -6,7 +6,8 @@ import {
   ImageBackground,
   Dimensions,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  FlatList
 } from 'react-native';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 import Modal from "react-native-modal";
@@ -21,7 +22,13 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import FitImage from 'react-native-fit-image';
-export default class Jogo extends React.Component {
+import { connect } from "react-redux";
+
+import { bindActionCreators } from "redux";
+
+import * as Actions from "../store/actions"; //Import your actionss
+
+class Jogo extends React.Component {
 state = {
       progress: 20,
       progressWithOnComplete: 0,
@@ -39,6 +46,9 @@ state = {
      console.log("assd")
    }
 
+   componentDidMount(){
+     this.props.getCromos(this.props.user, this.props.internalToken);
+   }
   render() {
     
     const { navigate } = this.props.navigation;
@@ -53,6 +63,7 @@ state = {
   const barWidth = Dimensions.get('screen').width - 30;
 
 
+  
   
 
 
@@ -175,428 +186,36 @@ onPress={this._toggleModal}
             <ScrollView>
             <View style={styles.cromosContainer}>
 
+            <FlatList
+  data={this.props.cromos}
+  renderItem={({item}) => <TouchableOpacity onPress={this._toggleModal}>
+  <View style={styles.cromo}>
+  <ImageBackground 
+    
+    source={require('../assets/img/jogo/critical.png')}
+    style={styles.imageBg}
+  >
+      <View style={[styles.triangle, this.props.style]} />
+      <Text style={styles.points}>15</Text>
+      <View style={[styles.triangleNumber, this.props.style]} />
+      <Text style={styles.number}>0</Text>
+  </ImageBackground>
+  
+
+
+  </View>
+ 
+ 
+ 
+  </TouchableOpacity>}
+  numColumns={3} // Número de colunas
+/>
             
         
-
-        <TouchableOpacity onPress={this._toggleModal}>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/critical.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>0</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-               
-               
-               
-                </TouchableOpacity>
-                
-               
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  source={require('../assets/img/jogo/novabase.png')}
-                 
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>1</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>2</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                
-                
-
-              
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>3</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>4</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>5</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-               
+                       
          
              </View>
-             <View style={styles.cromosContainer}>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>6</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-               
-               
-               
-               
-                
-               
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/ubiwhere.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>7</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>8</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>9</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>10</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-
-              <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>11</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-              
-               
-         
-             </View>
-            
-             <View style={styles.cromosContainer}>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>12</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-               
-               
-               
-               
-                
-               
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>13</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>14</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>15</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>16</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-
-              <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>17</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-           
-             
-           
-               
-         
-             </View>
-            
-             <View style={styles.cromosContainer}>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>18</Text>
-                </ImageBackground>
-
-                </View>
-               
-
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>19</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>20</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-                
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>21</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-
-                <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                 source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>22</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-
-              <View style={styles.cromo}>
-                <ImageBackground 
-                  
-                  source={require('../assets/img/jogo/enei_black_2.png')}
-                  style={styles.imageBg}
-                >
-                    <View style={[styles.triangle, this.props.style]} />
-                    <Text style={styles.points}>15</Text>
-                    <View style={[styles.triangleNumber, this.props.style]} />
-                    <Text style={styles.number}>23</Text>
-                </ImageBackground>
-                
-        
-      
-                </View>
-               
-               
-         
-             </View>
-        
-            
-               
+          
          
             
              
@@ -720,3 +339,23 @@ const styles = StyleSheet.create({
       textAlign: 'center'
   }
 });
+
+function mapStateToProps(state, props) {
+  return {
+    token: state.apiReducer.token,
+    user: state.apiReducer.user,
+   
+    internalToken: state.apiReducer.internalToken,
+    cromos:state.apiReducer.cromos
+    
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+  )(Jogo);

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190317202540_updatev6")]
+    partial class updatev6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,12 +103,6 @@ namespace api.Migrations
                     b.Property<string>("QRCode");
 
                     b.Property<int?>("imgId");
-
-                    b.Property<int>("pontos");
-
-                    b.Property<bool>("unlocked");
-
-                    b.Property<string>("websiteCromo");
 
                     b.HasKey("Id");
 

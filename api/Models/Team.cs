@@ -15,5 +15,7 @@ namespace api.Models
         public int Pontos {get;set;}                    //Postos da equipa
         public Boolean pagamento{get;set;}
         public string pagamentoVerifyCode{get;set;}
+
+        
     }
 }

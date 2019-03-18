@@ -144,7 +144,7 @@ namespace api.Controllers
             {
                 Subject = new ClaimsIdentity(claims), 
                 //data de expiração (atual + 24 horas)
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(30),
 
                 //passa as signing credentials definidas em cima
                 SigningCredentials = creds

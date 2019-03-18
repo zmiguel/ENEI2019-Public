@@ -42,10 +42,10 @@ namespace api.Controllers
             allCromos.ForEach(delegate(Cromos c){
                 for(int i=0;i<usrCromos.Length;i++){
                     if(Int32.Parse(usrCromos[i])==c.Id){
-                        Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescUnlocked,QRCode=c.QRCode,img=c.img};
+                        Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescUnlocked,QRCode=c.QRCode,img=c.img, unlocked=true, websiteCromo=c.websiteCromo,pontos=c.pontos};
                         rList.Add(toAdd);
                     }else{              //user NAO tem o cromo
-                        Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescLocked,QRCode=c.QRCode,img=c.img};
+                        Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescLocked,QRCode=c.QRCode,img=c.img , unlocked=false, websiteCromo=c.websiteCromo,pontos=c.pontos};
                         rList.Add(toAdd);
                     }
                 }

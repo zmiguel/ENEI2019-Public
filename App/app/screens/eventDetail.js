@@ -114,98 +114,54 @@ class eventDetail extends React.Component {
                     <Text style={{ color: "#CC1A17", fontSize: 15 }}>
                       {info.hora}
                     </Text>
+                    <Text>{info.horas}</Text>
                   </View>
                 </View>
-                <View>
+                <View >
                   <Text
                     style={{
                       margin: 10,
                       marginBottom: 0,
                       marginTop: 0,
+                      marginBottom:10,
                       fontSize: 20,
                       color: "#CC1A17"
                     }}
                   >
                     {info.nome}
                   </Text>
-                  
-                </View>
-
-                <View style={{ margin: 10 }}>
-                
-                  
-                </View>
-            
-                   
-                      <View>
-                        <View
-                          style={{
-                            flex: 1,
-                            flexDirection: "row",
-                            marginTop: 10
-                          }}
-                        >
-                          <View style={{ width: 100, height: 100, padding: 5 }}>
-                            <FitImage
-                              source={{
-                                uri:
-                                  "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Speakers/ffb043cb-3073-421c-a070-5d273b50fc23.jpeg"
-                              }}
-                              style={{ padding: 5 }}
-                            />
-                          </View>
-                          <View>
-                            <Text
-                              style={{
-                                fontWeight: "bold",
-                                fontSize: 20,
-                                margin: 10
-                              }}
-                            >
-                           {info.nome}
-                            </Text>
-                            <Text style={{ marginLeft: 10 }}>
-                              {info.nome}
-                            </Text>
-                            <TouchableOpacity>
-                              <Text
-                                style={{ color: "#CC1A17", marginLeft: 10 }}
-                              >
-                                     {info.nome}
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                        <View>
-                          <Text
-                            style={{
-                              fontWeight: "bold",
-                              color: "#CC1A17",
-                              margin: 10,
-                              marginBottom: 0,
-                              fontSize: 15
-                            }}
-                          >
-                            Descrição do orador:
-                          </Text>
-                          <Text style={{ margin: 10 }}>{info.desc}</Text>
-                        </View>
-                      </View>
-                  
-          
-            
-              </View>
-
-              <View style={styles.block}>
-                <Text
+                  <View style={{margin:10}}>
+                  <Text
                   style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" }}
                 >
-                  Descrição da palestra/workshop
+                 Descrição:
                 </Text>
                 <Divider style={{ backgroundColor: "#000" }} />
                 <View style={{ marginTop: 10 }}>
                   <Text>{info.desc}</Text>
                 </View>
+                <Text
+                  style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" ,marginTop:10}}
+                >
+                 Como posso participar?
+                </Text>
+                <Divider style={{ backgroundColor: "#000" }} />
+                <View style={{ marginTop: 10 }}>
+                  <Text>{info.notas}</Text>
+                </View>
+                <Text
+                  style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" ,marginTop:10}}
+                >
+                 Qual é o custo de participação?
+                </Text>
+                <Divider style={{ backgroundColor: "#000" }} />
+                <View style={{ marginTop: 10 }}>
+                  <Text>{info.custo}</Text>
+                </View>
+                </View>
+                </View>
+
+            
               </View>
             </View>
           </View>
@@ -216,10 +172,7 @@ class eventDetail extends React.Component {
               Localização
             </Text>
             <Divider style={{ backgroundColor: "#000", marginBottom: 10 }} />
-            <Image
-              source={require("../assets/img/campus.png")}
-              style={{ width: SCREEN_WIDTH * 0.9 }}
-            />
+            <Text>{info.localizacao}</Text>
           </View>
         </ScrollView>
         <Divider style={{ backgroundColor: "black" }} />
