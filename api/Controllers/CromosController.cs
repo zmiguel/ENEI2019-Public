@@ -35,7 +35,7 @@ namespace api.Controllers
             var usr = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == QR);
             string[] usrCromos = usr.cromos.Substring(1).Split(",");
             Console.WriteLine(usrCromos[0]);
-            var allCromos = await context.Cromos.Include(p=>p.img).ToListAsync();
+            var allCromos = await context.Cromos.ToListAsync();
 
             List<Cromos> rList = new List<Cromos>();
             

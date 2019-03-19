@@ -12,8 +12,7 @@ namespace api.Models
         public String DescLocked{get;set;}  //descrição nao visto
         public String DescUnlocked{get;set;}//descrição visto
         public String DescMostrar{get;set;} //descrição a mostrar
-        public Photo img {get;set;}         //imagem
-        
+        public string img {get;set;}         //imagem
         public string websiteCromo{get;set;} 
         public Boolean unlocked{get;set;} // se está desbloqueado ou não
 
