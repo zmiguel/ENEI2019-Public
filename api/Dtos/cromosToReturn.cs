@@ -11,6 +11,6 @@ namespace api.Dtos
         public List<Cromos> cromos{get;set;}                    //equipa id
         
         [Required]
-        public Int pontuacao{get;set;}              //novo membro
+        public int pontuacao{get;set;}              //novo membro
     }
 }
