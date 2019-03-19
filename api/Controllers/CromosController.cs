@@ -35,16 +35,21 @@ namespace api.Controllers
             var usr = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == QR);
             string[] usrCromos = usr.cromos.Substring(1).Split(",");
             Console.WriteLine(usrCromos[0]);
-            var allCromos = await context.Cromos.ToListAsync();
+            var allCromos = await context.Cromos.Include(p=>p.img).ToListAsync();
 
             List<Cromos> rList = new List<Cromos>();
             
             allCromos.ForEach(delegate(Cromos c){
+
                 for(int i=0;i<usrCromos.Length;i++){
+                
                     if(Int32.Parse(usrCromos[i])==c.Id){
+
                         Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescUnlocked,QRCode=c.QRCode,img=c.img, unlocked=true, websiteCromo=c.websiteCromo,pontos=c.pontos};
                         rList.Add(toAdd);
-                    }else{              //user NAO tem o cromo
+
+                    }else{ 
+
                         Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescLocked,QRCode=c.QRCode,img=c.img , unlocked=false, websiteCromo=c.websiteCromo,pontos=c.pontos};
                         rList.Add(toAdd);
                     }
