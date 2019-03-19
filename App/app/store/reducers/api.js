@@ -23,7 +23,9 @@ import {
 GET_INTERNAL_EVENTS,
 CREATE_TEAM,
 GET_CROMOS,
-GET_LOCS_VISITED
+GET_LOCS_VISITED,
+SCAN_QR,
+LOGIN_INTERNAL
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -31,7 +33,7 @@ import { REHYDRATE } from "redux-persist";
 let apiState = {
   isConnected: false,
   logged: false,
-  onHold: true,
+  onHold: false,
   user: {},
   events: [],
   showAlert: true,
@@ -115,7 +117,8 @@ const apiReducer = (state = apiState, action) => {
           alimentacao:  action.payload.apiReducer.alimentacao,
           acesso:  action.payload.apiReducer.acesso,
           alojamento:  action.payload.apiReducer.alojamento,
-          internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODcwODcwLCJleHAiOjE1NTU0NTkyNzAsImlhdCI6MTU1Mjg3MDg3MH0.wkBk-CUDMCaU-K9jI0pTRJ794IGCl-C9md39dMfHqa5zTf-gNpD76xEYea3PhIbW2dnUVgo0m1fxR1sW7k9LMg" 
+          internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODcwODcwLCJleHAiOjE1NTU0NTkyNzAsImlhdCI6MTU1Mjg3MDg3MH0.wkBk-CUDMCaU-K9jI0pTRJ794IGCl-C9md39dMfHqa5zTf-gNpD76xEYea3PhIbW2dnUVgo0m1fxR1sW7k9LMg", 
+          cromos: action.payload.apiReducer.cromos
         };
       }
 
@@ -124,6 +127,10 @@ const apiReducer = (state = apiState, action) => {
         cromos: action.cromos
       });
 
+      case LOGIN_INTERNAL:
+      return Object.assign({}, state, {
+        internalToken: action.internalToken
+      });
    case GET_LOCS_VISITED:
    return Object.assign({}, state, {
     locais: action.locais
@@ -185,7 +192,7 @@ const apiReducer = (state = apiState, action) => {
     case CHECK_USER:
       state = Object.assign({}, state, {
         logged: action.logged,
-        onHold: action.onHold,
+        onHold: false,
         // userDetails: u,
         token: action.token
       });

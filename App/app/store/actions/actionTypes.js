@@ -6,7 +6,8 @@ export const CREATE_TEAM='CREATE_TEAM'
 export const DELETE_TEAM='DELETE_TEAM'
 export const GET_CROMOS='GET_CROMOS'
 export const GET_LOCS_VISITED= 'GET_LOCS_VISITED'
-
+export const SCAN_QR = 'SCAN_QR'
+export const LOGIN_INTERNAL ='LOGIN_INTERNAL'
 
 
 //API BLUETREND

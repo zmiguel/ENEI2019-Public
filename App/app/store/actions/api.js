@@ -29,7 +29,9 @@ import {
   CREATE_TEAM,
   DELETE_TEAM,
   GET_CROMOS,
-  GET_LOCS_VISITED
+  GET_LOCS_VISITED,
+  SCAN_QR,
+  LOGIN_INTERNAL
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -45,6 +47,29 @@ const axios = require("axios");
 axios.defaults.baseURL = "https://api.enei.pt/internal/api";
 
 const map = require("lodash/fp/map").convert({ cap: false });
+
+export function scanQrCode(data,tokenInternal){
+  axios.defaults.baseURL = "https://api.enei.pt";
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
+console.log(data)
+  return dispatch => {
+    axios
+      .post("/api/Scan", data)
+      .then(a => {
+        console.log(a.data);
+        Alert.alert("SUCESSO!", a.data);
+        dispatch({
+          type: SCAN_QR
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert("ERRO!", "Existiu um no scan do QRCode");
+      });
+  };
+}
 
 export function getEventLocsVisited(teamId, tokenInternal ) {
   axios.defaults.headers.common = {
@@ -385,24 +410,29 @@ export function changePassword(token, old, new1, new2) {
   };
 }
 //faz autenticação com API interna
-export function loginInternal(userDetails) {
-  axios.defaults.baseURL = "http://127.0.0.1:5000";
+export function loginInternal(user,t) {
+  axios.defaults.baseURL = "https://api.enei.pt";
+  console.log(user)
   return dispatch => {
     axios
-      .post("/api/login", {
-        username: "cena",
-        password: "password"
+      .post("/api/loginQR", {
+        Qrcode: user.Code,
+        token: t.access_token
       })
       .then(a => {
-        console.log("sucesso!");
-        console.log(a);
+        dispatch({
+          type: LOGIN_INTERNAL,
+          internalToken:a.data.token
+        });
       })
       .catch(p => {
         console.log(p);
+        Alert.alert("Erro","Existiu um erro a obter o token... Contacta a comissão se vires esta mensagem de erro.")
       });
 
     dispatch({
-      type: OPEN_MODAL
+      type: LOGIN_INTERNAL,
+      internalToken:'error'
     });
   };
 }
