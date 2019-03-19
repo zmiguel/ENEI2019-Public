@@ -16,6 +16,7 @@ namespace api.Models
         public string websiteCromo{get;set;} 
         public Boolean unlocked{get;set;} // se está desbloqueado ou não
 
+        public string logo{get;set;} //logotipo para os detalhes
         public int pontos{get;set;} //pontos que este cromo concede
          
     }

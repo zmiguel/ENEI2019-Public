@@ -45,7 +45,7 @@ namespace api.Controllers
                 
                     if(Int32.Parse(usrCromos[i])==c.Id){
 
-                        Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescUnlocked,QRCode=c.QRCode,img=c.img, unlocked=true, websiteCromo=c.websiteCromo,pontos=c.pontos};
+                        Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescUnlocked,QRCode=c.QRCode,img=c.img, unlocked=true, websiteCromo=c.websiteCromo,pontos=c.pontos, logo=c.logo};
                         rList.Add(toAdd);
 
                     }else{ 
