@@ -30,8 +30,9 @@ namespace api.Controllers
         // GET api/cromos/QR
         // GET cromos do user QR
         [HttpGet("{QR}")]
-        public async Task<List<Cromos>> GetCromos(string QR)
+        public async Task<IActionResult> GetCromos(string QR)
         {
+            int soma=0;
             var usr = await context.Users.FirstOrDefaultAsync(u=>u.QRcode == QR);
             string[] usrCromos = usr.cromos.Substring(1).Split(",");
             Console.WriteLine(usrCromos[0]);
@@ -44,7 +45,7 @@ namespace api.Controllers
                 for(int i=0;i<usrCromos.Length;i++){
                 
                     if(Int32.Parse(usrCromos[i])==c.Id){
-
+                        soma+=c.pontos;
                         Cromos toAdd = new Cromos{Id = c.Id,Nome=c.Nome,DescMostrar=c.DescUnlocked,QRCode=c.QRCode,img=c.img, unlocked=true, websiteCromo=c.websiteCromo,pontos=c.pontos, logo=c.logo};
                         rList.Add(toAdd);
 
@@ -55,7 +56,11 @@ namespace api.Controllers
                     }
                 }
             });
-            return rList;
+
+        cromosToReturn a= new cromosToReturn();
+        a.cromos= rList;
+        a.pontuacao=soma;
+            return Ok(a);
         }
 
     }
