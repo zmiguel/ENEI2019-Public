@@ -72,6 +72,131 @@ class eventDetail extends React.Component {
 
     };
 
+
+    _renderRally = (info) => {
+        console.log(info)
+        return (
+            <View>
+                <View style={styles.header}>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignSelf: "center"
+                        }}
+                    >
+                        <View style={styles.leftRow}>
+                            <Text style={{
+                                    margin: 10,
+                                    marginTop: 0,
+                                    marginBottom: 10,
+                                    fontSize: 20,
+                                    color: "#CC1A17"  }}>
+                                {info.location.nome}
+                            </Text>
+                        </View>
+                        <View style={styles.timeText}>
+                            <Text style={{color: "#CC1A17", fontSize: 15}}>
+                                {info.hora}
+                            </Text>
+                            <Text>{info.horas}</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <View style={{margin: 10}}>
+                            <Text
+                                style={{fontSize: 15, color: "#CC1A17", fontWeight: "bold"}}
+                            >
+                                Descrição:
+                            </Text>
+                            <Divider style={{backgroundColor: "#000"}}/>
+                            <View style={{marginTop: 10}}>
+                                <Text>{info.location.desc}</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        );
+    };
+
+
+    _renderEventDetail = (info) => {
+        return (
+            <View>
+                <View style={styles.header}>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignSelf: "center"
+                        }}
+                    >
+                        <View style={styles.timeText}>
+                            <Text style={{color: "#CC1A17", fontSize: 15}}>
+                                {info.hora}
+                            </Text>
+                            <Text>{info.horas}</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <Text
+                            style={{
+                                margin: 10,
+                                marginTop: 0,
+                                marginBottom: 10,
+                                fontSize: 20,
+                                color: "#CC1A17"
+                            }}
+                        >
+                            {info.nome}
+                        </Text>
+                        <View style={{margin: 10}}>
+                            <Text
+                                style={{fontSize: 15, color: "#CC1A17", fontWeight: "bold"}}
+                            >
+                                Descrição:
+                            </Text>
+                            <Divider style={{backgroundColor: "#000"}}/>
+                            <View style={{marginTop: 10}}>
+                                <Text>{info.desc}</Text>
+                            </View>
+                            <Text
+                                style={{fontSize: 15, color: "#CC1A17", fontWeight: "bold", marginTop: 10}}
+                            >
+                                Como posso participar?
+                            </Text>
+                            <Divider style={{backgroundColor: "#000"}}/>
+                            <View style={{marginTop: 10}}>
+                                <Text>{info.notas}</Text>
+                            </View>
+                            <Text
+                                style={{fontSize: 15, color: "#CC1A17", fontWeight: "bold", marginTop: 10}}
+                            >
+                                Qual é o custo de participação?
+                            </Text>
+                            <Divider style={{backgroundColor: "#000"}}/>
+                            <View style={{marginTop: 10}}>
+                                <Text>{info.custo}</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </View>
+        );
+    };
+
+
+    _renderContainer = (info, eventType) => {
+        console.log("Estou aqui " + eventType)
+        if (eventType === "rally") {
+            return this._renderRally(info);
+        }
+        else if (eventType === undefined) {
+            return this._renderEventDetail(info);
+        }
+    };
+
     constructor(props) {
         super(props);
 
@@ -82,7 +207,7 @@ class eventDetail extends React.Component {
     render() {
         const {navigation} = this.props;
         const info = navigation.getParam("info", "error");
-
+        const eventType = navigation.getParam("type");
 
         return (
             <View style={styles.mainViewStyle}>
@@ -100,69 +225,7 @@ class eventDetail extends React.Component {
                                 </View>
                             </View>
                         </View>
-                        <View>
-                            <View style={styles.header}>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        alignSelf: "center"
-                                    }}
-                                >
-                                    <View style={styles.timeText}>
-                                        <Text style={{color: "#CC1A17", fontSize: 15}}>
-                                            {info.hora}
-                                        </Text>
-                                        <Text>{info.horas}</Text>
-                                    </View>
-                                </View>
-                                <View>
-                                    <Text
-                                        style={{
-                                            margin: 10,
-                                            marginBottom: 0,
-                                            marginTop: 0,
-                                            marginBottom: 10,
-                                            fontSize: 20,
-                                            color: "#CC1A17"
-                                        }}
-                                    >
-                                        {info.nome}
-                                    </Text>
-                                    <View style={{margin: 10}}>
-                                        <Text
-                                            style={{fontSize: 15, color: "#CC1A17", fontWeight: "bold"}}
-                                        >
-                                            Descrição:
-                                        </Text>
-                                        <Divider style={{backgroundColor: "#000"}}/>
-                                        <View style={{marginTop: 10}}>
-                                            <Text>{info.desc}</Text>
-                                        </View>
-                                        <Text
-                                            style={{fontSize: 15, color: "#CC1A17", fontWeight: "bold", marginTop: 10}}
-                                        >
-                                            Como posso participar?
-                                        </Text>
-                                        <Divider style={{backgroundColor: "#000"}}/>
-                                        <View style={{marginTop: 10}}>
-                                            <Text>{info.notas}</Text>
-                                        </View>
-                                        <Text
-                                            style={{fontSize: 15, color: "#CC1A17", fontWeight: "bold", marginTop: 10}}
-                                        >
-                                            Qual é o custo de participação?
-                                        </Text>
-                                        <Divider style={{backgroundColor: "#000"}}/>
-                                        <View style={{marginTop: 10}}>
-                                            <Text>{info.custo}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-
-
-                            </View>
-                        </View>
+                        {this._renderContainer(info, eventType)}
                     </View>
                     <View style={styles.block}>
                         <Text
