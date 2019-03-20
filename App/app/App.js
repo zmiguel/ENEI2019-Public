@@ -105,7 +105,7 @@ class App extends Component {
 
   componentDidMount() {
     //this.props.hold();
-   // this.props.loginInternal();
+   
 
 
     this.setState({ isModalVisible: false });
@@ -155,7 +155,7 @@ class App extends Component {
     if (!this.props.logged && this.props.onHold) {
       return (
         <View style={UtilStyles.containerLoading}>
-          <ActivityIndicator size="large" color="red" />
+          <ActivityIndicator size="large" color="#CC1A17" />
         </View>
       );
     } else {

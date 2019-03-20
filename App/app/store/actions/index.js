@@ -28,7 +28,8 @@ export {checkUser,
     createTeam,
     deleteTeam,
     getCromos,
-    getEventLocsVisited
+    getEventLocsVisited,
+    scanQrCode
     
 } from "./api"
 

@@ -86,6 +86,8 @@ class Home extends Component {
     console.log(this.props.internalToken)
     this.props.getUserTeam(this.props.user, this.props.internalToken  );
     this.props.getEvents(this.props.user);
+
+    this.props.loginInternal(this.props.user, this.props.token);
   }
   componentWillUnmount() {}
 

@@ -100,7 +100,9 @@ namespace api.Migrations
 
                     b.Property<string>("QRCode");
 
-                    b.Property<int?>("imgId");
+                    b.Property<string>("img");
+
+                    b.Property<string>("logo");
 
                     b.Property<int>("pontos");
 
@@ -109,8 +111,6 @@ namespace api.Migrations
                     b.Property<string>("websiteCromo");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("imgId");
 
                     b.ToTable("Cromos");
                 });
@@ -425,13 +425,6 @@ namespace api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("api.Models.Cromos", b =>
-                {
-                    b.HasOne("api.Models.Photo", "img")
-                        .WithMany()
-                        .HasForeignKey("imgId");
                 });
 
             modelBuilder.Entity("api.Models.EventLoc", b =>

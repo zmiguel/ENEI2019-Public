@@ -144,6 +144,16 @@ const Stack = createStackNavigator({
                     )
                 }
             }
+            if (navigation.state.routes[index].routeName == 'Jogo do...') {
+                return {
+                    header: (<View style={{backgroundColor:'#CC1A17', padding:15}}>
+                        <Text style={{textAlign:'center', alignSelf:'center', color:'white', fontSize:20, fontWeight:'bold'}}>Jogo do ENEI'19</Text>
+                    </View>)
+                 
+                       
+                    
+                }
+            }
             else if (navigation.state.routes[index].routeName == 'Calendário') {
                 return {
                     headerTitle: 'Calendário',

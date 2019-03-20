@@ -7,7 +7,8 @@ import {
   Dimensions,
   Button,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Linking
 } from "react-native";
 import ProgressBarAnimated from "react-native-progress-bar-animated";
 import Modal from "react-native-modal";
@@ -23,24 +24,47 @@ import FitImage from "react-native-fit-image";
 import { connect } from "react-redux";
 
 import { bindActionCreators } from "redux";
-
+import PTRView from "react-native-pull-to-refresh";
 import * as Actions from "../store/actions"; //Import your actionss
 
 class Jogo extends React.Component {
+ 
+  static navigationOptions = ({ navigation }) => ({
+    header: (
+     <View style={{backgroundColor:'#CC1A17'}}>
+       <Text>a</Text>
+     </View>
+    )
+  });
+
+
+  handleClick = (link) => {
+    Linking.canOpenURL(link).then(supported => {
+      if (supported) {
+        Linking.openURL(link);
+      } else {
+        console.log("Don't know how to open URI: " + link);
+      }
+    });
+  };
+
   state = {
     progress: 20,
     progressWithOnComplete: 0,
     progressCustomized: 0,
-    isModalVisible: false
+    isModalVisible: false, 
+    cromo:{}
   };
   increase = (key, value) => {
     this.setState({
       [key]: this.state[key] + value
     });
   };
-
-  _toggleModal = () => {
-    this.setState({ isModalVisible: !this.state.isModalVisible });
+  _update = () => {
+    this.props.getCromos(this.props.user, this.props.internalToken);
+  };
+  _toggleModal = (item) => {
+    this.setState({ isModalVisible: !this.state.isModalVisible , cromo: item});
     console.log("assd");
   };
 
@@ -64,6 +88,7 @@ class Jogo extends React.Component {
           isVisible={this.state.isModalVisible}
           animationInTiming={1000}
           animationOutTiming={800}
+          onBackdropPress={()=>this.setState({isModalVisible:false})}
         >
           <View
             style={{
@@ -89,13 +114,15 @@ class Jogo extends React.Component {
               <View style={{ width: "100%", margin: -10 }}>
                 <View style={{ width: 30 }}>
                   <Button
-                    onPress={this._toggleModal}
+                    onPress={()=>this.setState({isModalVisible:false})}
                     title="X"
                     color="#CC1A17"
                     accessibilityLabel="Learn more about this purple button"
                   />
                 </View>
               </View>
+
+              {  this.state.cromo.unlocked &&
               <View
                 style={{
                   flex: 1,
@@ -105,13 +132,13 @@ class Jogo extends React.Component {
                 }}
               >
                 <View style={{ paddingTop: 25, width: "40%" }}>
+                
                   <FitImage
                     source={{
-                      uri:
-                        "https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png"
-                    }}
+                      uri: this.state.cromo.logo}}
                     style={styles.fitImage}
                   />
+                  
                 </View>
                 <View
                   style={{
@@ -121,15 +148,11 @@ class Jogo extends React.Component {
                   }}
                 >
                   <Text style={{ padding: 10 }}>
-                    A CRITICAL Software fornece sistemas e serviços de software
-                    para segurança e aplicações essenciais aos negócios,
-                    ajudando a garantir que os clientes atendam aos requisitos
-                    mais exigentes de qualidade - padrões de segurança,
-                    desempenho e fiabilidade
+                   {this.state.cromo.descMostrar}
                   </Text>
                 </View>
                 <View style={{ width: "100%", marginTop: 10 }}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>this.handleClick(this.state.cromo.websitecromo)} >
                     <Text
                       style={{
                         textAlign: "center",
@@ -143,16 +166,48 @@ class Jogo extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
+              }
+
+{ this.state.cromo.unlocked!= true &&
+              <View
+                style={{
+                  flex: 1,
+                  alignContent: "center",
+                  width: "96%",
+                  alignItems: "center"
+                }}
+              >
+                <View style={{ paddingTop: 25, width: "40%" }}>
+                
+                  <FitImage
+                    source={{uri:"https://i.imgur.com/LrOOupY.png"}}
+                    style={styles.fitImage}
+                  />
+                  
+                </View>
+                <View
+                  style={{
+                    backgroundColor: "rgba(255,255,255,0.6)",
+                    width: "100%",
+                    marginTop: 35
+                  }}
+                >
+                  <Text style={{ padding: 10 }}>
+                   {this.state.cromo.descMostrar}
+                  </Text>
+                </View>
+                <View style={{ width: "100%", marginTop: 10 }}>
+                 
+                </View>
+              </View>
+              }
+
             </ImageBackground>
           </View>
         </Modal>
 
-        <View style={styles.header}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>Jogo do ENEI'19</Text>
-          </View>
-        </View>
-        <View style={{ height: 50, backgroundColor: "white" }}>
+        <PTRView onRefresh={this._update}>
+        <View style={{ height: 50, backgroundColor: "#eeeeee" }}>
           <View
             style={{
               flex: 1,
@@ -170,11 +225,13 @@ class Jogo extends React.Component {
               }}
             >
               <IconFA name="trophy" size={30} />
+              {this.props.cromos!= undefined &&
               <Text
                 style={{ fontWeight: "bold", fontSize: 20, marginLeft: 10 }}
               >
-                45
+                { this.props.cromos.pontuacao}
               </Text>
+              }
               <Text style={{ margin: 5 }}>pontos</Text>
             </View>
             <View
@@ -185,7 +242,7 @@ class Jogo extends React.Component {
               }}
             >
               <Button
-                onPress={this._toggleModal}
+                onPress={()=>this.handleClick("https://enei.pt/jogoenei")}
                 title="Prémios"
                 color="#CC1A17"
                 accessibilityLabel="Learn more about this purple button"
@@ -227,31 +284,50 @@ class Jogo extends React.Component {
           horizontal={true}
         >
           <ScrollView>
-            <View style={styles.cromosContainer}>
+            <View style={styles.cromosContainer}>{this.props.cromos!=undefined &&
               <FlatList
-                data={this.props.cromos}
+                data={this.props.cromos.cromos}
                 renderItem={({ item }) => (
-                  <TouchableOpacity onPress={this._toggleModal}>
-                    <View style={styles.cromo}>
+                  <TouchableOpacity onPress={()=>this._toggleModal(item)}>
+                    <View style={styles.cromo}>{
+                      item.unlocked &&
+                   
                       <ImageBackground
-                        source={require("../assets/img/jogo/critical.png")}
+                        source={{uri:item.img}}
                         style={styles.imageBg}
                       >
                         <View style={[styles.triangle, this.props.style]} />
-                        <Text style={styles.points}>15</Text>
+                        <Text style={styles.points}>{item.pontos}</Text>
                         <View
                           style={[styles.triangleNumber, this.props.style]}
                         />
-                        <Text style={styles.number}>0</Text>
+                        <Text style={styles.number}>{item.id-1}</Text>
                       </ImageBackground>
+                       }
+                       {
+                      !item.unlocked &&
+                   
+                      <ImageBackground
+                        source={require('../assets/img/jogo/enei_black_2.png')}
+                        style={styles.imageBg}
+                      >
+                        <View style={[styles.triangle, this.props.style]} />
+                        <Text style={styles.points}>{item.pontos}</Text>
+                        <View
+                          style={[styles.triangleNumber, this.props.style]}
+                        />
+                        <Text style={styles.number}>{item.id-1}</Text>
+                      </ImageBackground>
+                       }
                     </View>
                   </TouchableOpacity>
                 )}
                 numColumns={3} // Número de colunas
-              />
+              />}
             </View>
           </ScrollView>
         </ScrollView>
+      </PTRView>
       </View>
     );
   }
