@@ -324,7 +324,7 @@ class Jogo extends React.Component {
                     </View>
                   </TouchableOpacity>
                 )}
-                numColumns={3} // Número de colunas
+                numColumns={4} // Número de colunas
               />}
             </View>
           </ScrollView>

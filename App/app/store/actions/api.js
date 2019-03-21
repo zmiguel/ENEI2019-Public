@@ -1325,7 +1325,7 @@ function getE(user, careerPath, token) {
     Id: 47,
     time: "14:00",
     description:
-      "Boas vindas aos participantes. É nesta altura que os participantes fazem o check-in e recebem o seu kit para o evento",
+      "Bem-vindo ao ENEI’19! Para receberes a tua credencial e o teu kit de participação, dirige-te ao nosso balcão de check-in. Para o encontrares basta consultares o mapa do evento na app do ENEI’19 ou dirige-te a um dos nossos voluntários ou membros da organização, é certo eles ajudarem-te!",
     name: "Boas vindas e Check-in",
     Enrolled: 700,
     MaxAttendees: 300,
