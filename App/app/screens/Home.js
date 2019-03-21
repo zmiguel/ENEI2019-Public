@@ -83,11 +83,8 @@ class Home extends Component {
 
     this.props.getUserInfo(this.props.token);
 
-    console.log(this.props.internalToken)
-    this.props.getUserTeam(this.props.user, this.props.internalToken  );
-    this.props.getEvents(this.props.user);
-
-    this.props.loginInternal(this.props.user, this.props.token);
+    this.props.getEvents(this.props.user,this.props.token);
+  
   }
   componentWillUnmount() {}
 
@@ -103,7 +100,7 @@ class Home extends Component {
   }
   _update = () => {
     this.props.getUserInfo(this.props.token);
-    this.props.getEvents(this.props.user);
+    this.props.getEvents(this.props.user,this.props.token);
     this.props.getUserTeam(this.props.user, this.props.internalToken )
   };
   onSuccess=e=>{
@@ -162,7 +159,7 @@ _creatTeam=()=>{
     if (this.props.logged) {
       return (
         <PTRView onRefresh={this._update}>
-          <ScrollView style={{ backgroundColor: "#eeeeee" }}>
+          <ScrollView style={{ backgroundColor: "#eeeeee" , height:SCREEN_HEIGHT}}>
             <View>
              <Modal
                  isVisible={this.state.addUser}

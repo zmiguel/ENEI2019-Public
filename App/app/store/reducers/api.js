@@ -64,7 +64,7 @@ let apiState = {
   alojamento: [],
   sessionDetail:{},
   team:undefined,
-  internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyOTI4NTgyLCJleHAiOjE1NTMwMTQ5ODIsImlhdCI6MTU1MjkyODU4Mn0.Kwc-vu9lTGFDTKOAt7LKvBb0pnEnF6v30kF-4RjjU8swAwTJLF_oymF-MKOYtpY0a9IRaBK9yrED5b5Wkc2aoQ",
+  internalToken:"",
   eventsInternal:[],
   cromos:[],
   locais:[],
@@ -118,7 +118,8 @@ const apiReducer = (state = apiState, action) => {
           acesso:  action.payload.apiReducer.acesso,
           alojamento:  action.payload.apiReducer.alojamento,
           internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODcwODcwLCJleHAiOjE1NTU0NTkyNzAsImlhdCI6MTU1Mjg3MDg3MH0.wkBk-CUDMCaU-K9jI0pTRJ794IGCl-C9md39dMfHqa5zTf-gNpD76xEYea3PhIbW2dnUVgo0m1fxR1sW7k9LMg", 
-          cromos: action.payload.apiReducer.cromos
+          cromos: action.payload.apiReducer.cromos,
+          careerPath: action.payload.apiReducer.careerPath
         };
       }
 

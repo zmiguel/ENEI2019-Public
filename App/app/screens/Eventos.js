@@ -9,7 +9,8 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    ActivityIndicator
 } from "react-native";
 
 import {TabView, TabBar, SceneMap} from "react-native-tab-view";
@@ -55,6 +56,16 @@ _update=()=> {
             <PTRView onRefresh={this._update}>
                 <View style={styles.container}>
                     <ScrollView styles={styles.scroll}>
+
+                    {
+                        this.props.eventsInternal==undefined &&
+                    <View style={{height:SCREEN_HEIGHT, marginTop:SCREEN_HEIGHT*0.27, backgroundColor:'white'}}>
+                    <Text style={{fontSize:12, margin:15, textAlign:'center'}}>Se estiver a demorar muito, arrasta para atualizar</Text>
+                    <View style={{width:80, alignContent:'center', alignItems:'center'}}><Button onPress={this._update} title="Refresh" color="#CC1A17"
+        /></View>
+                    <ActivityIndicator size="large" color="#CC1A17" /></View>
+                   
+                    }
                         <FlatList
                             data={this.props.eventsInternal}
                             renderItem={({item}) =>
@@ -116,7 +127,7 @@ const styles = StyleSheet.create({
 
     },
     container: {
-        backgroundColor: '#eee',
+        backgroundColor: 'white',
         flex: 1,
         flexGrow: 1,
         flexDirection: 'column',

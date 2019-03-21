@@ -117,7 +117,7 @@ class Jogo extends React.Component {
                     onPress={()=>this.setState({isModalVisible:false})}
                     title="X"
                     color="#CC1A17"
-                    accessibilityLabel="Learn more about this purple button"
+                    accessibilityLabel=""
                   />
                 </View>
               </View>
@@ -207,6 +207,7 @@ class Jogo extends React.Component {
         </Modal>
 
         <PTRView onRefresh={this._update}>
+    
         <View style={{ height: 50, backgroundColor: "#eeeeee" }}>
           <View
             style={{
@@ -215,6 +216,7 @@ class Jogo extends React.Component {
               flexDirection: "row"
             }}
           >
+       
             <View
               style={{
                 width: SCREEN_WIDTH * 0.7,
@@ -279,7 +281,7 @@ class Jogo extends React.Component {
             </View>
           </View>
         </View>
-        <ScrollView
+         <ScrollView
           style={{ backgroundColor: "#eeeeee", marginTop: 10 }}
           horizontal={true}
         >
@@ -327,7 +329,7 @@ class Jogo extends React.Component {
             </View>
           </ScrollView>
         </ScrollView>
-      </PTRView>
+        </PTRView>
       </View>
     );
   }

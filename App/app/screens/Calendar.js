@@ -46,9 +46,12 @@ class Calendar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getEvents(this.props.user,this.props.careerPath);
 
-    this.props.getSessions(this.props.token);
+
+   // this.props.getSessions(this.props.token);
+
+   // this.props.getEvents(this.props.user,this.props.careerPath);
+
   }
 
   _openDetails = () => {
@@ -65,22 +68,11 @@ class Calendar extends React.Component {
         <View style={styles.event}>
           <View style={styles.titleContainer}>
             <Text style={[styles.title]}>{item.name}</Text>
-            <Text style={{ color: "black" }}>Local: 1</Text>
+            <Text style={{ color: "black" }}>{item.place}</Text>
           </View>
 
           <View>
             <Text style={styles.description}>{item.description}</Text>
-            <View style={styles.details}>
-              <Progress.Bar
-                color={"#000000"}
-                progress={0}
-                unfilledColor={"white"}
-                width={210}
-              />
-              <Text>
-                {item.Enrolled} / {item.MaxAttendees}
-              </Text>
-            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -142,7 +134,8 @@ class Calendar extends React.Component {
     super();
   }
   _refresh=()=>{
-    this.props.getEvents(this.props.user,this.props.careerPath);
+    this.props.getEvents(this.props.user,this.props.careerPath, this.props.token);
+
     
   }
 

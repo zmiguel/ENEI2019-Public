@@ -48,12 +48,12 @@ axios.defaults.baseURL = "https://api.enei.pt/internal/api";
 
 const map = require("lodash/fp/map").convert({ cap: false });
 
-export function scanQrCode(data,tokenInternal){
+export function scanQrCode(data, tokenInternal) {
   axios.defaults.baseURL = "https://api.enei.pt";
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
-console.log(data)
+  console.log(data);
   return dispatch => {
     axios
       .post("/api/Scan", data)
@@ -71,7 +71,7 @@ console.log(data)
   };
 }
 
-export function getEventLocsVisited(teamId, tokenInternal ) {
+export function getEventLocsVisited(teamId, tokenInternal) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
@@ -92,8 +92,6 @@ export function getEventLocsVisited(teamId, tokenInternal ) {
         console.log(p);
         Alert.alert("ERRO!", "erro a obter os locais visitados");
       });
-
-   
   };
 }
 
@@ -188,7 +186,7 @@ export function getAllEvents(tokenInternal) {
       })
       .catch(p => {
         console.log(p);
-        Alert.alert("ERRO!", "erro a obter os eventos");
+        // Alert.alert("ERRO!", "erro a obter os eventos");
       });
 
     dispatch({
@@ -289,6 +287,202 @@ export function waitLogin() {
     });
   };
 }
+
+var getEAsync = function(user, careerPath, token) {
+  return new Promise(function(resolve, reject) {
+    console.log("career path: ");
+    var cenas = [];
+    let events = [];
+    var alimentacao = [];
+    var alojamento = [];
+    var acesso = [];
+    var i = 0;
+    console.log(user.Sessions);
+
+    checkAndRefresh(token)
+      .then(newToken => {
+        axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+        axios.defaults.headers.common = {
+          Authorization: `bearer ${newToken.access_token}`
+        };
+        axios
+          .get("/Attendee/AvailableSessions")
+          .then(function(response) {
+            // handle success
+            console.log("available");
+            console.log(response);
+            console.log("available");
+            var cenas = [];
+
+            const result1 = flow(groupBy("SessionStart"))(response.data);
+            for (let key in result) {
+              cenas.push(result[key]);
+              console.log();
+            }
+
+            console.log("chegou aqui");
+            console.log(cenas);
+
+            for (let key in user.Sessions) {
+              //se forem sessões de bilhete, adiciona a outra lista
+              if (
+                user.Sessions[key].Id == 1 || //dia 12 de abril
+                user.Sessions[key].Id == 22 || //jantar 12 de abril
+                user.Sessions[key].Id == 23 || //almoço e jantar 13 de abril
+                user.Sessions[key].Id == 24 || //almoço e jantar 14 de abril
+                user.Sessions[key].Id == 25 || //almoço  15 de abril
+                user.Sessions[key].Id == 26 || //alojamento 12 de abril
+                user.Sessions[key].Id == 29 || //alojamento 13 de abril
+                user.Sessions[key].Id == 31 || //alojamento 14 de abril
+                user.Sessions[key].Id == 32 || //dia 13 de abril
+                user.Sessions[key].Id == 33 || //dia 14 de abril
+                user.Sessions[key].Id == 34 || //dia 15 de abril
+                user.Sessions[key].Id == 35 || //jantar dia 12 de abril
+                user.Sessions[key].Id == 36 || //jantar dia 13 de abril
+                user.Sessions[key].Id == 37 //jantar dia 14 de abril
+              ) {
+                // bilhete.push( user.Sessions[key])
+
+                if (user.Sessions[key].Id == 1) {
+                  acesso.push("dia 12");
+                }
+
+                if (user.Sessions[key].Id == 22) alimentacao.push("dia 12");
+
+                if (user.Sessions[key].Id == 23) alimentacao.push("dia 13");
+
+                if (user.Sessions[key].Id == 24) alimentacao.push("dia 14");
+
+                if (user.Sessions[key].Id == 25) alimentacao.push("dia 15");
+
+                if (user.Sessions[key].Id == 26) alojamento.push("dia 12");
+                if (user.Sessions[key].Id == 29) alojamento.push("dia 13");
+                if (user.Sessions[key].Id == 31) alojamento.push("dia 14");
+
+                if (user.Sessions[key].Id == 32) acesso.push("dia 13");
+                if (user.Sessions[key].Id == 33) acesso.push("dia 14");
+                if (user.Sessions[key].Id == 34) acesso.push("dia 15");
+              } else {
+                events.push({
+                  key: i++,
+                  Id: user.Sessions[key].Id,
+                  time: moment(user.Sessions[key].SessionStart).format("HH:mm"),
+                  timeEnd: moment(user.Sessions[key].SessionEnd).format(
+                    "HH:mm"
+                  ),
+                  //lineColor:'#009688',
+                  imageUrl:
+                    "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/" +
+                    user.Sessions[key].Image,
+                  description: user.Sessions[key].Description,
+                  name: user.Sessions[key].Name,
+                  Enrolled: user.Sessions[key].Enrolled,
+                  MaxAttendees: user.Sessions[key].MaxAttendees,
+                  day: moment(user.Sessions[key].SessionStart).format("DD")
+                });
+              }
+            }
+
+            const result = flow(groupBy("day"))(events);
+            var a = [],
+              b = [],
+              c = [],
+              d = [];
+
+            //MEU DEUS QUE É ISTO???
+
+            for (let key in result["12"]) {
+              a.push({
+                Id: result["12"][key].Id,
+                time: result["12"][key].time,
+                timeEnd: result["12"][key].timeEnd,
+                imageUrl: result["12"][key].imageUrl,
+                description: result["12"][key].description,
+                name: result["12"][key].name,
+                Enrolled: result["12"][key].Enrolled,
+                MaxAttendees: result["12"][key].MaxAttendees,
+                day: result["12"][key].day
+              });
+            }
+
+            for (let key in result["13"]) {
+              b.push({
+                Id: result["13"][key].Id,
+                time: result["13"][key].time,
+                timeEnd: result["13"][key].timeEnd,
+                imageUrl: result["13"][key].imageUrl,
+                description: result["13"][key].description,
+                name: result["13"][key].name,
+                Enrolled: result["13"][key].Enrolled,
+                MaxAttendees: result["13"][key].MaxAttendees,
+                day: result["13"][key].day
+              });
+            }
+            for (let key in result["14"]) {
+              c.push({
+                Id: result["14"][key].Id,
+                time: result["14"][key].time,
+                timeEnd: result["14"][key].timeEnd,
+                imageUrl: result["14"][key].imageUrl,
+                description: result["14"][key].description,
+                name: result["14"][key].name,
+                Enrolled: result["14"][key].Enrolled,
+                MaxAttendees: result["14"][key].MaxAttendees,
+                day: result["14"][key].day
+              });
+            }
+
+            for (let key in result["15"]) {
+              d.push({
+                Id: result["15"][key].Id,
+                time: result["15"][key].time,
+                timeEnd: result["15"][key].timeEnd,
+                imageUrl: result["15"][key].imageUrl,
+                description: result["15"][key].description,
+                name: result["15"][key].name,
+                Enrolled: result["15"][key].Enrolled,
+                MaxAttendees: result["15"][key].MaxAttendees,
+                day: result["15"][key].day
+              });
+            }
+            a = _.sortBy(a, function(o) {
+              return o.time;
+            });
+            b = _.sortBy(b, function(o) {
+              return o.time;
+            });
+            c = _.sortBy(c, function(o) {
+              return o.time;
+            });
+            d = _.sortBy(d, function(o) {
+              return o.time;
+            });
+
+            console.log(alimentacao);
+
+            console.log("career path");
+            console.log(careerPath);
+            console.log("career path");
+            return {
+              a,
+              b,
+              c,
+              d,
+              ab: alimentacao,
+              acc: acesso,
+              al: alojamento
+            };
+          })
+          .catch(function(error) {
+            alert("Error a obter sessões disponíveis!!");
+            console.log(error);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+};
 
 var checkAndRefresh = function(token) {
   return new Promise(function(resolve, reject) {
@@ -404,15 +598,15 @@ export function changePassword(token, old, new1, new2) {
       .catch(err => {
         Alert.alert(
           "Token ERROR!",
-          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+          "Parece que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
         );
       });
   };
 }
 //faz autenticação com API interna
-export function loginInternal(user,t) {
+export function loginInternal(user, t) {
   axios.defaults.baseURL = "https://api.enei.pt";
-  console.log(user)
+  console.log(user);
   return dispatch => {
     axios
       .post("/api/loginQR", {
@@ -422,17 +616,20 @@ export function loginInternal(user,t) {
       .then(a => {
         dispatch({
           type: LOGIN_INTERNAL,
-          internalToken:a.data.token
+          internalToken: a.data.token
         });
       })
       .catch(p => {
         console.log(p);
-        Alert.alert("Erro","Existiu um erro a obter o token... Contacta a comissão se vires esta mensagem de erro.")
+        Alert.alert(
+          "Erro",
+          "Existiu um erro a obter o token... Contacta a comissão se vires esta mensagem de erro."
+        );
       });
 
     dispatch({
       type: LOGIN_INTERNAL,
-      internalToken:'error'
+      internalToken: "error"
     });
   };
 }
@@ -523,7 +720,7 @@ export function updateUser(token, user) {
       .catch(err => {
         Alert.alert(
           "Token ERROR!",
-          "Parace que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
+          "Parece que houve um erro com o teu token... Reinicia a App. Caso o problema se mantenha, volta e instalar"
         );
       });
   };
@@ -531,34 +728,41 @@ export function updateUser(token, user) {
 function getCareerPath(sessions) {
   careerPath = "Sem Career Path";
   careerColor = "white";
+  code = "";
 
   for (let key in sessions) {
     if (sessions[key].Name == "IA") {
-      careerPath = "Artificial Inteligence";
+      careerPath = "Artificial Intelligence";
       careerColor = "#CC1A17";
+      code = "IA";
     }
     if (sessions[key].Name == "IOT") {
       careerPath = "Internet of Things";
       careerColor = "green";
+      code = "IOT";
     }
     if (sessions[key].Name == "WEB") {
       careerPath = "Web Development";
       careerColor = "purple";
+      code = "WEB";
     }
     if (sessions[key].Name == "NET") {
       careerPath = "Networking and Security";
       careerColor = "blue";
+      code = "NET";
     }
     if (sessions[key].Name == "MOB") {
       careerPath = "Mobile Development";
       careerColor = "orange";
+      code = "MOB";
     }
     if (sessions[key].Name == "DS") {
       careerPath = "Data Science";
       careerColor = "yellow";
+      code = "DS";
     }
   }
-  return { name: careerPath, color: careerColor };
+  return { name: careerPath, color: careerColor, code: code };
 }
 export const waitChangeGuest = () => {
   return dispatch => {
@@ -640,7 +844,7 @@ export function removeSession(user, token, idSession) {
                         user: sucess.data,
                         token: newToken
                       });
-                      getEvents(user, careerPath);
+                      getEvents(user, careerPath, token);
                     });
                 })
                 .catch(function(error) {
@@ -725,7 +929,7 @@ export function signSession(user, token, idSession) {
                     })
                     .then(sucess => {
                       console.log("aqui2");
-                      var result = getE(user);
+                      var result = getE(user, "", token);
                       dispatch({
                         type: SIGN_SESSION,
                         sessions: response.data,
@@ -1004,15 +1208,14 @@ export function getAvailableSessions(token) {
 
 //ESTA FUNÇÃO TEM MUITO CÓDIGO MAL FEITO...
 
-function getE(user, careerPath) {
-  console.log("career path: ");
+function getE(user, careerPath, token) {
   var cenas = [];
   let events = [];
   var alimentacao = [];
   var alojamento = [];
   var acesso = [];
   var i = 0;
-  console.log(user.Sessions);
+
   for (let key in user.Sessions) {
     //se forem sessões de bilhete, adiciona a outra lista
     if (
@@ -1078,7 +1281,80 @@ function getE(user, careerPath) {
     d = [];
 
   //MEU DEUS QUE É ISTO???
-
+  if (careerPath != undefined && careerPath.code =="IA") {
+    a.push({
+      Id: 22,
+      time: "19:00",
+      description: "Jantar para os career path's de IA",
+      day: "12",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+  }
+  if (careerPath != undefined && careerPath.code =="IOT") {
+    a.push({
+      Id: 22,
+      time: "19:30",
+      description: "Jantar ",
+      day: "12",
+      place: "Cantina do ISEC"
+    });
+  }
+  if (careerPath != undefined && careerPath.code =="NET") {
+    a.push({
+      Id: 22,
+      time: "20:00",
+      description: "Jantar ",
+      day: "12",
+      place: "Cantina do ISEC"
+    });
+  }
+  
+  a.push({
+    Id: 48,
+    time: "21:00",
+    description:
+      "Festarola do evento",
+    name: "Festarola",
+    Enrolled: 700,
+    MaxAttendees: 300,
+    day: "12",
+    place: "Pavilhão multiusos"
+  });
+  a.push({
+    Id: 47,
+    time: "14:00",
+    description:
+      "Boas vindas aos participantes. É nesta altura que os participantes fazem o check-in e recebem o seu kit para o evento",
+    name: "Boas vindas e Check-in",
+    Enrolled: 700,
+    MaxAttendees: 300,
+    day: "12",
+    place: "Dep. Física e Matemática"
+  });
+  a.push({
+    Id: 46,
+    time: "17:30",
+    description:
+      "Sessão de boas vindas ao ENEI'19. Esta sessão conta com a presença do grupo de fados",
+    name: "Sessão de Abertura",
+    
+    Enrolled: 700,
+    MaxAttendees: 300,
+    day: "12",
+    place: "Auditório principal"
+  });
+  b.push({
+    Id: 49,
+    time: "8:00",
+    description:
+      "Pronto para começar o dia em grande? Vem tomar o pequeno-almoço!",
+    Enrolled: 700,
+    MaxAttendees: 300,
+    name: "Pequeno-Almoço",
+    day: "13",
+    place: "Cantina do ISEC"
+  });
   for (let key in result["12"]) {
     a.push({
       Id: result["12"][key].Id,
@@ -1089,7 +1365,8 @@ function getE(user, careerPath) {
       name: result["12"][key].name,
       Enrolled: result["12"][key].Enrolled,
       MaxAttendees: result["12"][key].MaxAttendees,
-      day: result["12"][key].day
+      day: result["12"][key].day,
+      place:""
     });
   }
 
@@ -1103,7 +1380,8 @@ function getE(user, careerPath) {
       name: result["13"][key].name,
       Enrolled: result["13"][key].Enrolled,
       MaxAttendees: result["13"][key].MaxAttendees,
-      day: result["13"][key].day
+      day: result["13"][key].day,
+      place:""
     });
   }
   for (let key in result["14"]) {
@@ -1116,7 +1394,8 @@ function getE(user, careerPath) {
       name: result["14"][key].name,
       Enrolled: result["14"][key].Enrolled,
       MaxAttendees: result["14"][key].MaxAttendees,
-      day: result["14"][key].day
+      day: result["14"][key].day,
+      place:""
     });
   }
 
@@ -1130,7 +1409,8 @@ function getE(user, careerPath) {
       name: result["15"][key].name,
       Enrolled: result["15"][key].Enrolled,
       MaxAttendees: result["15"][key].MaxAttendees,
-      day: result["15"][key].day
+      day: result["15"][key].day,
+      place: ""
     });
   }
   a = _.sortBy(a, function(o) {
@@ -1147,15 +1427,21 @@ function getE(user, careerPath) {
   });
 
   console.log(alimentacao);
+
+  console.log("career path");
+  console.log(careerPath);
+  console.log("career path");
   return { a, b, c, d, ab: alimentacao, acc: acesso, al: alojamento };
 }
 
-export function getEvents(user, careerPath) {
-  var result = getE(user, careerPath);
-  console.log("putaaaaaaa");
-  console.log(result);
-  console.log("putaaaaaaa");
+export function getEvents(user, careerPath, token) {
   return dispatch => {
+    console.log("careerrrrrr");
+    console.log(careerPath);
+    var result = getE(user, careerPath, token);
+    console.log(result);
+    console.log("putaaaaaaa");
+
     dispatch({
       type: GET_EVENTS,
       events: result.a,
@@ -1220,7 +1506,6 @@ export function login(user, pass) {
       })
       .then(res => res.json())
       .then(parsed => {
-        console.log(parsed);
         if (
           parsed.error_description ==
           "Provided username and password is incorrect"
@@ -1290,8 +1575,58 @@ export function getUserInfo(token) {
 
         fetch("https://tickets.enei.pt/internal/api/Attendee/Detail", obj)
           .then(function(res) {
-            console.log(res);
             let obj = JSON.parse(res._bodyText);
+            console.log(obj);
+            axios.defaults.baseURL = "https://api.enei.pt";
+            axios
+              .post("/api/loginQR", {
+                Qrcode: obj.Code,
+                token: newToken.access_token
+              })
+              .then(a => {
+                dispatch({
+                  type: LOGIN_INTERNAL,
+                  internalToken: a.data.token
+                });
+                axios.defaults.headers.common = {
+                  Authorization: `bearer ${a.data.token}`
+                };
+                axios.get(`/api/Teams/u/${obj.Code}`).then(a => {
+                  console.log("sucesso!");
+                  console.log(a);
+                  dispatch({
+                    type: GET_TEAM,
+                    team: a.data
+                  });
+                });
+                var result = getE(obj, "", token);
+
+                return dispatch => {
+                  dispatch({
+                    type: GET_EVENTS,
+                    events: result.a,
+                    day1: result.a,
+                    day2: result.b,
+                    day3: result.c,
+                    day4: result.d,
+                    alimentacao: result.ab,
+                    acesso: result.acc,
+                    alojamento: result.al
+                  });
+                };
+              })
+              .catch(p => {
+                console.log(p);
+                Alert.alert(
+                  "Erro",
+                  "Existiu um erro a obter o token... Contacta a comissão se vires esta mensagem de erro."
+                );
+              });
+
+            dispatch({
+              type: LOGIN_INTERNAL,
+              internalToken: "error"
+            });
 
             dispatch({
               type: USER_INFO,
