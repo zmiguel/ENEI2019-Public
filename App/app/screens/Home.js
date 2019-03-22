@@ -105,7 +105,7 @@ class Home extends Component {
   };
   onSuccess=e=>{
     //fecha o scanner 
-    this.props.addUserTeam({id:this.props.team.id, newQr:e.data},this.props.internalToken)
+    this.props.addUserTeam({id:this.props.team.id, newQr:e.data},this.props.internalToken, this.props.user)
     this.setState({addUser:!this.state.addUser})
 
   }
@@ -143,7 +143,7 @@ _creatTeam=()=>{
     capQR:this.props.user.Code
   }
 
-  this.props.createTeam(o, this.props.internalToken)
+  this.props.createTeam(o, this.props.internalToken, this.props.user)
 }
   render() {
     const { navigate } = this.props.navigation;
@@ -159,7 +159,7 @@ _creatTeam=()=>{
     if (this.props.logged) {
       return (
         <PTRView onRefresh={this._update}>
-          <ScrollView style={{ backgroundColor: "#eeeeee" , height:SCREEN_HEIGHT}}>
+          <ScrollView style={{ backgroundColor: "#eeeeee", minHeight: SCREEN_HEIGHT}}>
             <View>
              <Modal
                  isVisible={this.state.addUser}
@@ -469,13 +469,19 @@ const styles = StyleSheet.create({
   },
   colBilhete: {
     width: "33%",
-    padding: 10
+    padding: 10,
+    alignContent:'center',
+    alignItems:'center'
   },
   boxStyle: {
-    padding: 10,
+    padding: 5,
+    paddingTop:10,
+    paddingBottom :10,
     borderWidth: 1,
     marginBottom: 5,
-    borderColor: "#CC1A17"
+    width:'100%',
+    borderColor: "#CC1A17",
+  
   },
   userName: {
     fontSize: 16,

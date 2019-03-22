@@ -77,12 +77,12 @@ export function getEventLocsVisited(teamId, tokenInternal) {
   };
   axios.defaults.baseURL = "https://api.enei.pt/api";
 
+
   return dispatch => {
     axios
       .get(`/EventLocsVisited/t/${teamId}`)
       .then(a => {
-        console.log("sucesso!");
-        console.log(a);
+     
         dispatch({
           type: GET_LOCS_VISITED,
           locais: a.data
@@ -134,18 +134,39 @@ export function deleteTeam(data, tokenInternal) {
       .then(a => {
         console.log(a.data);
         Alert.alert("SUCESSO!", "A equipa foi removida com sucesso");
+        axios
+      .get(`/api/Teams/u/${data.UserQr}`)
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+        dispatch({
+          type: GET_TEAM,
+          team: a.data
+        });
+      })
+      .catch(p => {
+        console.log(p);
+        dispatch({
+          type: GET_TEAM,
+          team: "none"
+        });
+      });
+
+    dispatch({
+      type: OPEN_MODAL
+    });
         dispatch({
           type: DELETE_TEAM
         });
       })
       .catch(err => {
         console.log(err);
-        Alert.alert("ERRO!", "Existiu um erro na remoção da equipa");
+        Alert.alert("ERRO!", "Existiu um erro na remoção da equipa!\nCertifica-te que removeste todos os elementos antes de apagar a equipa");
       });
   };
 }
 
-export function createTeam(team, tokenInternal) {
+export function createTeam(team, tokenInternal,user) {
   axios.defaults.baseURL = "https://api.enei.pt";
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
@@ -157,6 +178,27 @@ export function createTeam(team, tokenInternal) {
       .then(a => {
         console.log(a.data);
         Alert.alert("SUCESSO!", "A equipa foi criada com sucesso");
+        axios
+      .get(`/api/Teams/u/${user.Code}`)
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+        dispatch({
+          type: GET_TEAM,
+          team: a.data
+        });
+      })
+      .catch(p => {
+        console.log(p);
+        dispatch({
+          type: GET_TEAM,
+          team: "none"
+        });
+      });
+
+    dispatch({
+      type: OPEN_MODAL
+    });
         dispatch({
           type: CREATE_TEAM
         });
@@ -210,6 +252,25 @@ export function removeUserTeam(data, tokenInternal) {
           console.log("sucesso!");
           console.log(a.data);
           Alert.alert("Sucesso!", "Elemento removido com sucesso!!");
+          axios
+      .get(`/api/Teams/u/${data.UserQR}`)
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+        dispatch({
+          type: GET_TEAM,
+          team: a.data
+        });
+      })
+      .catch(p => {
+        console.log(p);
+        dispatch({
+          type: GET_TEAM,
+          team: "none"
+        });
+      });
+
+          
         }
       })
       .catch(p => {
@@ -223,7 +284,7 @@ export function removeUserTeam(data, tokenInternal) {
   };
 }
 
-export function addUserTeam(data, tokenInternal) {
+export function addUserTeam(data, tokenInternal,user) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
@@ -236,7 +297,25 @@ export function addUserTeam(data, tokenInternal) {
           console.log("sucesso!");
           console.log(a.data);
           Alert.alert("Sucesso!", "Elemento adicionado com sucesso!!");
+          
         }
+        axios
+      .get(`/api/Teams/u/${user.Code}`)
+      .then(a => {
+        console.log("sucesso!");
+        console.log(a);
+        dispatch({
+          type: GET_TEAM,
+          team: a.data
+        });
+      })
+      .catch(p => {
+        console.log(p);
+        dispatch({
+          type: GET_TEAM,
+          //team: "none"
+        });
+      });
       })
       .catch(p => {
         console.log(p);
@@ -247,7 +326,7 @@ export function addUserTeam(data, tokenInternal) {
       type: OPEN_MODAL
     });
   };
-  add / member;
+ 
 }
 
 export function getUserTeam(user, tokenInternal) {
@@ -261,10 +340,12 @@ export function getUserTeam(user, tokenInternal) {
       .then(a => {
         console.log("sucesso!");
         console.log(a);
+        console.log("cenas aqui")
         dispatch({
           type: GET_TEAM,
           team: a.data
         });
+        
       })
       .catch(p => {
         console.log(p);
@@ -1584,19 +1665,50 @@ export function getUserInfo(token) {
                 token: newToken.access_token
               })
               .then(a => {
+
                 dispatch({
                   type: LOGIN_INTERNAL,
                   internalToken: a.data.token
                 });
+
                 axios.defaults.headers.common = {
                   Authorization: `bearer ${a.data.token}`
                 };
-                axios.get(`/api/Teams/u/${obj.Code}`).then(a => {
-                  console.log("sucesso!");
-                  console.log(a);
+
+                 axios.defaults.baseURL = "https://api.enei.pt";
+
+                axios.get(`/api/Teams/u/${obj.Code}`).then(v => {
+
+                  console.log("sucesso cenas aqui!");
+                  console.log(v);
+
+                  axios.defaults.headers.common = {
+                    Authorization: `bearer ${a.data.token}`
+                  };
+                  axios.defaults.baseURL = "https://api.enei.pt";
+                
+                  axios
+                  .get(`api/EventLocsVisited/t/${v.data.id}`)
+                  .then(c => {
+
+                    console.log("sucesso!");
+
+                    console.log(c);
+                    
+                    dispatch({
+                      type: GET_LOCS_VISITED,
+                      locais: c.data
+                    });
+                  
+                  })
+                  .catch(p => {
+                    console.log(p);
+                    Alert.alert("ERRO!", "erro a obter os locais visitados");
+                  });
+                  
                   dispatch({
                     type: GET_TEAM,
-                    team: a.data
+                    team: v.data
                   });
                 });
                 var result = getE(obj, "", token);

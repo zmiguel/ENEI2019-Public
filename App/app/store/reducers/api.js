@@ -119,7 +119,8 @@ const apiReducer = (state = apiState, action) => {
           alojamento:  action.payload.apiReducer.alojamento,
           internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODcwODcwLCJleHAiOjE1NTU0NTkyNzAsImlhdCI6MTU1Mjg3MDg3MH0.wkBk-CUDMCaU-K9jI0pTRJ794IGCl-C9md39dMfHqa5zTf-gNpD76xEYea3PhIbW2dnUVgo0m1fxR1sW7k9LMg", 
           cromos: action.payload.apiReducer.cromos,
-          careerPath: action.payload.apiReducer.careerPath
+          careerPath: action.payload.apiReducer.careerPath,
+          locais: action.payload.apiReducer.locais
         };
       }
 
