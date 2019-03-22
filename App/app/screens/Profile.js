@@ -37,6 +37,7 @@ import Tel from '../components/Telephone';
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import Icon from "react-native-vector-icons/Ionicons"
+import ImagePicker from 'react-native-image-picker';
 
 
 var options = {
@@ -49,8 +50,6 @@ var options = {
       path: 'images'
     }
   };
-
-  var ImagePicker = require('react-native-image-picker');
 
 
   
@@ -201,29 +200,10 @@ class Profile extends Component {
 
     }
     _open=()=>{
-        ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
-           
-            if (response.didCancel) {
-              console.log('User cancelled image picker');
-            }
-            else if (response.error) {
-              console.log('ImagePicker Error: ', response.error);
-            }
-            else if (response.customButton) {
-              console.log('User tapped custom button: ', response.customButton);
-            }
-            else {
-              let source = { uri: response.uri };
-           
-              // You can also display the image using data:
-              // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-           
-              this.setState({
-                avatarSource: source
-              });
-            }
+        ImagePicker.launchCamera(options, (response) => {
+            // Same code as in above section!
           });
+       
     }
 
     render() {
@@ -245,29 +225,7 @@ class Profile extends Component {
                             </View>
                            
                         </View>
-                        <Button  onPress={() =>{ImagePicker.showImagePicker(options, (response) => {
-  console.log('Response = ', response);
- 
-  if (response.didCancel) {
-    console.log('User cancelled image picker');
-  }
-  else if (response.error) {
-    console.log('ImagePicker Error: ', response.error);
-  }
-  else if (response.customButton) {
-    console.log('User tapped custom button: ', response.customButton);
-  }
-  else {
-    let source = { uri: response.uri };
- 
-    // You can also display the image using data:
-    // let source = { uri: 'data:image/jpeg;base64,' + response.data };
- 
-    this.setState({
-      avatarSource: source
-    });
-  }
-});} } title="Editar foto de perfil" color="#CC1A17"
+                        <Button  onPress={ this._open} title="Editar foto de perfil" color="#CC1A17"
                                       />
                         <View style={styles.userBio}>
                             <View style={styles.userBioRow}>

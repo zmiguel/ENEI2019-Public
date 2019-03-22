@@ -102,9 +102,8 @@ android {
         applicationId "com.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 2
-        versionName "2.0"
-        vectorDrawables.useSupportLibrary = true
+        versionCode 1
+        versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -150,9 +149,7 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-network-info')
-    compile project(':react-native-image-picker-m')
-    compile project(':react-native-image-crop-picker')
+    compile project(':react-native-image-picker')
     compile project(':react-native-maps')
     compile project(':react-native-device-info')
     compile project(':react-native-material-shadows')
