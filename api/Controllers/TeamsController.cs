@@ -238,7 +238,8 @@ namespace api.Controllers
 
             User cap = await context.Users.FirstOrDefaultAsync(u => u.QRcode == DeleteData.UserQR);
 
-            if (cap.QRcode == tEdit.CapQR)
+    
+            if (tEdit != null && cap.QRcode == tEdit.CapQR)
             {
                 context.Teams.Remove(tEdit);
                 cap.team = null;
@@ -250,6 +251,7 @@ namespace api.Controllers
             {
                 return StatusCode(403);
             }
+             
         }
 
         // POST api/teams/remove/member
