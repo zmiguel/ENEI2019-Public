@@ -17,6 +17,12 @@ namespace api.Models
         public string squarePhoto{get;set;} 
 
         public string mainPhoto{get;set;}
+
+        public string desafio{get;set;}
+
+        public int pontos{get;set;}
+
+        public string localizacao{get;set;}
     
     }
 }

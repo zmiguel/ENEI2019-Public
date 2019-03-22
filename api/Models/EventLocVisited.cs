@@ -10,7 +10,8 @@ namespace api.Models
         public Team Team{get;set;}          //team
         public EventLoc Location{get;set;}  //location
         public DateTime timestamp{get;set;} //time
-
         public Boolean complete{get;set;}
+
+
     }
 }
