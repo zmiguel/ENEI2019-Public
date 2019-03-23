@@ -25,7 +25,7 @@ namespace api.Controllers
 
     public class AuthController : ControllerBase
     {
-
+   private readonly DataContext context;
         private readonly IConfiguration config;
         public UserManager<User> _userManager { get; }
         public SignInManager<User> _signInManager { get; }
@@ -34,7 +34,7 @@ namespace api.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly System.Net.Http.IHttpClientFactory clientFactory;
 
-        public AuthController(IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper, RoleManager<Role> roleManager, IUsersRepository repo, System.Net.Http.IHttpClientFactory clientFactory)
+        public AuthController(DataContext context,IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper, RoleManager<Role> roleManager, IUsersRepository repo, System.Net.Http.IHttpClientFactory clientFactory)
         {
              _mapper = mapper;
             _roleManager = roleManager;
@@ -43,6 +43,7 @@ namespace api.Controllers
             this.config = config;
             _userManager = UserManager;
             _signInManager = SignInManager;
+               this.context = context;
             
         }
      
@@ -86,25 +87,32 @@ namespace api.Controllers
         }
 
         [HttpPost("loginQR")]
-        public async Task<IActionResult> loginQr(UserForLoginDto userLoginDTO){
-            
-                var token= "_A6q1cVGa12QutCrYCsYETfz9nPspnbcnPqjD-87kDaYPr99ArEfpdRTbkEzA4p-WEJzPFQhsMX7nG5BmUm0E6RTju8vQHnaTjGd80NIqUCr-jXefUtGwyl6I00fGD4sN6psW714JnCFuZRbtZbIXsdIRKmD3b8YUpPo2lvYP8SzjoEgACyabj13T3CLpHF43PI8Dvny6ylW6j0ka5qGNvw5MHVvYFURUPiTA7hlxoyQ35eOqHE8-eIiLNSTUJW7q-o8CxIGqGWSkltKPxbrY-Xo5iYagUucesqmj64VxYs";
+        public async Task<IActionResult> loginQr(loginQr a){
+          
+         var u = await _userManager.FindByNameAsync(a.QRcode);
+  
                 using (var client = new HttpClient())
                 {
                     try{
                         
-                        var url = "http://enei2019.uingress.com/internal/api/Attendee/Detail";
+                        var url = "https://tickets.enei.pt/internal/api/Attendee/Detail";
                     
-                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + a.token);
                     
 
                         var response = await client.GetStringAsync(url);
 
-                        Console.WriteLine(response);
+                       // Console.WriteLine(response);
 
                         //var resource = JObject.Parse(response);
-                    
-                        return Ok(response);
+                        var appUser = await _userManager.Users.FirstOrDefaultAsync(SU => SU.NormalizedUserName == a.QRcode.ToUpper());
+
+                       
+                return Ok(new
+                {
+
+                    token = GenerateJwtToken(appUser).Result
+                });
 
                     }catch(Exception e){
 
@@ -116,6 +124,7 @@ namespace api.Controllers
                     
 
                 }
+         return Unauthorized();         
         }
 
 
@@ -144,7 +153,7 @@ namespace api.Controllers
             {
                 Subject = new ClaimsIdentity(claims), 
                 //data de expiração (atual + 24 horas)
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(30),
 
                 //passa as signing credentials definidas em cima
                 SigningCredentials = creds

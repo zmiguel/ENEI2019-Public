@@ -22,7 +22,14 @@ export {checkUser,
     resetPassword,
     getSessionDetails,
     getUserTeam,
-    addUserTeam
+    addUserTeam,
+    removeUserTeam,
+    getAllEvents,
+    createTeam,
+    deleteTeam,
+    getCromos,
+    getEventLocsVisited,
+    scanQrCode
     
 } from "./api"
 

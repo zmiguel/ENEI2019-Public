@@ -64,11 +64,6 @@ class calendarDetail extends React.Component {
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");
     this.props.getSessionDetails(this.props.token, info.Id);
-
-    var a = moment(info.SessionStart);
-    var b = moment(info.SessionEnd);
-
-    console.log(b.diff(a, "minutes")); // 44700
   }
 
   _update = () => {
@@ -96,6 +91,7 @@ class calendarDetail extends React.Component {
     }
 
     return (
+      info!=undefined &&
       <View style={styles.mainViewStyle}>
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
@@ -142,13 +138,14 @@ class calendarDetail extends React.Component {
                 </View>
 
                 <View style={{ margin: 10 }}>
+                    {this.props.sessionDetail.Enrolled!= 0 && this.props.sessionDetail.MaxAttendees!=0 &&
                   <Progress.Bar
                     color={"#000000"}
                     progress={this.props.sessionDetail.Enrolled / this.props.sessionDetail.MaxAttendees}
                     height={10}
                     unfilledColor={"white"}
                     width={210}
-                  />
+                  />}
                   <Text>
                     {this.props.sessionDetail.Enrolled} / {this.props.sessionDetail.MaxAttendees}
                   </Text>

@@ -1,246 +1,498 @@
-import * as React from 'react';
+import * as React from "react";
 import {
-    View,
-    StyleSheet,
-    Dimensions,
-    ScrollView,
-    Text,
-    ImageBackground
-} from 'react-native';
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  ScrollView,
+  Text,
+  Button,
+  TouchableOpacity,
+  ImageBackground,
+  ListView,
+  FlatList,
+  ActivityIndicator,
+  Linking,
+  Platform
+} from "react-native";
 
-import {Divider} from 'react-native-elements'
-import AppIntroSlider from 'react-native-app-intro-slider';
+import moment from "moment";
+import { Divider, Icon, Avatar } from "react-native-elements";
+import { TabView, TabBar, SceneMap } from "react-native-tab-view";
+import { RkButton, RkCard, RkText, RkTheme } from "react-native-ui-kitten";
+import Timeline from "react-native-timeline-feed";
 
-import NavAbsolute from '../components/Nav';
-import * as Actions from "../store/actions";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
+import * as Progress from "react-native-progress";
 
+import NavAbsolute from "../components/Nav";
+
+import { connect } from "react-redux";
+
+import { bindActionCreators } from "redux";
+
+import * as Actions from "../store/actions"; //Import your actionss
+import Swiper from "react-native-swiper";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
+import FitImage from "react-native-fit-image";
+
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+
+const formatObj = obj => {
+  let a = {};
+
+  a.push({});
+
+  return a;
+};
+
 class eventDetail extends React.Component {
+  static navigationOptions = ({ navigation }) => ({
+    header: (
+      <NavAbsolute
+        navigation={navigation}
+        // title={navigation.state.params.info.name}
+      />
+    )
+  });
 
+  state = {};
 
-    static navigationOptions = ({navigation}) => ({
-        header: (
-            <NavAbsolute
-                navigation={navigation}
-                // title={navigation.state.params.info.name}
-            />
-        ),
-    });
+  openMaps = () => {};
+  componentDidMount() {
+    const { navigation } = this.props;
+    const info = navigation.getParam("info", "error");
+  }
 
+  _update = () => {
+    this.setState({ user: this.props.user });
+  };
 
-    renderHeader = () => {
-        return (
-            <View style={styles.headerContainer}>
-                <View style={styles.coverContainer}>
-                    <ImageBackground
-                        source={{
-                            uri: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Logo_TvAAC_2014.png',
-                        }}
-                        style={styles.coverImage}
-                    >
-                    </ImageBackground>
-                </View>
+  _renderRally = info => {
+    console.log(info);
+    return (
+      <View>
+        <View style={styles.header}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              alignSelf: "center"
+            }}
+          >
+            <View style={styles.leftRow}>
+              <Text
+                style={{
+                  margin: 10,
+                  marginTop: 0,
+                  marginBottom: 10,
+                  fontSize: 20,
+                  color: "#CC1A17"
+                }}
+              >
+                {info.location.nome}
+              </Text>
             </View>
-        )
-    };
-
-    renderDescription = () => {
-        return (
-            <View style={{height: SCREEN_HEIGHT * (1 / 3)}}>
-                <View
-                    style={{flexDirection: "row"}}>
-                    <View style={styles.header}>
-                        <View style={styles.nameText}>
-                            <Text
-                                style={{color: '#CC1A17', fontSize: 20}}>Febrada</Text>
-                        </View>
-                        <View style={styles.timeText}>
-                            <Text style={{color: "#CC1A17", fontSize: 15}}>
-                                <Text style={{color: "#CC1A17", fontSize: 15}}>
-                                    Sexta 12 -
-                                </Text>
-                                14h00{/*{info.time === info.timeEnd ? info.time : `${info.time} - ${info.timeEnd}`}*/}
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.descContainer}>
-                    <Text style={{fontSize: 20, color: '#CC1A17'}}>Descrição</Text>
-                    <Divider style={{backgroundColor: '#000'}}/>
-                    <Text style={{paddingRight: 10, paddingTop: 10}}>g</Text>
-                </View>
-
+            <View style={styles.timeText}>
+              <Text style={{ color: "#CC1A17", fontSize: 15 }}>
+                {info.hora}
+              </Text>
+              <Text>{info.horas}</Text>
             </View>
-        )
-    };
-
-
-    renderSlider = () => {
-        const slides = [
-            {
-                key: 'somethun',
-                title: 'Title 1',
-                titleStyle: '',
-                text: 'blblbalbalba',
-                textStyle: '',
-                backgroundColor: '#59b2ab',
-            },
-            {
-                key: 'somethun-dos',
-                title: 'Title 2',
-                titleStyle: '',
-                text: 'blblbalbalba',
-                textStyle: '',
-                backgroundColor: '#febe29',
-            },
-            {
-                key: 'somethun1',
-                title: 'Rocket guy',
-                titleStyle: '',
-                text: 'blblbalbalba',
-                textStyle: '',
-                backgroundColor: '#22bcb5',
-            }
-        ];
-        return (
-            <AppIntroSlider
-                slides={slides}
-                style={{height: SCREEN_WIDTH * 0.54}}
-                activeDotStyle={{backgroundColor:'#CC1A17'}}
-                renderDoneButton={this._buyFinosOrBifanas()}
-                renderNextButton={this._renderNextButton}
-            />
-        )
-    };
-
-    _buyFinosOrBifanas = () => {
-        //Modal
-    };
-
-
-    render() {
-
-        return (
-
-            <View style={styles.mainViewStyle}>
-                <ScrollView style={styles.scroll}>
-                    <View style={styles.container}>
-                        <View style={styles.headerContainer}>
-                            {this.renderHeader()}
-                        </View>
-                        <View style={{backgroundColor: "#fff"}}>
-                            {this.renderDescription()}
-                            {this.renderSlider()}
-                        </View>
-                    </View>
-                </ScrollView>
+          </View>
+          <View>
+            <View style={{ margin: 10 }}>
+              <Text
+                style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" }}
+              >
+                Descrição:
+              </Text>
+              <Divider style={{ backgroundColor: "#000" }} />
+              <View style={{ marginTop: 10 }}>
+                <Text>{info.location.desc}</Text>
+              </View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: "#CC1A17",
+                  fontWeight: "bold",
+                  marginTop: 20
+                }}
+              >
+                Desafio:
+              </Text>
+              <Divider style={{ backgroundColor: "#000" }} />
+              <View style={{ marginTop: 10 }}>
+                <Text>{info.location.desafio}</Text>
+              </View>
             </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
-        )
+  _renderEventDetail = info => {
+    return (
+      <View>
+        <View style={styles.header}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              alignSelf: "center"
+            }}
+          >
+            <View style={styles.timeText}>
+              <Text style={{ color: "#CC1A17", fontSize: 15 }}>
+                {info.hora}
+              </Text>
+              <Text>{info.horas}</Text>
+            </View>
+          </View>
+          <View>
+            <Text
+              style={{
+                margin: 10,
+                marginTop: 0,
+                marginBottom: 10,
+                fontSize: 20,
+                color: "#CC1A17"
+              }}
+            >
+              {info.nome}
+            </Text>
+            <View style={{ margin: 10 }}>
+              <Text
+                style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" }}
+              >
+                Descrição:
+              </Text>
+              <Divider style={{ backgroundColor: "#000" }} />
+              <View style={{ marginTop: 10 }}>
+                <Text>{info.desc}</Text>
+              </View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: "#CC1A17",
+                  fontWeight: "bold",
+                  marginTop: 10
+                }}
+              >
+                Como posso participar?
+              </Text>
+              <Divider style={{ backgroundColor: "#000" }} />
+              <View style={{ marginTop: 10 }}>
+                <Text>{info.notas}</Text>
+              </View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  color: "#CC1A17",
+                  fontWeight: "bold",
+                  marginTop: 10
+                }}
+              >
+                Qual é o custo de participação?
+              </Text>
+              <Divider style={{ backgroundColor: "#000" }} />
+              <View style={{ marginTop: 10 }}>
+                <Text>{info.custo}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  _renderContainer = (info, eventType) => {
+    console.log("Estou aqui " + eventType);
+    if (eventType === "rally") {
+      return this._renderRally(info);
+    } else if (eventType === undefined) {
+      return this._renderEventDetail(info);
     }
+  };
 
+  constructor(props) {
+    super(props);
+
+    this.data = [];
+  }
+
+  render() {
+    const { navigation } = this.props;
+    const info = navigation.getParam("info", "error");
+    const eventType = navigation.getParam("type");
+    console.log(info)
+    if(info!= undefined)
+    return (
+      <View style={styles.mainViewStyle}>
+        <ScrollView style={styles.scroll}>
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <View style={styles.headerContainer}>
+                <View style={styles.coverContainer}>
+                  <ImageBackground
+                    source={{
+                      uri: info.location.mainPhoto
+                    }}
+                    style={styles.coverImage}
+                  />
+                </View>
+              </View>
+            </View>
+            {this._renderContainer(info, eventType)}
+          </View>
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                  console.log(info.location.lat)
+                  console.log(info.location.long)
+                const scheme = Platform.select({
+                  ios: "maps:0,0?q=",
+                  android: "geo:0,0?q="
+                });
+                const latLng = `${info.location.lat},${info.location.long}`;
+                const label = info.location.nome;
+                const url = Platform.select({
+                  ios: `${scheme}${label}@${latLng}`,
+                  android: `${scheme}${latLng}(${label})`
+                });
+
+                Linking.openURL(url);
+              }}
+            >
+              <FitImage
+                source={{
+                  uri: info.location.localizacao
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+        <Divider style={{ backgroundColor: "black" }} />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
+  block: {
+    marginTop: 15,
 
-    mainContent: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-around',
+    backgroundColor: "white",
+    padding: 20,
+    shadowOffset: {
+      width: 0,
+      height: 2
     },
-    text: {
-        //color: 'rgba(255, 255, 255, 0.8)',
-        backgroundColor: 'transparent',
-        textAlign: 'center',
-        color:'#000',
-        paddingHorizontal: 16,
-    },
-    title: {
-        fontSize: 22,
-        color: 'white',
-        backgroundColor: 'transparent',
-        textAlign: 'center',
-        marginBottom: 16,
-    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
+    elevation: 3
+  },
+  AttendeeContainer: {
+    flexDirection: "row",
+    height: 55,
+    justifyContent: "center",
+    marginLeft: 10,
+    marginRight: 10
+  },
 
-    header: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: 10,
-        backgroundColor: 'white',
-        //height: SCREEN_HEIGHT * (1 / 3),
+  centerRow: {
+    alignItems: "center",
+    backgroundColor: "transparent",
+    flex: 3,
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+
+  leftRow: {
+    backgroundColor: "transparent",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignSelf: "center"
+  },
+  rightRow: {
+    alignItems: "flex-end",
+    backgroundColor: "transparent",
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginRight: 4,
+    alignSelf: "center"
+  },
+
+  icon: {
+    justifyContent: "flex-start",
+    marginTop: 2.8
+  },
+
+  nameAttendee: {
+    alignSelf: "center",
+    fontSize: 20,
+    fontWeight: "400",
+    color: "#000",
+    marginBottom: 10
+  },
+
+  details: {
+    marginTop: 20,
+    flex: 1,
+    alignSelf: "center"
+  },
+
+  infoRow: {
+    margin: 25
+  },
+
+  ramoText: {
+    alignSelf: "flex-start",
+    marginBottom: 5,
+    color: "white",
+    fontSize: 17,
+    fontWeight: "400"
+  },
+
+  timeText: {
+    alignItems: "flex-end",
+    flex: 2,
+    lineHeight: 10,
+    marginRight: 20
+  },
+
+  mainViewStyle: {
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: "column"
+  },
+
+  scroll: {
+    backgroundColor: "#eee",
+    flex: 1
+    //marginBottom: 55,
+  },
+
+  header: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "white",
+    borderRadius: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
     },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
 
-    nameText: {
-        alignSelf: 'flex-start',
-        flex: 1,
+    elevation: 3
+  },
+  cardContainer: {
+    flex: 1,
+    padding: 10,
+    //    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 5
+  },
 
-    },
+  headerContainer: {
+    flex: 1
+  },
 
-    timeText: {
-        alignItems: 'flex-end',
-        flex: 1,
-        marginRight: 4,
-    },
+  container: {
+    flex: 1,
+    flexDirection: "column"
+  },
+  coverContainer: {
+    position: "relative"
+  },
+  coverImage: {
+    height: Dimensions.get("window").width * (2 / 4),
+    width: Dimensions.get("window").width
+  },
+  /*headerContainer: {
+          alignItems: 'center',
+          backgroundColor: '#FFF',
+      },*/
 
-    mainViewStyle: {
-        flex: 1,
-        flexGrow: 1,
-        flexDirection: 'column',
-    },
+  carreerPathContainer: {
+    backgroundColor: "#CC1A17",
+    height: 50,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 15
+  },
+  carreerPathText: {
+    height: 50,
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20
+  },
+  companyHeader: {
+    backgroundColor: "#dddddd",
+    // height:150,
+    borderRadius: 5,
+    margin: 10,
+    padding: 10
+  },
+  companyTitle: {
+    paddingBottom: 5,
+    fontWeight: "bold",
+    color: "#777777",
+    fontSize: 17
 
-    scroll: {
-        backgroundColor: '#eee',
-        flex: 1,
-        //marginBottom: 55,
-    },
+    // padding:20
+  },
+  companyLogo: {
+    borderRadius: 20
+  },
 
+  wrapper: {},
+  company: {
+    flex: 1,
+    flexDirection: "row",
+    // backgroundColor:'red',
+    color: "black"
+  },
 
-    descContainer: {
-        padding: 10,
-    },
-
-    headerContainer: {
-        flex: 1,
-    },
-
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-    coverContainer: {
-        position: 'relative',
-    },
-    coverImage: {
-        height: Dimensions.get('window').width * (2 / 4),
-        width: Dimensions.get('window').width,
-    },
-
+  companyLogoContainer: {
+    flex: 1,
+    justifyContent: "center",
+    width: "60%",
+    // backgroundColor:'white',
+    margin: 20
+  },
+  aboutCompany: {
+    width: SCREEN_WIDTH,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
 
-
 function mapStateToProps(state, props) {
-
-    return {
-
-        token: state.apiReducer.token,
-        user: state.apiReducer.user,
-        logged: state.apiReducer.logged,
-        events: state.apiReducer.events,
-        careerPath: state.apiReducer.careerPath,
-
-    }
+  return {
+    token: state.apiReducer.token,
+    user: state.apiReducer.user,
+    logged: state.apiReducer.logged,
+    careerPath: state.apiReducer.careerPath,
+    sessionDetail: state.apiReducer.sessionDetail
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-
-    return bindActionCreators(Actions, dispatch);
+  return bindActionCreators(Actions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(eventDetail);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(eventDetail);

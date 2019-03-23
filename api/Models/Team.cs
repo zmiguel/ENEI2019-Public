@@ -13,5 +13,9 @@ namespace api.Models
         public string CapQR{get;set;}                       //Capitao da equipa
         public int NMembros {get;set;}                  //Numero de Membros na equipa
         public int Pontos {get;set;}                    //Postos da equipa
+        public Boolean pagamento{get;set;}
+        public string pagamentoVerifyCode{get;set;}
+
+        
     }
 }

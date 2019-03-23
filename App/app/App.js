@@ -105,7 +105,7 @@ class App extends Component {
 
   componentDidMount() {
     //this.props.hold();
-   // this.props.loginInternal();
+   
 
 
     this.setState({ isModalVisible: false });
@@ -155,7 +155,7 @@ class App extends Component {
     if (!this.props.logged && this.props.onHold) {
       return (
         <View style={UtilStyles.containerLoading}>
-          <ActivityIndicator size="large" color="red" />
+          <ActivityIndicator size="large" color="#CC1A17" />
         </View>
       );
     } else {
@@ -190,7 +190,9 @@ class App extends Component {
                      title={"Fechar Scan"}
                    color={"#CC1A17"}
                    ></Button>
-                     <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5, color:'white'}}>Sim, o quadrado não está centrado. Era só para testar a tua atenção!</Text>
+                     <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5, color:'white'}}>
+                         Sim, o quadrado não está centrado. Era só para testar a tua atenção!
+                     </Text>
            
            
                   

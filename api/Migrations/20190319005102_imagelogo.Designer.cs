@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190316174616_TeamsV3")]
-    partial class TeamsV3
+    [Migration("20190319005102_imagelogo")]
+    partial class imagelogo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,11 +102,17 @@ namespace api.Migrations
 
                     b.Property<string>("QRCode");
 
-                    b.Property<int?>("imgId");
+                    b.Property<string>("img");
+
+                    b.Property<string>("logo");
+
+                    b.Property<int>("pontos");
+
+                    b.Property<bool>("unlocked");
+
+                    b.Property<string>("websiteCromo");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("imgId");
 
                     b.ToTable("Cromos");
                 });
@@ -119,6 +125,18 @@ namespace api.Migrations
                     b.Property<string>("Desc");
 
                     b.Property<string>("Nome");
+
+                    b.Property<bool>("aDecorrer");
+
+                    b.Property<string>("custo");
+
+                    b.Property<string>("horas");
+
+                    b.Property<string>("imagem");
+
+                    b.Property<string>("localizacao");
+
+                    b.Property<string>("notas");
 
                     b.HasKey("Id");
 
@@ -157,6 +175,8 @@ namespace api.Migrations
                     b.Property<int?>("LocationId");
 
                     b.Property<int?>("TeamId");
+
+                    b.Property<bool>("complete");
 
                     b.Property<DateTime>("timestamp");
 
@@ -277,6 +297,10 @@ namespace api.Migrations
 
                     b.Property<int>("Pontos");
 
+                    b.Property<bool>("pagamento");
+
+                    b.Property<string>("pagamentoVerifyCode");
+
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
@@ -328,7 +352,11 @@ namespace api.Migrations
 
                     b.Property<int>("food");
 
+                    b.Property<string>("fullName");
+
                     b.Property<int?>("teamID");
+
+                    b.Property<string>("university");
 
                     b.HasKey("Id");
 
@@ -399,13 +427,6 @@ namespace api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("api.Models.Cromos", b =>
-                {
-                    b.HasOne("api.Models.Photo", "img")
-                        .WithMany()
-                        .HasForeignKey("imgId");
                 });
 
             modelBuilder.Entity("api.Models.EventLoc", b =>

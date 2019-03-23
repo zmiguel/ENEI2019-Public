@@ -9,13 +9,11 @@ import {
   TouchableOpacity,
   Picker,
   ActivityIndicator,
-  
   FlatList
 } from "react-native";
 import moment from "moment";
 
 import Modal from "react-native-modal";
-
 
 import * as Progress from "react-native-progress";
 
@@ -24,17 +22,14 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as Actions from "../store/actions"; //Import your actionss
-import AwesomeAlert from 'react-native-awesome-alerts';
-
+import AwesomeAlert from "react-native-awesome-alerts";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import FitImage from "react-native-fit-image";
 
-
 import { Divider } from "react-native-elements";
-
 
 import LinearGradient from "react-native-linear-gradient";
 
@@ -67,12 +62,10 @@ class choosePath extends React.Component {
     var sessions = this.props.sessions;
 
     for (let key in sessions) {
-
       if (sessions[key].Name == "IA") {
         this.setState({ guest: "9" });
       }
       //...
-
     }
   };
   componentDidMount() {
@@ -104,22 +97,19 @@ class choosePath extends React.Component {
   constructor() {
     super();
     this.state = {
-        showAlert:true,
+      showAlert: true,
       Blocks: [],
       onHoldBlocks: true,
       checked: true,
       modalVisible: false,
-      isModalVisible: false,
+      isModalVisible: false
     };
 
     this.data = [];
   }
-  onPress = () => {
-   
-  };
+  onPress = () => {};
 
   _s() {
-    
     this.props.signSession(this.props.token, item[index].Id);
   }
   getCareerPaths = () => {
@@ -140,7 +130,6 @@ class choosePath extends React.Component {
   _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible });
 
-    
   _onPressItem = id => {
     // updater functions are preferred for transactional updates
     this.setState(state => {
@@ -158,261 +147,454 @@ class choosePath extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-    <View>
-        
-      <ScrollView style={styles.page}>
-
-        {this._findPath("IA") && (
-          <LinearGradient
-            colors={["#D95856", "#CC1A17"]}
-            style={styles.linearGradient}
+      <View>
+        <ScrollView style={styles.page}>
+          {this._findPath("IA") && (
+            <LinearGradient
+              colors={["#D95856", "#CC1A17"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    Critical Software
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    A CRITICAL Software fornece sistemas e serviços de software
+                    para segurança e aplicações essenciais aos negócios.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+          {this._findPath("NET") && (
+            <LinearGradient
+              colors={["#67C43D", "#46B712"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    Altice
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+            {this._findPath("WEB") && (
+            <LinearGradient
+              colors={["blue", "blue"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    Blip
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+  {this._findPath("IOT") && (
+            <LinearGradient
+              colors={["#67C43D", "#46B712"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    ubiwhere
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+            {this._findPath("DS") && (
+            <LinearGradient
+              colors={["#FF8A38", "#FD6A02"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    novabase e feedzai
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+            {this._findPath("MOB") && (
+            <LinearGradient
+              colors={["orange", "#46B712"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    Altice
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+          <View
+            style={{
+              flex: 1,
+              width: SCREEN_WIDTH * 0.7,
+              alignContent: "center"
+            }}
           >
-            <Text
-              style={{
-                margin: 15,
-                marginBottom: 0,
-                fontWeight: "bold",
-                color: "white"
-              }}
-            >
-              {" "}
-              Empresa responsável:{" "}
-            </Text>
-            <View style={styles.companyContainer}>
-              <View style={styles.companyDescription}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    margin: 6,
-                    color: "white"
-                  }}
-                >
-                  Critical Software
-                </Text>
-                <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                  A CRITICAL Software fornece sistemas e serviços de software
-                  para segurança e aplicações essenciais aos negócios.
-                </Text>
-              </View>
-              <View style={styles.companyLogo}>
-                <FitImage
-                  source={{
-                    uri:
-                      "https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png"
-                  }}
-                  style={styles.fitImage}
-                />
-              </View>
+            <View style={styles.pickerCareer}>
+              <Picker
+                selectedValue={this.state.guest}
+                style={{ width: "100%" }}
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({ guest: itemValue });
+                  // this.props.timerChangeGuest();
+                  this.props.waitChangeGuest();
+
+                  this.props.changeGuestList(this.props.token, itemValue);
+
+                  // this.props.waitChangeGuest();
+
+                  // this.props.waitChangeGuest();
+
+                  //  this.props.getSessionBlocks(this.props.sessions)
+                }}
+              >
+                <Picker.Item label="Escolhe o teu career path!" value="0" />
+                <Picker.Item label="Inteligência Artificial" value="9" />
+                <Picker.Item label="Redes e Segurança" value="10" />
+                <Picker.Item label="Data Science" value="15" />
+                <Picker.Item label="Desenvolvimento Web" value="14" />
+                <Picker.Item label="Internet das Coisas" value="12" />
+                <Picker.Item label="Desenvolvimento Mobile" value="11" />
+              </Picker>
             </View>
-          </LinearGradient>
-        )}
-        {this._findPath("NET") && (
-          <LinearGradient
-            colors={["#5887FF", "#715AFF"]}
-            style={styles.linearGradient}
-          >
-            <Text
-              style={{
-                margin: 15,
-                marginBottom: 0,
-                fontWeight: "bold",
-                color: "white"
-              }}
-            >
-              {" "}
-              Empresa responsável:{" "}
-            </Text>
-            <View style={styles.companyContainer}>
-              <View style={styles.companyDescription}>
-                <Text
-                  style={{
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    margin: 6,
-                    color: "white"
-                  }}
-                >
-                  Altice
-                </Text>
-                <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                  Altice é uma multinacional neerlandesa de telecomunicações,
-                  conteúdos, media, entretenimento e publicidade.
-                </Text>
-              </View>
-              <View style={styles.companyLogo}>
-                <FitImage
-                  source={{
-                    uri:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
-                  }}
-                  style={styles.fitImage}
-                />
-              </View>
-            </View>
-          </LinearGradient>
-        )}
-
-        <View
-          style={{ flex: 1, width: SCREEN_WIDTH * 0.7, alignContent: "center" }}
-        >
-          <View style={styles.pickerCareer}>
-            <Picker
-              selectedValue={this.state.guest}
-              style={{ width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => {
-                this.setState({ guest: itemValue });
-               // this.props.timerChangeGuest();
-                this.props.waitChangeGuest();
-
-                this.props.changeGuestList(
-                  this.props.token,
-                  itemValue
-                );
-
-                // this.props.waitChangeGuest();
-              
-                // this.props.waitChangeGuest();
-
-                //  this.props.getSessionBlocks(this.props.sessions)
-              }}
-            >
-              <Picker.Item label="Escolhe o teu career path!" value="0" />
-              <Picker.Item label="Inteligência Artificial" value="9" />
-              <Picker.Item label="Redes e Segurança" value="10" />
-              <Picker.Item label="Data Science" value="15" />
-              <Picker.Item label="Desenvolvimento Web" value="14" />
-              <Picker.Item label="Internet das Coisas" value="12" />
-              <Picker.Item label="Desenvolvimento Mobile" value="11" />
-            </Picker>
-          </View>
-          <View style={{ width: SCREEN_WIDTH }}>
-          
-            {!this.props.changingGuest && (
-              <FlatList
-                data={this.props.Blocks}
-                renderItem={({ item, index }) => (
-                  <View style={styles.block}>
-                    <View style={styles.time}>
-                      <Text
-                        style={{
-                          margin: 10,
-                          fontSize: 25,
-                          color: "#CC1A17",
-                          marginBottom: 0
-                        }}
-                      >
-                        {moment(item[0].SessionStart).format("HH:mm")}
-                      </Text>
-                      <Text style={{ marginLeft: 20 }}>às</Text>
-                      <Text
-                        style={{
-                          margin: 10,
-                          fontSize: 25,
-                          color: "#CC1A17",
-                          marginTop: 5
-                        }}
-                      >
-                        {moment(item[0].SessionEnd).format("HH:mm")}
-                      </Text>
-                    </View>
-                    <View style={styles.sessions}>
-                      <FlatList
-                        data={item}
-                        renderItem={({ data, index }) => (
-                          <View>
-                            <View style={styles.session}>
-                              {this._verifySession(item[index].Id) && (
-                                <TouchableOpacity
-                                  onPress={() => {
-                                   
-                                    this.props.removeSession(
-                                      this.props.user,
-                                      this.props.token,
-                                      item[index].Id
-                                    );
-                                  }}
-                                  style={{ flex: 1, alignSelf: "center" }}
-                                >
-                                  <View>
-                                    <IconFA
-                                      name="check-square"
-                                      color={"#CC1A17"}
-                                      size={35}
-                                    />
-                                  </View>
-                                </TouchableOpacity>
-                              )}
-                              {!this._verifySession(item[index].Id) && (
-                                <TouchableOpacity
-                                  onPress={() => {
-                                  
-                                      //this.props.waitChangeGuest()
-                                    this.props.signSession(
-                                      this.props.user,
-                                      this.props.token,
-                                      item[index].Id
-                                    );
-                                 
-                                  }}
-                                  style={{ flex: 1, alignSelf: "center" }}
-                                >
-                                  <View>
-                                    <IconFA name="square" size={35} />
-                                  </View>
-                                </TouchableOpacity>
-                              )}
-
-                              <TouchableOpacity
-                                onPress={() =>
-                                  { navigate("calendarDetail", { info: item[index] })}
-                                }
-                              >
-                                <View style={styles.sessionInfo}>
-                                  <Text style={styles.sessionTitle}>
-                                    {item[index].Name}
-                                  </Text>
-                                  <Text
-                                    style={{ marginTop: 10, marginBottom: 5 }}
+            <View style={{ width: SCREEN_WIDTH }}>
+              {!this.props.changingGuest && (
+                <FlatList
+                  data={this.props.Blocks}
+                  renderItem={({ item, index }) => (
+                    <View style={styles.block}>
+                      <View style={styles.time}>
+                        <Text
+                          style={{
+                            margin: 10,
+                            fontSize: 25,
+                            color: "#CC1A17",
+                            marginBottom: 0
+                          }}
+                        >
+                          {moment(item[0].SessionStart).format("HH:mm")}
+                        </Text>
+                        <Text style={{ marginLeft: 20 }}>às</Text>
+                        <Text
+                          style={{
+                            margin: 10,
+                            fontSize: 25,
+                            color: "#CC1A17",
+                            marginTop: 5
+                          }}
+                        >
+                          {moment(item[0].SessionEnd).format("HH:mm")}
+                        </Text>
+                      </View>
+                      <View style={styles.sessions}>
+                        <FlatList
+                          data={item}
+                          renderItem={({ data, index }) => (
+                            <View>
+                              <View style={styles.session}>
+                                {this._verifySession(item[index].Id) && (
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      this.props.removeSession(
+                                        this.props.user,
+                                        this.props.token,
+                                        item[index].Id
+                                      );
+                                    }}
+                                    style={{ flex: 1, alignSelf: "center" }}
                                   >
-                                    {item[index].MaxAttendees -
-                                      item[index].Enrolled}{" "}
-                                    Lugares disponíveis
-                                  </Text>
-                                  <Progress.Bar
-                                    color={"#000000"}
-                                    progress={
-                                      item[index].Enrolled /
-                                      item[index].MaxAttendees
-                                    }
-                                    unfilledColor={"white"}
-                                    width={170}
-                                  />
-                                </View>
-                              </TouchableOpacity>
+                                    <View>
+                                      <IconFA
+                                        name="check-square"
+                                        color={"#CC1A17"}
+                                        size={35}
+                                      />
+                                    </View>
+                                  </TouchableOpacity>
+                                )}
+                                {!this._verifySession(item[index].Id) && (
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      //this.props.waitChangeGuest()
+                                      this.props.signSession(
+                                        this.props.user,
+                                        this.props.token,
+                                        item[index].Id
+                                      );
+                                    }}
+                                    style={{ flex: 1, alignSelf: "center" }}
+                                  >
+                                    <View>
+                                      <IconFA name="square" size={35} />
+                                    </View>
+                                  </TouchableOpacity>
+                                )}
+
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    navigate("calendarDetail", {
+                                      info: item[index]
+                                    });
+                                  }}
+                                >
+                                  <View style={styles.sessionInfo}>
+                                    <Text style={styles.sessionTitle}>
+                                      {item[index].Name}
+                                    </Text>
+                                    <Text
+                                      style={{ marginTop: 10, marginBottom: 5 }}
+                                    >
+                                      {item[index].MaxAttendees -
+                                        item[index].Enrolled}{" "}
+                                      Lugares disponíveis
+                                    </Text>
+                                    {item[index].Enrolled != 0 &&
+                                      item[index].MaxAttendees!=0 && (
+                                        <Progress.Bar
+                                          color={"#000000"}
+                                          progress={
+                                            item[index].Enrolled /
+                                            item[index].MaxAttendees
+                                          }
+                                          unfilledColor={"white"}
+                                          width={170}
+                                        />
+                                      )}
+                                      
+                                   
+                                   
+                                  </View>
+                                </TouchableOpacity>
+                              </View>
+
+                              <Divider style={{ backgroundColor: "#eeeeee" }} />
                             </View>
-
-                            <Divider style={{ backgroundColor: "#eeeeee" }} />
-                          </View>
-                        )}
-                      />
+                          )}
+                        />
+                      </View>
                     </View>
-                  </View>
-                )}
-              />
-            )}
+                  )}
+                />
+              )}
+            </View>
           </View>
-        </View>
 
-        {(this.props.changingGuest || this.props.Blocks == true) && (
-          <View style={{ flex:1, height:SCREEN_HEIGHT*0.6, alignSelf:'center',}}>
-          <ActivityIndicator
-            size="large"
-            color="red"
-            style={{  alignContent: "center" , alignSelf:'center', marginTop:SCREEN_HEIGHT*0.2}}
-          /></View>
-        )}
-      </ScrollView>
+          {(this.props.changingGuest || this.props.Blocks == true) && (
+            <View
+              style={{
+                flex: 1,
+                height: SCREEN_HEIGHT * 0.6,
+                alignSelf: "center"
+              }}
+            >
+              <ActivityIndicator
+                size="large"
+                color="red"
+                style={{
+                  alignContent: "center",
+                  alignSelf: "center",
+                  marginTop: SCREEN_HEIGHT * 0.2
+                }}
+              />
+            </View>
+          )}
+        </ScrollView>
       </View>
     );
   }

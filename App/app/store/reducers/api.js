@@ -19,7 +19,14 @@ import {
   REMOVE_SESSION,
   UPDATE_USER,
   SESSION_DETAIL,
-  GET_TEAM
+  GET_TEAM,
+GET_INTERNAL_EVENTS,
+CREATE_TEAM,
+GET_CROMOS,
+GET_LOCS_VISITED,
+SCAN_QR,
+LOGIN_INTERNAL,
+CHANGE_PASSWORD
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -27,7 +34,7 @@ import { REHYDRATE } from "redux-persist";
 let apiState = {
   isConnected: false,
   logged: false,
-  onHold: true,
+  onHold: false,
   user: {},
   events: [],
   showAlert: true,
@@ -57,9 +64,11 @@ let apiState = {
   acesso: [],
   alojamento: [],
   sessionDetail:{},
-  team:{},
-  internalToken: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODM4NTk5LCJleHAiOjE1NTI5MjQ5OTksImlhdCI6MTU1MjgzODU5OX0.KmzDoneEdlzyaTS3N4pSuRYHkdrpTVjPFXVIB4tMKPh1BK4KtIOfqHJ_H3FsrUEkXKb_tnf38swO5SKQ1wt0cg"
-
+  team:undefined,
+  internalToken:"",
+  eventsInternal:[],
+  cromos:[],
+  locais:[],
 };
 
 const apiReducer = (state = apiState, action) => {
@@ -105,9 +114,35 @@ const apiReducer = (state = apiState, action) => {
           },
           token: action.payload.apiReducer.token,
           team: action.payload.apiReducer.team,
+          eventsInternal: action.payload.apiReducer.eventsInternal,
+          alimentacao:  action.payload.apiReducer.alimentacao,
+          acesso:  action.payload.apiReducer.acesso,
+          alojamento:  action.payload.apiReducer.alojamento,
+          internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODcwODcwLCJleHAiOjE1NTU0NTkyNzAsImlhdCI6MTU1Mjg3MDg3MH0.wkBk-CUDMCaU-K9jI0pTRJ794IGCl-C9md39dMfHqa5zTf-gNpD76xEYea3PhIbW2dnUVgo0m1fxR1sW7k9LMg", 
+          cromos: action.payload.apiReducer.cromos,
+          careerPath: action.payload.apiReducer.careerPath,
+          locais: action.payload.apiReducer.locais
         };
       }
 
+      case GET_CROMOS:
+      return Object.assign({}, state, {
+        cromos: action.cromos
+      });
+
+      case LOGIN_INTERNAL:
+      return Object.assign({}, state, {
+        internalToken: action.internalToken
+      });
+   case GET_LOCS_VISITED:
+   return Object.assign({}, state, {
+    locais: action.locais
+  });
+
+  case CHANGE_PASSWORD:
+  return Object.assign({}, state, {
+   onHold: false
+  });
     case "CHANGE_CONNECTION_STATUS":
       return Object.assign({}, state, {
         isConnected: action.isConnected
@@ -121,7 +156,7 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case UPDATE_USER:
-      state = Object.assign({}, state, { user: action.user , toke: action.token});
+      state = Object.assign({}, state, { user: action.user , toke: action.token, onHold:false});
       return state;
     case LOADINGLOGIN:
       state = Object.assign({}, state, { loadingLogin: true });
@@ -154,13 +189,17 @@ const apiReducer = (state = apiState, action) => {
   
       team: action.team
     });
+    case GET_INTERNAL_EVENTS:
+    return Object.assign({}, state, {
+     eventsInternal: action.eventsInternal
+    });
 
     return state;
 
     case CHECK_USER:
       state = Object.assign({}, state, {
         logged: action.logged,
-        onHold: action.onHold,
+        onHold: false,
         // userDetails: u,
         token: action.token
       });
@@ -188,6 +227,8 @@ const apiReducer = (state = apiState, action) => {
       return state;
 
     case GET_EVENTS:
+    console.log("aaaaaaqqquii")
+    console.log(action)
       state = Object.assign({}, state, {
         events: action.events,
         a: action.day1,

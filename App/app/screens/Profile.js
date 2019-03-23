@@ -14,6 +14,7 @@ import {
     Dimensions,
     TextInput,
     Button,
+    ActivityIndicator
 } from 'react-native'
 import PropTypes from 'prop-types';
 
@@ -36,7 +37,22 @@ import Tel from '../components/Telephone';
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import Icon from "react-native-vector-icons/Ionicons"
+import ImagePicker from 'react-native-image-picker';
 
+
+var options = {
+    title: 'Select Avatar',
+    customButtons: [
+      {name: 'fb', title: 'Choose Photo from Facebook'},
+    ],
+    storageOptions: {
+      skipBackup: true,
+      path: 'images'
+    }
+  };
+
+
+  
 class Profile extends Component {
 
 
@@ -90,6 +106,7 @@ class Profile extends Component {
     }
 
     _press=()=>{
+        this.props.hold()
         this.props.changePassword(
             this.props.token, 
             this.state.oldPass,
@@ -160,6 +177,7 @@ class Profile extends Component {
 
         console.log(formValid);
 
+        this.props.hold();
         if (formValid) {
             console.log("data valid");
 
@@ -182,9 +200,22 @@ class Profile extends Component {
             console.log("data not valid");
 
     }
-
+    _open=()=>{
+        ImagePicker.launchCamera(options, (response) => {
+            // Same code as in above section!
+          });
+       
+    }
 
     render() {
+        if (this.props.onHold) {
+            return (
+              <View style={{marginTop:SCREEN_HEIGHT*0.40}}>
+                
+                <ActivityIndicator size="large" color="#CC1A17" />
+              </View>
+            );
+          }
         return (
             <View style={{flex: 1}}>
                 <ScrollView style={{backgroundColor: '#eee'}}>
@@ -195,6 +226,8 @@ class Profile extends Component {
                             </View>
                            
                         </View>
+                        <Button  onPress={ this._open} title="Editar foto de perfil" color="#CC1A17"
+                                      />
                         <View style={styles.userBio}>
                             <View style={styles.userBioRow}>
                                 <Text style={styles.userBioLogo} >Nome</Text>
@@ -357,7 +390,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
-        margin: 20,
+        margin: 10,
         backgroundColor: 'white',
         borderRadius: 5,
     },
@@ -416,6 +449,7 @@ mapStateToProps = (state, props) => {
         token: state.apiReducer.token,
         user: state.apiReducer.user,
         userDetails: state.apiReducer.userDetails,
+        onHold:state.apiReducer.onHold
     }
 };
 

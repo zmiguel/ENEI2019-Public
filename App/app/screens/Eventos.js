@@ -1,147 +1,186 @@
 import * as React from "react";
 
-import {View, StyleSheet, Dimensions, Text, Button, ScrollView, Image, TouchableOpacity} from "react-native";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Text,
+  Button,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator
+} from "react-native";
 
-import {TabView, TabBar, SceneMap} from "react-native-tab-view";
+import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 
-import rallyImg from '../assets/rallyTascas.jpg';
+import rallyImg from "../assets/rallyTascas.jpg";
 
+import { connect } from "react-redux";
+
+import { bindActionCreators } from "redux";
+
+import * as Actions from "../store/actions"; //Import your actionss
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
+import PTRView from "react-native-pull-to-refresh";
 
-const FirstRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#ff4081"}]}/>
-);
-const SecondRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#673ab7"}]}/>
-);
+class Eventos extends React.Component {
+  _update = () => {
+    this.props.getAllEvents(this.props.internalToken);
+    this.props.getEventLocsVisited(
+      this.props.team.id,
+      this.props.internalToken
+    );
+  };
+  state = {
+    index: 0,
+    routes: [
+      { key: "first", title: "Festarola" },
+      { key: "second", title: "Febrada" },
+      { key: "third", title: "Rally" },
+      { key: "fourth", title: "Peddy" }
+    ]
+  };
 
-const ThirdRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#673ab7"}]}/>
-);
+  componentDidMount() {
+    this.props.getAllEvents(this.props.internalToken);
+    this.props.getEventLocsVisited(
+      this.props.team.id,
+      this.props.internalToken
+    );
+  }
 
-const FourthRoute = () => (
-    <View style={[styles.scene, {backgroundColor: "#673ab7"}]}/>
-);
+  render() {
+    const { navigate } = this.props.navigation;
+    return (
+      <PTRView onRefresh={this._update}>
+        <View style={styles.container}>
+          {this.props.eventsInternal == undefined && (
+            <View
+              style={{
+                height: SCREEN_HEIGHT,
+                marginTop: SCREEN_HEIGHT * 0.27,
+                backgroundColor: "white"
+              }}
+            >
+              <Text style={{ fontSize: 12, margin: 15, textAlign: "center" }}>
+                Se estiver a demorar muito, arrasta para atualizar
+              </Text>
 
-
-export default class Eventos extends React.Component {
-    
-    state = {
-        index: 0,
-        routes: [
-            {key: "first", title: "Festarola"},
-            {key: "second", title: "Febrada"},
-            {key: "third", title: "Rally"},
-            {key: "fourth", title: "Peddy"}
-        ]
-    };
-
-
-    renderFebrada = (navigate) => {
-        return (
-            <View>
-                <TouchableOpacity onPress={() => navigate('eventDetail')}>
-                <View style={styles.cardContainer}>
-                    <Image
+              <ActivityIndicator size="large" color="#CC1A17" />
+            </View>
+          )}
+          <ScrollView styles={styles.scroll}>
+            <FlatList
+              data={this.props.eventsInternal}
+              renderItem={({ item }) => (
+                <View>
+                  <TouchableOpacity
+                    onPress={() => navigate("event", { info: item })}
+                  >
+                    <View style={styles.cardContainer}>
+                      <Image
                         style={{
-                            flex: 1,
-                            width: undefined,
-                            height: undefined
+                          flex: 1,
+                          width: undefined,
+                          height: undefined
                         }}
                         resizeMode="contain"
-                        source={require('../assets/altice_logo.png')}
-                    >
-                    </Image>
+                        source={{ uri: item.imagem }}
+                      />
+                      <View style={styles.cardDesc}>
+                        <Text style={styles.cardDescText}>{item.nome}</Text>
+                        <Text style={styles.cardHours}>{item.horas}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-                </TouchableOpacity>
-            </View>
-        );
-
-    };
-
-    renderRally = () => {
-
-        return (
-            <View>
-                <View style={styles.cardContainer}>
-                    <Image
-                        style={{
-                            flex: 1,
-                            width: undefined,
-                            height: undefined
-                        }}
-                        resizeMode="contain"
-                        source={require('../assets/altice_logo.png')}
-                    >
-                    </Image>
-                </View>
-
-            </View>
-        );
-    };
-
-    renderCaching = () => {
-
-        return (
-            <View>
-                <View style={styles.cardContainer}>
-                    <Image
-                        style={{
-                            flex: 1,
-                            width: undefined,
-                            height: undefined
-                        }}
-                        resizeMode="contain"
-                        source={require('../assets/altice_logo.png')}
-                    >
-                    </Image>
-                </View>
-
-            </View>
-        );
-    };
-
-    render() {
-        const {navigate} = this.props.navigation;
-        return (
-            <View style={styles.container}>
-                <ScrollView styles={styles.scroll}>
-                    {this.renderFebrada(navigate)}
-                    {this.renderRally()}
-                    {this.renderCaching()}
-                </ScrollView>
-            </View>
-        );
-    }
+              )}
+            />
+          </ScrollView>
+        </View>
+      </PTRView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#eee',
-        flex: 1,
-        flexGrow: 1,
-        flexDirection: 'column',
-    },
+  cardHours: {
+    textAlign: "center",
+    color: "white",
+    margin: 10
 
+    // width:'20%'
+  },
 
-    scroll: {
-        flex: 1,
-    },
+  cardDesc: {
+    //alignSelf:'center',
+    backgroundColor: "#CC1A17",
+    // flex:1,
+    flexDirection: "row"
+  },
+  cardDescText: {
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 18,
 
-    cardContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: 10,
-        margin: 20,
-        backgroundColor: '#fff',
-        height: SCREEN_WIDTH * (1 / 2),
-        borderRadius: 5,
-        //borderWidth: 2,
-    },
+    width: "45%",
+    margin: 10
+  },
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: "column",
+    paddingBottom: 20
+  },
 
-    scene: {
-        flex: 1
-    }
+  scroll: {
+    flex: 1
+  },
+
+  cardContainer: {
+    flex: 1,
+    //flexDirection: 'row',
+    //padding: 10,
+    margin: 20,
+    marginBottom: 0,
+    backgroundColor: "#fff",
+    height: SCREEN_WIDTH * 0.62,
+    borderRadius: 5
+    //borderWidth: 2,
+  },
+
+  scene: {
+    flex: 1
+  }
 });
+
+function mapStateToProps(state, props) {
+  return {
+    token: state.apiReducer.token,
+    user: state.apiReducer.user,
+    logged: state.apiReducer.logged,
+    userDetails: state.apiReducer.userDetails,
+    onHold: state.apiReducer.onHold,
+    bilhete: state.apiReducer.bilhete,
+    alimentacao: state.apiReducer.alimentacao,
+    alojamento: state.apiReducer.alojamento,
+    acesso: state.apiReducer.acesso,
+    team: state.apiReducer.team,
+    internalToken: state.apiReducer.internalToken,
+    eventsInternal: state.apiReducer.eventsInternal
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Actions, dispatch);
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Eventos);
