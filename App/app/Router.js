@@ -43,11 +43,14 @@ import eventDetail from './screens/eventDetail';
 
 import teamDetail from './screens/teamDetail';
 
+import event from './screens/event';
+
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
     headerStyle: {backgroundColor: 'transparent', zIndex: 100 },
 
 });
+
 
 const AppStack = createBottomTabNavigator(
     {
@@ -62,7 +65,7 @@ const AppStack = createBottomTabNavigator(
             },
         },
 
-        'Jogo do...': {
+        'Jogo': {
             screen: Jogo,
 
             navigationOptions: {
@@ -137,14 +140,14 @@ const Stack = createStackNavigator({
                         <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                           onPress={() => navigation.navigate('Profile')}>
 
-                            <Text>Editar dados</Text>
+                            <Text style={{marginRight:5}}>Editar dados</Text>
                             <IconFA name="user-edit" size={22}/>
 
                         </TouchableOpacity>
                     )
                 }
             }
-            if (navigation.state.routes[index].routeName == 'Jogo do...') {
+            if (navigation.state.routes[index].routeName == 'Jogo') {
                 return {
                     header: (<View style={{backgroundColor:'#CC1A17', padding:15}}>
                         <Text style={{textAlign:'center', alignSelf:'center', color:'white', fontSize:20, fontWeight:'bold'}}>Jogo do ENEI'19</Text>
@@ -164,8 +167,8 @@ const Stack = createStackNavigator({
 
                             <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                               onPress={() => navigation.navigate('choosePath')}>
-                                <Text>Inscrições</Text>
-                                <IconFA name="user-edit" size={22}/>
+                                <Text style={{color:'#CC1A17', marginRight:5}}>Inscrições</Text>
+                                <IconFA name="user-edit" size={22} color={'#CC1A17'}/>
                             </TouchableOpacity></View>
 
                     )
@@ -225,6 +228,9 @@ const Stack = createStackNavigator({
 
     resetPassword:{
         screen:resetPassword
+    },
+    event:{
+        screen: event
     }
 });
 

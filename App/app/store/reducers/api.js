@@ -25,7 +25,8 @@ CREATE_TEAM,
 GET_CROMOS,
 GET_LOCS_VISITED,
 SCAN_QR,
-LOGIN_INTERNAL
+LOGIN_INTERNAL,
+CHANGE_PASSWORD
 } from "../actions/actionTypes"; //Import the actions types constant we defined in our actions
 
 import { REHYDRATE } from "redux-persist";
@@ -138,6 +139,10 @@ const apiReducer = (state = apiState, action) => {
     locais: action.locais
   });
 
+  case CHANGE_PASSWORD:
+  return Object.assign({}, state, {
+   onHold: false
+  });
     case "CHANGE_CONNECTION_STATUS":
       return Object.assign({}, state, {
         isConnected: action.isConnected

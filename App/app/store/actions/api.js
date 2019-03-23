@@ -31,7 +31,8 @@ import {
   GET_CROMOS,
   GET_LOCS_VISITED,
   SCAN_QR,
-  LOGIN_INTERNAL
+  LOGIN_INTERNAL,
+  CHANGE_PASSWORD
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
 
 import moment from "moment";
@@ -71,6 +72,14 @@ export function scanQrCode(data, tokenInternal) {
   };
 }
 
+export function changeTeamName(){
+  axios.defaults.headers.common = {
+    Authorization: `bearer ${tokenInternal}`
+  };
+  axios.defaults.baseURL = "https://api.enei.pt/api";
+
+
+}
 export function getEventLocsVisited(teamId, tokenInternal) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
@@ -90,7 +99,7 @@ export function getEventLocsVisited(teamId, tokenInternal) {
       })
       .catch(p => {
         console.log(p);
-        Alert.alert("ERRO!", "erro a obter os locais visitados");
+     //   Alert.alert("ERRO!", "erro a obter os locais visitados");
       });
   };
 }
@@ -662,6 +671,9 @@ export function changePassword(token, old, new1, new2) {
               NewPassword: new1
             })
             .then(a => {
+              dispatch({
+                type: CHANGE_PASSWORD
+              });
               Alert.alert("Sucesso!", "Password alterada com sucesso");
             })
             .catch(p => {
@@ -1703,7 +1715,7 @@ export function getUserInfo(token) {
                   })
                   .catch(p => {
                     console.log(p);
-                    Alert.alert("ERRO!", "erro a obter os locais visitados");
+                   // Alert.alert("ERRO!", "erro a obter os locais visitados");
                   });
                   
                   dispatch({

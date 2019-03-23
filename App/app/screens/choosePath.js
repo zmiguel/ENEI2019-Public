@@ -196,7 +196,7 @@ class choosePath extends React.Component {
           )}
           {this._findPath("NET") && (
             <LinearGradient
-              colors={["#5887FF", "#715AFF"]}
+              colors={["#67C43D", "#46B712"]}
               style={styles.linearGradient}
             >
               <Text
@@ -239,7 +239,186 @@ class choosePath extends React.Component {
               </View>
             </LinearGradient>
           )}
-
+            {this._findPath("WEB") && (
+            <LinearGradient
+              colors={["blue", "blue"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    Blip
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+  {this._findPath("IOT") && (
+            <LinearGradient
+              colors={["#67C43D", "#46B712"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    ubiwhere
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+            {this._findPath("DS") && (
+            <LinearGradient
+              colors={["#FF8A38", "#FD6A02"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    novabase e feedzai
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
+            {this._findPath("MOB") && (
+            <LinearGradient
+              colors={["orange", "#46B712"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 15,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {" "}
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                <View style={styles.companyDescription}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      margin: 6,
+                      color: "white"
+                    }}
+                  >
+                    Altice
+                  </Text>
+                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
+                    Altice é uma multinacional neerlandesa de telecomunicações,
+                    conteúdos, media, entretenimento e publicidade.
+                  </Text>
+                </View>
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+              </View>
+            </LinearGradient>
+          )}
           <View
             style={{
               flex: 1,

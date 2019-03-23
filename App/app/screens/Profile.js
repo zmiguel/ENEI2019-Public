@@ -106,6 +106,7 @@ class Profile extends Component {
     }
 
     _press=()=>{
+        this.props.hold()
         this.props.changePassword(
             this.props.token, 
             this.state.oldPass,

@@ -228,7 +228,8 @@ class eventDetail extends React.Component {
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");
     const eventType = navigation.getParam("type");
-
+    console.log(info)
+    if(info!= undefined)
     return (
       <View style={styles.mainViewStyle}>
         <ScrollView style={styles.scroll}>
