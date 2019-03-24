@@ -23,6 +23,6 @@ namespace api.Models
         public Team team{get;set;}
 
         public string cromos {get;set;}
-        
+        public string profileImage{get;set;}
     }
 }

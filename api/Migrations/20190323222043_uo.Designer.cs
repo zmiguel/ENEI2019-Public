@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190319005102_imagelogo")]
-    partial class imagelogo
+    [Migration("20190323222043_uo")]
+    partial class uo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,11 +154,21 @@ namespace api.Migrations
 
                     b.Property<int?>("ImgId");
 
-                    b.Property<float>("Lat");
+                    b.Property<double>("Lat");
 
-                    b.Property<float>("Long");
+                    b.Property<double>("Long");
 
                     b.Property<string>("Nome");
+
+                    b.Property<string>("desafio");
+
+                    b.Property<string>("localizacao");
+
+                    b.Property<string>("mainPhoto");
+
+                    b.Property<int>("pontos");
+
+                    b.Property<string>("squarePhoto");
 
                     b.HasKey("Id");
 
@@ -353,6 +363,8 @@ namespace api.Migrations
                     b.Property<int>("food");
 
                     b.Property<string>("fullName");
+
+                    b.Property<string>("profileImage");
 
                     b.Property<int?>("teamID");
 

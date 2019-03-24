@@ -31,7 +31,16 @@ namespace api.Controllers
             _repo = repo;
 
         }
+        [HttpPost("changeProfileImage")]
+        public async Task<IActionResult> changeProfileImage(profileImage i)
+        {
 
+            User a = new User();
+
+            var cenas =await _repo.changeProfileImage(i);
+
+            return Ok(cenas);
+        }
         //
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
@@ -57,6 +66,7 @@ namespace api.Controllers
         }
 
 
+
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("updateAll")]
         public async Task<IActionResult> UpdateUsers(updateUsersDTO[] req)
@@ -65,7 +75,7 @@ namespace api.Controllers
             {
                 foreach (var user in req)
                 {
-                    
+
                 }
 
                 return Ok(req);
