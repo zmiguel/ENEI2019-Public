@@ -39,13 +39,13 @@ namespace api.Controllers
 
             var user = _repo.getProfileImageAsync(QRcode);
 
-            profileImageToReturn a = new profileImageToReturn();
+
 
             if (user.Result != null)
             {
-                a.profileBase64 = user.Result;
 
-                return Ok(a);
+
+                return Ok(user.Result);
             }
 
             return NotFound();
