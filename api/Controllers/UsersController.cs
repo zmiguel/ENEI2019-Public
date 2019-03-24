@@ -31,13 +31,34 @@ namespace api.Controllers
             _repo = repo;
 
         }
+
+        [AllowAnonymous]
+        [HttpGet("getProfileImage/{QRcode}")]
+        public async Task<IActionResult> getProfileImage(string QRcode)
+        {
+
+            var user = _repo.getProfileImageAsync(QRcode);
+
+            profileImageToReturn a = new profileImageToReturn();
+
+            if (user.Result != null)
+            {
+                a.profileBase64 = user.Result;
+
+                return Ok(a);
+            }
+
+            return NotFound();
+        }
+
+
         [HttpPost("changeProfileImage")]
         public async Task<IActionResult> changeProfileImage(profileImage i)
         {
 
             User a = new User();
 
-            var cenas =await _repo.changeProfileImage(i);
+            var cenas = await _repo.changeProfileImage(i);
 
             return Ok(cenas);
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using api.Dtos;
 using api.Models;
@@ -26,16 +27,16 @@ namespace api.Data
             if (utilizador != null)
             {
                 utilizador.profileImage = a.base64;
-                
+
                 _context.Users.Update(utilizador);
 
                 var result = _context.SaveChanges();
 
-                 if (result >= 1)
+                if (result >= 1)
                 {
                     return utilizador;
                 }
-               
+
                 return null;
             }
 
@@ -44,7 +45,18 @@ namespace api.Data
         public void Delete<T>(T entity) where T : class
         {
 
+
             _context.Remove(entity);
+        }
+
+        public Task<string> getProfileImageAsync(string qrCode)
+        {
+            return Task.Run(() =>
+            {
+                return _context.Users.Where(a => a.QRcode == qrCode).Select(u => u.profileImage).SingleOrDefault() ;
+
+            });
+
         }
 
         public async Task<User> GetUser(int id)

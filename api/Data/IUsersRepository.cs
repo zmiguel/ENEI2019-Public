@@ -14,6 +14,9 @@ namespace api.Data
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
         Task<User> changeProfileImage(profileImage a);
+
+
+        Task<string> getProfileImageAsync(string qrCode);
     }
 
 }
