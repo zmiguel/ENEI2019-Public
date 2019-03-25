@@ -6,7 +6,7 @@ $light-grey: #eeeeee;
 $dark-grey: #353535;
 $red: #cc1a17;
 $dark-blue: #080014;
-$ai-color: #498400;
+$ai-color: #17cc70;
 $web-color: #004994;
 
 //dimensions
@@ -222,6 +222,8 @@ body {
 	width: 100%;
 	position: relative;
 	overflow-x: hidden;
+	font-family: $mont-font, sans-serif;
+	font-weight: $regular;
 }
 
 span {
@@ -244,13 +246,6 @@ img {
 	display: block;
 	max-width: 100%;
 	height: auto;
-}
-
-h1,
-h2,
-h3,
-h4 {
-	font-family: $mont-font;
 }
 
 h1 {
@@ -403,7 +398,7 @@ select {
 }
 
 hr {
-	@include size(60%, 1px);
+	@include size(55%, 1px);
 	background-color: $light-grey;
 	margin-bottom: 30px;
 	position: relative;
@@ -580,11 +575,12 @@ hr {
 	background: url("imgs/coimbra-image.jpg") no-repeat center;
 	background-size: cover;
 	background-attachment: fixed;
-	z-index: 10;
 	position: relative;
-	display: none;
+	&.main-landing {
+		z-index: 10;
+	}
 
-	&::after {
+	&.main-landing::after {
 		content: " ";
 		@include position(fixed, 0, null, null, 0);
 		@include size(100%, 100%);
@@ -592,7 +588,7 @@ hr {
 		opacity: 1;
 		transition: opacity 150ms ease-out;
 	}
-	&.animated {
+	&.main-landing.animated {
 		z-index: 0;
 		&::after {
 			opacity: 0;
@@ -747,7 +743,6 @@ hr {
 	hr {
 		display: table;
 		margin: 0 auto;
-		width: 50%;
 		&::after {
 			left: 50%;
 			transform: translateX(-50%);
@@ -765,7 +760,6 @@ hr {
 	hr {
 		display: table;
 		margin: 0 auto 60px;
-		width: 40%;
 		&::after {
 			left: 50%;
 			transform: translateX(-50%);
@@ -1011,7 +1005,6 @@ hr {
 	hr {
 		display: table;
 		margin: 0 auto;
-		width: 60%;
 		background-color: $dark-grey;
 		&::after {
 			left: 50%;
@@ -1145,7 +1138,6 @@ footer {
 	hr {
 		display: table;
 		margin: 0 auto 60px;
-		width: 60%;
 		&::after {
 			left: 50%;
 			transform: translateX(-50%);
@@ -1218,6 +1210,140 @@ footer {
 	}
 }
 
-#speakers{
+#speakers {
 	text-align: center;
+	hr {
+		display: table;
+		margin: 0 auto 60px;
+		&::after {
+			left: 50%;
+			transform: translateX(-50%);
+			-webkit-transform: translateX(-50%);
+		}
+	}
+}
+
+#calendar {
+	h1 {
+		text-align: center;
+	}
+	hr {
+		display: table;
+		margin: 0 auto 60px;
+		background-color: #353535;
+		&::after {
+			left: 50%;
+			transform: translateX(-50%);
+			-webkit-transform: translateX(-50%);
+		}
+	}
+}
+
+.career-apresentation {
+	z-index: 1;
+	@include position(absolute, 50%, null, null, 50%);
+	transform: translate(-50%, -50%);
+	.career-name {
+		font-size: 46px;
+		font-weight: $bold;
+		color: $white;
+		text-transform: uppercase;
+		text-align: center;
+		span {
+			font-size: 22px;
+			text-transform: none;
+		}
+	}
+	img {
+		-webkit-filter: invert(100%);
+		filter: invert(100%);
+		max-width: 250px;
+		margin: 35px auto 0;
+	}
+}
+
+.career-path {
+	#apresentation {
+		&::after {
+			content: " ";
+			@include position(absolute, 0, null, null, 0);
+			@include size(100%, 100%);
+			opacity: 0.5;
+		}
+	}
+}
+
+.speaker-button {
+	display: block;
+	margin-bottom: 50px;
+	position: relative;
+
+	&:hover {
+		.speaker-image::before {
+			border-color: $ai-color;
+		}
+		.speaker-image::after {
+			opacity: 0.85;
+		}
+		.company-image {
+			opacity: 1;
+			width: 85%;
+		}
+	}
+
+	.speaker-image {
+		@include size(200px, 200px);
+		display: table;
+		margin: 0 auto 20px;
+		position: relative;
+		&::before {
+			content: "";
+			@include size(calc(100% + 8px), calc(100% + 8px));
+			@include position(absolute, -6px, null, null, -6px);
+			border: 2px solid $dark-grey;
+			transition: border-color $transition-time ease-in-out;
+		}
+		&::after {
+			content: " ";
+			@include position(absolute, 0, null, null, 0);
+			@include size(100%, 100%);
+			background-color: $white;
+			transition: opacity $transition-time ease-in-out;
+			opacity: 0;
+		}
+	}
+	.company-image {
+		@include position(absolute, 50%, null, null, 50%);
+		transform: translate(-50%, -50%);
+		width: 82%;
+		z-index: 1;
+		transition: opacity $transition-time ease-in-out, width $transition-time ease-in-out;
+		opacity: 0;
+	}
+	.speaker-name {
+		font-weight: $bold;
+		font-size: 22px;
+		line-height: 26px;
+		color: $dark-grey;
+		margin-bottom: 5px;
+	}
+	.speaker-company {
+		font-weight: $semi-bold;
+		font-size: 16px;
+		line-height: 20px;
+		color: $grey;
+	}
+}
+
+/* CAREER PATH COLORS */
+.ai-color {
+	#main-menu nav ul li a:hover,
+	#social-network ul li a:hover {
+		color: $ai-color;
+	}
+	#main-menu nav ul li a::after,
+	#apresentation::after,
+	hr::after {
+		background-color: $ai-color;
+	}
 }

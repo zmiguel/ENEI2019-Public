@@ -138,6 +138,8 @@ body {
   width: 100%;
   position: relative;
   overflow-x: hidden;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: 400;
 }
 
 span {
@@ -170,13 +172,6 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: "Bai Jamjuree";
 }
 
 h1 {
@@ -370,7 +365,7 @@ select {
 }
 
 hr {
-  width: 60%;
+  width: 55%;
   height: 1px;
   background-color: #eeeeee;
   margin-bottom: 30px;
@@ -625,12 +620,14 @@ hr::after {
   background: url("imgs/coimbra-image.jpg") no-repeat center;
   background-size: cover;
   background-attachment: fixed;
-  z-index: 10;
   position: relative;
-  display: none;
 }
 
-#apresentation::after {
+#apresentation.main-landing {
+  z-index: 10;
+}
+
+#apresentation.main-landing::after {
   content: " ";
   position: fixed;
   top: 0;
@@ -643,25 +640,25 @@ hr::after {
   transition: opacity 150ms ease-out;
 }
 
-#apresentation.animated {
+#apresentation.main-landing.animated {
   z-index: 0;
 }
 
-#apresentation.animated::after {
+#apresentation.main-landing.animated::after {
   opacity: 0;
 }
 
-#apresentation.animated #logo-enei {
+#apresentation.main-landing.animated #logo-enei {
   position: absolute;
 }
 
-#apresentation.animated #linha {
+#apresentation.main-landing.animated #linha {
   fill: #000000;
   -webkit-animation: none;
           animation: none;
 }
 
-#apresentation.animated .letras-logo {
+#apresentation.main-landing.animated .letras-logo {
   fill: #ffffff;
   -webkit-animation: none;
           animation: none;
@@ -884,7 +881,6 @@ hr::after {
 #programa hr {
   display: table;
   margin: 0 auto;
-  width: 50%;
 }
 
 #programa hr::after {
@@ -904,7 +900,6 @@ hr::after {
 #precos hr {
   display: table;
   margin: 0 auto 60px;
-  width: 40%;
 }
 
 #precos hr::after {
@@ -1214,7 +1209,6 @@ hr::after {
 #sponsors hr {
   display: table;
   margin: 0 auto;
-  width: 60%;
   background-color: #353535;
 }
 
@@ -1390,7 +1384,6 @@ footer p {
 #career-path hr {
   display: table;
   margin: 0 auto 60px;
-  width: 60%;
 }
 
 #career-path hr::after {
@@ -1463,11 +1456,11 @@ footer p {
 }
 
 #career-path .ai .career-path-links {
-  background-color: #498400;
+  background-color: #17cc70;
 }
 
 #career-path .ai .career-path-links::after {
-  border-color: #498400;
+  border-color: #17cc70;
 }
 
 #career-path .web .career-path-links {
@@ -1480,5 +1473,163 @@ footer p {
 
 #speakers {
   text-align: center;
+}
+
+#speakers hr {
+  display: table;
+  margin: 0 auto 60px;
+}
+
+#speakers hr::after {
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+}
+
+#calendar h1 {
+  text-align: center;
+}
+
+#calendar hr {
+  display: table;
+  margin: 0 auto 60px;
+  background-color: #353535;
+}
+
+#calendar hr::after {
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+}
+
+.career-apresentation {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.career-apresentation .career-name {
+  font-size: 46px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.career-apresentation .career-name span {
+  font-size: 22px;
+  text-transform: none;
+}
+
+.career-apresentation img {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+  max-width: 250px;
+  margin: 35px auto 0;
+}
+
+.career-path #apresentation::after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+
+.speaker-button {
+  display: block;
+  margin-bottom: 50px;
+  position: relative;
+}
+
+.speaker-button:hover .speaker-image::before {
+  border-color: #17cc70;
+}
+
+.speaker-button:hover .speaker-image::after {
+  opacity: 0.85;
+}
+
+.speaker-button:hover .company-image {
+  opacity: 1;
+  width: 85%;
+}
+
+.speaker-button .speaker-image {
+  width: 200px;
+  height: 200px;
+  display: table;
+  margin: 0 auto 20px;
+  position: relative;
+}
+
+.speaker-button .speaker-image::before {
+  content: "";
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  border: 2px solid #353535;
+  -webkit-transition: border-color 150ms ease-in-out;
+  transition: border-color 150ms ease-in-out;
+}
+
+.speaker-button .speaker-image::after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  -webkit-transition: opacity 150ms ease-in-out;
+  transition: opacity 150ms ease-in-out;
+  opacity: 0;
+}
+
+.speaker-button .company-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 82%;
+  z-index: 1;
+  -webkit-transition: opacity 150ms ease-in-out, width 150ms ease-in-out;
+  transition: opacity 150ms ease-in-out, width 150ms ease-in-out;
+  opacity: 0;
+}
+
+.speaker-button .speaker-name {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
+  color: #353535;
+  margin-bottom: 5px;
+}
+
+.speaker-button .speaker-company {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #777777;
+}
+
+/* CAREER PATH COLORS */
+.ai-color #main-menu nav ul li a:hover,
+.ai-color #social-network ul li a:hover {
+  color: #17cc70;
+}
+
+.ai-color #main-menu nav ul li a::after,
+.ai-color #apresentation::after,
+.ai-color hr::after {
+  background-color: #17cc70;
 }
 /*# sourceMappingURL=main.css.map */

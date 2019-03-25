@@ -87,7 +87,9 @@ $(document).ready(function () {
 
     // inicial animation
     setTimeout(function () {
-        document.getElementById("apresentation").classList.add("animated");
+        if (document.querySelector(".main-landing")) {
+            document.getElementById("apresentation").classList.add("animated");
+        }
     }, 1200);
 
     //  main menu anchors
