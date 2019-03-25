@@ -41,10 +41,8 @@ import ImagePicker from 'react-native-image-picker';
 
 
 var options = {
-    title: 'Select Avatar',
-    customButtons: [
-      {name: 'fb', title: 'Choose Photo from Facebook'},
-    ],
+    title: 'Selecionar foto de perfil',
+   
     storageOptions: {
       skipBackup: true,
       path: 'images'
@@ -201,8 +199,25 @@ class Profile extends Component {
 
     }
     _open=()=>{
-        ImagePicker.launchCamera(options, (response) => {
-            // Same code as in above section!
+        ImagePicker.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+          
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.error) {
+              console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+              console.log('User tapped custom button: ', response.customButton);
+            } else {
+              const source = { uri: response.uri };
+          
+              // You can also display the image using data:
+              // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+          
+              this.setState({
+                avatarSource: source,
+              });
+            }
           });
        
     }
@@ -226,6 +241,7 @@ class Profile extends Component {
                             </View>
                            
                         </View>
+                        <Image source={this.state.avatarSource}  />
                         <Button  onPress={ this._open} title="Editar foto de perfil" color="#CC1A17"
                                       />
                         <View style={styles.userBio}>

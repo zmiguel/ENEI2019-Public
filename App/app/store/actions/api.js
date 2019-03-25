@@ -632,7 +632,7 @@ var checkAndRefresh = function(token) {
               access_token: parsed.access_token,
               refresh_token: parsed.refresh_token,
               expirationDateToken:
-                Math.round(new Date().getTime() / 1000) + 3598
+                Math.round(new Date().getTime() / 1000) + (parsed.expires_in -2)
             };
 
             console.log(parsed);
@@ -1620,9 +1620,10 @@ export function login(user, pass) {
           });
           return;
         } else {
+          console.log(parsed)
           var obj = {
             access_token: parsed.access_token,
-            expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
+            expirationDateToken: Math.round(new Date().getTime() / 1000) + (parsed.expires_in-2),
             refresh_token: parsed.refresh_token,
             valid: true
           };

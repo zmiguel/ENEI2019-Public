@@ -56,6 +56,7 @@ class teamDetail extends React.Component {
 
     return (
       <PTRView onRefresh={this._update}>
+      {this.props.team!= undefined &&
         <ScrollView style={{ backgroundColor: "#eeeeee" }}>
           <View>
             <View style={styles.header}>
@@ -110,12 +111,12 @@ class teamDetail extends React.Component {
                   </View>
                 )}
                 {this.props.user.Code != this.props.team.cap.qRcode && (
-                  <View width={{ width: "100%", padding: 10 }}>
+                  <View style={{ width: "100%", padding: 10 }}>
                     <Text
                       style={{
                         fontSize: 22,
                         fontWeight: "bold",
-                        color: "#CC1A17",
+                        color: "white",
                         textAlign: "center",
                         alignSelf: "center"
                       }}
@@ -152,13 +153,7 @@ class teamDetail extends React.Component {
                             style={{ width: 50, height: 50 }}
                             source={require("../assets/logo_black.jpg")}
                           />
-                          <Text
-                            style={{
-                              color: "#000"
-                            }}
-                          >
-                            {item.fullName}
-                          </Text>
+                         
                         </View>
                       )}
                     />
@@ -245,6 +240,7 @@ class teamDetail extends React.Component {
             </View>
           </View>
         </ScrollView>
+        }
       </PTRView>
     );
   }

@@ -140,6 +140,13 @@ class choosePath extends React.Component {
     });
   };
 
+  _isRecommended(sessionId, careerPath){
+
+    if(sessionId==44)
+      return true
+    
+      return false
+  }
   _render = ({ item }) => {
     <Text>Cenas: {item.Name}</Text>;
   };
@@ -533,8 +540,9 @@ class choosePath extends React.Component {
                                     });
                                   }}
                                 >
-                                  <View style={styles.sessionInfo}>
-                                    <Text style={styles.sessionTitle}>
+                                { !this._isRecommended(item[index].Id, this.props.careerPath) &&
+                                  <View style={{margin:5}}>
+                                    <Text style={{  fontSize: 15,fontWeight: "bold" }}>
                                       {item[index].Name}
                                     </Text>
                                     <Text
@@ -553,13 +561,50 @@ class choosePath extends React.Component {
                                             item[index].MaxAttendees
                                           }
                                           unfilledColor={"white"}
-                                          width={170}
+                                          width={150}
                                         />
                                       )}
                                       
                                    
                                    
                                   </View>
+                                  }{
+                                    this._isRecommended(item[index].Id, this.props.careerPath) &&
+                                  <View style={{padding:5, backgroundColor:'rgba(238, 238, 238,0.5)'}}>
+                                    <View style={{flex:1, flexDirection:'row'}}>
+                                    <IconFA
+                                        name="star"
+                                        color={"#CC1A17"}
+                                        size={20}
+                                      />
+                                    <Text style={{  fontSize: 15,fontWeight: "bold" , marginLeft:5}}>
+                                      {item[index].Name}
+                                    </Text>
+                                    </View>
+                                    <Text
+                                      style={{ marginTop: 10, marginBottom: 5 }}
+                                    >
+                                      {item[index].MaxAttendees -
+                                        item[index].Enrolled}{" "}
+                                      Lugares disponíveis
+                                    </Text>
+                                    {item[index].Enrolled != 0 &&
+                                      item[index].MaxAttendees!=0 && (
+                                        <Progress.Bar
+                                          color={"#000000"}
+                                          progress={
+                                            item[index].Enrolled /
+                                            item[index].MaxAttendees
+                                          }
+                                          unfilledColor={"white"}
+                                          width={150}
+                                        />
+                                      )}
+                                      
+                                   
+                                   
+                                  </View>
+                                  }
                                 </TouchableOpacity>
                               </View>
 
@@ -688,7 +733,8 @@ function mapStateToProps(state, props) {
     sessions: state.apiReducer.sessions,
     Blocks: state.apiReducer.Blocks,
     showAlert: state.apiReducer.showAlert,
-    token: state.apiReducer.token
+    token: state.apiReducer.token,
+    careerPath: state.apiReducer.careerPath
   };
 }
 
