@@ -36,7 +36,7 @@ class teamDetail extends React.Component {
       this.props.internalToken
     );*/
 
-    console.log(this.props.locais);
+    console.log(this.props.locais); ne
   }
 
   constructor(props) {
@@ -161,6 +161,26 @@ class teamDetail extends React.Component {
                 </View>
               </View>
             </View>
+            <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  alignContent: "center",
+                  alignSelf:'center'
+                }}
+              >
+                <Text
+                  style={{ textAlign: "right", fontSize: 12, paddingTop: 5 ,  marginRight:5}}
+                >
+                  Arrasta o ecrã para atualizar
+                </Text>
+                <IconFA
+                  name="chevron-circle-down"
+                  size={13}
+                  color={"#CC1A17"}
+                />
+              </View>
             <View style={styles.container}>
               <View style={{ flex: 1, width: "100%" }}>
                 {this.props.locais && (

@@ -141,6 +141,7 @@ class Calendar extends React.Component {
 
   render() {
     const ThirdRoute = () => (
+      
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {this.props.events != undefined && (
           <Timeline
@@ -208,6 +209,7 @@ class Calendar extends React.Component {
       </ScrollView>
     );
     const FirstRoute = () => (
+     
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {this.props.events != undefined && (
           <Timeline
@@ -236,6 +238,7 @@ class Calendar extends React.Component {
           />
         )}
       </ScrollView>
+   
     );
     const SecondRoute = () => (
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -314,6 +317,7 @@ class Calendar extends React.Component {
         /></View>
         
       </View>
+
 
       
     );

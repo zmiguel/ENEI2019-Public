@@ -233,10 +233,7 @@ class calendarDetail extends React.Component {
               Localização
             </Text>
             <Divider style={{ backgroundColor: "#000", marginBottom: 10 }} />
-            <Image
-              source={require("../assets/img/campus.png")}
-              style={{ width: SCREEN_WIDTH * 0.9 }}
-            />
+           <Text>Em breve</Text>
           </View>
         </ScrollView>
         <Divider style={{ backgroundColor: "black" }} />

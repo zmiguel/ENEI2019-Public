@@ -147,6 +147,7 @@ const Stack = createStackNavigator({
                     )
                 }
             }
+            
             if (navigation.state.routes[index].routeName == 'Jogo') {
                 return {
                     header: (<View style={{backgroundColor:'#CC1A17', padding:15}}>

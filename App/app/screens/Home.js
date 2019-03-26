@@ -244,20 +244,37 @@ class Home extends Component {
                         uri: this.state.img
                       }}
                     />
-                
-                  
                   </View>
                   {this.props.user != undefined && (
                     <Text style={styles.userText}>{this.props.user.Name}</Text>
                   )}
-                  {this.props.user != undefined &&
-                  <Text style={styles.userTextSub}>
-                    {this.props.user.Company}
-                  </Text>
-                  }
+                  {this.props.user != undefined && (
+                    <Text style={styles.userTextSub}>
+                      {this.props.user.Company}
+                    </Text>
+                  )}
                 </View>
               </ImageBackground>
-
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  alignContent: "center",
+                  alignSelf:'center'
+                }}
+              >
+                <Text
+                  style={{ textAlign: "right", fontSize: 12, paddingTop:10 ,  marginRight:5}}
+                >
+                  Arrasta o ecrã para atualizar
+                </Text>
+                <IconFA
+                  name="chevron-circle-down"
+                  size={13}
+                  color={"#CC1A17"}
+                />
+              </View>
               <View style={styles.userStats}>
                 <View style={{ backgroundColor: "orange" }}>
                   <Text style={styles.userStatsTitle}>
