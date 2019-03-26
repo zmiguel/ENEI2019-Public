@@ -59,7 +59,7 @@ class calendarDetail extends React.Component {
   state = {};
 
   componentDidMount() {
-    this.props.getEvents(this.props.user);
+    this.props.getEvents(this.props.user, this.props.careerPath);
 
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");

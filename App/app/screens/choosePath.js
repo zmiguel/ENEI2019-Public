@@ -330,7 +330,7 @@ class choosePath extends React.Component {
                   <FitImage
                     source={{
                       uri:
-                        "https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png"
+                        "https://enei.pt/logos/critical-sponsor.png"
                     }}
                     style={styles.fitImage}
                   />
@@ -360,7 +360,7 @@ class choosePath extends React.Component {
                   <FitImage
                     source={{
                       uri:
-                        "http://apdsi.pt/wp-content/uploads/2018/09/accenture-logo.jpg"
+                        "https://enei.pt/logos/accenture-logo.jpg"
                     }}
                     style={styles.fitImage}
                   />
@@ -389,7 +389,7 @@ class choosePath extends React.Component {
                   <FitImage
                     source={{
                       uri:
-                        "https://res.cloudinary.com/hrscywv4p/image/upload/c_limit,fl_lossy,h_960,w_480,f_auto,q_auto/v1/9310/blip_powering_logo_ygabw1.png"
+                        "https://enei.pt/logos/blip.png"
                     }}
                     style={styles.fitImage}
                   />
@@ -422,7 +422,7 @@ class choosePath extends React.Component {
                   <FitImage
                     source={{
                       uri:
-                        "http://www.ambienteonline.pt/contents/mlist/12fnr_ubiwhere_web.png"
+                        "https://enei.pt/logos/ubiwhere.png"
                     }}
                     style={styles.fitImage}
                   />
@@ -455,7 +455,7 @@ class choosePath extends React.Component {
                   <FitImage
                     source={{
                       uri:
-                        "http://www.empregoestagios.com/wp-content/uploads/2015/07/feedzai-660x330.jpg"
+                        "https://enei.pt/logos/feedzai.jpg"
                     }}
                     style={styles.fitImage}
                   />
@@ -464,7 +464,7 @@ class choosePath extends React.Component {
                   <FitImage
                     source={{
                       uri:
-                        "https://www.idcdx.pt/diretorio/wp-content/uploads/2018/08/versao_principal_sem_assinatura.png"
+                        "https://enei.pt/logos/nova.png"
                     }}
                     style={styles.fitImage}
                   />
@@ -497,7 +497,7 @@ class choosePath extends React.Component {
                   <FitImage
                     source={{
                       uri:
-                        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/DeloitteNewLogo.jpg/1200px-DeloitteNewLogo.jpg"
+                        "https://enei.pt/logos/delloite.jpg"
                     }}
                     style={styles.fitImage}
                   />

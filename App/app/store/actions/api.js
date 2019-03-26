@@ -59,8 +59,8 @@ export function scanQrCode(data, tokenInternal) {
     axios
       .post("/api/Scan", data)
       .then(a => {
-        console.log(a.data);
-        Alert.alert("SUCESSO!", a.data);
+        
+        Alert.alert("SUCESSO!", "Cromo adicionado com sucesso!");
         dispatch({
           type: SCAN_QR
         });

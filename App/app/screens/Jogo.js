@@ -265,12 +265,14 @@ class Jogo extends React.Component {
                 justifyContent: "space-around"
               }}
             >
-              <Text style={{ fontWeight: "bold" }}> { this.props.cromos.pontuacao}</Text>
+             {this.props.cromos!= undefined &&
+              <Text style={{ fontWeight: "bold" }}> { this.props.cromos.pontuacao}</Text>}
+              {this.props.cromos!= undefined &&
               <ProgressBarAnimated
                 width={barWidth * 0.7}
                 value={this.props.cromos.pontuacao*100/256}
                 backgroundColorOnComplete="#CC2A17"
-              />
+              />}
               <Text style={{ fontWeight: "bold" }}>256</Text>
             </View>
           </View>

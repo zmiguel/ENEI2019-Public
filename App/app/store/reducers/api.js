@@ -54,7 +54,7 @@ let apiState = {
   sessions: {},
   Blocks: {},
   onHoldBlocks: true,
-  careerPath: { name: "Sem Career Path", color: "#eeeeee" },
+  careerPath: { name: "Sem Career Path", color: "#eeeeee" , code:''},
   a: {},
   b: {},
   c: {},
