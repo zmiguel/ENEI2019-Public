@@ -89,10 +89,12 @@ class teamDetail extends React.Component {
                           margin: 10,
                           padding: 10,
                           borderRadius: 3,
-                          fontSize: 15
+                          fontSize: 15,
+                       
                         }}
                         onChangeText={n => this.setState({ nome: n })}
                         value={this.state.nome}
+                        maxLength = {30}
                       />
                     </View>
 
@@ -103,6 +105,14 @@ class teamDetail extends React.Component {
                         width: "20%",
                         alignContent: "center",
                         alignItems: "center"
+                      }}
+                      onPress={()=>{
+                       this.props.changeTeamName(this.props.internalToken, {
+                        TeamID:this.props.team.id,
+                        nome:this.state.nome,
+                        UserQR:this.props.user.Code,
+                      })
+                        
                       }}
                     >
                       <Text>Guardar</Text>
@@ -153,7 +163,6 @@ class teamDetail extends React.Component {
                             style={{ width: 50, height: 50 }}
                             source={require("../assets/logo_black.jpg")}
                           />
-                         
                         </View>
                       )}
                     />

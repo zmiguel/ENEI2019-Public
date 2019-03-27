@@ -53,7 +53,6 @@ class eventDetail extends React.Component {
     header: (
       <NavAbsolute
         navigation={navigation}
-        // title={navigation.state.params.info.name}
       />
     )
   });

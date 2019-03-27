@@ -29,7 +29,8 @@ export {checkUser,
     deleteTeam,
     getCromos,
     getEventLocsVisited,
-    scanQrCode
+    scanQrCode,
+    changeTeamName
     
 } from "./api"
 
