@@ -35,7 +35,7 @@ import Tel from "../components/Telephone";
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import Icon from "react-native-vector-icons/Ionicons";
-import ImagePicker from "react-native-image-picker";
+
 
 var options = {
   title: "Selecionar foto de perfil",
@@ -191,28 +191,7 @@ class Profile extends Component {
       });
     } else console.log("data not valid");
   }
-  _open = () => {
-    ImagePicker.showImagePicker(options, response => {
-      console.log("Response = ", response);
-
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        const source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
-      }
-    });
-  };
+ 
 
   render() {
     if (this.props.onHold) {

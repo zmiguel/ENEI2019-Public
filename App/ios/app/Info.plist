@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>11</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -44,6 +44,8 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
 	<key>NSCameraUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
