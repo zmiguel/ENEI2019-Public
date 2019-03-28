@@ -81,7 +81,7 @@ class App extends Component {
       logged: false,
       isModalVisible: false,
       state: { text: "" },
-      username: "QR code ou",
+      username: "ZV4ZWJXTVV",
       failedAttempt: false,
       push: 4,
       UI_loginScannerActive: false,
@@ -252,12 +252,22 @@ class App extends Component {
               <View style={styles.inputSection}>
                 <TextInput
                   style={styles.input}
-                  placeholder={this.state.username}
+                
+                  underlineColorAndroid="transparent"
+
+                  onFocus={this._print}
+                  maxLength={15}
+                  blurOnSubmit={true}
+                  secureTextEntry={true}
                   onChangeText={searchString => {
                     this.setState({ username: searchString });
                   }}
-                  maxLength={15}
-                  underlineColorAndroid="transparent"
+                  clearButtonMode="always"
+                  placeholder={this.state.username}
+                  clearTextOnFocus={true}
+                  onSubmitEditing={Keyboard.dismiss}
+                  placeholder={this.state.username}
+
                 />
                 <TouchableOpacity onPress={this._scanQr}>
                   <View style={styles.scanQR}>
