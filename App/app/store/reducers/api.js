@@ -172,13 +172,8 @@ const apiReducer = (state = apiState, action) => {
         //token:action.token,
         failedAttempt: action.failedAttempt,
         user: action.user,
-        userDetails: {
-          token: action.token,
-          username: action.userDetails.username,
-          password: action.userDetails.password
-        },
         loadingLogin: false,
-        onHold: action.onHold,
+        onHold: false,
         token: action.token
       });
 

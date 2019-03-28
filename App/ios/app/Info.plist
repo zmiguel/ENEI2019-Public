@@ -44,7 +44,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<string>A camera é usada para ler os QR codes presentes no evento. Facilita o uso da aplicação.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

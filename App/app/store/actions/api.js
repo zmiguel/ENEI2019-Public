@@ -1805,21 +1805,25 @@ export function login(user, pass) {
       body: formBody
     })
       .catch(err => {
-        console.log(err);
-        alert("Erro no login!!");
-
-        alert("error");
-        co;
+     
+        Alert.alert("Erro", "Não foi possível conectar ao servidor. Verifique se possui conexão à internet e tente novamente." );
         dispatch({
           type: API_LOGIN,
           logged: false,
           failedAttempt: true,
           tokenData: "error",
-          user: { Name: "" }
+          loadingLogin: false,
         });
       })
       .catch(err => {
-        console.log("error");
+        dispatch({
+          type: API_LOGIN,
+          logged: false,
+          failedAttempt: true,
+          tokenData: "error",
+          loadingLogin: false,
+        });
+       
       })
       .then(res => res.json())
       .then(parsed => {
@@ -1865,6 +1869,15 @@ export function login(user, pass) {
             userDetails: details
           });
         }
+      })
+      .catch(err=>{
+        dispatch({
+          type: API_LOGIN,
+          logged: false,
+          failedAttempt: true,
+          tokenData: "error",
+          loadingLogin: false,
+        });
       });
   };
 }
