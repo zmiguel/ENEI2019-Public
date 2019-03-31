@@ -83,7 +83,32 @@ if (cookie) {
 */
 // end cookies code
 
+//  functionalitys of calendar
+function calendarFunctionality() {
+    var dayButtons = document.getElementById("event-days-list");
+    var daySelected = null;
+    var contentVisible = null;
+    
+    if (dayButtons) {
+        dayButtons.querySelectorAll("button").forEach(function (button) {
+            button.addEventListener("click", function () {
+                daySelected = this.getAttribute("data-eventday");
+                contentVisible = document.getElementById("content-container").querySelector(".content[data-eventContent='" + daySelected + "']");
+                //  actions on links
+                document.getElementById("event-days-list").querySelector(".selected").classList.remove("selected");
+                this.classList.add("selected");
+                //  actions on content
+                document.getElementById("content-container").querySelector(".visible").classList.remove("visible");
+                contentVisible.classList.add("visible");
+            });
+        })
+    }
+
+}
+
 $(document).ready(function () {
+
+    calendarFunctionality();
 
     // inicial animation
     setTimeout(function () {

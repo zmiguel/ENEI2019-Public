@@ -5,6 +5,7 @@ $grey: #777777;
 $light-grey: #eeeeee;
 $dark-grey: #353535;
 $red: #cc1a17;
+$light-red: #ff2923;
 $dark-blue: #080014;
 $ai-color: #17cc70;
 $web-color: #004994;
@@ -123,6 +124,10 @@ $bold: 700;
 //icons
 $icomoon-font-path: "fonts" !default;
 
+$icon-linkedin_speaker: "\e90a";
+$icon-company: "\e909";
+$icon-clock: "\e907";
+$icon-location: "\e908";
 $icon-email: "\e902";
 $icon-instagram: "\e900";
 $icon-facebook: "\e901";
@@ -130,6 +135,7 @@ $icon-linkedin: "\e904";
 $icon-menu: "\e903";
 $icon-plus: "\e905";
 $icon-less: "\e906";
+$icon-linkedin1: "\eac9";
 
 @font-face {
 	font-family: "icomoon";
@@ -149,6 +155,7 @@ $icon-less: "\e906";
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
+	display: inline-block;
 	text-transform: none;
 	line-height: 1;
 	transition: color $standard-animation-time ease;
@@ -168,19 +175,34 @@ $icon-less: "\e906";
 	color: $white;
 }
 
-.icon-plus {
+.icon-linkedin_speaker {
 	&:before {
-		content: $icon-plus;
+		content: $icon-linkedin_speaker;
 	}
 }
-.icon-less {
+.icon-company {
 	&:before {
-		content: $icon-less;
+		content: $icon-company;
+	}
+}
+.icon-clock {
+	&:before {
+		content: $icon-clock;
+	}
+}
+.icon-location {
+	&:before {
+		content: $icon-location;
 	}
 }
 .icon-email {
 	&:before {
 		content: $icon-email;
+	}
+}
+.icon-instagram {
+	&:before {
+		content: $icon-instagram;
 	}
 }
 .icon-facebook {
@@ -193,9 +215,19 @@ $icon-less: "\e906";
 		content: $icon-linkedin;
 	}
 }
-.icon-instagram {
+.icon-menu {
 	&:before {
-		content: $icon-instagram;
+		content: $icon-menu;
+	}
+}
+.icon-plus {
+	&:before {
+		content: $icon-plus;
+	}
+}
+.icon-less {
+	&:before {
+		content: $icon-less;
 	}
 }
 
@@ -224,6 +256,12 @@ body {
 	overflow-x: hidden;
 	font-family: $mont-font, sans-serif;
 	font-weight: $regular;
+}
+
+button {
+	&:hover {
+		cursor: pointer;
+	}
 }
 
 span {
@@ -277,6 +315,14 @@ h2 {
 	@include mobile {
 		font-size: 20px;
 	}
+}
+
+h3 {
+	font-size: 20px;
+	line-height: 22px;
+	font-weight: $bold;
+	text-transform: uppercase;
+	margin-bottom: 5px;
 }
 
 p {
@@ -1338,12 +1384,154 @@ footer {
 /* CAREER PATH COLORS */
 .ai-color {
 	#main-menu nav ul li a:hover,
-	#social-network ul li a:hover {
+	#event-days-list button.selected,
+	#event-days-list button:hover,
+	#content-container h2,
+	#social-network ul li a:hover,
+	#content-container .event-description:hover {
 		color: $ai-color;
 	}
 	#main-menu nav ul li a::after,
 	#apresentation::after,
-	hr::after {
+	hr::after,
+	#calendar-container .event-details::before {
 		background-color: $ai-color;
+	}
+}
+
+#calendar-container {
+	.event-details {
+		&::before {
+			content: " ";
+			@include position(absolute, 5px, null, null, 0px);
+			@include size(1px, 100%);
+			background-color: $red;
+		}
+	}
+	.event-data {
+		margin-top: 50px;
+		&:first-child {
+			margin-top: 0;
+		}
+		h2:first-child {
+			margin-top: 0;
+		}
+	}
+}
+#event-days-list {
+	border-bottom: 1px solid $dark-grey;
+	display: flex;
+	button {
+		width: 25%;
+		padding: 20px 0;
+		background-color: transparent;
+		color: $dark-grey;
+		font-size: 32px;
+		font-weight: 700;
+		transition: color $transition-time ease, transform $transition-time ease;
+		&:last-child {
+			border-right: 0;
+		}
+		&.selected {
+			color: $red;
+			&:hover {
+				cursor: default;
+				transform: scale(1);
+			}
+		}
+		&:hover {
+			color: $red;
+			transform: scale(1.02);
+		}
+		span {
+			display: block;
+			font-weight: 500;
+			font-size: 20px;
+		}
+	}
+}
+
+.day-night-filter {
+	border-bottom: 1px solid $dark-grey;
+	button {
+		width: 50%;
+		padding: 30px 0;
+		border-right: 1px solid $dark-grey;
+
+		&:last-child {
+			border-right: 0;
+		}
+	}
+	.half-day {
+		text-align: center;
+		padding: 20px 0;
+		color: $dark-grey;
+		font-size: 27px;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+}
+
+#content-container {
+	padding: 30px 30px 0;
+	color: $dark-grey;
+	.content {
+		display: none;
+		&.visible {
+			display: block;
+		}
+	}
+
+	.event-description {
+		font-family: $mont-font;
+		font-weight: 600;
+		font-size: 17px;
+		background-color: transparent;
+		color: $dark-grey;
+		transition: color $transition-time ease;
+		&:hover {
+			color: $red;
+		}
+		span {
+			display: inline-block;
+			font-size: 16px;
+			margin-right: 10px;
+		}
+	}
+	section {
+		padding: 0;
+	}
+	h2 {
+		font-size: 23px;
+		color: $red;
+		margin-bottom: 10px;
+		margin-top: 35px;
+	}
+	h3 {
+		margin-bottom: 10px;
+	}
+
+	.event-location {
+		color: $dark-grey;
+		margin-bottom: 5px;
+		display: block;
+		span {
+			margin-right: 10px;
+			transition: none;
+		}
+	}
+	a.event-location:hover{
+		color: $red;
+	}
+	.event-time {
+		font-size: 24px;
+		font-weight: 700;
+		line-height: 30px;
+	}
+
+	.container-speaker-image {
+		&::after {
+			content: " ";
+		}
 	}
 }
