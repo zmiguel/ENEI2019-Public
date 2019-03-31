@@ -54,7 +54,7 @@ let apiState = {
   sessions: {},
   Blocks: {},
   onHoldBlocks: true,
-  careerPath: { name: "Sem Career Path", color: "#eeeeee" },
+  careerPath: { name: "Sem Career Path", color: "#eeeeee" , code:''},
   a: {},
   b: {},
   c: {},
@@ -121,7 +121,8 @@ const apiReducer = (state = apiState, action) => {
           internalToken:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJjZW5hIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNTUyODcwODcwLCJleHAiOjE1NTU0NTkyNzAsImlhdCI6MTU1Mjg3MDg3MH0.wkBk-CUDMCaU-K9jI0pTRJ794IGCl-C9md39dMfHqa5zTf-gNpD76xEYea3PhIbW2dnUVgo0m1fxR1sW7k9LMg", 
           cromos: action.payload.apiReducer.cromos,
           careerPath: action.payload.apiReducer.careerPath,
-          locais: action.payload.apiReducer.locais
+          locais: action.payload.apiReducer.locais,
+          Blocks: action.payload.apiReducer.Blocks
         };
       }
 
@@ -171,13 +172,8 @@ const apiReducer = (state = apiState, action) => {
         //token:action.token,
         failedAttempt: action.failedAttempt,
         user: action.user,
-        userDetails: {
-          token: action.token,
-          username: action.userDetails.username,
-          password: action.userDetails.password
-        },
         loadingLogin: false,
-        onHold: action.onHold,
+        onHold: false,
         token: action.token
       });
 

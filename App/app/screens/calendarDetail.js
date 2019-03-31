@@ -11,7 +11,9 @@ import {
   ImageBackground,
   ListView,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+  Linking,
+  Platform
 } from "react-native";
 
 import moment from "moment";
@@ -51,7 +53,7 @@ class calendarDetail extends React.Component {
     header: (
       <NavAbsolute
         navigation={navigation}
-        // title={navigation.state.params.info.name}
+      // title={navigation.state.params.info.name}
       />
     )
   });
@@ -59,7 +61,7 @@ class calendarDetail extends React.Component {
   state = {};
 
   componentDidMount() {
-    this.props.getEvents(this.props.user);
+    this.props.getEvents(this.props.user, this.props.careerPath);
 
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");
@@ -82,30 +84,30 @@ class calendarDetail extends React.Component {
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");
 
-    if(this.props.sessionDetail==undefined){
-      return(<View style={{flex:1, alignSelf:'center',margin:SCREEN_HEIGHT*0.45}}>
- <ActivityIndicator size="large" color="#CC1A17" />
+    if (this.props.sessionDetail == undefined) {
+      return (<View style={{ flex: 1, alignSelf: 'center', margin: SCREEN_HEIGHT * 0.45 }}>
+        <ActivityIndicator size="large" color="#CC1A17" />
       </View>
-       
+
       )
     }
 
     return (
-      info!=undefined &&
+      info != undefined &&
       <View style={styles.mainViewStyle}>
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
             <View style={styles.headerContainer}>
-            <View style={styles.headerContainer}>
-        <View style={styles.coverContainer}>
-          <ImageBackground
-            source={{
-              uri: `https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/${this.props.sessionDetail.Image}`
-            }}
-            style={styles.coverImage}
-          />
-        </View>
-      </View>
+              <View style={styles.headerContainer}>
+                <View style={styles.coverContainer}>
+                  <ImageBackground
+                    source={{
+                      uri: `https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/${this.props.sessionDetail.Image}`
+                    }}
+                    style={styles.coverImage}
+                  />
+                </View>
+              </View>
             </View>
             <View>
               <View style={styles.header}>
@@ -134,18 +136,18 @@ class calendarDetail extends React.Component {
                   >
                     {this.props.sessionDetail.Name}
                   </Text>
-                  
+
                 </View>
 
                 <View style={{ margin: 10 }}>
-                    {this.props.sessionDetail.Enrolled!= 0 && this.props.sessionDetail.MaxAttendees!=0 &&
-                  <Progress.Bar
-                    color={"#000000"}
-                    progress={this.props.sessionDetail.Enrolled / this.props.sessionDetail.MaxAttendees}
-                    height={10}
-                    unfilledColor={"white"}
-                    width={210}
-                  />}
+                  {this.props.sessionDetail.Enrolled != 0 && this.props.sessionDetail.MaxAttendees != 0 &&
+                    <Progress.Bar
+                      color={"#000000"}
+                      progress={this.props.sessionDetail.Enrolled / this.props.sessionDetail.MaxAttendees}
+                      height={10}
+                      unfilledColor={"white"}
+                      width={210}
+                    />}
                   <Text>
                     {this.props.sessionDetail.Enrolled} / {this.props.sessionDetail.MaxAttendees}
                   </Text>
@@ -226,18 +228,38 @@ class calendarDetail extends React.Component {
               </View>
             </View>
           </View>
-          <View style={styles.block}>
-            <Text
-              style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" }}
-            >
-              Localização
+          {
+            this.props.sessionDetail.LocalRoom != undefined && this.props.sessionDetail.LocalCoordinates != undefined &&
+
+            <View style={styles.block}>
+              <Text
+                style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" }}
+              >
+                Localização
             </Text>
-            <Divider style={{ backgroundColor: "#000", marginBottom: 10 }} />
-            <Image
-              source={require("../assets/img/campus.png")}
-              style={{ width: SCREEN_WIDTH * 0.9 }}
-            />
-          </View>
+              <Divider style={{ backgroundColor: "#000", marginBottom: 10 }} />
+              <Text style={{marginBottom:20}}>{this.props.sessionDetail.LocalRoom}</Text>
+              <Button
+                 onPress={() => {
+                  
+                const scheme = Platform.select({
+                  ios: "maps:0,0?q=",
+                  android: "geo:0,0?q="
+                });
+                const latLng = this.props.sessionDetail.LocalCoordinates;
+                const label = this.props.sessionDetail.LocalRoom;
+                const url = Platform.select({
+                  ios: `${scheme}${label}@${latLng}`,
+                  android: `${scheme}${latLng}(${label})`
+                });
+
+                Linking.openURL(url);
+              }}
+                  title={"Abrir no Mapa"}
+                  color={"#CC1A17"}
+                />
+            </View>
+          }
         </ScrollView>
         <Divider style={{ backgroundColor: "black" }} />
       </View>

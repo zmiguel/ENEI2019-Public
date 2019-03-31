@@ -65,13 +65,29 @@ class choosePath extends React.Component {
       if (sessions[key].Name == "IA") {
         this.setState({ guest: "9" });
       }
-      //...
+      if (sessions[key].Name == "IOT") {
+        this.setState({ guest: "12" });
+      }
+      if (sessions[key].Name == "WEB") {
+        this.setState({ guest: "14" });
+      }
+      if (sessions[key].Name == "MOB") {
+        this.setState({ guest: "11" });
+      }
+      if (sessions[key].Name == "DS") {
+        this.setState({ guest: "15" });
+      }
+      if (sessions[key].Name == "NET") {
+        this.setState({ guest: "10" });
+      }
+
     }
   };
   componentDidMount() {
     // this.props.getEvents(this.props.user);
     this.props.getAvailableGuestlists(this.props.token);
     this.props.getSessions(this.props.token);
+    console.log(this.props.careerPath)
     this._mount();
 
     //console.log('didMount');
@@ -140,14 +156,158 @@ class choosePath extends React.Component {
     });
   };
 
+  _isRecommended(sessionId, careerPath) {
+    switch (careerPath.code) {
+      case "IA": {
+        switch (sessionId) {
+          case 15: {
+            //AI1W
+            return true;
+          }
+          case 63: {
+            //AI1P
+            return true;
+          }
+          case 64: {
+            //AI2P
+            return true;
+          }
+          case 65: {
+            //AI2W
+            return true;
+          }
+          case 14: {
+            //AI3P
+            return true;
+          }
+          case 20: {
+            //AI4P
+            return true;
+          }
+        }
+        break;
+      }
+
+      case "NET": {
+        switch (sessionId) {
+          case 89: //CS1P
+            return true;
+
+          case 91: //CS2P
+            return true;
+
+          case 93: //CS1W
+            return true;
+          case 90: //CS3P
+          return true;
+          case 92://CS4P
+            return true;
+
+            case 94: //CS2W
+            return true;
+
+        }
+        break;
+      }
+
+      case "WEB": {
+        switch(sessionId){
+          case 66: //WD1W
+          return true;
+          case 67: //WD1P
+          return true;
+          case 68: //WD2P
+          return true;
+          case 70://WD3P
+          return true;
+          case 71:  //WD4P
+          return true;
+          case 69: //WD2W
+          return true;
+        }
+        break;
+      }
+
+      case "IOT": {
+        switch(sessionId){
+          case 83: //IoT1P
+          return true;
+
+          case 85: //IoT2P
+          return true;
+          case 87: //IoT1W
+          return true;
+          case 84:  //IoT3P
+          return true;
+          case 86: //IoT4P
+          return true;
+          case 88 : //IoT2W
+          return true;
+        }
+        break;
+      }
+
+      case "MOB": {
+        switch(sessionId){
+          case 77: //MD1P
+          return true;
+
+          case 79: //MD2P
+          return true;
+
+          case 82: //MD1W
+          return true;
+
+          case 78:  //MD3P
+          return true;
+
+          case 80://MD4P
+            return true;
+          case 81: //MD2W
+          return true;
+        }
+        break;
+      }
+
+      case "DS": {
+        switch (sessionId){
+          case 41: //DS1P
+            return true;
+          case 72: //DS2P
+          return true; 
+          case 73:  //DS1W
+          return true;
+          case 74: //DS3P
+          return true;
+          case 75: //DS5P
+          return true;
+          case 76:  //DS2W
+          return true;
+        }
+        break;
+      }
+      break;
+    }
+
+    return false;
+  }
   _render = ({ item }) => {
     <Text>Cenas: {item.Name}</Text>;
   };
 
   render() {
     const { navigate } = this.props.navigation;
+    if(this.props.careerPath.code==""){
+      return (
+        <View>
+         
+          </View>
+      );
+    }
+  
     return (
       <View>
+      
         <ScrollView style={styles.page}>
           {this._findPath("IA") && (
             <LinearGradient
@@ -156,37 +316,51 @@ class choosePath extends React.Component {
             >
               <Text
                 style={{
-                  margin: 15,
+                  margin: 10,
                   marginBottom: 0,
                   fontWeight: "bold",
                   color: "white"
                 }}
               >
-                {" "}
                 Empresa responsável:{" "}
               </Text>
               <View style={styles.companyContainer}>
-                <View style={styles.companyDescription}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      margin: 6,
-                      color: "white"
-                    }}
-                  >
-                    Critical Software
-                  </Text>
-                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                    A CRITICAL Software fornece sistemas e serviços de software
-                    para segurança e aplicações essenciais aos negócios.
-                  </Text>
-                </View>
+                
                 <View style={styles.companyLogo}>
                   <FitImage
                     source={{
                       uri:
-                        "https://upload.wikimedia.org/wikipedia/commons/8/8a/CSW_Gradiente_rgb.png"
+                        "https://enei.pt/logos/critical-sponsor.png"
+                    }}
+                    style={styles.fitImage}
+                  />
+                </View>
+                        
+              </View>
+            </LinearGradient>
+          )}
+            {this._findPath("NET") && (
+            <LinearGradient
+              colors={["#4D76B3", "#055CA0"]}
+              style={styles.linearGradient}
+            >
+              <Text
+                style={{
+                  margin: 10,
+                  marginBottom: 0,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                Empresa responsável:{" "}
+              </Text>
+              <View style={styles.companyContainer}>
+                
+                <View style={styles.companyLogo}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://enei.pt/logos/accenture-logo.jpg"
                     }}
                     style={styles.fitImage}
                   />
@@ -194,44 +368,28 @@ class choosePath extends React.Component {
               </View>
             </LinearGradient>
           )}
-          {this._findPath("NET") && (
+         {this._findPath("WEB") && (
             <LinearGradient
-              colors={["#67C43D", "#46B712"]}
+              colors={["#FDC657", "#FBB81B"]}
               style={styles.linearGradient}
             >
               <Text
                 style={{
-                  margin: 15,
+                  margin: 10,
                   marginBottom: 0,
                   fontWeight: "bold",
                   color: "white"
                 }}
               >
-                {" "}
                 Empresa responsável:{" "}
               </Text>
               <View style={styles.companyContainer}>
-                <View style={styles.companyDescription}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      margin: 6,
-                      color: "white"
-                    }}
-                  >
-                    Altice
-                  </Text>
-                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                    Altice é uma multinacional neerlandesa de telecomunicações,
-                    conteúdos, media, entretenimento e publicidade.
-                  </Text>
-                </View>
+                
                 <View style={styles.companyLogo}>
                   <FitImage
                     source={{
                       uri:
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                        "https://enei.pt/logos/blip.png"
                     }}
                     style={styles.fitImage}
                   />
@@ -239,44 +397,32 @@ class choosePath extends React.Component {
               </View>
             </LinearGradient>
           )}
-            {this._findPath("WEB") && (
+           {this._findPath("IOT") && (
             <LinearGradient
-              colors={["blue", "blue"]}
+              colors={["#69447F", "#4B266A"]}
               style={styles.linearGradient}
             >
               <Text
                 style={{
-                  margin: 15,
+                  margin: 10,
                   marginBottom: 0,
                   fontWeight: "bold",
                   color: "white"
                 }}
               >
-                {" "}
                 Empresa responsável:{" "}
               </Text>
               <View style={styles.companyContainer}>
-                <View style={styles.companyDescription}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      margin: 6,
-                      color: "white"
-                    }}
-                  >
-                    Blip
-                  </Text>
-                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                    Altice é uma multinacional neerlandesa de telecomunicações,
-                    conteúdos, media, entretenimento e publicidade.
-                  </Text>
-                </View>
-                <View style={styles.companyLogo}>
+                
+                <View style={{ backgroundColor: "white",
+    margin: 20,
+    width: SCREEN_WIDTH * 0.40,
+    borderRadius: 3,
+    padding: 5,}}>
                   <FitImage
                     source={{
                       uri:
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                        "https://enei.pt/logos/ubiwhere.png"
                     }}
                     style={styles.fitImage}
                   />
@@ -284,44 +430,41 @@ class choosePath extends React.Component {
               </View>
             </LinearGradient>
           )}
-  {this._findPath("IOT") && (
+          {this._findPath("DS") && (
             <LinearGradient
-              colors={["#67C43D", "#46B712"]}
+              colors={["#F28C59", "#ED6B33"]}
               style={styles.linearGradient}
             >
               <Text
                 style={{
-                  margin: 15,
+                  margin: 10,
                   marginBottom: 0,
                   fontWeight: "bold",
                   color: "white"
                 }}
               >
-                {" "}
-                Empresa responsável:{" "}
+                Empresas responsáveis:{" "}
               </Text>
               <View style={styles.companyContainer}>
-                <View style={styles.companyDescription}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      margin: 6,
-                      color: "white"
+                
+                <View style={{ backgroundColor: "white",
+    margin: 20,
+    width: SCREEN_WIDTH * 0.40,
+    borderRadius: 3,
+    padding: 5,}}>
+                  <FitImage
+                    source={{
+                      uri:
+                        "https://enei.pt/logos/feedzai.jpg"
                     }}
-                  >
-                    ubiwhere
-                  </Text>
-                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                    Altice é uma multinacional neerlandesa de telecomunicações,
-                    conteúdos, media, entretenimento e publicidade.
-                  </Text>
+                    style={styles.fitImage}
+                  />
                 </View>
                 <View style={styles.companyLogo}>
                   <FitImage
                     source={{
                       uri:
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                        "https://enei.pt/logos/nova.png"
                     }}
                     style={styles.fitImage}
                   />
@@ -329,89 +472,32 @@ class choosePath extends React.Component {
               </View>
             </LinearGradient>
           )}
-            {this._findPath("DS") && (
+          {this._findPath("MOB") && (
             <LinearGradient
-              colors={["#FF8A38", "#FD6A02"]}
+              colors={["#559159", "#0B7D3C"]}
               style={styles.linearGradient}
             >
               <Text
                 style={{
-                  margin: 15,
+                  margin: 10,
                   marginBottom: 0,
                   fontWeight: "bold",
                   color: "white"
                 }}
               >
-                {" "}
                 Empresa responsável:{" "}
               </Text>
               <View style={styles.companyContainer}>
-                <View style={styles.companyDescription}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      margin: 6,
-                      color: "white"
-                    }}
-                  >
-                    novabase e feedzai
-                  </Text>
-                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                    Altice é uma multinacional neerlandesa de telecomunicações,
-                    conteúdos, media, entretenimento e publicidade.
-                  </Text>
-                </View>
-                <View style={styles.companyLogo}>
+                
+                <View style={ {backgroundColor: "white",
+    margin: 20,
+    width: SCREEN_WIDTH * 0.45,
+    borderRadius: 3,
+    padding: 5,}}>
                   <FitImage
                     source={{
                       uri:
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
-                    }}
-                    style={styles.fitImage}
-                  />
-                </View>
-              </View>
-            </LinearGradient>
-          )}
-            {this._findPath("MOB") && (
-            <LinearGradient
-              colors={["orange", "#46B712"]}
-              style={styles.linearGradient}
-            >
-              <Text
-                style={{
-                  margin: 15,
-                  marginBottom: 0,
-                  fontWeight: "bold",
-                  color: "white"
-                }}
-              >
-                {" "}
-                Empresa responsável:{" "}
-              </Text>
-              <View style={styles.companyContainer}>
-                <View style={styles.companyDescription}>
-                  <Text
-                    style={{
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      margin: 6,
-                      color: "white"
-                    }}
-                  >
-                    Altice
-                  </Text>
-                  <Text style={{ margin: 6, marginTop: 0, color: "white" }}>
-                    Altice é uma multinacional neerlandesa de telecomunicações,
-                    conteúdos, media, entretenimento e publicidade.
-                  </Text>
-                </View>
-                <View style={styles.companyLogo}>
-                  <FitImage
-                    source={{
-                      uri:
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuIfl0Km4mTbCGdJSr4bWn_ApFHnOrjYsmJ4VlBL1OkaIlb93t"
+                        "https://enei.pt/logos/delloite.jpg"
                     }}
                     style={styles.fitImage}
                   />
@@ -444,130 +530,401 @@ class choosePath extends React.Component {
                   //  this.props.getSessionBlocks(this.props.sessions)
                 }}
               >
-                <Picker.Item label="Escolhe o teu career path!" value="0" />
-                <Picker.Item label="Inteligência Artificial" value="9" />
-                <Picker.Item label="Redes e Segurança" value="10" />
+                <Picker.Item label="Artificial Intelligence" value="9" />
+                <Picker.Item label="Networking and Securiy" value="10" />
                 <Picker.Item label="Data Science" value="15" />
-                <Picker.Item label="Desenvolvimento Web" value="14" />
-                <Picker.Item label="Internet das Coisas" value="12" />
-                <Picker.Item label="Desenvolvimento Mobile" value="11" />
+                <Picker.Item label="Web development" value="14" />
+                <Picker.Item label="Mobile development" value="11" />
+                <Picker.Item label="Internet of things" value="12" />
               </Picker>
             </View>
             <View style={{ width: SCREEN_WIDTH }}>
+              {this.props.blocks == [] ||
+                (this.props.blocks == {} && (
+                  <View
+                    style={{
+                      flex: 1,
+                      height: SCREEN_HEIGHT * 0.6,
+                      alignSelf: "center"
+                    }}
+                  >
+                    <ActivityIndicator
+                      size="large"
+                      color="red"
+                      style={{
+                        alignContent: "center",
+                        alignSelf: "center",
+                        marginTop: SCREEN_HEIGHT * 0.2
+                      }}
+                    />
+                  </View>
+                ))}
+                      {
+                        <View style={{ margin: 10, backgroundColor: "white" }}>
+                          <Text
+                            style={{
+                              fontSize: 18,
+                              fontWeight: "bold",
+                              color: "#CC1A17",
+                              margin: 10
+                            }}
+                          >
+                            Career Path
+                          </Text>
+                          <Text
+                            style={{
+                              margin: 10,
+                              marginTop: 0,
+                              marginBottom: 0,
+                              textAlign: "justify",
+                              lineHeight: 20
+                            }}
+                          >
+                            Podes te inscrever em qualquer atividade.
+                          </Text>
+                          <Text
+                            style={{
+                              margin: 10,
+                              marginTop: 0,
+                              textAlign: "justify",
+                              lineHeight: 20
+                            }}
+                          >
+                            No entanto de modo a tirares o máximo proveito do
+                            career path que escolheres, deves fazer a inscrição
+                            nas palestras/workshops que são recomendadas.
+                          </Text>
+                          <View
+                            style={{
+                              padding: 5,
+                              backgroundColor: "rgba(238, 238, 238,0.5)",
+                              width: "60%",
+                              alignItems: "center",
+                              alignContent: "center",
+                              alignSelf: "center",
+                              margin: 20,
+                              padding: 10
+                            }}
+                          >
+                            <View
+                              style={{
+                                flex: 1,
+                                flexDirection: "row"
+                                // width:'50%'
+                              }}
+                            >
+                              <IconFA name="star" color={"#CC1A17"} size={20} />
+                              <Text
+                                style={{
+                                  fontSize: 15,
+                                  fontWeight: "bold",
+                                  marginLeft: 5
+                                }}
+                              >
+                                Nome da sessão
+                              </Text>
+                            </View>
+                            <Text
+                              style={{
+                                marginTop: 10,
+                                marginBottom: 5
+                              }}
+                            >
+                              100 Lugares disponíveis
+                            </Text>
+
+                            <Progress.Bar
+                              color={"#000000"}
+                              progress={0.3}
+                              unfilledColor={"white"}
+                              width={150}
+                            />
+                          </View>
+                          <Text
+                            style={{
+                              fontSize: 12,
+                              textAlign: "center",
+                              margin: 5,
+                              color: "orange"
+                            }}
+                          >
+                            Apenas podes estar inscrito em sessões que não
+                            tenham horários coincidentes.
+                          </Text>
+                        </View>
+                      }
+
               {!this.props.changingGuest && (
                 <FlatList
                   data={this.props.Blocks}
                   renderItem={({ item, index }) => (
-                    <View style={styles.block}>
-                      <View style={styles.time}>
-                        <Text
-                          style={{
-                            margin: 10,
-                            fontSize: 25,
-                            color: "#CC1A17",
-                            marginBottom: 0
-                          }}
-                        >
-                          {moment(item[0].SessionStart).format("HH:mm")}
-                        </Text>
-                        <Text style={{ marginLeft: 20 }}>às</Text>
-                        <Text
-                          style={{
-                            margin: 10,
-                            fontSize: 25,
-                            color: "#CC1A17",
-                            marginTop: 5
-                          }}
-                        >
-                          {moment(item[0].SessionEnd).format("HH:mm")}
-                        </Text>
-                      </View>
-                      <View style={styles.sessions}>
-                        <FlatList
-                          data={item}
-                          renderItem={({ data, index }) => (
-                            <View>
-                              <View style={styles.session}>
-                                {this._verifySession(item[index].Id) && (
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      this.props.removeSession(
-                                        this.props.user,
-                                        this.props.token,
-                                        item[index].Id
-                                      );
-                                    }}
-                                    style={{ flex: 1, alignSelf: "center" }}
-                                  >
-                                    <View>
-                                      <IconFA
-                                        name="check-square"
-                                        color={"#CC1A17"}
-                                        size={35}
-                                      />
-                                    </View>
-                                  </TouchableOpacity>
-                                )}
-                                {!this._verifySession(item[index].Id) && (
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      //this.props.waitChangeGuest()
-                                      this.props.signSession(
-                                        this.props.user,
-                                        this.props.token,
-                                        item[index].Id
-                                      );
-                                    }}
-                                    style={{ flex: 1, alignSelf: "center" }}
-                                  >
-                                    <View>
-                                      <IconFA name="square" size={35} />
-                                    </View>
-                                  </TouchableOpacity>
-                                )}
+                    /* { (item[0].id== 16 //Ia
+                      || item[0].id ==13 //NET
+                      || item[0].id==3 //Ds
+                      || item[0].id==11 //web
+                      || item[0].id==4) //IOT
+                      && <View><Text></Text></View>
+                      */
 
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    navigate("calendarDetail", {
-                                      info: item[index]
-                                    });
+                    <View>
+                
+                      {item[0].Id != 16 && //Ia
+                      item[0].Id != 13 && //NET
+                      item[0].Id != 3 && //Ds
+                      item[0].Id != 11 && //web
+                      item[0].Id != 4 && //IOT
+                      item[0].Id != 2 && ( //MOB //IOT
+                          <View>
+                            <View
+                              style={{
+                                marginLeft: 10,
+                                backgroundColor: "white",
+                                marginTop: 10
+                              }}
+                            >
+                              {moment(item[0].SessionStart).format("DD") ==
+                                12 && (
+                                <Text
+                                  style={{
+                                    padding: 10,
+                                    fontWeight: "bold",
+                                    fontSize: 18
                                   }}
                                 >
-                                  <View style={styles.sessionInfo}>
-                                    <Text style={styles.sessionTitle}>
-                                      {item[index].Name}
-                                    </Text>
-                                    <Text
-                                      style={{ marginTop: 10, marginBottom: 5 }}
-                                    >
-                                      {item[index].MaxAttendees -
-                                        item[index].Enrolled}{" "}
-                                      Lugares disponíveis
-                                    </Text>
-                                    {item[index].Enrolled != 0 &&
-                                      item[index].MaxAttendees!=0 && (
-                                        <Progress.Bar
-                                          color={"#000000"}
-                                          progress={
-                                            item[index].Enrolled /
-                                            item[index].MaxAttendees
-                                          }
-                                          unfilledColor={"white"}
-                                          width={170}
-                                        />
-                                      )}
-                                      
-                                   
-                                   
-                                  </View>
-                                </TouchableOpacity>
-                              </View>
-
-                              <Divider style={{ backgroundColor: "#eeeeee" }} />
+                                  Sexta, dia 12
+                                </Text>
+                              )}
+                              {moment(item[0].SessionStart).format("DD") ==
+                                13 && (
+                                <Text
+                                  style={{
+                                    padding: 10,
+                                    fontWeight: "bold",
+                                    fontSize: 18
+                                  }}
+                                >
+                                  Sábado, dia 13
+                                </Text>
+                              )}
+                              {moment(item[0].SessionEnd).format("DD") ==
+                                14 && (
+                                <Text
+                                  style={{
+                                    padding: 10,
+                                    fontWeight: "bold",
+                                    fontSize: 18
+                                  }}
+                                >
+                                  Domingo, dia 14
+                                </Text>
+                              )}
+                              {moment(item[0].SessionStart).format("DD") ==
+                                15 && (
+                                <Text
+                                  style={{
+                                    padding: 10,
+                                    fontWeight: "bold",
+                                    fontSize: 18
+                                  }}
+                                >
+                                  Segunda, dia 15
+                                </Text>
+                              )}
                             </View>
-                          )}
-                        />
-                      </View>
+
+                            <View style={styles.block}>
+                              <View style={styles.time}>
+                                <Text
+                                  style={{
+                                    margin: 10,
+                                    fontSize: 25,
+                                    color: "#CC1A17",
+                                    marginBottom: 0
+                                  }}
+                                >
+                                  {moment(item[0].SessionStart).format("HH:mm")}
+                                </Text>
+                                <Text style={{ marginLeft: 20 }}>às</Text>
+                                <Text
+                                  style={{
+                                    margin: 10,
+                                    fontSize: 25,
+                                    color: "#CC1A17",
+                                    marginTop: 5
+                                  }}
+                                >
+                                  {moment(item[0].SessionEnd).format("HH:mm")}
+                                </Text>
+                              </View>
+                              <View style={styles.sessions}>
+                                <FlatList
+                                  data={item}
+                                  renderItem={({ data, index }) => (
+                                    <View>
+                                      <View style={styles.session}>
+                                        {this._verifySession(
+                                          item[index].Id
+                                        ) && (
+                                          <TouchableOpacity
+                                            onPress={() => {
+                                              this.props.removeSession(
+                                                this.props.user,
+                                                this.props.token,
+                                                item[index].Id
+                                              );
+                                            }}
+                                            style={{
+                                              flex: 1,
+                                              alignSelf: "center"
+                                            }}
+                                          >
+                                            <View>
+                                              <IconFA
+                                                name="check-square"
+                                                color={"#CC1A17"}
+                                                size={35}
+                                              />
+                                            </View>
+                                          </TouchableOpacity>
+                                        )}
+                                        {!this._verifySession(
+                                          item[index].Id
+                                        ) && (
+                                          <TouchableOpacity
+                                            onPress={() => {
+                                              //this.props.waitChangeGuest()
+                                              this.props.signSession(
+                                                this.props.user,
+                                                this.props.token,
+                                                item[index].Id
+                                              );
+                                            }}
+                                            style={{
+                                              flex: 1,
+                                              alignSelf: "center"
+                                            }}
+                                          >
+                                            <View>
+                                              <IconFA name="square" size={35} />
+                                            </View>
+                                          </TouchableOpacity>
+                                        )}
+
+                                        <TouchableOpacity
+                                          onPress={() => {
+                                            navigate("calendarDetail", {
+                                              info: item[index]
+                                            });
+                                          }}
+                                        >
+                                          {!this._isRecommended(
+                                            item[index].Id,
+                                            this.props.careerPath
+                                          ) && (
+                                            <View style={{ margin: 5 }}>
+                                              <Text
+                                                style={{
+                                                  fontSize: 15,
+                                                  fontWeight: "bold"
+                                                }}
+                                              >
+                                                {item[index].Name}
+                                              </Text>
+                                              <Text
+                                                style={{
+                                                  marginTop: 10,
+                                                  marginBottom: 5
+                                                }}
+                                              >
+                                                {item[index].MaxAttendees -
+                                                  item[index].Enrolled}{" "}
+                                                Lugares disponíveis
+                                              </Text>
+                                              {item[index].Enrolled != 0 &&
+                                                item[index].MaxAttendees !=
+                                                  0 && (
+                                                  <Progress.Bar
+                                                    color={"#000000"}
+                                                    progress={
+                                                      item[index].Enrolled /
+                                                      item[index].MaxAttendees
+                                                    }
+                                                    unfilledColor={"white"}
+                                                    width={150}
+                                                  />
+                                                )}
+                                            </View>
+                                          )}
+                                          {this._isRecommended(
+                                            item[index].Id,
+                                            this.props.careerPath
+                                          ) && (
+                                            <View
+                                              style={{
+                                                padding: 5,
+                                                backgroundColor:
+                                                  "rgba(238, 238, 238,0.5)"
+                                              }}
+                                            >
+                                              <View
+                                                style={{
+                                                  flex: 1,
+                                                  flexDirection: "row"
+                                                }}
+                                              >
+                                                <IconFA
+                                                  name="star"
+                                                  color={"#CC1A17"}
+                                                  size={20}
+                                                />
+                                                <Text
+                                                  style={{
+                                                    fontSize: 15,
+                                                    fontWeight: "bold",
+                                                    marginLeft: 5
+                                                  }}
+                                                >
+                                                  {item[index].Name}
+                                                </Text>
+                                              </View>
+                                              <Text
+                                                style={{
+                                                  marginTop: 10,
+                                                  marginBottom: 5
+                                                }}
+                                              >
+                                                {item[index].MaxAttendees -
+                                                  item[index].Enrolled}{" "}
+                                                Lugares disponíveis
+                                              </Text>
+                                              {item[index].Enrolled != 0 &&
+                                                item[index].MaxAttendees !=
+                                                  0 && (
+                                                  <Progress.Bar
+                                                    color={"#000000"}
+                                                    progress={
+                                                      item[index].Enrolled /
+                                                      item[index].MaxAttendees
+                                                    }
+                                                    unfilledColor={"white"}
+                                                    width={150}
+                                                  />
+                                                )}
+                                            </View>
+                                          )}
+                                        </TouchableOpacity>
+                                      </View>
+
+                                      <Divider
+                                        style={{ backgroundColor: "#eeeeee" }}
+                                      />
+                                    </View>
+                                  )}
+                                />
+                              </View>
+                            </View>
+                          </View>
+                        )}
                     </View>
                   )}
                 />
@@ -604,9 +961,10 @@ const styles = StyleSheet.create({
   companyLogo: {
     backgroundColor: "white",
     margin: 20,
-    width: SCREEN_WIDTH * 0.35,
+    width: SCREEN_WIDTH * 0.30,
     borderRadius: 3,
-    padding: 5
+    padding: 5,
+  
   },
   companyDescription: {
     //  backgroundColor:'white',
@@ -641,6 +999,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "red",
     margin: 10,
+    marginTop: 0,
     borderRadius: 5
   },
 
@@ -649,6 +1008,9 @@ const styles = StyleSheet.create({
     // backgroundColor:'blue',
 
     flexDirection: "row",
+    alignContent:'center',
+    alignItems:'center',
+    alignSelf:'center',
     marginTop: 0
   },
 
@@ -688,7 +1050,8 @@ function mapStateToProps(state, props) {
     sessions: state.apiReducer.sessions,
     Blocks: state.apiReducer.Blocks,
     showAlert: state.apiReducer.showAlert,
-    token: state.apiReducer.token
+    token: state.apiReducer.token,
+    careerPath: state.apiReducer.careerPath
   };
 }
 

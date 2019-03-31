@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   TextInput,
   NetInfo,
-  Animated
+  Animated, Linking,
 } from "react-native";
 
 import { bindActionCreators } from "redux";
@@ -34,12 +34,12 @@ import Modal from "react-native-modal";
 import Router from "./Router";
 
 import Icon from "react-native-vector-icons/Ionicons";
-
+import IconFA from "react-native-vector-icons/FontAwesome5"
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 import Swiper from "react-native-swiper";
-import resetPassword from "./screens/resetPassword";
+//import resetPassword from "./screens/resetPassword";
 var TimerMixin = require("react-timer-mixin");
 
 function handleConnectivityChange() {
@@ -48,7 +48,7 @@ function handleConnectivityChange() {
 
 class App extends Component {
 
- 
+
 
   handleConnectivityChange = isConnected => {
     this.setState({ isConnected });
@@ -81,15 +81,15 @@ class App extends Component {
       logged: false,
       isModalVisible: false,
       state: { text: "" },
-      username: "QR code ou",
+      username: "",
       failedAttempt: false,
       push: 4,
       UI_loginScannerActive: false,
       userDetails: { username: "", password: "" },
       isConnected: true,
       modalOpen: false,
-      modalResetPassword:false,
-      resetText:''
+      modalResetPassword: false,
+      resetText: ''
     };
   }
   _print = () => {
@@ -105,13 +105,13 @@ class App extends Component {
 
   componentDidMount() {
     //this.props.hold();
-   
+
 
 
     this.setState({ isModalVisible: false });
     //verifica se o utilizador tem token guardado
     this.props.checkUser(this.props.token);
-   
+
   }
   componentWillUnmount() {
     NetInfo.isConnected.removeEventListener(
@@ -119,14 +119,14 @@ class App extends Component {
       this.handleConnectivityChange
     );
   }
-  _toggle=()=>{
-    this.setState({modalResetPassword:false})
+  _toggle = () => {
+    this.setState({ modalResetPassword: false })
   }
   //faz call
-  _reset=()=>{
+  _reset = () => {
     //fecha modal
-    this.props.resetPassword(this.props.token,this.state.resetText), 
-    this.setState({modalResetPassword:false})
+    this.props.resetPassword(this.props.token, this.state.resetText),
+      this.setState({ modalResetPassword: false })
     //faz call
   }
 
@@ -148,8 +148,8 @@ class App extends Component {
   };
 
   render() {
-    
-   
+
+
 
 
     if (!this.props.logged && this.props.onHold) {
@@ -167,69 +167,69 @@ class App extends Component {
         return <Router />;
       }
       return (
-      
+
         <View style={styles.slide2}>
-           
+
           <Modal
-                 isVisible={this.props.UI_loginScannerActive}
-                 onBackdropPress={this._toggle}
-                 onBackButtonPress={this._toggle}
-                 animationInTiming={1100}
-                 animationOutTiming={1100}
-                style={{marginTop:-20}}
-                 >
-    
-                 <QRCodeScanner
-      onRead={this.onSuccess}
-       
-      cameraStyle={styles.cameraContainer}
-      showMarker={true}
-      />
-                   <Button
-                     onPress={this.props.closeLoginQRScan}
-                     title={"Fechar Scan"}
-                   color={"#CC1A17"}
-                   ></Button>
-                     <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5, color:'white'}}>
-                         Sim, o quadrado não está centrado. Era só para testar a tua atenção!
+            isVisible={this.props.UI_loginScannerActive}
+            onBackdropPress={this._toggle}
+            onBackButtonPress={this._toggle}
+            animationInTiming={1100}
+            animationOutTiming={1100}
+            style={{ marginTop: -20 }}
+          >
+
+            <QRCodeScanner
+              onRead={this.onSuccess}
+
+              cameraStyle={styles.cameraContainer}
+              showMarker={true}
+            />
+            <Button
+              onPress={this.props.closeLoginQRScan}
+              title={"Fechar Scan"}
+              color={"#CC1A17"}
+            ></Button>
+            <Text style={{ textAlign: 'center', fontSize: 12, margin: 10, marginBottom: 5, color: 'white' }}>
+              Sim, o quadrado não está centrado. Era só para testar a tua atenção!
                      </Text>
-           
-           
-                  
-               </Modal>
+
+
+
+          </Modal>
           <Modal
             isVisible={this.state.modalResetPassword}
             onBackdropPress={this._toggle}
             onBackButtonPress={this._toggle}
             animationInTiming={1100}
             animationOutTiming={1100}
-            >
-            
-            <View style={{  backgroundColor: "white" , padding:20,paddingBottom:0, alignItems:'center'}}>
-            <View>
-              <Text style={{textAlign:'center',fontSize:23, fontWeight:'bold', color:'#CC1A17', margin:30}}>Reset Password</Text>
-            <Text style={{textAlign:'center', }}>Deves introduzir o email com o qual efectuaste a compra do bilhete.</Text>
-            <TextInput
-              style={styles.resetPassword}
-              onFocus={this._print}
-              maxLength={50}
-              blurOnSubmit={true}
-          
-              onChangeText={r => this.setState({ resetText:r })}
-              clearButtonMode="always"
-              value={this.state.resetText}
-              clearTextOnFocus={true}
-              onSubmitEditing={Keyboard.dismiss}
-              placeholder="Email ou Qr code"
-            />
-           
-              <Button
-                onPress={this._reset}
-                title={"Enviar"}
-              color={"#CC1A17"}
-              ></Button>  
-                 <Text style={{textAlign:'center', fontSize:12, margin:10,marginBottom:5}}> Caso tenhas problemas com este processo deves contactar a comissão organizadora atravês do email geral.</Text>
-           
+          >
+
+            <View style={{ backgroundColor: "white", padding: 20, paddingBottom: 0, alignItems: 'center' }}>
+              <View>
+                <Text style={{ textAlign: 'center', fontSize: 23, fontWeight: 'bold', color: '#CC1A17', margin: 30 }}>Reset Password</Text>
+                <Text style={{ textAlign: 'center', }}>Deves introduzir o email com o qual efectuaste a compra do bilhete.</Text>
+                <TextInput
+                  style={styles.resetPassword}
+                  onFocus={this._print}
+                  maxLength={50}
+                  blurOnSubmit={true}
+
+                  onChangeText={r => this.setState({ resetText: r })}
+                  clearButtonMode="always"
+                  value={this.state.resetText}
+                  clearTextOnFocus={true}
+                  onSubmitEditing={Keyboard.dismiss}
+                  placeholder="Email ou Qr code"
+                />
+
+                <Button
+                  onPress={this._reset}
+                  title={"Enviar"}
+                  color={"#CC1A17"}
+                ></Button>
+                <Text style={{ textAlign: 'center', fontSize: 12, margin: 10, marginBottom: 5 }}> Caso tenhas problemas com este processo deves contactar a comissão organizadora atravês do email geral.</Text>
+
               </View>
             </View>
           </Modal>
@@ -239,7 +239,7 @@ class App extends Component {
 
               justifyContent: "center",
               alignItems: "center",
-              margin:20
+              margin: 20
             }}
           >
             <Image
@@ -247,83 +247,118 @@ class App extends Component {
               source={require("./assets/img/logo2.png")}
             />
           </View>
-          {!this.props.loadingLogin  &&
-          <View styles={styles.loginContainer}>
-            <View style={styles.inputSection}>
+          {!this.props.loadingLogin &&
+            <View styles={styles.loginContainer}>
+              <View style={styles.inputSection}>
+                <TextInput
+                  style={styles.input}
+                
+                  underlineColorAndroid="transparent"
+
+                  //onFocus={this._print}
+                  maxLength={15}
+                  blurOnSubmit={true}
+                 // secureTextEntry={true}
+                  onChangeText={user => {
+                    this.setState({ username:user });
+                  }}
+                  clearButtonMode="always"
+                 
+                  clearTextOnFocus={true}
+                  onSubmitEditing={Keyboard.dismiss}
+                  value={this.state.username}
+                  placeholder="QR code"
+
+                />
+                <TouchableOpacity onPress={this._scanQr}>
+                  <View style={styles.scanQR}>
+                    <Icon
+                      style={styles.searchIcon}
+                      name="ios-qr-scanner"
+                      size={40}
+                      color="#000"
+                    />
+
+                  </View>
+                </TouchableOpacity>
+              </View>
+
               <TextInput
-                style={styles.input}
-                placeholder={this.state.username}
-                onChangeText={searchString => {
-                  this.setState({ username:searchString });
-                }}
-                maxLength={15}
-                underlineColorAndroid="transparent"
+                style={styles.passwordInput}
+                onFocus={this._print}
+                maxLength={10}
+                blurOnSubmit={true}
+                secureTextEntry={true}
+                onChangeText={text => this.setState({ text })}
+                clearButtonMode="always"
+                value={this.state.text}
+                clearTextOnFocus={true}
+                onSubmitEditing={Keyboard.dismiss}
+                placeholder="Password"
               />
-              <TouchableOpacity onPress={this._scanQr}>
-                <View style={styles.scanQR}>
-                  <Icon
-                    style={styles.searchIcon}
-                    name="ios-qr-scanner"
-                    size={40}
-                    color="#000"
-                  />
-
+              {!this.props.loadingLogin &&
+                <View style={{ alignItems: 'center', margin: 20 }}>
+                  <TouchableOpacity onPress={this._tryLogin} style={{ backgroundColor: '#CC1A17', borderRadius: 3 }}>
+                    <Text style={{ color: 'white', fontSize: 20, margin: 10, width: 150, textAlign: 'center', }}>Login</Text>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
+              }
 
-            <TextInput
-              style={styles.passwordInput}
-              onFocus={this._print}
-              maxLength={10}
-              blurOnSubmit={true}
-              secureTextEntry={true}
-              onChangeText={text => this.setState({ text })}
-              clearButtonMode="always"
-              value={this.state.text}
-              clearTextOnFocus={true}
-              onSubmitEditing={Keyboard.dismiss}
-              placeholder="Password"
-            />
-            { !this.props.loadingLogin &&
-           <View style={{alignItems:'center', margin:20}}>
-           <TouchableOpacity  onPress={this._tryLogin} style={{backgroundColor:'#CC1A17',borderRadius:3}}>
-           <Text style={{color:'white', fontSize:20, margin:10, width:150,textAlign:'center',}}>Login</Text>
-           </TouchableOpacity>
-           </View>
-            }
-           
-          </View>
-}{
-  this.props.loadingLogin &&
-  <View style={{margin:100}}>  
-  <ActivityIndicator size="large" color="#CC1A17" />
-  </View>
-}
+            </View>
+          }{
+            this.props.loadingLogin &&
+            <View style={{ margin: 100 }}>
+              <ActivityIndicator size="large" color="#CC1A17" />
+            </View>
+          }
           <View style={styles.buttons}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+              Linking.canOpenURL("https://www.facebook.com/ENEIConf/").then(supported => {
+                if (supported) {
+                  Linking.openURL("https://www.facebook.com/ENEIConf/");
+                } else {
+                
+                }
+              });
+            }}>
               <Icon name="logo-facebook" size={40} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Icon name="logo-instagram" size={40} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Icon name="md-heart" size={40} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.footer}>
-            <View style={styles.textRow}>
-              <RkText rkType="primary3">Não sabes a password?</RkText>
-              <RkButton rkType="clear" onPress={this.onSignUpButtonPressed}>
-                <TouchableOpacity onPress={() => {this.setState({modalResetPassword:true})}}>
-                  <RkText style={{ color: "#CC1A17", fontWeight:'bold' }} kType="header6">
-                   Reset Password
+          <TouchableOpacity style={styles.button} onPress={() => {
+              Linking.canOpenURL("https://www.instagram.com/eneiconf/").then(supported => {
+                if (supported) {
+                  Linking.openURL("https://www.instagram.com/eneiconf/");
+                } else {
+                
+                }
+              });
+            }}>
+            <Icon name="logo-instagram" size={40} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => {
+              Linking.canOpenURL("https://enei.pt").then(supported => {
+                if (supported) {
+                  Linking.openURL("https://enei.pt");
+                } else {
+                
+                }
+              });
+            }}>
+              <IconFA name="globe" size={35}/>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.textRow}>
+            <RkText rkType="primary3">Não sabes a password?</RkText>
+            <RkButton rkType="clear" onPress={this.onSignUpButtonPressed}>
+              <TouchableOpacity onPress={() => { this.setState({ modalResetPassword: true }) }}>
+                <RkText style={{ color: "#CC1A17", fontWeight: 'bold' }} kType="header6">
+                  Reset Password
                   </RkText>
-                </TouchableOpacity>
-              </RkButton>
-            </View>
+              </TouchableOpacity>
+            </RkButton>
           </View>
         </View>
+        </View >
       );
     }
   }
@@ -344,15 +379,15 @@ const overlayColor = "rgba(0,0,0,0.30)";
 
 const styles = {
   cameraContainer: {
-      height: Dimensions.get('window').height ,
+    height: Dimensions.get('window').height,
   },
-  resetPassword:{
-  
-    
+  resetPassword: {
+
+
 
     borderColor: "#bfbdbd",
     borderWidth: 1,
-    margin:20,
+    margin: 20,
     marginTop: 60,
     marginBottom: 60,
 
@@ -367,7 +402,7 @@ const styles = {
     paddingLeft: SCREEN_WIDTH * 0.05
   },
   passwordInput: {
-  
+
 
     borderColor: "#bfbdbd",
     borderWidth: 1,
@@ -389,19 +424,19 @@ const styles = {
   },
   scanQR: {
     //flexDirection: 'row',
-    flex:1,
-//paddingTop: 5,
+    flex: 1,
+    //paddingTop: 5,
     backgroundColor: 10,
-    alignItems:'center',
-  padding:5,
-  paddingRight:15,
+    alignItems: 'center',
+    padding: 5,
+    paddingRight: 15,
 
     //width: 80,
-   // paddingLeft: 10,
+    // paddingLeft: 10,
     backgroundColor: "#CC1A17",
     borderBottomRightRadius: 3,
     borderTopRightRadius: 3,
-   // height: "100%"
+    // height: "100%"
   },
   inputSection: {
     flexDirection: "row",
@@ -578,7 +613,7 @@ mapStateToProps = (state, props) => {
     modalOpen: state.apiReducer.modalOpen,
     modalInfo: state.apiReducer.modalInfo,
     type: state.apiReducer.type,
-    loadingLogin:state.apiReducer.loadingLogin
+    loadingLogin: state.apiReducer.loadingLogin
   };
 };
 

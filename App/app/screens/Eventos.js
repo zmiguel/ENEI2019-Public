@@ -12,7 +12,7 @@ import {
   FlatList,
   ActivityIndicator
 } from "react-native";
-
+import IconFA from "react-native-vector-icons/FontAwesome5";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 
 import rallyImg from "../assets/rallyTascas.jpg";
@@ -57,12 +57,33 @@ class Eventos extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <PTRView onRefresh={this._update}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            alignItems: "center",
+            alignContent: "center",
+            alignSelf: "center"
+          }}
+        >
+          <Text
+            style={{
+              textAlign: "right",
+              fontSize: 12,
+              paddingTop: 10,
+              marginRight: 5
+            }}
+          >
+            Arrasta o ecrã para atualizar
+          </Text>
+          <IconFA name="chevron-circle-down" size={13} color={"#CC1A17"} />
+        </View>
         <View style={styles.container}>
           {this.props.eventsInternal == undefined && (
             <View
               style={{
                 height: SCREEN_HEIGHT,
-                marginTop: SCREEN_HEIGHT * 0.27,
+                //marginTop: SCREEN_HEIGHT * 0.27,
                 backgroundColor: "white"
               }}
             >

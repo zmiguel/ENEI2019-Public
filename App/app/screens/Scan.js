@@ -32,9 +32,11 @@ import {RkButton,
 
     onSuccess = (e) => {
 
-        this.setState({ isModalVisible: !this.state.isModalVisible ,isActive:false});
+    
         this.setState({code:e.data});
         this.props.scanQrCode({UserQR:this.props.user.Code, ScanQR: e.data},this.props.internalToken);
+
+
       };
 
       state = {
@@ -63,17 +65,8 @@ import {RkButton,
           <View style={{flex: 1}}>
           
               
-              <Modal 
-              onBackdropPress={this._activate}
-              isVisible={this.state.isModalVisible} style={{backgroundColor:'#E8E8E8', borderRadius:3, marginTop: SCREEN_HEIGHT*0.2, marginBottom: SCREEN_HEIGHT*0.2}}>
-                <View style={{ flex: 1 }}>
-                <Text></Text>
-                  <Text> Qr code data: {this.state.code}</Text>
-                  <Button onPress={this._activate} title="Close" color="#841584" accessibilityLabel="Learn more about this purple button"/>
-    
-                </View>
-              </Modal>
-           
+             
+             
             { this.state.isRender && 
               
               <QRCodeScanner 

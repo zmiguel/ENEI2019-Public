@@ -29,13 +29,7 @@ import * as Actions from "../store/actions"; //Import your actionss
 
 class Jogo extends React.Component {
  
-  static navigationOptions = ({ navigation }) => ({
-    header: (
-     <View style={{backgroundColor:'#CC1A17'}}>
-       <Text>a</Text>
-     </View>
-    )
-  });
+ 
 
 
   handleClick = (link) => {
@@ -271,13 +265,15 @@ class Jogo extends React.Component {
                 justifyContent: "space-around"
               }}
             >
-              <Text style={{ fontWeight: "bold" }}> 1 </Text>
+             {this.props.cromos!= undefined &&
+              <Text style={{ fontWeight: "bold" }}> { this.props.cromos.pontuacao}</Text>}
+              {this.props.cromos!= undefined &&
               <ProgressBarAnimated
                 width={barWidth * 0.7}
-                value={this.state.progress}
+                value={this.props.cromos.pontuacao*100/256}
                 backgroundColorOnComplete="#CC2A17"
-              />
-              <Text style={{ fontWeight: "bold" }}> 2 </Text>
+              />}
+              <Text style={{ fontWeight: "bold" }}>256</Text>
             </View>
           </View>
         </View>
@@ -300,9 +296,7 @@ class Jogo extends React.Component {
                       >
                         <View style={[styles.triangle, this.props.style]} />
                         <Text style={styles.points}>{item.pontos}</Text>
-                        <View
-                          style={[styles.triangleNumber, this.props.style]}
-                        />
+                      
                         <Text style={styles.number}>{item.id-1}</Text>
                       </ImageBackground>
                        }
@@ -315,9 +309,7 @@ class Jogo extends React.Component {
                       >
                         <View style={[styles.triangle, this.props.style]} />
                         <Text style={styles.points}>{item.pontos}</Text>
-                        <View
-                          style={[styles.triangleNumber, this.props.style]}
-                        />
+                       
                         <Text style={styles.number}>{item.id-1}</Text>
                       </ImageBackground>
                        }

@@ -34,6 +34,7 @@ import {
   LOGIN_INTERNAL,
   CHANGE_PASSWORD
 } from "./actionTypes"; //Import the actions types constant we defined in our actions
+var validator = require("email-validator");
 
 import moment from "moment";
 
@@ -59,8 +60,8 @@ export function scanQrCode(data, tokenInternal) {
     axios
       .post("/api/Scan", data)
       .then(a => {
-        console.log(a.data);
-        Alert.alert("SUCESSO!", a.data);
+
+        Alert.alert("SUCESSO!", "Cromo adicionado com sucesso!");
         dispatch({
           type: SCAN_QR
         });
@@ -72,13 +73,50 @@ export function scanQrCode(data, tokenInternal) {
   };
 }
 
-export function changeTeamName(){
+export function changeTeamName(tokenInternal, team) {
+
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
   axios.defaults.baseURL = "https://api.enei.pt/api";
+  return dispatch => {
+    axios.post('/Teams/changename', team).then(p => {
+      console.log(p);
+      Alert.alert("Sucesso!!", "Nome alterado com sucesso");
+      axios.defaults.baseURL = "https://api.enei.pt/api";
+      axios.defaults.headers.common = {
+        Authorization: `bearer ${tokenInternal}`
+      };
+      console.log("Token: ")
+      console.log(tokenInternal)
+      axios
+        .get(`/Teams/u/${team.UserQR}`)
+        .then(a => {
+          console.log("sucesso!");
+          console.log(a);
+          console.log("cenas aqui")
+          dispatch({
+            type: GET_TEAM,
+            team: a.data
+          });
+
+        })
+        .catch(p => {
+          console.log(p);
+
+        });
+
+      dispatch({
+        type: OPEN_MODAL
+      });
 
 
+    })
+      .catch(err => {
+        Alert.alert("ERRO!", "Ocorreu um erro a alterar o nome da equipa")
+      })
+
+  }
 }
 export function getEventLocsVisited(teamId, tokenInternal) {
   axios.defaults.headers.common = {
@@ -91,7 +129,7 @@ export function getEventLocsVisited(teamId, tokenInternal) {
     axios
       .get(`/EventLocsVisited/t/${teamId}`)
       .then(a => {
-     
+
         dispatch({
           type: GET_LOCS_VISITED,
           locais: a.data
@@ -99,7 +137,7 @@ export function getEventLocsVisited(teamId, tokenInternal) {
       })
       .catch(p => {
         console.log(p);
-     //   Alert.alert("ERRO!", "erro a obter os locais visitados");
+        //   Alert.alert("ERRO!", "erro a obter os locais visitados");
       });
   };
 }
@@ -144,26 +182,26 @@ export function deleteTeam(data, tokenInternal) {
         console.log(a.data);
         Alert.alert("SUCESSO!", "A equipa foi removida com sucesso");
         axios
-      .get(`/api/Teams/u/${data.UserQr}`)
-      .then(a => {
-        console.log("sucesso!");
-        console.log(a);
-        dispatch({
-          type: GET_TEAM,
-          team: a.data
-        });
-      })
-      .catch(p => {
-        console.log(p);
-        dispatch({
-          type: GET_TEAM,
-          team: "none"
-        });
-      });
+          .get(`/api/Teams/u/${data.UserQr}`)
+          .then(a => {
+            console.log("sucesso!");
+            console.log(a);
+            dispatch({
+              type: GET_TEAM,
+              team: a.data
+            });
+          })
+          .catch(p => {
+            console.log(p);
+            dispatch({
+              type: GET_TEAM,
+              team: "none"
+            });
+          });
 
-    dispatch({
-      type: OPEN_MODAL
-    });
+        dispatch({
+          type: OPEN_MODAL
+        });
         dispatch({
           type: DELETE_TEAM
         });
@@ -175,7 +213,7 @@ export function deleteTeam(data, tokenInternal) {
   };
 }
 
-export function createTeam(team, tokenInternal,user) {
+export function createTeam(team, tokenInternal, user) {
   axios.defaults.baseURL = "https://api.enei.pt";
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
@@ -188,26 +226,26 @@ export function createTeam(team, tokenInternal,user) {
         console.log(a.data);
         Alert.alert("SUCESSO!", "A equipa foi criada com sucesso");
         axios
-      .get(`/api/Teams/u/${user.Code}`)
-      .then(a => {
-        console.log("sucesso!");
-        console.log(a);
-        dispatch({
-          type: GET_TEAM,
-          team: a.data
-        });
-      })
-      .catch(p => {
-        console.log(p);
-        dispatch({
-          type: GET_TEAM,
-          team: "none"
-        });
-      });
+          .get(`/api/Teams/u/${user.Code}`)
+          .then(a => {
+            console.log("sucesso!");
+            console.log(a);
+            dispatch({
+              type: GET_TEAM,
+              team: a.data
+            });
+          })
+          .catch(p => {
+            console.log(p);
+            dispatch({
+              type: GET_TEAM,
+              team: "none"
+            });
+          });
 
-    dispatch({
-      type: OPEN_MODAL
-    });
+        dispatch({
+          type: OPEN_MODAL
+        });
         dispatch({
           type: CREATE_TEAM
         });
@@ -262,24 +300,24 @@ export function removeUserTeam(data, tokenInternal) {
           console.log(a.data);
           Alert.alert("Sucesso!", "Elemento removido com sucesso!!");
           axios
-      .get(`/api/Teams/u/${data.UserQR}`)
-      .then(a => {
-        console.log("sucesso!");
-        console.log(a);
-        dispatch({
-          type: GET_TEAM,
-          team: a.data
-        });
-      })
-      .catch(p => {
-        console.log(p);
-        dispatch({
-          type: GET_TEAM,
-          team: "none"
-        });
-      });
+            .get(`/api/Teams/u/${data.UserQR}`)
+            .then(a => {
+              console.log("sucesso!");
+              console.log(a);
+              dispatch({
+                type: GET_TEAM,
+                team: a.data
+              });
+            })
+            .catch(p => {
+              console.log(p);
+              dispatch({
+                type: GET_TEAM,
+                team: "none"
+              });
+            });
 
-          
+
         }
       })
       .catch(p => {
@@ -293,7 +331,7 @@ export function removeUserTeam(data, tokenInternal) {
   };
 }
 
-export function addUserTeam(data, tokenInternal,user) {
+export function addUserTeam(data, tokenInternal, user) {
   axios.defaults.headers.common = {
     Authorization: `bearer ${tokenInternal}`
   };
@@ -306,25 +344,25 @@ export function addUserTeam(data, tokenInternal,user) {
           console.log("sucesso!");
           console.log(a.data);
           Alert.alert("Sucesso!", "Elemento adicionado com sucesso!!");
-          
+
         }
         axios
-      .get(`/api/Teams/u/${user.Code}`)
-      .then(a => {
-        console.log("sucesso!");
-        console.log(a);
-        dispatch({
-          type: GET_TEAM,
-          team: a.data
-        });
-      })
-      .catch(p => {
-        console.log(p);
-        dispatch({
-          type: GET_TEAM,
-          //team: "none"
-        });
-      });
+          .get(`/api/Teams/u/${user.Code}`)
+          .then(a => {
+            console.log("sucesso!");
+            console.log(a);
+            dispatch({
+              type: GET_TEAM,
+              team: a.data
+            });
+          })
+          .catch(p => {
+            console.log(p);
+            dispatch({
+              type: GET_TEAM,
+              //team: "none"
+            });
+          });
       })
       .catch(p => {
         console.log(p);
@@ -335,7 +373,7 @@ export function addUserTeam(data, tokenInternal,user) {
       type: OPEN_MODAL
     });
   };
- 
+
 }
 
 export function getUserTeam(user, tokenInternal) {
@@ -354,7 +392,7 @@ export function getUserTeam(user, tokenInternal) {
           type: GET_TEAM,
           team: a.data
         });
-        
+
       })
       .catch(p => {
         console.log(p);
@@ -378,8 +416,8 @@ export function waitLogin() {
   };
 }
 
-var getEAsync = function(user, careerPath, token) {
-  return new Promise(function(resolve, reject) {
+var getEAsync = function (user, careerPath, token) {
+  return new Promise(function (resolve, reject) {
     console.log("career path: ");
     var cenas = [];
     let events = [];
@@ -397,7 +435,7 @@ var getEAsync = function(user, careerPath, token) {
         };
         axios
           .get("/Attendee/AvailableSessions")
-          .then(function(response) {
+          .then(function (response) {
             // handle success
             console.log("available");
             console.log(response);
@@ -535,16 +573,16 @@ var getEAsync = function(user, careerPath, token) {
                 day: result["15"][key].day
               });
             }
-            a = _.sortBy(a, function(o) {
+            a = _.sortBy(a, function (o) {
               return o.time;
             });
-            b = _.sortBy(b, function(o) {
+            b = _.sortBy(b, function (o) {
               return o.time;
             });
-            c = _.sortBy(c, function(o) {
+            c = _.sortBy(c, function (o) {
               return o.time;
             });
-            d = _.sortBy(d, function(o) {
+            d = _.sortBy(d, function (o) {
               return o.time;
             });
 
@@ -563,7 +601,7 @@ var getEAsync = function(user, careerPath, token) {
               al: alojamento
             };
           })
-          .catch(function(error) {
+          .catch(function (error) {
             alert("Error a obter sessões disponíveis!!");
             console.log(error);
           });
@@ -574,8 +612,8 @@ var getEAsync = function(user, careerPath, token) {
   });
 };
 
-var checkAndRefresh = function(token) {
-  return new Promise(function(resolve, reject) {
+var checkAndRefresh = function (token) {
+  return new Promise(function (resolve, reject) {
     //verificar se já expirou a validade do token
     if (token == undefined || token.access_token == undefined) {
       reject("user logged out");
@@ -632,7 +670,7 @@ var checkAndRefresh = function(token) {
               access_token: parsed.access_token,
               refresh_token: parsed.refresh_token,
               expirationDateToken:
-                Math.round(new Date().getTime() / 1000) + 3598
+                Math.round(new Date().getTime() / 1000) + (parsed.expires_in - 2)
             };
 
             console.log(parsed);
@@ -642,12 +680,12 @@ var checkAndRefresh = function(token) {
     } else {
       console.log(
         "Tempo restante token: " +
-          Math.round(
-            (token.expirationDateToken -
-              Math.round(new Date().getTime() / 1000)) /
-              60
-          ) +
-          " Minutos"
+        Math.round(
+          (token.expirationDateToken -
+            Math.round(new Date().getTime() / 1000)) /
+          60
+        ) +
+        " Minutos"
       );
       resolve(token);
     }
@@ -830,28 +868,28 @@ function getCareerPath(sessions) {
       code = "IA";
     }
     if (sessions[key].Name == "IOT") {
-      careerPath = "Internet of Things";
-      careerColor = "green";
+      careerPath = "Internet of things";
+      careerColor = "#4B266A";
       code = "IOT";
     }
     if (sessions[key].Name == "WEB") {
-      careerPath = "Web Development";
-      careerColor = "purple";
+      careerPath = "Web development";
+      careerColor = "#FBB81B";
       code = "WEB";
     }
     if (sessions[key].Name == "NET") {
       careerPath = "Networking and Security";
-      careerColor = "blue";
+      careerColor = "#055CA0";
       code = "NET";
     }
     if (sessions[key].Name == "MOB") {
       careerPath = "Mobile Development";
-      careerColor = "orange";
+      careerColor = "#0B7D3C";
       code = "MOB";
     }
     if (sessions[key].Name == "DS") {
       careerPath = "Data Science";
-      careerColor = "yellow";
+      careerColor = "#ED6B33";
       code = "DS";
     }
   }
@@ -901,7 +939,7 @@ export function removeSession(user, token, idSession) {
               axios
                 .get("/Attendee/AvailableSessions")
 
-                .then(function(response) {
+                .then(function (response) {
                   console.log(response);
 
                   var sessions = response.data;
@@ -940,7 +978,7 @@ export function removeSession(user, token, idSession) {
                       getEvents(user, careerPath, token);
                     });
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   alert("Erro a obter sessões disponíveis!!");
 
                   console.log(error);
@@ -994,7 +1032,7 @@ export function signSession(user, token, idSession) {
               axios
                 .get("/Attendee/AvailableSessions")
 
-                .then(function(response) {
+                .then(function (response) {
                   console.log(response);
 
                   var sessions = response.data;
@@ -1039,7 +1077,7 @@ export function signSession(user, token, idSession) {
                       });
                     });
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                   console.log(error);
                 });
             } else {
@@ -1079,7 +1117,7 @@ export function getSessions(token) {
 
         axios
           .get("/Attendee/AvailableSessions")
-          .then(function(response) {
+          .then(function (response) {
             var sessions = response.data;
 
             var careerPath = getCareerPath(sessions);
@@ -1106,7 +1144,7 @@ export function getSessions(token) {
               //guests: response.data
             });
           })
-          .catch(function(error) {
+          .catch(function (error) {
             alert("Error a obter sessões disponíveis!!");
             console.log(error);
           });
@@ -1130,7 +1168,7 @@ export function getAvailableGuestlists(token) {
         };
         axios
           .get("/Attendee/AvailableGuestlists")
-          .then(function(response) {
+          .then(function (response) {
             // handle success
             console.log(response);
             dispatch({
@@ -1139,11 +1177,11 @@ export function getAvailableGuestlists(token) {
               token: newToken
             });
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // handle error
             console.log(error);
           })
-          .then(function() {
+          .then(function () {
             // always executed
           });
       })
@@ -1167,6 +1205,7 @@ export function getAvailableGuestlists(token) {
 */
 export function changeGuestList(token, guestID) {
   axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+  console.log("Guest ID: " + guestID)
   return dispatch => {
     checkAndRefresh(token)
       .then(newToken => {
@@ -1178,15 +1217,15 @@ export function changeGuestList(token, guestID) {
 
         axios
           .get(full)
-          .then(function(response) {
+          .then(function (response) {
             axios
               .get("/Attendee/AvailableSessions")
 
-              .then(function(response) {
+              .then(function (response) {
                 // handle success
 
                 //console.log(response);
-
+                console.log("SUcesso a trocar para :" + guestID)
                 var cenas = [];
                 c = getCareerPath(response.data);
                 const result = flow(
@@ -1212,18 +1251,18 @@ export function changeGuestList(token, guestID) {
                   //guests: response.data
                 });
               })
-              .catch(function(error) {
+              .catch(function (error) {
                 alert("Error a obter sessões disponíveis!!");
                 console.log(error);
               });
           })
-          .catch(function(error) {
+          .catch(function (error) {
             // handle error
             console.log(response);
             console.log(error);
             alert("Erro a mudar de career path");
           })
-          .then(function() {
+          .then(function () {
             // always executed
           });
       })
@@ -1266,7 +1305,7 @@ export function getAvailableSessions(token) {
         };
         axios
           .get("/Attendee/AvailableSessions")
-          .then(function(response) {
+          .then(function (response) {
             // handle success
             console.log(response);
 
@@ -1285,7 +1324,7 @@ export function getAvailableSessions(token) {
               token: newToken
             });
           })
-          .catch(function(error) {
+          .catch(function (error) {
             alert("Error a obter sessões disponíveis!!");
             console.log(error);
           });
@@ -1374,35 +1413,157 @@ function getE(user, careerPath, token) {
     d = [];
 
   //MEU DEUS QUE É ISTO???
-  if (careerPath != undefined && careerPath.code =="IA") {
+  if (careerPath != undefined && careerPath.code == "IA" || careerPath.code == "WEB") {
+    b.push({
+      Id: 22,
+      time: "13:30",
+      description: "Almoço para os career path's de IA e WEB",
+      day: "13",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
+    c.push({
+      Id: 22,
+      time: "13:30",
+      description: "Almoço para os career path's de IA e WEB",
+      day: "14",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
+    d.push({
+      Id: 22,
+      time: "13:30",
+      description: "Almoço para os career path's de IA e WEB",
+      day: "15",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
     a.push({
       Id: 22,
       time: "19:00",
-      description: "Jantar para os career path's de IA",
+      description: "Jantar para os career path's de IA e WEB",
       day: "12",
       name: "Jantar",
       place: "Cantina do ISEC"
     });
+    b.push({
+      Id: 22,
+      time: "19:00",
+      description: "Jantar para os career path's de IA e WEB",
+      day: "13",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    c.push({
+      Id: 22,
+      time: "19:00",
+      description: "Jantar para os career path's de IA e WEB",
+      day: "14",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
   }
-  if (careerPath != undefined && careerPath.code =="IOT") {
+  if (careerPath != undefined && careerPath.code == "IOT" || careerPath.code == "NET") {
+    b.push({
+      Id: 22,
+      time: "12:15",
+      description: "Almoço para os career path's de IOT e NET",
+      day: "13",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
+    c.push({
+      Id: 22,
+      time: "12:15",
+      description: "Almoço para os career path's de IOT e NET",
+      day: "14",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
+    d.push({
+      Id: 22,
+      time: "12:15",
+      description: "Almoço para os career path's de IOT e NET",
+      day: "15",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
     a.push({
       Id: 22,
       time: "19:30",
-      description: "Jantar ",
+      description: "Jantar para os career path's de IOT e NET ",
       day: "12",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    b.push({
+      Id: 22,
+      time: "19:30",
+      description: "Jantar para os career path's de IOT e NET",
+      day: "13",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    c.push({
+      Id: 22,
+      time: "19:30",
+      description: "Jantar para os career path de IOT e NET",
+      day: "14",
+      name: "Jantar",
       place: "Cantina do ISEC"
     });
   }
-  if (careerPath != undefined && careerPath.code =="NET") {
+  if (careerPath != undefined && careerPath.code == "DS" || careerPath.code == "MOB") {
+    b.push({
+      Id: 22,
+      time: "12:45",
+      description: "Almoço para os career paths de DS e MOB ",
+      day: "13",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    c.push({
+      Id: 22,
+      time: "12:45",
+      description: "Almoço para os career paths de DS e MOB ",
+      day: "13",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    d.push({
+      Id: 22,
+      time: "12:45",
+      description: "Almoço para os career paths de DS e MOB ",
+      day: "13",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
     a.push({
       Id: 22,
       time: "20:00",
-      description: "Jantar ",
+      description: "Jantar para os career paths de DS e MOB ",
       day: "12",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    b.push({
+      Id: 22,
+      time: "20:00",
+      description: "Jantar para os career paths de DS e MOB ",
+      day: "13",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    c.push({
+      Id: 22,
+      time: "20:00",
+      description: "Jantar para os career paths de DS e MOB ",
+      day: "14",
+      name: "Jantar",
       place: "Cantina do ISEC"
     });
   }
-  
+
   a.push({
     Id: 48,
     time: "21:00",
@@ -1429,9 +1590,9 @@ function getE(user, careerPath, token) {
     Id: 46,
     time: "17:30",
     description:
-      "Sessão de boas vindas ao ENEI'19. Esta sessão conta com a presença do grupo de fados",
+      "A sessão de abertura vai-se realizar no nosso auditório principal. Poderás ver a apresentação das várias atividades que irão decorrer no evento.",
     name: "Sessão de Abertura",
-    
+
     Enrolled: 700,
     MaxAttendees: 300,
     day: "12",
@@ -1439,7 +1600,7 @@ function getE(user, careerPath, token) {
   });
   b.push({
     Id: 49,
-    time: "8:00",
+    time: "08:00",
     description:
       "Pronto para começar o dia em grande? Vem tomar o pequeno-almoço!",
     Enrolled: 700,
@@ -1447,6 +1608,39 @@ function getE(user, careerPath, token) {
     name: "Pequeno-Almoço",
     day: "13",
     place: "Cantina do ISEC"
+  });
+  c.push({
+    Id: 49,
+    time: "08:00",
+    description:
+      "Pronto para começar o dia em grande? Vem tomar o pequeno-almoço!",
+    Enrolled: 700,
+    MaxAttendees: 300,
+    name: "Pequeno-Almoço",
+    day: "13",
+    place: "Cantina do ISEC"
+  });
+  d.push({
+    Id: 49,
+    time: "08:00",
+    description:
+      "Pronto para começar o dia em grande? Vem tomar o pequeno-almoço!",
+    Enrolled: 700,
+    MaxAttendees: 300,
+    name: "Pequeno-Almoço",
+    day: "13",
+    place: "Cantina do ISEC"
+  });
+  c.push({
+    Id: 95,
+    time: "20:00",
+    description:
+      "Queres ficar a conhecer pessoalmente algumas das empresas líderes de mercado na área de informática? Então o jantar empresarial é a oportunidade perfeita para ti! Manda-nos o teu CV e habilita-te a ganhar um jantar no hotel Quinta das Lágrimas acompanhado pelas tuas empresas favoritas.",
+    Enrolled: 700,
+    MaxAttendees: 300,
+    name: "Jantar Empresarial",
+    day: "14",
+    place: "Hotel Quinta das Lágrimas"
   });
   for (let key in result["12"]) {
     a.push({
@@ -1459,7 +1653,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["12"][key].Enrolled,
       MaxAttendees: result["12"][key].MaxAttendees,
       day: result["12"][key].day,
-      place:""
+      place: ""
     });
   }
 
@@ -1474,7 +1668,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["13"][key].Enrolled,
       MaxAttendees: result["13"][key].MaxAttendees,
       day: result["13"][key].day,
-      place:""
+      place: ""
     });
   }
   for (let key in result["14"]) {
@@ -1488,7 +1682,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["14"][key].Enrolled,
       MaxAttendees: result["14"][key].MaxAttendees,
       day: result["14"][key].day,
-      place:""
+      place: ""
     });
   }
 
@@ -1506,16 +1700,16 @@ function getE(user, careerPath, token) {
       place: ""
     });
   }
-  a = _.sortBy(a, function(o) {
+  a = _.sortBy(a, function (o) {
     return o.time;
   });
-  b = _.sortBy(b, function(o) {
+  b = _.sortBy(b, function (o) {
     return o.time;
   });
-  c = _.sortBy(c, function(o) {
+  c = _.sortBy(c, function (o) {
     return o.time;
   });
-  d = _.sortBy(d, function(o) {
+  d = _.sortBy(d, function (o) {
     return o.time;
   });
 
@@ -1547,6 +1741,36 @@ export function getEvents(user, careerPath, token) {
       alojamento: result.al
     });
   };
+}
+
+export function resetPassword(token, password) {
+  var type = 0;
+  axios.defaults.baseURL = "https://tickets.enei.pt/internal/api";
+
+  if (validator.validate(password)) {
+
+    type = 0 //
+
+  } else {
+
+    type = 1;
+
+  }
+
+  var type;
+
+  return dispatch => {
+    axios
+      .get(`/User/RecoverPassword?input=${password}+&type=${type}`)
+      .then(function (response) {
+
+        Alert.alert("Sucesso!", "Foi enviado um email com o pedido de recuperação.");
+      })
+      .catch(() => {
+        Alert.alert("Error!!", "Ocorreu um erro.")
+      })
+
+  }
 }
 
 export function login(user, pass) {
@@ -1581,21 +1805,25 @@ export function login(user, pass) {
       body: formBody
     })
       .catch(err => {
-        console.log(err);
-        alert("Erro no login!!");
-
-        alert("error");
-        co;
+     
+        Alert.alert("Erro", "Não foi possível conectar ao servidor. Verifique se possui conexão à internet e tente novamente." );
         dispatch({
           type: API_LOGIN,
           logged: false,
           failedAttempt: true,
           tokenData: "error",
-          user: { Name: "" }
+          loadingLogin: false,
         });
       })
       .catch(err => {
-        console.log("error");
+        dispatch({
+          type: API_LOGIN,
+          logged: false,
+          failedAttempt: true,
+          tokenData: "error",
+          loadingLogin: false,
+        });
+       
       })
       .then(res => res.json())
       .then(parsed => {
@@ -1620,9 +1848,10 @@ export function login(user, pass) {
           });
           return;
         } else {
+          console.log(parsed)
           var obj = {
             access_token: parsed.access_token,
-            expirationDateToken: Math.round(new Date().getTime() / 1000) + 3598,
+            expirationDateToken: Math.round(new Date().getTime() / 1000) + (parsed.expires_in - 2),
             refresh_token: parsed.refresh_token,
             valid: true
           };
@@ -1640,6 +1869,15 @@ export function login(user, pass) {
             userDetails: details
           });
         }
+      })
+      .catch(err=>{
+        dispatch({
+          type: API_LOGIN,
+          logged: false,
+          failedAttempt: true,
+          tokenData: "error",
+          loadingLogin: false,
+        });
       });
   };
 }
@@ -1667,7 +1905,7 @@ export function getUserInfo(token) {
         };
 
         fetch("https://tickets.enei.pt/internal/api/Attendee/Detail", obj)
-          .then(function(res) {
+          .then(function (res) {
             let obj = JSON.parse(res._bodyText);
             console.log(obj);
             axios.defaults.baseURL = "https://api.enei.pt";
@@ -1687,7 +1925,7 @@ export function getUserInfo(token) {
                   Authorization: `bearer ${a.data.token}`
                 };
 
-                 axios.defaults.baseURL = "https://api.enei.pt";
+                axios.defaults.baseURL = "https://api.enei.pt";
 
                 axios.get(`/api/Teams/u/${obj.Code}`).then(v => {
 
@@ -1698,26 +1936,26 @@ export function getUserInfo(token) {
                     Authorization: `bearer ${a.data.token}`
                   };
                   axios.defaults.baseURL = "https://api.enei.pt";
-                
+
                   axios
-                  .get(`api/EventLocsVisited/t/${v.data.id}`)
-                  .then(c => {
+                    .get(`api / EventLocsVisited / t / ${v.data.id}`)
+                    .then(c => {
 
-                    console.log("sucesso!");
+                      console.log("sucesso!");
 
-                    console.log(c);
-                    
-                    dispatch({
-                      type: GET_LOCS_VISITED,
-                      locais: c.data
+                      console.log(c);
+
+                      dispatch({
+                        type: GET_LOCS_VISITED,
+                        locais: c.data
+                      });
+
+                    })
+                    .catch(p => {
+                      console.log(p);
+                      // Alert.alert("ERRO!", "erro a obter os locais visitados");
                     });
-                  
-                  })
-                  .catch(p => {
-                    console.log(p);
-                   // Alert.alert("ERRO!", "erro a obter os locais visitados");
-                  });
-                  
+
                   dispatch({
                     type: GET_TEAM,
                     team: v.data
@@ -1760,7 +1998,7 @@ export function getUserInfo(token) {
               token: newToken
             });
           })
-          .catch(function(res) {
+          .catch(function (res) {
             console.log("erro");
             //  dispatch({ type: USER_INFO,onHold:false});
             alert("Erro a obter a informação pessoal.");

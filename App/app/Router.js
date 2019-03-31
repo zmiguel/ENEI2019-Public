@@ -37,7 +37,7 @@ import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
 import calendarDetail from './screens/calendarDetail';
 
-import resetPassword from './screens/resetPassword';
+//import resetPassword from './screens/resetPassword';
 
 import eventDetail from './screens/eventDetail';
 
@@ -147,6 +147,7 @@ const Stack = createStackNavigator({
                     )
                 }
             }
+            
             if (navigation.state.routes[index].routeName == 'Jogo') {
                 return {
                     header: (<View style={{backgroundColor:'#CC1A17', padding:15}}>
@@ -226,9 +227,7 @@ const Stack = createStackNavigator({
         screen: teamDetail,
     },
 
-    resetPassword:{
-        screen:resetPassword
-    },
+    
     event:{
         screen: event
     }

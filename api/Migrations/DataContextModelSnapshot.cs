@@ -362,6 +362,8 @@ namespace api.Migrations
 
                     b.Property<string>("fullName");
 
+                    b.Property<string>("profileImage");
+
                     b.Property<int?>("teamID");
 
                     b.Property<string>("university");
