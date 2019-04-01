@@ -5,7 +5,10 @@ $grey: #777777;
 $light-grey: #eeeeee;
 $dark-grey: #353535;
 $red: #cc1a17;
+$light-red: #ff2923;
 $dark-blue: #080014;
+$ai-color: #17cc70;
+$web-color: #004994;
 
 //dimensions
 $mobile: 769px;
@@ -121,6 +124,10 @@ $bold: 700;
 //icons
 $icomoon-font-path: "fonts" !default;
 
+$icon-linkedin_speaker: "\e90a";
+$icon-company: "\e909";
+$icon-clock: "\e907";
+$icon-location: "\e908";
 $icon-email: "\e902";
 $icon-instagram: "\e900";
 $icon-facebook: "\e901";
@@ -128,6 +135,7 @@ $icon-linkedin: "\e904";
 $icon-menu: "\e903";
 $icon-plus: "\e905";
 $icon-less: "\e906";
+$icon-linkedin1: "\eac9";
 
 @font-face {
 	font-family: "icomoon";
@@ -147,6 +155,7 @@ $icon-less: "\e906";
 	font-style: normal;
 	font-weight: normal;
 	font-variant: normal;
+	display: inline-block;
 	text-transform: none;
 	line-height: 1;
 	transition: color $standard-animation-time ease;
@@ -166,19 +175,34 @@ $icon-less: "\e906";
 	color: $white;
 }
 
-.icon-plus {
+.icon-linkedin_speaker {
 	&:before {
-		content: $icon-plus;
+		content: $icon-linkedin_speaker;
 	}
 }
-.icon-less {
+.icon-company {
 	&:before {
-		content: $icon-less;
+		content: $icon-company;
+	}
+}
+.icon-clock {
+	&:before {
+		content: $icon-clock;
+	}
+}
+.icon-location {
+	&:before {
+		content: $icon-location;
 	}
 }
 .icon-email {
 	&:before {
 		content: $icon-email;
+	}
+}
+.icon-instagram {
+	&:before {
+		content: $icon-instagram;
 	}
 }
 .icon-facebook {
@@ -191,9 +215,19 @@ $icon-less: "\e906";
 		content: $icon-linkedin;
 	}
 }
-.icon-instagram {
+.icon-menu {
 	&:before {
-		content: $icon-instagram;
+		content: $icon-menu;
+	}
+}
+.icon-plus {
+	&:before {
+		content: $icon-plus;
+	}
+}
+.icon-less {
+	&:before {
+		content: $icon-less;
 	}
 }
 
@@ -220,6 +254,18 @@ body {
 	width: 100%;
 	position: relative;
 	overflow-x: hidden;
+	font-family: $mont-font, sans-serif;
+	font-weight: $regular;
+}
+
+button {
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+span {
+	display: block;
 }
 
 section,
@@ -238,13 +284,6 @@ img {
 	display: block;
 	max-width: 100%;
 	height: auto;
-}
-
-h1,
-h2,
-h3,
-h4 {
-	font-family: $mont-font;
 }
 
 h1 {
@@ -276,6 +315,14 @@ h2 {
 	@include mobile {
 		font-size: 20px;
 	}
+}
+
+h3 {
+	font-size: 20px;
+	line-height: 22px;
+	font-weight: $bold;
+	text-transform: uppercase;
+	margin-bottom: 5px;
 }
 
 p {
@@ -360,10 +407,10 @@ select {
 	margin-left: 25px;
 }
 
-.vertically-aligned{
+.vertically-aligned {
 	display: flex;
-    align-items: center;
-    justify-content: center;
+	align-items: center;
+	justify-content: center;
 }
 
 .btn {
@@ -397,7 +444,7 @@ select {
 }
 
 hr {
-	@include size(60%, 1px);
+	@include size(55%, 1px);
 	background-color: $light-grey;
 	margin-bottom: 30px;
 	position: relative;
@@ -410,6 +457,10 @@ hr {
 		@include position(absolute, 0, null, null, 0);
 		background-color: $red;
 	}
+}
+
+.grey {
+	background-color: $light-grey;
 }
 
 #error-message {
@@ -570,10 +621,12 @@ hr {
 	background: url("imgs/coimbra-image.jpg") no-repeat center;
 	background-size: cover;
 	background-attachment: fixed;
-	z-index: 10;
 	position: relative;
+	&.main-landing {
+		z-index: 10;
+	}
 
-	&::after {
+	&.main-landing::after {
 		content: " ";
 		@include position(fixed, 0, null, null, 0);
 		@include size(100%, 100%);
@@ -581,7 +634,7 @@ hr {
 		opacity: 1;
 		transition: opacity 150ms ease-out;
 	}
-	&.animated {
+	&.main-landing.animated {
 		z-index: 0;
 		&::after {
 			opacity: 0;
@@ -736,7 +789,6 @@ hr {
 	hr {
 		display: table;
 		margin: 0 auto;
-		width: 50%;
 		&::after {
 			left: 50%;
 			transform: translateX(-50%);
@@ -754,7 +806,6 @@ hr {
 	hr {
 		display: table;
 		margin: 0 auto 60px;
-		width: 40%;
 		&::after {
 			left: 50%;
 			transform: translateX(-50%);
@@ -898,17 +949,14 @@ hr {
 	}
 }
 
-#ctf{
-	 background-image: url("imgs/image.png");
+#ctf {
+	background-image: url("imgs/image.png");
 	text-align: center;
-	
-	
-	
+
 	h1 {
 		color: white;
 		margin-top: 80px;
 		margin-bottom: 50px;
-
 	}
 	.button-ctf {
 		&:hover {
@@ -917,18 +965,13 @@ hr {
 			color: $grey;
 		}
 	}
-
-	
-	
 }
 
-
-.prectf-h1{
-	
+.prectf-h1 {
 	@include font($mont-font, 20px, 22px, $grey);
 	font-weight: $semi-bold;
 	text-transform: uppercase;
-	margin-bottom:100px;
+	margin-bottom: 100px;
 	@include portable {
 		font-size: 17px;
 	}
@@ -937,21 +980,18 @@ hr {
 	}
 	color: #cc1a17;
 }
-.button-ctf{
-	
-		font-family: "Bai Jamjuree", sans-serif;
-		font-size: 18px;
-		line-height: 14px;
-		color: #CC1A17;
-		font-weight: 700;
-		text-transform: uppercase;
-		border: 1px solid #eeeeee;
-		padding: 20px 40px;
-		margin: 200;
-		transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
-		-webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
-	
-
+.button-ctf {
+	font-family: "Bai Jamjuree", sans-serif;
+	font-size: 18px;
+	line-height: 14px;
+	color: #cc1a17;
+	font-weight: 700;
+	text-transform: uppercase;
+	border: 1px solid #eeeeee;
+	padding: 20px 40px;
+	margin: 200;
+	transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+	-webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
 }
 #faqs,
 #tickets {
@@ -1007,12 +1047,10 @@ hr {
 }
 
 #sponsors {
-	background-color: $light-grey;
 	text-align: center;
 	hr {
 		display: table;
 		margin: 0 auto;
-		width: 60%;
 		background-color: $dark-grey;
 		&::after {
 			left: 50%;
@@ -1031,7 +1069,7 @@ hr {
 			filter: grayscale(0);
 			transform: scale(1.03);
 		}
-		@include mobile{
+		@include mobile {
 			max-width: 160px;
 			margin: 40px 15px 0;
 		}
@@ -1041,10 +1079,10 @@ hr {
 			font-size: 30px;
 			line-height: 26px;
 			margin-top: 75px;
-			@include portable{
+			@include portable {
 				font-size: 27px;
 			}
-			@include mobile{
+			@include mobile {
 				font-size: 23px;
 			}
 		}
@@ -1137,6 +1175,363 @@ footer {
 		display: none;
 		&.visible {
 			display: block;
+		}
+	}
+}
+
+#career-path {
+	text-align: center;
+	hr {
+		display: table;
+		margin: 0 auto 60px;
+		&::after {
+			left: 50%;
+			transform: translateX(-50%);
+			-webkit-transform: translateX(-50%);
+		}
+	}
+	h2 {
+		color: $white;
+		font-size: 18px;
+		line-height: 22px;
+		margin-bottom: 10px;
+	}
+	.powered-by {
+		@include font($mont-font, 16px, 20px, $white);
+		margin-bottom: 15px;
+	}
+	.separator {
+		display: block;
+		margin: 0 auto;
+		@include size(40%, 1px);
+		background-color: $white;
+		margin-bottom: 10px;
+	}
+	.career-path-links {
+		position: relative;
+		padding: 20px;
+		display: inline-block;
+		&::after {
+			content: "";
+			@include size(calc(100% + 8px), calc(100% + 8px));
+			@include position(absolute, -5px, null, null, -5px);
+			border: 1px solid red;
+			-webkit-transform: skewX(-5deg);
+			transform: skewX(-5deg);
+			left: -5px;
+			left: -5px;
+			transition: transform $transition-time ease-in-out, border-width $transition-time ease-in-out,
+				top $transition-time ease-in-out, border-width $transition-time ease-in-out;
+		}
+		&:hover:after {
+			-webkit-transform: skewX(0);
+			transform: skewX(0);
+			border-width: 2px;
+			top: -6px;
+			left: -6px;
+		}
+
+		img {
+			-webkit-filter: invert(100%);
+			filter: invert(100%);
+			max-width: 70%;
+			margin: 0 auto;
+		}
+	}
+	.ai {
+		.career-path-links {
+			background-color: $ai-color;
+			&::after {
+				border-color: $ai-color;
+			}
+		}
+	}
+	.web {
+		.career-path-links {
+			background-color: $web-color;
+			&::after {
+				border-color: $web-color;
+			}
+		}
+	}
+}
+
+#speakers {
+	text-align: center;
+	hr {
+		display: table;
+		margin: 0 auto 60px;
+		&::after {
+			left: 50%;
+			transform: translateX(-50%);
+			-webkit-transform: translateX(-50%);
+		}
+	}
+}
+
+#calendar {
+	h1 {
+		text-align: center;
+	}
+	hr {
+		display: table;
+		margin: 0 auto 60px;
+		background-color: #353535;
+		&::after {
+			left: 50%;
+			transform: translateX(-50%);
+			-webkit-transform: translateX(-50%);
+		}
+	}
+}
+
+.career-apresentation {
+	z-index: 1;
+	@include position(absolute, 50%, null, null, 50%);
+	transform: translate(-50%, -50%);
+	.career-name {
+		font-size: 46px;
+		font-weight: $bold;
+		color: $white;
+		text-transform: uppercase;
+		text-align: center;
+		span {
+			font-size: 22px;
+			text-transform: none;
+		}
+	}
+	img {
+		-webkit-filter: invert(100%);
+		filter: invert(100%);
+		max-width: 250px;
+		margin: 35px auto 0;
+	}
+}
+
+.career-path {
+	#apresentation {
+		&::after {
+			content: " ";
+			@include position(absolute, 0, null, null, 0);
+			@include size(100%, 100%);
+			opacity: 0.5;
+		}
+	}
+}
+
+.speaker-button {
+	display: block;
+	margin-bottom: 50px;
+	position: relative;
+
+	&:hover {
+		.speaker-image::before {
+			border-color: $ai-color;
+		}
+		.speaker-image::after {
+			opacity: 0.85;
+		}
+		.company-image {
+			opacity: 1;
+			width: 85%;
+		}
+	}
+
+	.speaker-image {
+		@include size(200px, 200px);
+		display: table;
+		margin: 0 auto 20px;
+		position: relative;
+		&::before {
+			content: "";
+			@include size(calc(100% + 8px), calc(100% + 8px));
+			@include position(absolute, -6px, null, null, -6px);
+			border: 2px solid $dark-grey;
+			transition: border-color $transition-time ease-in-out;
+		}
+		&::after {
+			content: " ";
+			@include position(absolute, 0, null, null, 0);
+			@include size(100%, 100%);
+			background-color: $white;
+			transition: opacity $transition-time ease-in-out;
+			opacity: 0;
+		}
+	}
+	.company-image {
+		@include position(absolute, 50%, null, null, 50%);
+		transform: translate(-50%, -50%);
+		width: 82%;
+		z-index: 1;
+		transition: opacity $transition-time ease-in-out, width $transition-time ease-in-out;
+		opacity: 0;
+	}
+	.speaker-name {
+		font-weight: $bold;
+		font-size: 22px;
+		line-height: 26px;
+		color: $dark-grey;
+		margin-bottom: 5px;
+	}
+	.speaker-company {
+		font-weight: $semi-bold;
+		font-size: 16px;
+		line-height: 20px;
+		color: $grey;
+	}
+}
+
+/* CAREER PATH COLORS */
+.ai-color {
+	#main-menu nav ul li a:hover,
+	#event-days-list button.selected,
+	#event-days-list button:hover,
+	#content-container h2,
+	#social-network ul li a:hover,
+	#content-container .event-description:hover {
+		color: $ai-color;
+	}
+	#main-menu nav ul li a::after,
+	#apresentation::after,
+	hr::after,
+	#calendar-container .event-details::before {
+		background-color: $ai-color;
+	}
+}
+
+#calendar-container {
+	.event-details {
+		&::before {
+			content: " ";
+			@include position(absolute, 5px, null, null, 0px);
+			@include size(1px, 100%);
+			background-color: $red;
+		}
+	}
+	.event-data {
+		margin-top: 50px;
+		&:first-child {
+			margin-top: 0;
+		}
+		h2:first-child {
+			margin-top: 0;
+		}
+	}
+}
+#event-days-list {
+	border-bottom: 1px solid $dark-grey;
+	display: flex;
+	button {
+		width: 25%;
+		padding: 20px 0;
+		background-color: transparent;
+		color: $dark-grey;
+		font-size: 32px;
+		font-weight: 700;
+		transition: color $transition-time ease, transform $transition-time ease;
+		&:last-child {
+			border-right: 0;
+		}
+		&.selected {
+			color: $red;
+			&:hover {
+				cursor: default;
+				transform: scale(1);
+			}
+		}
+		&:hover {
+			color: $red;
+			transform: scale(1.02);
+		}
+		span {
+			display: block;
+			font-weight: 500;
+			font-size: 20px;
+		}
+	}
+}
+
+.day-night-filter {
+	border-bottom: 1px solid $dark-grey;
+	button {
+		width: 50%;
+		padding: 30px 0;
+		border-right: 1px solid $dark-grey;
+
+		&:last-child {
+			border-right: 0;
+		}
+	}
+	.half-day {
+		text-align: center;
+		padding: 20px 0;
+		color: $dark-grey;
+		font-size: 27px;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+}
+
+#content-container {
+	padding: 30px 30px 0;
+	color: $dark-grey;
+	.content {
+		display: none;
+		&.visible {
+			display: block;
+		}
+	}
+
+	.event-description {
+		font-family: $mont-font;
+		font-weight: 600;
+		font-size: 17px;
+		background-color: transparent;
+		color: $dark-grey;
+		transition: color $transition-time ease;
+		&:hover {
+			color: $red;
+		}
+		span {
+			display: inline-block;
+			font-size: 16px;
+			margin-right: 10px;
+		}
+	}
+	section {
+		padding: 0;
+	}
+	h2 {
+		font-size: 23px;
+		color: $red;
+		margin-bottom: 10px;
+		margin-top: 35px;
+	}
+	h3 {
+		margin-bottom: 10px;
+	}
+
+	.event-location {
+		color: $dark-grey;
+		margin-bottom: 5px;
+		display: block;
+		span {
+			margin-right: 10px;
+			transition: none;
+		}
+	}
+	a.event-location:hover{
+		color: $red;
+	}
+	.event-time {
+		font-size: 24px;
+		font-weight: 700;
+		line-height: 30px;
+	}
+
+	.container-speaker-image {
+		&::after {
+			content: " ";
 		}
 	}
 }
