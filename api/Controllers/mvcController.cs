@@ -31,14 +31,6 @@ namespace api.Controllers
             return View("Views/Landing/index.cshtml");
         }
 
-
-        [HttpGet("/app")]
-        [AllowAnonymous]
-        public  IActionResult appPage() {
-
-            return View("Views/Landing/app.cshtml");
-        }
-
        
         
 

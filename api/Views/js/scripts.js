@@ -1,4 +1,3 @@
-
 /***** FUNTIONS *****/
 
 // Set the date we're counting down to
@@ -174,4 +173,3 @@ $(window).scroll(function () {
     changeMainMenu(scroll);
 
 });
-
