@@ -173,6 +173,9 @@ $icon-linkedin1: "\eac9";
 .icon-email {
 	font-size: 34px;
 	color: $white;
+	@include mobile {
+		font-size: 30px;
+	}
 }
 
 .icon-linkedin_speaker {
@@ -323,6 +326,7 @@ h3 {
 	font-weight: $bold;
 	text-transform: uppercase;
 	margin-bottom: 5px;
+	color: $dark-grey;
 }
 
 p {
@@ -1093,28 +1097,18 @@ hr {
 }
 
 #social-network {
-	text-align: center;
-	background-color: $black;
-	h2 {
-		color: $white;
-		margin-bottom: 30px;
+	display: flex;
+	justify-content: flex-end;
+	li {
+		margin-left: 20px;
 		@include portable {
-			margin-bottom: 20px;
+			margin-left: 10px;
 		}
-	}
-	ul {
-		li {
-			display: inline-block;
-			margin: 0 10px;
-			@include portable {
-				margin: 0 7px;
-			}
-			a {
-				transition: color $transition-time ease-out;
-				-webkit-transition: color $transition-time ease-out;
-				&:hover {
-					color: $red;
-				}
+		a {
+			transition: color $transition-time ease-out;
+			-webkit-transition: color $transition-time ease-out;
+			&:hover {
+				color: $red;
 			}
 		}
 	}
@@ -1131,8 +1125,12 @@ footer {
 		color: $white;
 		font-size: 13px;
 		line-height: 15px;
+		margin-top: 10px;
 		@include portable {
 			font-size: 12px;
+		}
+		@include mobile {
+			margin-top: 0;
 		}
 	}
 }
@@ -1520,7 +1518,7 @@ footer {
 			transition: none;
 		}
 	}
-	a.event-location:hover{
+	a.event-location:hover {
 		color: $red;
 	}
 	.event-time {
@@ -1533,5 +1531,23 @@ footer {
 		&::after {
 			content: " ";
 		}
+	}
+}
+
+#institucional-support {
+	padding: 60px 0;
+	h3 {
+		margin-bottom: 25px;
+	}
+	a {
+		display: inline-block;
+		margin: 0 20px;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+	.vertically-aligned {
+		justify-content: flex-start;
 	}
 }
