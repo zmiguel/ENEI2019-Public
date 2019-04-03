@@ -91,6 +91,17 @@
   color: #ffffff;
 }
 
+@media (max-width: 769px) {
+  .icon-linkedin,
+  .icon-facebook,
+  .icon-instagram,
+  .icon-less,
+  .icon-plus,
+  .icon-email {
+    font-size: 30px;
+  }
+}
+
 .icon-linkedin_speaker:before {
   content: "";
 }
@@ -248,6 +259,7 @@ h3 {
   font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 5px;
+  color: #353535;
 }
 
 p {
@@ -1277,61 +1289,57 @@ hr::after {
   }
 }
 
-#sponsors .gold h1 {
+#sponsors .gold h1, #sponsors .silver h1 {
   font-size: 30px;
   line-height: 26px;
   margin-top: 75px;
 }
 
 @media (max-width: 1024px) {
-  #sponsors .gold h1 {
+  #sponsors .gold h1, #sponsors .silver h1 {
     font-size: 27px;
   }
 }
 
 @media (max-width: 769px) {
-  #sponsors .gold h1 {
+  #sponsors .gold h1, #sponsors .silver h1 {
     font-size: 23px;
   }
 }
 
-#sponsors .gold .sponsor-image {
+#sponsors .gold .sponsor-image, #sponsors .silver .sponsor-image {
   max-width: 135px;
 }
 
+#sponsors .silver .sponsor-image {
+  max-width: 150px;
+}
+
 #social-network {
-  text-align: center;
-  background-color: #000000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 
-#social-network h2 {
-  color: #ffffff;
-  margin-bottom: 30px;
-}
-
-@media (max-width: 1024px) {
-  #social-network h2 {
-    margin-bottom: 20px;
-  }
-}
-
-#social-network ul li {
-  display: inline-block;
-  margin: 0 10px;
+#social-network li {
+  margin-left: 20px;
 }
 
 @media (max-width: 1024px) {
-  #social-network ul li {
-    margin: 0 7px;
+  #social-network li {
+    margin-left: 10px;
   }
 }
 
-#social-network ul li a {
+#social-network li a {
   transition: color 150ms ease-out;
   -webkit-transition: color 150ms ease-out;
 }
 
-#social-network ul li a:hover {
+#social-network li a:hover {
   color: #cc1a17;
 }
 
@@ -1351,11 +1359,18 @@ footer p {
   color: #ffffff;
   font-size: 13px;
   line-height: 15px;
+  margin-top: 10px;
 }
 
 @media (max-width: 1024px) {
   footer p {
     font-size: 12px;
+  }
+}
+
+@media (max-width: 769px) {
+  footer p {
+    margin-top: 0;
   }
 }
 
@@ -1834,5 +1849,28 @@ footer p {
 
 #content-container .container-speaker-image::after {
   content: " ";
+}
+
+#institucional-support {
+  padding: 60px 0;
+}
+
+#institucional-support h3 {
+  margin-bottom: 25px;
+}
+
+#institucional-support a {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+#institucional-support a:first-child {
+  margin-left: 0;
+}
+
+#institucional-support .vertically-aligned {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 /*# sourceMappingURL=main.css.map */
