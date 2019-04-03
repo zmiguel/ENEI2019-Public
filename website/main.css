@@ -1289,30 +1289,46 @@ hr::after {
   }
 }
 
-#sponsors .gold h1, #sponsors .silver h1 {
+#sponsors .gold h1,
+#sponsors .silver h1,
+#sponsors .bronze h1 {
   font-size: 30px;
   line-height: 26px;
   margin-top: 75px;
 }
 
 @media (max-width: 1024px) {
-  #sponsors .gold h1, #sponsors .silver h1 {
+  #sponsors .gold h1,
+  #sponsors .silver h1,
+  #sponsors .bronze h1 {
     font-size: 27px;
   }
 }
 
 @media (max-width: 769px) {
-  #sponsors .gold h1, #sponsors .silver h1 {
+  #sponsors .gold h1,
+  #sponsors .silver h1,
+  #sponsors .bronze h1 {
     font-size: 23px;
   }
 }
 
-#sponsors .gold .sponsor-image, #sponsors .silver .sponsor-image {
+#sponsors .gold .sponsor-image,
+#sponsors .silver .sponsor-image,
+#sponsors .bronze .sponsor-image {
   max-width: 135px;
 }
 
 #sponsors .silver .sponsor-image {
-  max-width: 150px;
+  max-width: 165px;
+}
+
+#sponsors .bronze .sponsor-image {
+  max-width: 115px;
+}
+
+#sponsors .bronze .sponsor-image img {
+  max-height: 90px;
 }
 
 #social-network {

@@ -1078,7 +1078,9 @@ hr {
 			margin: 40px 15px 0;
 		}
 	}
-	.gold, .silver {
+	.gold,
+	.silver,
+	.bronze {
 		h1 {
 			font-size: 30px;
 			line-height: 26px;
@@ -1094,9 +1096,17 @@ hr {
 			max-width: 135px;
 		}
 	}
-	.silver{
+	.silver {
 		.sponsor-image {
-			max-width: 150px;
+			max-width: 165px;
+		}
+	}
+	.bronze {
+		.sponsor-image {
+			max-width: 115px;
+			img {
+				max-height: 90px;
+			}
 		}
 	}
 }
