@@ -52,20 +52,24 @@ namespace api.Controllers
             }
             else
             {
-bool repetido=false;
+                bool repetido = false;
+
                 allCromos.ForEach(delegate (Cromos c)
                 {
-                    
+
                     if (c.QRCode == ScanData.ScanQR)
                     {
                         toReturn.tipo = 0;
+
                         string[] usrCromos = usr.cromos.Substring(1).Split(",");
 
                         foreach (string cromo in usrCromos)
                         {
+                            Console.WriteLine("cromo: "+cromo);
                             if (ScanData.ScanQR == cromo)
                             {
                                 repetido = true;
+                                Console.WriteLine("cromo repetido");
                             }
                         }
 
@@ -80,14 +84,12 @@ bool repetido=false;
                     }
                 });
 
-    if(repetido){
-        return Unauthorized();
-    }
+                if (repetido)
+                {
+                    return Unauthorized();
+                }
                 return Ok(toReturn);
-
             }
-
-            //return toReturn;
         }
 
     }
