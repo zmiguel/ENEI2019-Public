@@ -66,7 +66,7 @@ namespace api.Controllers
                         foreach (string cromo in usrCromos)
                         {
                             Console.WriteLine("cromo: "+cromo);
-                            if (ScanData.ScanQR == cromo)
+                            if (c.Id == Int32.Parse(cromo))
                             {
                                 repetido = true;
                                 Console.WriteLine("cromo repetido");
