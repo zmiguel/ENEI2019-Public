@@ -87,25 +87,61 @@ namespace api.Controllers
         }
 
 
-
-        [Authorize(Policy = "RequireAdminRole")]
+        [AllowAnonymous]
+        //[Authorize(Policy = "RequireAdminRole")]
         [HttpPost("updateAll")]
-        public async Task<IActionResult> UpdateUsers(updateUsersDTO[] req)
+        public async Task<IActionResult> UpdateUsers([FromBody] updateUsersDTO[] req)
         {
-            try
+            foreach (updateUsersDTO u in req)
             {
-                foreach (var user in req)
+
+                User a = await _repo.GetUser(u.barcode);
+
+                if (a != null)
                 {
 
+
+
+                    Console.Write(a.QRcode + "existe \n");
                 }
 
-                return Ok(req);
-            }
-            catch (Exception e)
-            {
+                else
+                {   
+                   UserForRegisterDto b = new UserForRegisterDto();
+
+                    b.fullname = u.name;
+                    b.qrcode =  u.barcode;
+                    b.email= u.email;
+                    b.username= u.barcode;
+                    b.password = "ENEI$2019MEgAPASSWORD" ;
+                   
+                    var userToCreate = _mapper.Map<User>(b);
+
+                    var result = await _userManager.CreateAsync(userToCreate, b.password);
+
+                    if (result.Succeeded)
+                    {
+                        Console.WriteLine("adicionado com sucesso");
+                        //return StatusCode(201);
+                    }
+
+                   //return BadRequest(result.Errors);
+                }
+
+
+                //  Console.Write( _repo.GetUser(u.barcode));
+
+                //Console.Write(u.name);
+                //findUserByQR 
+                //se tiver sido encontrado, atualiza
+                //senão adiciona
+                //
 
             }
-            return Ok();
+
+            // var userFromRepo = await _repo.GetUser(id);
+
+            return Ok(req);
         }
 
         [HttpPut("{id}")]

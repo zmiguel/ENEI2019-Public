@@ -41,20 +41,24 @@ namespace api.Controllers
             ScanReturn toReturn = new ScanReturn{tipo = -1};
 
             if(userAProcurar != null){
+
                 UserForListDto ru = new UserForListDto();
                 _mapper.Map(userAProcurar,ru);
                 toReturn.user = ru;
                 toReturn.tipo=1;
                 return Ok(toReturn);
+
             }else{
+
                 allCromos.ForEach(delegate(Cromos c){
+
                     if(c.QRCode == ScanData.ScanQR){
                         toReturn.tipo=0;
                         usr.cromos = usr.cromos + "," + c.Id;
                         context.Users.Update(usr);
                         context.SaveChanges();
-
                         toReturn.resp = "Cromo Adicionado!";
+
                     }
                 });
                 

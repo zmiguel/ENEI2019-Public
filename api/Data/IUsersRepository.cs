@@ -8,13 +8,13 @@ namespace api.Data
 
     public interface IUsersRepository
     {
-        void Add<T>(T enity) where T: class;
-        void Delete<T>(T entity) where T: class;
+        void Add<T>(T enity) where T : class;
+        void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
         Task<User> changeProfileImage(profileImage a);
-
+        Task<User> GetUser(string QR);
 
         Task<string> getProfileImageAsync(string qrCode);
     }
