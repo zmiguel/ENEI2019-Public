@@ -68,7 +68,7 @@ export function scanQrCode(data, tokenInternal) {
       })
       .catch(err => {
         console.log(err);
-        Alert.alert("ERRO!", "Existiu um no scan do QRCode");
+        Alert.alert("ERRO!", "Existiu um erro no scan do QRCode\nOu esse QR code não existe ou já tens o cromo conquistado.");
       });
   };
 }
