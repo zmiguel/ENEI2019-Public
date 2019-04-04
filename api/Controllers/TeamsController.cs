@@ -189,7 +189,7 @@ namespace api.Controllers
 
             Team tEdit = await context.Teams.FirstOrDefaultAsync(t => t.Id == MemberToAdd.id);
 
-            if (newMember.team == null)
+            if (newMember.team == null && tEdit.NMembros<6)
             {
 
                 tEdit.NMembros++;
@@ -220,6 +220,11 @@ namespace api.Controllers
 
             User cap = await context.Users.FirstOrDefaultAsync(u => u.QRcode == NameChange.UserQR);
 
+            Team findTeam = await context.Teams.FirstOrDefaultAsync(n=>n.Nome == NameChange.nome);
+
+            if(findTeam!= null){
+                return Unauthorized();
+            }
             if (cap.QRcode == tEdit.CapQR)
             {
                 tEdit.Nome = NameChange.nome;
