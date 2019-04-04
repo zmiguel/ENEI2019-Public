@@ -47,18 +47,22 @@ namespace api.Controllers
                 {
 
 
-                    if (Int32.Parse(usrCromos[i]) == c.Id )
+                    if (Int32.Parse(usrCromos[i]) == c.Id)
                     {
-                        soma += c.pontos;
+                     
                         Cromos toAdd = new Cromos { Id = c.Id, Nome = c.Nome, DescMostrar = c.DescUnlocked, QRCode = c.QRCode, img = c.img, unlocked = true, websiteCromo = c.websiteCromo, pontos = c.pontos, logo = c.logo };
 
-                        var d = rList.Find(x=>x.Id== c.Id);
-                        
-                        if(d!=null)
+                        var d = rList.Find(x => x.Id == c.Id);
+
+                        if (d != null)
                             continue;
-                        
-                        rList.Add(toAdd);
-                        found = true;
+                        else
+                        {  
+                            soma += c.pontos;
+                            rList.Add(toAdd);
+                            found = true;
+                        }
+
 
                     }
 
