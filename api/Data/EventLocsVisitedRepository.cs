@@ -4,6 +4,7 @@ using api.Models;
 using api.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace api.Data
 {
@@ -25,9 +26,11 @@ namespace api.Data
 
         public async Task<List<EventLocVisited>> GetEventLocsVisitedTeam(int id)
         {
-            List<EventLoc> allPlaces = await _context.EventLocs.ToListAsync();
+            Team t= await _context.Teams.FirstOrDefaultAsync(team=>team.Id== id);
 
-            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Include(e => e.Team).Include(e => e.Location).ToListAsync();
+            List<EventLoc> allPlaces = await _context.EventLocs.Where(a=>a.EventId== t.EventId ).ToListAsync();
+
+            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Where(Team=>Team.Id== id).Include(e => e.Team).Include(e => e.Location).ToListAsync();
 
             List<EventLocVisited> rList = new List<EventLocVisited>();
 

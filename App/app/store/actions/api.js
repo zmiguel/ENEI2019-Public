@@ -1938,7 +1938,7 @@ export function getUserInfo(token) {
                   axios.defaults.baseURL = "https://api.enei.pt";
 
                   axios
-                    .get(`api / EventLocsVisited / t / ${v.data.id}`)
+                    .get(`/api/EventLocsVisited/t/${v.data.id}`)
                     .then(c => {
 
                       console.log("sucesso!");

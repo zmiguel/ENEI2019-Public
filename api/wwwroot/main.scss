@@ -1,4 +1,4 @@
-//colors
+
 $black: #000000;
 $white: #ffffff;
 $grey: #777777;
@@ -321,9 +321,9 @@ h2 {
 }
 
 h3 {
-	font-size: 20px;
-	line-height: 22px;
-	font-weight: $bold;
+	font-size: 18px;
+	line-height: 24px;
+	font-weight: $bold; 
 	text-transform: uppercase;
 	margin-bottom: 5px;
 	color: $dark-grey;
@@ -1003,6 +1003,18 @@ hr {
 	background-size: 30%;
 }
 
+#faqs {
+	p {
+		a {
+			color: $dark-grey;
+			font-weight: $bold;
+			&:hover {
+				color: $red;
+			}
+		}
+	}
+}
+
 #accordion {
 	li {
 		margin-bottom: 15px;
@@ -1062,6 +1074,11 @@ hr {
 			-webkit-transform: translateX(-50%);
 		}
 	}
+	.vertically-aligned {
+		@include portable {
+			flex-wrap: wrap;
+		}
+	}
 	.sponsor-image {
 		display: inline-block;
 		margin: 40px 20px 0;
@@ -1092,8 +1109,13 @@ hr {
 				font-size: 23px;
 			}
 		}
+	}
+	.gold {
 		.sponsor-image {
 			max-width: 135px;
+			@include portable {
+				max-width: 110px;
+			}
 		}
 	}
 	.silver {
@@ -1515,15 +1537,15 @@ footer {
 		padding: 0;
 	}
 	h2 {
-		font-size: 23px;
+		font-size: 20px;
+		line-height: 28px;
 		color: $red;
 		margin-bottom: 10px;
 		margin-top: 35px;
 	}
 	h3 {
-		margin-bottom: 10px;
+		margin-bottom: 5px;
 	}
-
 	.event-location {
 		color: $dark-grey;
 		margin-bottom: 5px;
@@ -1557,6 +1579,10 @@ footer {
 	a {
 		display: inline-block;
 		margin: 0 20px;
+		@include portable {
+			margin: 10px;
+			max-width: 70px;
+		}
 
 		&:first-child {
 			margin-left: 0;
@@ -1564,5 +1590,114 @@ footer {
 	}
 	.vertically-aligned {
 		justify-content: flex-start;
+		@include portable {
+			flex-wrap: wrap;
+		}
+		@include mobile{
+			justify-content: flex-start;
+		}
 	}
+	.junisec {
+		max-width: 90px;
+		@include mobile {
+			max-width: 70px;
+		}
+	}
+	.isec {
+		max-width: 150px;
+		@include mobile {
+			max-width: 120px;
+		}
+	}
+	.isec2 {
+		max-width: 150px;
+		@include mobile {
+			max-width: 120px;
+		}
+	}
+	.iscac {
+		max-width: 115px;
+		@include mobile {
+			max-width: 90px;
+		}
+	}
+	.fca {
+		max-width: 70px;
+		@include mobile {
+			max-width: 50px;
+		}
+	}
+	.quinta-das-lagrimas {
+		width: auto;
+		max-width: 88px;
+		@include mobile {
+			max-width: 90px;
+		}
+	}
+}
+
+
+
+.ctf-header {
+  background-image: linear-gradient(0deg, rgba(208, 46, 44, 1) 20%, rgb(225, 73, 78) 100%);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 10%;
+
+  .ctf-top10 {
+    width: 40%;
+    margin: 0 auto;
+
+    padding: 0;
+    .top-title {
+      color: white;
+      text-align: center;
+      margin: 5%;
+    }
+    box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.04);
+    th {
+      text-align: center;
+    }
+    td {
+      text-align: center;
+    }
+  }
+  .about-top {
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    margin: 2%;
+  }
+}
+
+.explain-qr{
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+  
+	img {
+	  width: 20%;
+	  height: 20%;
+	  margin: 20px;
+	}
+	background-image: url("./imgs/bg_phone.png");
+	//border-bottom: 2px solid #cc1a17;
+  
+	@media screen and (max-width: $mobile) {
+	  flex-direction: column;
+	  img {
+		width: 100%;
+		height: 100%;
+	  }
+
+	}
+	h3{
+		color:white;
+		margin: 30px;
+	}
+}
+
+.ctf-explain{
+	background-color: #eeeeee;
 }

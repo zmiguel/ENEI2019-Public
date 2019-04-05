@@ -85,11 +85,11 @@ class Home extends Component {
     //enei.pt/api/Users/getProfileImage/ZV4ZWJXTVV
     https: axios
       .get(`https://enei.pt/api/Users/getProfileImage/${qr}`)
-      .then(function(response) {
+      .then(function (response) {
         // handle success
         return response.data;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // handle error
         console.log(error);
       });
@@ -103,7 +103,7 @@ class Home extends Component {
     this.props.getEvents(this.props.user, this.props.token);
     this._getImage();
   }
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   bClick() {
     //this.props.logoutUser();
@@ -163,7 +163,10 @@ class Home extends Component {
   };
   _creatTeam = () => {
     var tipo;
-    if (this.state.switch) tipo = 1;
+    if (this.state.switch==true) {
+      tipo = 1;
+    
+    }
     else {
       tipo = 3;
     }
@@ -238,20 +241,20 @@ class Home extends Component {
               >
                 <View style={styles.homeHeader}>
                   <View style={styles.userImageContainer}>
-                   {this.props.user.Avatar != null && <Image
+                    {this.props.user.Avatar != null && <Image
                       style={styles.userImage}
                       source={{
                         uri: this.props.user.Avatar
                       }}
                     />
-                  }{ this.props.user.Avatar==null &&
-                    <Image
-                      style={styles.userImage}
-                      source={require('../assets/logo_black.jpg')}
-                    />}
+                    }{this.props.user.Avatar == null &&
+                      <Image
+                        style={styles.userImage}
+                        source={require('../assets/logo_black.jpg')}
+                      />}
                   </View>
                   {this.props.user != undefined && (
-                    <Text style={styles.userText}>{this.props.user.Name}</Text>
+                    <Text style={styles.userText} numberOfLines={1}>{this.props.user.Name}</Text>
                   )}
                   {this.props.user != undefined && (
                     <Text style={styles.userTextSub}>
@@ -266,11 +269,11 @@ class Home extends Component {
                   flexDirection: "row",
                   alignItems: "center",
                   alignContent: "center",
-                  alignSelf:'center'
+                  alignSelf: 'center'
                 }}
               >
                 <Text
-                  style={{ textAlign: "right", fontSize: 12, paddingTop:10 ,  marginRight:5}}
+                  style={{ textAlign: "right", fontSize: 12, paddingTop: 10, marginRight: 5 }}
                 >
                   Arrasta o ecrã para atualizar
                 </Text>
@@ -471,6 +474,7 @@ class Home extends Component {
                             fontWeight: "bold",
                             marginBottom: 0
                           }}
+                          numberOfLines={1}
                         >
                           {this.props.team.nome}
                         </Text>
@@ -563,7 +567,7 @@ class Home extends Component {
                                     <IconFA name="user" size={40} />
                                   </View>
                                   <View style={styles.userT}>
-                                    <Text style={styles.userName}>
+                                    <Text style={styles.userName} numberOfLines={1}>
                                       {item.fullName}
                                     </Text>
                                     <Text>{item.qRcode}</Text>
@@ -571,15 +575,15 @@ class Home extends Component {
 
                                   {this.props.user.Code ==
                                     this.props.team.cap.qRcode && (
-                                    <TouchableOpacity
-                                      style={styles.userRemove}
-                                      onPress={() => this._rm(item.qRcode)}
-                                    >
-                                      <Text style={{ fontWeight: "bold" }}>
-                                        remover
+                                      <TouchableOpacity
+                                        style={styles.userRemove}
+                                        onPress={() => this._rm(item.qRcode)}
+                                      >
+                                        <Text style={{ fontWeight: "bold" }}>
+                                          remover
                                       </Text>
-                                    </TouchableOpacity>
-                                  )}
+                                      </TouchableOpacity>
+                                    )}
                                 </View>
                               )}
                               <Divider style={{ backgroundColor: "black" }} />
@@ -588,9 +592,11 @@ class Home extends Component {
                         />
                       </View>
                     </View>
-                    <TouchableOpacity  onPress={() => navigate("teamDetail")} style={{backgroundColor:'orange'}}><Text style={{color:'white', fontSize:17, fontWeight:'bold', margin:10, textAlign:'center'}}>Ver o progresso da equipa </Text></TouchableOpacity>
-                  </View>
-               
+                    {this.props.team.ativa || this.props.team.eventId==3 && <TouchableOpacity onPress={() => navigate("teamDetail")} style={{ backgroundColor: 'green' }}><Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold', margin: 10, textAlign: 'center' }}>Ver o progresso da equipa </Text></TouchableOpacity>
+                    }
+                    {!this.props.team.ativa && this.props.team.eventId==1 &&<TouchableOpacity onPress={() => navigate("teamDetail")} style={{ backgroundColor: 'orange' }}><Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold', margin: 10, textAlign: 'center' }}>Deves efectuar o pagamento</Text></TouchableOpacity>
+                    }</View>
+
                 </View>
               )}
             </View>

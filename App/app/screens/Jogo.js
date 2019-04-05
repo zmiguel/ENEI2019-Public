@@ -270,10 +270,10 @@ class Jogo extends React.Component {
               {this.props.cromos!= undefined &&
               <ProgressBarAnimated
                 width={barWidth * 0.7}
-                value={this.props.cromos.pontuacao*100/256}
+                value={this.props.cromos.pontuacao*100/1024}
                 backgroundColorOnComplete="#CC2A17"
               />}
-              <Text style={{ fontWeight: "bold" }}>256</Text>
+              <Text style={{ fontWeight: "bold" }}>1024</Text>
             </View>
           </View>
         </View>
@@ -316,7 +316,7 @@ class Jogo extends React.Component {
                     </View>
                   </TouchableOpacity>
                 )}
-                numColumns={4} // Número de colunas
+                numColumns={5} // Número de colunas
               />}
             </View>
           </ScrollView>

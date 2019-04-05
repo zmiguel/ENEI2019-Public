@@ -81,14 +81,16 @@ class eventDetail extends React.Component {
               alignSelf: "center"
             }}
           >
-            <View style={styles.leftRow}>
+            <View>
               <Text
                 style={{
                   margin: 10,
                   marginTop: 0,
                   marginBottom: 10,
                   fontSize: 20,
-                  color: "#CC1A17"
+                  color: "#CC1A17",
+               
+                  width:'100%'
                 }}
               >
                 {info.location.nome}
