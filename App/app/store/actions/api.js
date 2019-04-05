@@ -160,7 +160,7 @@ export function getCromos(user, tokenInternal) {
       })
       .catch(p => {
         console.log(p);
-        Alert.alert("ERRO!", "erro a obter os eventos");
+        Alert.alert("ERRO!", "Erro a obter os cromos.");
       });
 
     dispatch({

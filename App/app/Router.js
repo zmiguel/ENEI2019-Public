@@ -150,10 +150,16 @@ const Stack = createStackNavigator({
             
             if (navigation.state.routes[index].routeName == 'Jogo') {
                 return {
-                    header: (<View style={{backgroundColor:'#CC1A17', padding:15}}>
-                        <Text style={{textAlign:'center', alignSelf:'center', color:'white', fontSize:20, fontWeight:'bold'}}>Jogo do ENEI'19</Text>
-                    </View>)
-                 
+                    headerTitle: (<Text style={{ 
+                    textAlign:'center',
+                    color:'#CC1A17',
+                    width:'100%',
+                    fontWeight:'bold',
+                    fontSize:25,
+                    
+                    
+                }}>Jogo do ENEI'19</Text>)
+                   
                        
                     
                 }

@@ -1737,6 +1737,345 @@ footer p {
   margin: 2%;
 }
 
+.container-app {
+  background-image: linear-gradient(0deg, #d02e2c 20%, #e1494e 100%);
+  height: 40% !important;
+}
+.container-app .header-app {
+  margin: auto;
+  width: 50%;
+}
+@media screen and (max-width: 769px) {
+  .container-app .header-app {
+    width: 100%;
+    float: none;
+    padding: 10px;
+  }
+  .container-app .header-app h1 {
+    line-height: 50px;
+  }
+  .container-app .header-app img {
+    width: 100%;
+  }
+}
+.container-app .header-app h1 {
+  padding-top: 9rem !important;
+  color: white;
+  text-align: center;
+  font-size: 50px;
+  padding-bottom: 2rem !important;
+  font-weight: normal;
+}
+.container-app .header-app h3 {
+  text-align: center;
+  color: white;
+  font-weight: normal;
+  padding-bottom: 2rem !important;
+}
+
+.image-holder-app img {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.app-row {
+  background-color: white;
+}
+
+.section {
+  padding: 70px 0;
+}
+
+.light-bg {
+  background-color: white;
+}
+
+.darker-bg {
+  background-color: #f3f3f3;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.section-title h3 {
+  margin: 0 auto;
+  text-align: center;
+  color: #cc1a17;
+  margin-bottom: 10px;
+}
+.section-title small {
+  color: #998a9b;
+}
+
+.card-features {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  margin: 0 auto;
+}
+@media screen and (max-width: 769px) {
+  .card-features {
+    width: 90%;
+    flex-direction: column;
+  }
+}
+
+.card-body {
+  padding: 1.25rem;
+  background-color: white;
+  width: 23%;
+  margin: 0 auto;
+  border-bottom: 2px solid #cc1a17;
+}
+.card-body:hover {
+  box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.04);
+  transform: translateY(-0.25em);
+  transition: all 0.3s ease;
+}
+.card-body .card-title {
+  color: #cc1a17;
+  margin: 10px 0;
+}
+.card-body .card-text {
+  font-size: 15px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+@media screen and (max-width: 769px) {
+  .card-body {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+
+.login-app {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  background-image: url("./imgs/bg_phone.png");
+}
+.login-app img {
+  width: 60%;
+  height: 60%;
+}
+@media screen and (max-width: 769px) {
+  .login-app {
+    flex-direction: column;
+  }
+  .login-app img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.container-login {
+  width: 40%;
+  padding: 5%;
+}
+@media screen and (max-width: 769px) {
+  .container-login {
+    width: 100%;
+  }
+}
+.container-login h1 {
+  margin: 0 auto;
+  color: #cc1a17;
+}
+.container-login .text-login {
+  margin-top: 1rem;
+}
+.container-login .text-login p {
+  margin: 20px 0px;
+  color: white;
+}
+
+.features-app {
+  width: 100%;
+  padding: 5% 15%;
+  background-color: #eeeeee;
+  /* Style tab links */
+  /* Style the tab content (and add height:100% for full page content) */
+}
+@media screen and (max-width: 769px) {
+  .features-app {
+    padding: 5% 3%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.features-app h1 {
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 70px;
+}
+.features-app .subtitle {
+  margin: 0 auto;
+  text-align: center;
+  color: #cc1a17;
+  margin-bottom: 10px;
+}
+.features-app .tablink {
+  background-color: #e3e3e3;
+  color: #000000;
+  float: left;
+  outline: none;
+  cursor: pointer;
+  padding: 30px 20px;
+  font-size: 17px;
+  width: 16.665%;
+}
+.features-app .tablink .active {
+  color: red;
+}
+@media screen and (max-width: 769px) {
+  .features-app .tablink {
+    width: 100%;
+    padding: 15px 20px;
+  }
+}
+.features-app .tabcontent {
+  color: white;
+  display: none;
+  padding: 100px 20px;
+  padding-bottom: 0px;
+  height: 100%;
+  background: white;
+  box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.04);
+}
+@media screen and (max-width: 769px) {
+  .features-app .tabcontent {
+    padding: 20px 20px;
+    flex: 1;
+  }
+}
+.features-app .tabcontent img {
+  padding: 40px;
+  width: 30%;
+  height: 30%;
+}
+@media screen and (max-width: 769px) {
+  .features-app .tabcontent img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.features-app .tabcontent .tabDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+@media screen and (max-width: 769px) {
+  .features-app .tabcontent .tabDetails {
+    flex-direction: column;
+  }
+}
+.features-app .tabcontent .tabText h2 {
+  color: #cc1a17;
+  padding-top: 20px;
+}
+.features-app .tabcontent .tabText h3 {
+  color: black;
+}
+.features-app .tabcontent .tabText p {
+  padding-top: 20px;
+}
+
+.download-app {
+  flex: 1;
+  flex-direction: row;
+  background-image: url("./imgs/bg_phone.png");
+  align-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 769px) {
+  .download-app {
+    flex-direction: column;
+    padding: 20px 0;
+  }
+}
+.download-app img {
+  width: 100%;
+  height: 100%;
+}
+.download-app .left {
+  width: 100%;
+  padding: 5rem;
+}
+@media screen and (max-width: 769px) {
+  .download-app .left {
+    padding: 1rem;
+  }
+}
+.download-app h1 {
+  text-align: center;
+  color: white;
+}
+.download-app h3 {
+  color: white;
+  text-align: center;
+}
+.download-app h2 {
+  color: white;
+}
+.download-app .buttons {
+  margin-top: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+@media screen and (max-width: 769px) {
+  .download-app .buttons {
+    flex-direction: column;
+  }
+}
+.download-app .button-app {
+  border: 1px solid white;
+  padding: 20px 20px;
+  margin: 20px;
+  border-radius: 3px;
+  flex: 1;
+  display: flex;
+  color: blue;
+  /* First we need to help some browsers along for this to work.
+     Just because a vendor prefix is there, doesn't mean it will
+     work in a browser made by that vendor either, it's just for
+     future-proofing purposes I guess. */
+  -o-transition: 0.5s;
+  -ms-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -webkit-transition: 0.5s;
+  /* ...and now for the proper property */
+  transition: 0.5s;
+}
+.download-app .button-app .button-logo {
+  color: white;
+  font-size: 60px;
+  padding: 0 20px;
+}
+.download-app .button-app .button-text {
+  color: white;
+}
+.download-app .button-app:hover {
+  background-color: #cc1a17;
+}
+.download-app .button-android {
+  border: 1px solid white;
+  padding: 30px 40px;
+  margin: 20px;
+  color: white;
+  border-radius: 3px;
+}
+
+.warning-app {
+  background-color: #eeeeee;
+  padding: 20px;
+}
+
 .explain-qr {
   flex: 1;
   display: flex;

@@ -19,22 +19,39 @@ namespace api.Controllers
 
         public mvcController(DataContext context, UserManager<User> userManager)
         {
-           _context = context;
+            _context = context;
             _userManager = userManager;
         }
 
 
         [HttpGet("")]
         [AllowAnonymous]
-        public  IActionResult landingPage() {
+        public IActionResult landingPage()
+        {
 
             return View("Views/Landing/index.cshtml");
         }
 
-       
-        
+        [HttpGet("/app")]
+        [AllowAnonymous]
+        public IActionResult appPage()
+        {
+
+            return View("Views/Landing/app.cshtml");
+        }
 
 
-        
+   [HttpGet("/ctf")]
+        [AllowAnonymous]
+        public  IActionResult ctfPage() {
+
+            return View("Views/Landing/ctf.cshtml");
+        }
+
+
+
+
+
+
     }
 }

@@ -1,3 +1,4 @@
+
 /***** FUNTIONS *****/
 
 // Set the date we're counting down to
@@ -83,38 +84,11 @@ if (cookie) {
 */
 // end cookies code
 
-//  functionalitys of calendar
-function calendarFunctionality() {
-    var dayButtons = document.getElementById("event-days-list");
-    var daySelected = null;
-    var contentVisible = null;
-    
-    if (dayButtons) {
-        dayButtons.querySelectorAll("button").forEach(function (button) {
-            button.addEventListener("click", function () {
-                daySelected = this.getAttribute("data-eventday");
-                contentVisible = document.getElementById("content-container").querySelector(".content[data-eventContent='" + daySelected + "']");
-                //  actions on links
-                document.getElementById("event-days-list").querySelector(".selected").classList.remove("selected");
-                this.classList.add("selected");
-                //  actions on content
-                document.getElementById("content-container").querySelector(".visible").classList.remove("visible");
-                contentVisible.classList.add("visible");
-            });
-        })
-    }
-
-}
-
 $(document).ready(function () {
-
-    calendarFunctionality();
 
     // inicial animation
     setTimeout(function () {
-        if (document.querySelector(".main-landing")) {
-            document.getElementById("apresentation").classList.add("animated");
-        }
+        document.getElementById("apresentation").classList.add("animated");
     }, 1200);
 
     //  main menu anchors
@@ -200,3 +174,38 @@ $(window).scroll(function () {
     changeMainMenu(scroll);
 
 });
+
+function openPage(pageName, elmnt, color) {
+    // Hide all elements with class="tabcontent" by default */
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Remove the background color of all tablinks/buttons
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.backgroundColor = "";
+      tablinks[i].style.color = "";
+      tablinks[i].style.borderTop= "0px";
+      tablinks[i].style.fontWeight= "";
+      
+
+    }
+  
+    // Show the specific tab content
+    document.getElementById(pageName).style.display = "block";
+  
+    // Add the specific color to the button used to open the tab content
+    elmnt.style.backgroundColor = color;
+    elmnt.style.color="#CC1A17";
+    elmnt.style.borderTop= "2px solid #cc1a17";
+    elmnt.style.borderRadius="2px"
+    elmnt.style.fontWeight="bold"
+  }
+  
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
+
+

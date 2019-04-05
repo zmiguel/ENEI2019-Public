@@ -592,7 +592,7 @@ class Home extends Component {
                         />
                       </View>
                     </View>
-                    {this.props.team.ativa || this.props.team.eventId==3 && <TouchableOpacity onPress={() => navigate("teamDetail")} style={{ backgroundColor: 'green' }}><Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold', margin: 10, textAlign: 'center' }}>Ver o progresso da equipa </Text></TouchableOpacity>
+                    {(this.props.team.ativa || this.props.team.eventId==3 ) && <TouchableOpacity onPress={() => navigate("teamDetail")} style={{ backgroundColor: 'green' }}><Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold', margin: 10, textAlign: 'center' }}>Ver o progresso da equipa </Text></TouchableOpacity>
                     }
                     {!this.props.team.ativa && this.props.team.eventId==1 &&<TouchableOpacity onPress={() => navigate("teamDetail")} style={{ backgroundColor: 'orange' }}><Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold', margin: 10, textAlign: 'center' }}>Deves efectuar o pagamento</Text></TouchableOpacity>
                     }</View>

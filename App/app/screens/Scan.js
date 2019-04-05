@@ -36,7 +36,10 @@ import {RkButton,
         this.setState({code:e.data});
         this.props.scanQrCode({UserQR:this.props.user.Code, ScanQR: e.data},this.props.internalToken);
        
-        setTimeout(()=> this.scanner.reactivate(),
+        setTimeout(()=> {
+          if(this.scanner!=null)
+          this.scanner.reactivate()
+        },
           2000
       )
       };
