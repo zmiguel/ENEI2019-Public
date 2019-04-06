@@ -38,7 +38,7 @@ namespace api.Controllers
         public async Task<IActionResult> resetPassword(string user)
         {
 
-            string cenas = "Pua";
+         
             using (var client = new HttpClient())
             {
                 try
@@ -47,7 +47,7 @@ namespace api.Controllers
 
                     //  client.DefaultRequestHeaders.Add("Authorization", "Bearer " + a.token);
                     var response = await client.GetStringAsync(url);
-                    return Ok(user);
+                
                     return View("Views/Landing/resetPage.cshtml");
                 }
                 catch (HttpRequestException a)
