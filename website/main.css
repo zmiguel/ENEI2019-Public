@@ -1860,6 +1860,23 @@ footer p {
   width: 60%;
   height: 60%;
 }
+.login-app .button-default {
+  padding: 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: black;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid #eeeeee;
+  padding: 30px 30px;
+  transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+  -webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+}
+.login-app .button-default:hover {
+  border-color: #cc1a17;
+  background-color: #cc1a17;
+  color: #ffffff;
+}
 @media screen and (max-width: 769px) {
   .login-app {
     flex-direction: column;

@@ -123,10 +123,11 @@
                 </p>
                 <p>O login na app é feito usando esse QR code</p>
                 <p>Para obteres a password, deves efectuar reset através da APP, ou preenchendo o campo a baixo.</p>
-                <form>
+                <form action="http://localhost:5000/api/reset" method="GET">
 
-                    <input type="email" placeholder="Introduz o teu email">
-                    <input type="button" data-bind="click: buy" value="RESET PASSWORD">
+                    <input type="email" name="email" placeholder="Introduz o teu email">
+           
+                    <input type="submit" value="RESET PASSWOR">
                 </form>
             </div>
         </div>
@@ -197,38 +198,38 @@
             <h3>Aplicação disponível nas típicas lojas de aplicações.</h3>
 
             <div class="buttons">
-                    <a href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1457702417&mt=8">
-                <div class="button-app">
-                    <div class="button-logo">
-                        <i class="fab fa-apple"></i>
-                    </div>
-                    <div class="button-text">
-                        <h3>Available on the</h3>
-                        <h2>App Store</h2>
-                    </div>
-
-                </div>
-            </a>
-                <a href="https://play.google.com/store/apps/details?id=pt.enei">
-                <div class="button-app">
+                <a href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1457702417&mt=8">
+                    <div class="button-app">
                         <div class="button-logo">
-                                <i class="fab fa-google-play"></i>
+                            <i class="fab fa-apple"></i>
+                        </div>
+                        <div class="button-text">
+                            <h3>Available on the</h3>
+                            <h2>App Store</h2>
+                        </div>
+
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=pt.enei">
+                    <div class="button-app">
+                        <div class="button-logo">
+                            <i class="fab fa-google-play"></i>
                         </div>
                         <div class="button-text">
                             <h3>Available on the</h3>
                             <h2>Play Store</h2>
                         </div>
-    
+
                     </div>
                 </a>
             </div>
         </div>
-     
 
-       
+
+
     </div>
 
-  
+
 
 
     <!-- faqs section -->
@@ -348,35 +349,29 @@
         </div>
     </section>
 
-    <!-- social network section -->
-    <aside id="social-network">
+    <!-- footer -->
+    <footer>
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <h2>Segue-nos</h2>
-                    <ul>
+                <div class="col-lg-4 col-xs-6">
+                    <p>© 2019 ENEI . Todos os direitos reservados</p>
+                </div>
+                <div class="col-lg-8 col-xs-6">
+                    <ul id="social-network">
                         <li><a href="https://www.facebook.com/ENEIConf/" title="Facebook" target="_blank"
                                 class="icon-facebook"></a></li>
                         <li><a href="https://www.instagram.com/eneiconf/" title="Instagram" target="_blank"
                                 class="icon-instagram"></a></li>
                         <li><a href="https://www.linkedin.com/company/enei/" title="Linkedin" target="_blank"
                                 class="icon-linkedin"></a></li>
-                        <li><a href="mailto:geral@enei.pt" title="Email" target="_blank" class="icon-email"></a></li>
+                        <li><a href="mailto:geral@enei.pt" title="Email" target="_blank" class="icon-email"></a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </aside>
-    <!-- footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>© 2019 ENEI . Todos os direitos reservados</p>
-                </div>
-            </div>
-        </div>
     </footer>
+
 
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -389,6 +384,13 @@
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'UA-130588243-1');
+    </script>
+    <script>
+
+        resetPassword = () => {
+            console.log("asdasd")
+        }
+
     </script>
     <script>
         AOS.init();

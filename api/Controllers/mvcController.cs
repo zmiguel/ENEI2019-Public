@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using api.Dtos;
 using Microsoft.AspNetCore.Identity;
 using api.Models;
+using System.Net.Http;
 
 namespace api.Controllers
 {
@@ -31,7 +32,36 @@ namespace api.Controllers
 
             return View("Views/Landing/index.cshtml");
         }
+        [AllowAnonymous]
 
+        [HttpGet("/reset/{user}")]
+        public async Task<IActionResult> resetPassword(string user)
+        {
+
+            string cenas = "Pua";
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var url = "https://tickets.enei.pt/internal/api/User/ResetPassword?code=" + user;
+
+                    //  client.DefaultRequestHeaders.Add("Authorization", "Bearer " + a.token);
+                    var response = await client.GetStringAsync(url);
+                    return Ok(user);
+                    return View("Views/Landing/resetPage.cshtml");
+                }
+                catch (HttpRequestException a)
+                {
+
+                    return View("Views/Landing/resetError.cshtml");
+                    // return NotFound(a);
+                }
+
+
+
+            }
+
+        }
         [HttpGet("/app")]
         [AllowAnonymous]
         public IActionResult appPage()
@@ -41,16 +71,22 @@ namespace api.Controllers
         }
 
 
-   [HttpGet("/ctf")]
+        [HttpGet("/ctf")]
         [AllowAnonymous]
-        public  IActionResult ctfPage() {
+        public IActionResult ctfPage()
+        {
 
             return View("Views/Landing/ctf.cshtml");
         }
 
 
-
-
+ [AllowAnonymous]
+        [Route("{*url}", Order = 999)]
+        public IActionResult CatchAll()
+        {
+            Response.StatusCode = 404;
+            return View("Views/Landing/notFound.cshtml");
+        }
 
 
     }

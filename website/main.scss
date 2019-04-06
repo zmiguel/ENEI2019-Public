@@ -405,6 +405,7 @@ input[type="submit"] {
 	}
 }
 
+
 select {
 	padding: 10px;
 	border: 1px solid #eeeeee;
@@ -1785,6 +1786,26 @@ footer {
 	img {
 	  width: 60%;
 	  height: 60%;
+	}
+	.button-default{
+		padding: 20px;
+	
+		//font-family: "Bai Jamjuree", sans-serif;
+		font-size: 14px;
+		line-height: 14px;
+		color: black;
+		font-weight: 700;
+		text-transform: uppercase;
+		border: 1px solid #eeeeee;
+		padding: 30px 30px;
+		transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+		-webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+
+		&:hover{
+		 border-color: #cc1a17;
+		background-color: #cc1a17;
+		color: #ffffff;	
+	}
 	}
 	background-image: url("./imgs/bg_phone.png");
 	//border-bottom: 2px solid #cc1a17;
