@@ -28,6 +28,9 @@
     <link href="bootstrap-grid.css" rel="stylesheet" type="text/css" />
     <link href="https://enei.pt/main.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,600,700" rel="stylesheet">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 
 <style>
     html{
@@ -35,11 +38,11 @@
   flex-direction: column;
   justify-content: center;
   height: 100%;
-background: url("https://enei.pt/imgs/coimbra-image.jpg") no-repeat center;
+background-image: linear-gradient(0deg, rgba(208, 46, 44, 1) 20%, rgb(225, 73, 78) 100%);
     }
     .resetPassword{
         margin: 0 auto;
-        background-color:#CC1A17;
+      //  background-color:#CC1A17;
         text-align: center;
         width: 50%;
     
@@ -48,41 +51,45 @@ background: url("https://enei.pt/imgs/coimbra-image.jpg") no-repeat center;
       
     }
     h1,h3{
-color: white;
+color:black;
 padding: 10px;
     }
+    .button-reset{
+        margin: 20px;
+        padding: 20px;
+    }
+
 </style>
 
 </head>
 
 <body>
-       <header id="main-menu">
-        <nav>
-            <a href="#" title="Abrir menu" rel="nofollow" id="open-menu-mobile">Menu</a>
-            <ul>
-                <li><a href="#enei" title="Enei">Enei</a></li>
-                <li class="unavailable">Career Path</li>
-                <li class="unavailable">Programa</li>
-                <li class="unavailable">Oradores</li>
-                <li><a href="#precos" title="Preços">Preços</a></li>
-                <li class="unavailable">App</li>
-                <li><a href="#sponsors" title="Sponsors">Sponsors</a></li>
-                <li><a href="#faqs" title="Faq's">Faq's</a></li>
-            </ul>
-        </nav>
-    </header>
-       <div class="resetPassword">
- <h1>ERRO</h1>
-        <h3>Existiu um erro a enviar a password de recuperação...</h3>  
-        <h3>Este código já foi usado para recuperar a password.</h3>
 
-<a href="https://enei.pt/app"><button class="button-default">Reset Password Again</button></a>
-                
-       </div>  
-    
     
 
-   
+      <div class="download-app">
+        <div class="left">
+            <h1>Erro!!</h1>
+            <h3>Este código de recuperação não existe, ou já foi utilizado...</h3>
+   <h3>Volta a realizar o processo! Caso o erro persista, contacta a comissão.</h3>
+            <div class="buttons">
+                <a href="https://enei.pt/app">
+                    <div class="button-app">
+                       
+                        <div class="button-text">
+                            <h3>Ir para</h3>
+                            <h2>Página da APP</h2>
+                        </div>
+
+                    </div>
+                </a>
+               
+            </div>
+        </div>
+
+
+
+    </div>
    
 
     <!-- Scripts -->

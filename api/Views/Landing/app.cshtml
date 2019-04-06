@@ -123,12 +123,12 @@
                 </p>
                 <p>O login na app é feito usando esse QR code</p>
                 <p>Para obteres a password, deves efectuar reset através da APP, ou preenchendo o campo a baixo.</p>
-                <form action="http://localhost:5000/api/reset" method="GET">
 
-                    <input type="email" name="email" placeholder="Introduz o teu email">
-           
-                    <input type="submit" value="RESET PASSWOR">
-                </form>
+
+                <input id="email-input" type="email" name="email" placeholder="Introduz o teu email">
+
+                <button class="button-default" onclick="resetPassword()">Reset Password</button>
+
             </div>
         </div>
     </div>
@@ -376,7 +376,66 @@
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130588243-1"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        resetPassword = () => {
+
+
+            var input = document.getElementById("email-input");
+
+            if (input != " ") {
+
+                console.log(input.value);
+
+                axios({
+                    url: `http://enei2019.uingress.com/internal/api/User/RecoverPassword?input=${input.value}&type=0`,
+                    method: 'get',
+
+                }).then(a => {
+                    console.log(a);
+                    Swal.fire(
+                        'Sucesso!',
+                        'Foi enviado para o teu email um pedido de recuperação. Pode demorar demorar alguns minutos...',
+                        'success'
+                    )
+                }).catch(err => {
+                    if (err.response.status === 500) {
+                        Swal.fire(
+                            'Utilizador não existe!',
+                            'Verifica se o email é válido, caso o erro continue contacta a comissão organizadora',
+                            'error'
+                        )
+                    }
+                    else {
+                        Swal.fire(
+                            'Erro!',
+                            'Aconteceu algum erro com o teu pedido...',
+                            'error'
+                        )
+                    }
+
+
+
+                })
+            } else {
+                Swal.fire(
+                    'Erro!',
+                    'Deves preencher o campo de email.',
+                    'warning'
+                )
+            }
+
+        }
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130588243-1"></script>
     <script>
@@ -384,13 +443,6 @@
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'UA-130588243-1');
-    </script>
-    <script>
-
-        resetPassword = () => {
-            console.log("asdasd")
-        }
-
     </script>
     <script>
         AOS.init();
