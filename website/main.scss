@@ -123,6 +123,7 @@ $bold: 700;
 //icons
 $icomoon-font-path: "fonts" !default;
 
+$icon-clipboard: "\e90b";
 $icon-linkedin_speaker: "\e90a";
 $icon-company: "\e909";
 $icon-clock: "\e907";
@@ -170,17 +171,43 @@ $icon-linkedin1: "\eac9";
 .icon-less,
 .icon-plus,
 .icon-email {
-  font-size: 34px;
-  color: $white;
-  @include mobile {
-    font-size: 30px;
-  }
+	font-size: 34px;
+	color: $white;
+	@include mobile {
+		font-size: 30px;
+	}
+}
+
+.icon-clipboard {
+	font-size: 20px;
+	margin-left: 2px;
 }
 
 .icon-linkedin_speaker {
-  &:before {
-    content: $icon-linkedin_speaker;
-  }
+	font-size: 16px;
+}
+
+.icon-company {
+	font-size: 18px;
+}
+
+.icon-clock {
+	font-size: 16px;
+}
+
+.icon-location {
+	font-size: 18px;
+}
+
+.icon-clipboard {
+	&:before {
+		content: $icon-clipboard;
+	}
+}
+.icon-linkedin_speaker {
+	&:before {
+		content: $icon-linkedin_speaker;
+	}
 }
 .icon-company {
   &:before {
@@ -1516,58 +1543,77 @@ footer {
     }
   }
 
-  .event-description {
-    font-family: $mont-font;
-    font-weight: 600;
-    font-size: 17px;
-    background-color: transparent;
-    color: $dark-grey;
-    transition: color $transition-time ease;
-    &:hover {
-      color: $red;
-    }
-    span {
-      display: inline-block;
-      font-size: 16px;
-      margin-right: 10px;
-    }
-  }
-  section {
-    padding: 0;
-  }
-  h2 {
-    font-size: 20px;
-    line-height: 28px;
-    color: $red;
-    margin-bottom: 10px;
-    margin-top: 35px;
-  }
-  h3 {
-    margin-bottom: 5px;
-  }
-  .event-location {
-    color: $dark-grey;
-    margin-bottom: 5px;
-    display: block;
-    span {
-      margin-right: 10px;
-      transition: none;
-    }
-  }
-  a.event-location:hover {
-    color: $red;
-  }
-  .event-time {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 30px;
-  }
+	.event-description {
+		font-family: $mont-font;
+		font-weight: 600;
+		font-size: 17px;
+		background-color: transparent;
+		color: $dark-grey;
+		transition: color $transition-time ease;
+		&:hover {
+			color: $red;
+		}
+		span {
+			display: inline-block;
+			font-size: 16px;
+			margin-right: 10px;
+		}
+	}
+	section {
+		padding: 0;
+	}
+	h2 {
+		font-size: 20px;
+		line-height: 28px;
+		color: $red;
+		margin-bottom: 10px;
+	}
+	h3 {
+		margin-bottom: 7px;
+		font-size: 19px;
+	}
+	.event-details {
+		color: $dark-grey;
+		margin-bottom: 8px;
+		display: block;
+		line-height: 18px;
+		span {
+			margin-right: 10px;
+			transition: none;
+			vertical-align: bottom;
+		}
+	}
+	a.event-details:hover {
+		color: $red;
+	}
+	.event-time {
+		font-size: 24px;
+		font-weight: 700;
+		line-height: 30px;
+	}
 
-  .container-speaker-image {
-    &::after {
-      content: " ";
-    }
-  }
+	.container-speaker-image {
+		&::after {
+			content: " ";
+		}
+	}
+
+	.event-type {
+		font-size: 16px;
+		line-height: 20px;
+		display: table;
+		margin-bottom: 7px;
+		padding: 2px 10px;
+		background-color: $red;
+		color: white;
+		margin-top: 5px;
+		font-weight: 600;
+		text-transform: uppercase;
+		margin-top: 40px;
+		&:first-child{
+			margin-top: 5px;
+		}
+	}
 }
 
 #institucional-support {
@@ -2258,3 +2304,4 @@ footer {
 
   }
 }
+ 
