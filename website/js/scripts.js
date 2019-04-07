@@ -89,7 +89,7 @@ function calendarFunctionality() {
     var dayButtons = document.getElementById("event-days-list");
     var daySelected = null;
     var contentVisible = null;
-    
+
     if (dayButtons) {
         dayButtons.querySelectorAll("button").forEach(function (button) {
             button.addEventListener("click", function () {
@@ -107,9 +107,105 @@ function calendarFunctionality() {
 
 }
 
+function toggleModalOverlay() {
+    var modalOverlay = document.getElementById("overlay");
+
+    if (modalOverlay.className == 'visible') {
+        modalOverlay.style.opacity = "0";
+        setTimeout(function () {
+            modalOverlay.classList.remove('visible');
+        }, 150);
+    } else {
+        modalOverlay.style.opacity = ".95";
+        modalOverlay.classList.add('visible');
+    }
+}
+
+function toggleModal(modalId) {
+    var modalContainer = document.getElementById(modalId);
+
+    if (modalContainer.getAttribute('data-status') != 'opened') {
+        //	add body class to remove scroll
+        disableScroll();
+        //	show modal 
+        modalContainer.style.opacity = "1";
+        //	add class 'opened' to modal container to show it
+        modalContainer.setAttribute("data-status", "opened");
+    } else {
+        //	remove body class to remove scroll
+        enableScroll();
+        //	remove class 'opened' to modal container to hide it
+        modalContainer.style.opacity = "0";
+        setTimeout(function () {
+            modalContainer.setAttribute("data-status", "closed");
+        }, 150);
+    }
+}
+
+function preventDefault(e) {
+    e = e || window.event;
+    if (e.preventDefault) e.preventDefault();
+    e.returnValue = false;
+}
+
+//	disable scroll/touchmove
+function disableScroll() {
+    var bodyElement = document.querySelector("body");
+    bodyElement.classList.add("blockY");
+    if (window.addEventListener) {
+        window.addEventListener('DOMMouseScroll', preventDefault, false);
+    } // older FF
+    window.onwheel = preventDefault; // modern standard
+    window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+    window.ontouchmove = preventDefault; // mobile
+}
+
+//	enable scroll/touchmove
+function enableScroll() {
+    var bodyElement = document.querySelector("body");
+    bodyElement.classList.remove("blockY");
+    if (window.removeEventListener) {
+        window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    }
+    window.onmousewheel = document.onmousewheel = null;
+    window.onwheel = null;
+    window.ontouchmove = null;
+}
+
 $(document).ready(function () {
 
     calendarFunctionality();
+
+    //	close opened modal in overlay click
+    document.getElementById("overlay").addEventListener('click', function (event) {
+        var openedModal = document.querySelector(".modal-container[data-status='opened']").getAttribute("id");
+
+        toggleModalOverlay();
+        toggleModal(openedModal);
+    });
+
+    //	open modals button
+    document.querySelectorAll(".modal-link").forEach(function (modalButton) {
+        modalButton.addEventListener('click', function (event) {
+
+            var modalContainer = this.getAttribute("data-modalLink");
+
+            toggleModalOverlay();
+            toggleModal(modalContainer);
+
+        });
+    });
+
+    //	close modals button
+    document.querySelectorAll(".modal-close").forEach(function (modalCloseButton) {
+        modalCloseButton.addEventListener('click', function (event) {
+            var modalContainer = this.getAttribute("data-modalContainer");
+
+            // close newsletter modal dont toggle overlay
+            toggleModalOverlay();
+            toggleModal(modalContainer);
+        });
+    });
 
     // inicial animation
     setTimeout(function () {
