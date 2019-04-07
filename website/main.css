@@ -1730,11 +1730,22 @@ footer p {
 .ctf-header .ctf-top10 td {
   text-align: center;
 }
+@media screen and (max-width: 769px) {
+  .ctf-header .ctf-top10 {
+    width: 95%;
+    padding-top: 20px;
+  }
+}
 .ctf-header .about-top {
   color: white;
   font-size: 15px;
   text-align: center;
   margin: 2%;
+}
+@media screen and (max-width: 769px) {
+  .ctf-header {
+    width: 100%;
+  }
 }
 
 .container-app {
@@ -2101,8 +2112,18 @@ footer p {
   justify-content: center;
   background-image: url("./imgs/bg_phone.png");
 }
+@media screen and (max-width: 769px) {
+  .explain-qr {
+    padding: 10px;
+  }
+}
 .explain-qr .explain {
   margin: 30px;
+}
+@media screen and (max-width: 769px) {
+  .explain-qr .explain {
+    margin: 10px;
+  }
 }
 .explain-qr .explain h3 {
   margin-bottom: 0;
@@ -2149,6 +2170,20 @@ footer p {
   width: 30%;
   height: 30%;
 }
+@media screen and (max-width: 769px) {
+  .ctf-explain {
+    flex-direction: column;
+    padding: 1px;
+  }
+  .ctf-explain img {
+    width: 100%;
+    height: 100%;
+  }
+  .ctf-explain p {
+    width: 100%;
+    padding: 15px;
+  }
+}
 
 .ctf-levels .level1-ctf {
   background-color: #de6d6b;
@@ -2168,6 +2203,11 @@ footer p {
 .ctf-levels .level {
   padding: 80px;
 }
+@media screen and (max-width: 769px) {
+  .ctf-levels .level {
+    padding: 30px 10px;
+  }
+}
 .ctf-levels .level h3 {
   color: white;
   padding-left: 30px;
@@ -2176,6 +2216,11 @@ footer p {
   flex: 1;
   display: flex;
   flex-direction: row;
+}
+@media screen and (max-width: 769px) {
+  .ctf-levels .level .sub-container {
+    flex-direction: column;
+  }
 }
 .ctf-levels .level .sub-container .sub-level {
   width: 100%;
@@ -2187,6 +2232,12 @@ footer p {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+@media screen and (max-width: 769px) {
+  .ctf-levels .level .sub-container .sub-level {
+    padding: 5;
+    margin: 10px 0;
+  }
 }
 .ctf-levels .level .sub-container .sub-level p {
   color: black;
@@ -2234,6 +2285,19 @@ footer p {
   padding-left: 30px;
   color: #cc1a17;
 }
+@media screen and (max-width: 769px) {
+  .ctf-prizes {
+    padding: 0;
+  }
+  .ctf-prizes h3 {
+    padding: 20px;
+    text-align: center;
+  }
+  .ctf-prizes h5 {
+    text-align: center;
+    padding: 10px;
+  }
+}
 .ctf-prizes .prizes-container {
   flex: 1;
   display: flex;
@@ -2251,6 +2315,15 @@ footer p {
 }
 .ctf-prizes .prizes-container .prize .prize-logo {
   font-size: 100px;
+}
+@media screen and (max-width: 769px) {
+  .ctf-prizes .prizes-container {
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+  .ctf-prizes .prizes-container .prize {
+    margin: 0;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

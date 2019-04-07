@@ -19,7 +19,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>13</string>
+	<string>14</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSRequiresIPhoneOS</key>
@@ -50,7 +50,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<string>Not really used, but the module asks for it when openning the camera.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
