@@ -25,7 +25,7 @@ namespace api.Controllers
 
     public class AuthController : ControllerBase
     {
-   private readonly DataContext context;
+        private readonly DataContext context;
         private readonly IConfiguration config;
         public UserManager<User> _userManager { get; }
         public SignInManager<User> _signInManager { get; }
@@ -34,19 +34,19 @@ namespace api.Controllers
         private readonly RoleManager<Role> _roleManager;
         private readonly System.Net.Http.IHttpClientFactory clientFactory;
 
-        public AuthController(DataContext context,IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper, RoleManager<Role> roleManager, IUsersRepository repo, System.Net.Http.IHttpClientFactory clientFactory)
+        public AuthController(DataContext context, IConfiguration config, UserManager<User> UserManager, SignInManager<User> SignInManager, IMapper mapper, RoleManager<Role> roleManager, IUsersRepository repo, System.Net.Http.IHttpClientFactory clientFactory)
         {
-             _mapper = mapper;
+            _mapper = mapper;
             _roleManager = roleManager;
             _repo = repo;
             this.clientFactory = clientFactory;
             this.config = config;
             _userManager = UserManager;
             _signInManager = SignInManager;
-               this.context = context;
-            
+            this.context = context;
+
         }
-     
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userToRegister)
@@ -54,7 +54,7 @@ namespace api.Controllers
             var userToCreate = _mapper.Map<User>(userToRegister);
 
             var result = await _userManager.CreateAsync(userToCreate, userToRegister.password);
-            
+
             if (result.Succeeded)
             {
                 return StatusCode(201);
@@ -62,6 +62,9 @@ namespace api.Controllers
             return BadRequest(result.Errors);
 
         }
+       
+
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto UserForLoginDto)
         {
@@ -87,44 +90,48 @@ namespace api.Controllers
         }
 
         [HttpPost("loginQR")]
-        public async Task<IActionResult> loginQr(loginQr a){
-          
-         var u = await _userManager.FindByNameAsync(a.QRcode);
-  
-                using (var client = new HttpClient())
-                {
-                    try{
-                        
-                        var url = "https://tickets.enei.pt/internal/api/Attendee/Detail";
-                    
-                        client.DefaultRequestHeaders.Add("Authorization", "Bearer " + a.token);
-                    
+        public async Task<IActionResult> loginQr(loginQr a)
+        {
 
-                        var response = await client.GetStringAsync(url);
+            var u = await _userManager.FindByNameAsync(a.QRcode);
 
-                       // Console.WriteLine(response);
-
-                        //var resource = JObject.Parse(response);
-                        var appUser = await _userManager.Users.FirstOrDefaultAsync(SU => SU.NormalizedUserName == a.QRcode.ToUpper());
-
-                       
-                return Ok(new
+            using (var client = new HttpClient())
+            {
+                try
                 {
 
-                    token = GenerateJwtToken(appUser).Result
-                });
+                    var url = "https://tickets.enei.pt/internal/api/Attendee/Detail";
 
-                    }catch(Exception e){
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + a.token);
 
-                        Console.WriteLine(e);
 
-                        return Unauthorized();
+                    var response = await client.GetStringAsync(url);
 
-                    }
-                    
+                    // Console.WriteLine(response);
+
+                    //var resource = JObject.Parse(response);
+                    var appUser = await _userManager.Users.FirstOrDefaultAsync(SU => SU.NormalizedUserName == a.QRcode.ToUpper());
+
+
+                    return Ok(new
+                    {
+
+                        token = GenerateJwtToken(appUser).Result
+                    });
 
                 }
-         return Unauthorized();         
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e);
+
+                    return Unauthorized();
+
+                }
+
+
+            }
+            return Unauthorized();
         }
 
 
@@ -138,8 +145,9 @@ namespace api.Controllers
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            foreach(var role in roles) {
-                claims.Add(new Claim(ClaimTypes.Role,role));
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
             //obtem a key na app settings
@@ -151,7 +159,7 @@ namespace api.Controllers
             //criamos um token
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(claims), 
+                Subject = new ClaimsIdentity(claims),
                 //data de expiração (atual + 24 horas)
                 Expires = DateTime.Now.AddDays(30),
 

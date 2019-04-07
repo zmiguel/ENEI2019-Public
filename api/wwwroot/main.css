@@ -1730,11 +1730,22 @@ footer p {
 .ctf-header .ctf-top10 td {
   text-align: center;
 }
+@media screen and (max-width: 769px) {
+  .ctf-header .ctf-top10 {
+    width: 95%;
+    padding-top: 20px;
+  }
+}
 .ctf-header .about-top {
   color: white;
   font-size: 15px;
   text-align: center;
   margin: 2%;
+}
+@media screen and (max-width: 769px) {
+  .ctf-header {
+    width: 100%;
+  }
 }
 
 .container-app {
@@ -1859,6 +1870,23 @@ footer p {
 .login-app img {
   width: 60%;
   height: 60%;
+}
+.login-app .button-default {
+  padding: 20px;
+  font-size: 14px;
+  line-height: 14px;
+  color: black;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid #eeeeee;
+  padding: 30px 30px;
+  transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+  -webkit-transition: border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out;
+}
+.login-app .button-default:hover {
+  border-color: #cc1a17;
+  background-color: #cc1a17;
+  color: #ffffff;
 }
 @media screen and (max-width: 769px) {
   .login-app {
@@ -2042,9 +2070,9 @@ footer p {
   display: flex;
   color: blue;
   /* First we need to help some browsers along for this to work.
-     Just because a vendor prefix is there, doesn't mean it will
-     work in a browser made by that vendor either, it's just for
-     future-proofing purposes I guess. */
+    Just because a vendor prefix is there, doesn't mean it will
+    work in a browser made by that vendor either, it's just for
+    future-proofing purposes I guess. */
   -o-transition: 0.5s;
   -ms-transition: 0.5s;
   -moz-transition: 0.5s;
@@ -2080,12 +2108,37 @@ footer p {
   flex: 1;
   display: flex;
   flex-direction: row;
+  padding: 50px;
+  justify-content: center;
   background-image: url("./imgs/bg_phone.png");
+}
+@media screen and (max-width: 769px) {
+  .explain-qr {
+    padding: 10px;
+  }
+}
+.explain-qr .explain {
+  margin: 30px;
+}
+@media screen and (max-width: 769px) {
+  .explain-qr .explain {
+    margin: 10px;
+  }
+}
+.explain-qr .explain h3 {
+  margin-bottom: 0;
+  color: white;
+  margin: 20px;
+}
+.explain-qr .explain p {
+  color: white;
+  margin-left: 20px;
 }
 .explain-qr img {
   width: 20%;
   height: 20%;
   margin: 20px;
+  align-self: center;
 }
 @media screen and (max-width: 769px) {
   .explain-qr {
@@ -2096,13 +2149,181 @@ footer p {
     height: 100%;
   }
 }
-.explain-qr h3 {
-  color: white;
-  margin: 30px;
-}
 
 .ctf-explain {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
   background-color: #eeeeee;
+  padding: 40px;
+}
+.ctf-explain h3 {
+  padding: 30px;
+  padding-bottom: 0px;
+}
+.ctf-explain p {
+  padding: 30px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.ctf-explain img {
+  width: 30%;
+  height: 30%;
+}
+@media screen and (max-width: 769px) {
+  .ctf-explain {
+    flex-direction: column;
+    padding: 1px;
+  }
+  .ctf-explain img {
+    width: 100%;
+    height: 100%;
+  }
+  .ctf-explain p {
+    width: 100%;
+    padding: 15px;
+  }
+}
+
+.ctf-levels .level1-ctf {
+  background-color: #de6d6b;
+}
+.ctf-levels .level2-ctf {
+  background-color: #d95856;
+}
+.ctf-levels .level3-ctf {
+  background-color: #d54341;
+}
+.ctf-levels .level4-ctf {
+  background-color: #d02e2c;
+}
+.ctf-levels .level5-ctf {
+  background-color: #cc1a17;
+}
+.ctf-levels .level {
+  padding: 80px;
+}
+@media screen and (max-width: 769px) {
+  .ctf-levels .level {
+    padding: 30px 10px;
+  }
+}
+.ctf-levels .level h3 {
+  color: white;
+  padding-left: 30px;
+}
+.ctf-levels .level .sub-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+@media screen and (max-width: 769px) {
+  .ctf-levels .level .sub-container {
+    flex-direction: column;
+  }
+}
+.ctf-levels .level .sub-container .sub-level {
+  width: 100%;
+  border: 1px dashed white;
+  margin: 20px;
+  padding: 20px;
+  align-content: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media screen and (max-width: 769px) {
+  .ctf-levels .level .sub-container .sub-level {
+    padding: 5;
+    margin: 10px 0;
+  }
+}
+.ctf-levels .level .sub-container .sub-level p {
+  color: black;
+  text-align: justify;
+  text-justify: inter-word;
+}
+.ctf-levels .level .sub-container .sub-level i {
+  color: #eeeeee;
+  font-size: 18px;
+}
+.ctf-levels .level .sub-container .sub-level .btn-dwn-ctf {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  color: white;
+  width: 40%;
+  margin: 20px;
+  text-align: center;
+  margin: 0 auto;
+}
+.ctf-levels .level .sub-container .sub-level .btn-dwn-ctf i {
+  font-size: 30px;
+}
+.ctf-levels .level .sub-container .sub-level .btn-dwn-ctf:hover {
+  text-decoration: none;
+}
+.ctf-levels .level .sub-container .sub-level .btn-dwn-ctf:hover a:hover {
+  text-decoration: none;
+}
+.ctf-levels .level .sub-container .sub-level .btn-dwn-ctf h3 {
+  font-size: 20px;
+  margin: 10px;
+  align-content: center;
+  align-self: center;
+}
+
+.ctf-prizes {
+  padding: 50px;
+}
+.ctf-prizes h3 {
+  padding: 30px;
+  padding-bottom: 0px;
+}
+.ctf-prizes h5 {
+  padding-left: 30px;
+  color: #cc1a17;
+}
+@media screen and (max-width: 769px) {
+  .ctf-prizes {
+    padding: 0;
+  }
+  .ctf-prizes h3 {
+    padding: 20px;
+    text-align: center;
+  }
+  .ctf-prizes h5 {
+    text-align: center;
+    padding: 10px;
+  }
+}
+.ctf-prizes .prizes-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  padding-top: 30px;
+}
+.ctf-prizes .prizes-container .prize {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  margin: 20px;
+  align-content: center;
+  align-items: center;
+}
+.ctf-prizes .prizes-container .prize .prize-logo {
+  font-size: 100px;
+}
+@media screen and (max-width: 769px) {
+  .ctf-prizes .prizes-container {
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+  .ctf-prizes .prizes-container .prize {
+    margin: 0;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

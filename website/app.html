@@ -123,11 +123,12 @@
                 </p>
                 <p>O login na app é feito usando esse QR code</p>
                 <p>Para obteres a password, deves efectuar reset através da APP, ou preenchendo o campo a baixo.</p>
-                <form>
 
-                    <input type="email" placeholder="Introduz o teu email">
-                    <input type="button" data-bind="click: buy" value="RESET PASSWORD">
-                </form>
+
+                <input id="email-input" type="email" name="email" placeholder="Introduz o teu email">
+
+                <button class="button-default" onclick="resetPassword()">Reset Password</button>
+
             </div>
         </div>
     </div>
@@ -197,38 +198,38 @@
             <h3>Aplicação disponível nas típicas lojas de aplicações.</h3>
 
             <div class="buttons">
-                    <a href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1457702417&mt=8">
-                <div class="button-app">
-                    <div class="button-logo">
-                        <i class="fab fa-apple"></i>
-                    </div>
-                    <div class="button-text">
-                        <h3>Available on the</h3>
-                        <h2>App Store</h2>
-                    </div>
-
-                </div>
-            </a>
-                <a href="https://play.google.com/store/apps/details?id=pt.enei">
-                <div class="button-app">
+                <a href="https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1457702417&mt=8">
+                    <div class="button-app">
                         <div class="button-logo">
-                                <i class="fab fa-google-play"></i>
+                            <i class="fab fa-apple"></i>
+                        </div>
+                        <div class="button-text">
+                            <h3>Available on the</h3>
+                            <h2>App Store</h2>
+                        </div>
+
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=pt.enei">
+                    <div class="button-app">
+                        <div class="button-logo">
+                            <i class="fab fa-google-play"></i>
                         </div>
                         <div class="button-text">
                             <h3>Available on the</h3>
                             <h2>Play Store</h2>
                         </div>
-    
+
                     </div>
                 </a>
             </div>
         </div>
-     
 
-       
+
+
     </div>
 
-  
+
 
 
     <!-- faqs section -->
@@ -368,10 +369,65 @@
         </div>
     </footer>
 
+
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130588243-1"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        resetPassword = () => {
+
+            var input = document.getElementById("email-input");
+
+            if (input != " ") {
+
+                console.log(input.value);
+
+                axios({
+                    url: `https://tickets.enei.pt/internal/api/User/RecoverPassword?input=${input.value}&type=0`,
+                    method: 'get',
+
+                }).then(a => {
+                    console.log(a);
+                    Swal.fire(
+                        'Sucesso!',
+                        'Foi enviado para o teu email um pedido de recuperação. Pode demorar demorar alguns minutos...',
+                        'success'
+                    )
+                }).catch(err => {
+                    if (err.response.status === 500) {
+                        Swal.fire(
+                            'Utilizador não existe!',
+                            'Verifica se o email é válido, caso o erro continue contacta a comissão organizadora',
+                            'error'
+                        )
+                    }
+                    else {
+                        Swal.fire(
+                            'Erro!',
+                            'Aconteceu algum erro com o teu pedido...',
+                            'error'
+                        )
+                    }
+                })
+            } else {
+                Swal.fire(
+                    'Erro!',
+                    'Deves preencher o campo de email.',
+                    'warning'
+                )
+            }
+
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130588243-1"></script>
     <script>
