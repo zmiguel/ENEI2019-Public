@@ -26,30 +26,35 @@ namespace api.Controllers
 
         [HttpGet("/jogoenei")]
         [AllowAnonymous]
-        public IActionResult jogoENEI(){
-                 return View("Views/Landing/jogo.cshtml");
+        
+        public IActionResult jogoENEI()
+        {
+            return View("Views/Landing/jogo.cshtml");
         }
+        
         [HttpGet("/level1ctf")]
         [AllowAnonymous]
-        public IActionResult  level1()
-        {   
-               return View("Views/Landing/1stpage.cshtml");
+        public IActionResult level1()
+        {
+            return View("Views/Landing/1stpage.cshtml");
         }
-         [AllowAnonymous]
+        
+
+        [AllowAnonymous]
         [HttpGet("")]
-       
         public IActionResult landingPage()
         {
 
             return View("Views/Landing/index.cshtml");
         }
+
         [AllowAnonymous]
 
         [HttpGet("/reset/{user}")]
         public async Task<IActionResult> resetPassword(string user)
         {
 
-         
+
             using (var client = new HttpClient())
             {
                 try
@@ -58,7 +63,7 @@ namespace api.Controllers
 
                     //  client.DefaultRequestHeaders.Add("Authorization", "Bearer " + a.token);
                     var response = await client.GetStringAsync(url);
-                
+
                     return View("Views/Landing/resetPage.cshtml");
                 }
                 catch (HttpRequestException a)
@@ -91,7 +96,7 @@ namespace api.Controllers
         }
 
 
- [AllowAnonymous]
+        [AllowAnonymous]
         [Route("{*url}", Order = 999)]
         public IActionResult CatchAll()
         {
