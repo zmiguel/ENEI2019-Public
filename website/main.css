@@ -126,7 +126,6 @@
 .icon-close {
   font-size: 30px;
 }
-
 .icon-close:hover {
   color: #cc1a17;
 }
@@ -209,7 +208,6 @@ body {
   font-family: "Bai Jamjuree", sans-serif;
   font-weight: 400;
 }
-
 body.blockY {
   overflow-y: hidden;
 }
@@ -217,7 +215,6 @@ body.blockY {
 button {
   background-color: transparent;
 }
-
 button:hover {
   cursor: pointer;
 }
@@ -1413,13 +1410,11 @@ footer p {
   margin: 0 auto 60px;
   background-color: #353535;
 }
-
 @media (max-width: 769px) {
   #calendar hr {
     margin-bottom: 30px;
   }
 }
-
 #calendar hr::after {
   left: 50%;
   transform: translateX(-50%);
@@ -1556,29 +1551,24 @@ footer p {
 #calendar-container .event-data {
   margin-top: 50px;
 }
-
 @media (max-width: 1024px) {
   #calendar-container .event-data {
     margin-top: 30px;
   }
 }
-
 #calendar-container .event-data:first-child {
   margin-top: 0;
 }
-
 @media (max-width: 1024px) {
   #calendar-container .event-data:first-child {
     margin-top: 30px;
   }
 }
-
 @media (max-width: 769px) {
   #calendar-container .event-data:first-child {
     margin-top: 30px;
   }
 }
-
 #calendar-container .event-data h2:first-child {
   margin-top: 0;
 }
@@ -1619,13 +1609,11 @@ footer p {
 .day-night-filter {
   border-bottom: 1px solid #353535;
 }
-
 @media (max-width: 769px) {
   .day-night-filter {
     display: none;
   }
 }
-
 .day-night-filter button {
   width: 50%;
   padding: 30px 0;
@@ -1653,10 +1641,8 @@ footer p {
   background-color: #ffffff;
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: opacity 150ms ease;
   transition: opacity 150ms ease;
 }
-
 #overlay.visible {
   visibility: visible;
 }
@@ -1672,15 +1658,12 @@ footer p {
   max-height: 747px;
   overflow-y: scroll;
   background-color: #fff;
-  -webkit-box-shadow: 0 0px 40px 15px #b9b8b8;
-          box-shadow: 0 0px 40px 15px #b9b8b8;
+  box-shadow: 0 0px 40px 15px #b9b8b8;
   padding: 10px 10%;
   text-align: center;
   opacity: 0;
-  -webkit-transition: opacity 200ms ease;
   transition: opacity 200ms ease;
 }
-
 @media (max-width: 1024px) {
   .modal-container {
     width: calc(100% - 100px);
@@ -1691,7 +1674,6 @@ footer p {
     max-height: inherit;
   }
 }
-
 @media (max-width: 769px) {
   .modal-container {
     width: calc(100% - 30px);
@@ -1701,21 +1683,17 @@ footer p {
     padding: 10px 30px 30px 30px;
   }
 }
-
-.modal-container[data-status="opened"] {
+.modal-container[data-status=opened] {
   visibility: visible;
 }
-
 .modal-container h2 {
   margin: 50px 0 15px;
 }
-
 @media (max-width: 769px) {
   .modal-container h2 {
     margin: 30px 0 10px;
   }
 }
-
 .modal-container p {
   font-size: 17px;
   margin-bottom: 15px;
@@ -1727,14 +1705,12 @@ footer p {
   right: 30px;
   color: #353535;
 }
-
 @media (max-width: 1024px) {
   .modal-close {
     top: 20px;
     right: 20px;
   }
 }
-
 @media (max-width: 769px) {
   .modal-close {
     top: 10px;
@@ -1746,13 +1722,11 @@ footer p {
   padding: 30px 30px 0;
   color: #353535;
 }
-
 @media (max-width: 1024px) {
   #content-container {
     padding: 0 15px 0;
   }
 }
-
 #content-container .content {
   display: none;
 }
@@ -1807,7 +1781,6 @@ footer p {
   font-weight: 700;
   line-height: 28px;
 }
-
 @media (max-width: 1024px) {
   #content-container .event-time {
     margin-bottom: 10px;
@@ -2279,9 +2252,9 @@ footer p {
   display: flex;
   color: blue;
   /* First we need to help some browsers along for this to work.
-    Just because a vendor prefix is there, doesn't mean it will
-    work in a browser made by that vendor either, it's just for
-    future-proofing purposes I guess. */
+  	   Just because a vendor prefix is there, doesn't mean it will
+  	   work in a browser made by that vendor either, it's just for
+  	   future-proofing purposes I guess. */
   -o-transition: 0.5s;
   -ms-transition: 0.5s;
   -moz-transition: 0.5s;
@@ -2364,7 +2337,7 @@ footer p {
   display: flex;
   flex-direction: row;
   background-color: #eeeeee;
-  padding: 40px;
+  padding: 40px 100px;
 }
 .ctf-explain h3 {
   padding: 30px;
@@ -2484,7 +2457,7 @@ footer p {
 }
 
 .ctf-prizes {
-  padding: 50px;
+  padding: 50px 100px;
 }
 .ctf-prizes h3 {
   padding: 30px;
