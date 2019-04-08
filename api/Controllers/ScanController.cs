@@ -32,6 +32,7 @@ namespace api.Controllers
         [HttpPost]
         public async Task<IActionResult> doScan(QRToScan ScanData)
         {
+            Boolean crExist = false;
             User usr = await context.Users.FirstOrDefaultAsync(b=>b.QRcode == ScanData.UserQR);
             var allUsers = await context.Users.ToListAsync();
             var allCromos = await context.Cromos.ToListAsync();
@@ -49,12 +50,26 @@ namespace api.Controllers
             }else{
                 allCromos.ForEach(delegate(Cromos c){
                     if(c.QRCode == ScanData.ScanQR){
-                        toReturn.tipo=0;
-                        usr.cromos = usr.cromos + "," + c.Id;
-                        context.Users.Update(usr);
-                        context.SaveChanges();
+                        string[] cromosArr = usr.cromos.Split(",").ToArray();
+                        int[] cromosIntArr = Array.ConvertAll(cromosArr,Int32.Parse);
+                        
+                        for(var i =0;i<cromosIntArr.Length;i++){
+                            if(cromosIntArr[i] == c.Id){ //cromos ja existe no user
+                                crExist = true;
+                            }
+                        }
 
-                        toReturn.resp = "Cromo Adicionado!";
+                        if(crExist){
+                            toReturn.tipo=-1; //tipo erro
+                            toReturn.resp = "Cromo já existente!";
+                        }else{
+                            toReturn.tipo=0;
+                            usr.cromos = usr.cromos + "," + c.Id;
+                            context.Users.Update(usr);
+                            context.SaveChanges();
+
+                            toReturn.resp = "Cromo Adicionado!";
+                        }
                     }
                 });
                 
