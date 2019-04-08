@@ -24,9 +24,20 @@ namespace api.Controllers
             _userManager = userManager;
         }
 
-
-        [HttpGet("")]
+        [HttpGet("/jogoenei")]
         [AllowAnonymous]
+        public IActionResult jogoENEI(){
+                 return View("Views/Landing/jogo.cshtml");
+        }
+        [HttpGet("/level1ctf")]
+        [AllowAnonymous]
+        public IActionResult  level1()
+        {   
+               return View("Views/Landing/1stpage.cshtml");
+        }
+        
+        [HttpGet("")]
+       
         public IActionResult landingPage()
         {
 
