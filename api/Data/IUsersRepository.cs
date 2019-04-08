@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using api.Dtos;
 using api.Models;
 
 namespace api.Data
@@ -12,7 +13,10 @@ namespace api.Data
         Task<bool> SaveAll();
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
-        
+        Task<User> changeProfileImage(profileImage a);
+
+
+        Task<string> getProfileImageAsync(string qrCode);
     }
 
 }

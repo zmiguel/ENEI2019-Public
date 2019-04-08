@@ -30,7 +30,7 @@ namespace api.Controllers
         // PSOT api/scan
         // POST scan de QR code
         [HttpPost]
-        public async Task<ScanReturn> doScan(QRToScan ScanData)
+        public async Task<IActionResult> doScan(QRToScan ScanData)
         {
             User usr = await context.Users.FirstOrDefaultAsync(b=>b.QRcode == ScanData.UserQR);
             var allUsers = await context.Users.ToListAsync();
@@ -45,7 +45,7 @@ namespace api.Controllers
                 _mapper.Map(userAProcurar,ru);
                 toReturn.user = ru;
                 toReturn.tipo=1;
-                return toReturn;
+                return Ok(toReturn);
             }else{
                 allCromos.ForEach(delegate(Cromos c){
                     if(c.QRCode == ScanData.ScanQR){
@@ -58,7 +58,7 @@ namespace api.Controllers
                     }
                 });
                 
-                return toReturn;
+                return Ok(toReturn);
             }
 
             //return toReturn;

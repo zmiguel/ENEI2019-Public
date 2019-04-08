@@ -36,14 +36,21 @@ import Profile from "./screens/Profile";
 import editCalendar from './screens/editCalendar';
 import choosePath from './screens/choosePath';
 import calendarDetail from './screens/calendarDetail';
-import FebradaDetail from './screens/FebradaDetail';
-import resetPassword from './screens/resetPassword';
+
+//import resetPassword from './screens/resetPassword';
+
+import eventDetail from './screens/eventDetail';
+
+import teamDetail from './screens/teamDetail';
+
+import event from './screens/event';
 
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
     headerStyle: {backgroundColor: 'transparent', zIndex: 100 },
 
 });
+
 
 const AppStack = createBottomTabNavigator(
     {
@@ -58,7 +65,7 @@ const AppStack = createBottomTabNavigator(
             },
         },
 
-        'Jogo do...': {
+        'Jogo': {
             screen: Jogo,
 
             navigationOptions: {
@@ -107,6 +114,7 @@ const AppStack = createBottomTabNavigator(
     {
         initialRouteName: 'Home',
 
+
         tabBarOptions: {
             showLabel: true, // hide labels
             activeTintColor: '#CC1A17', // active icon color
@@ -132,11 +140,22 @@ const Stack = createStackNavigator({
                         <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                           onPress={() => navigation.navigate('Profile')}>
 
-                            <Text>Editar dados</Text>
+                            <Text style={{marginRight:5}}>Editar dados</Text>
                             <IconFA name="user-edit" size={22}/>
 
                         </TouchableOpacity>
                     )
+                }
+            }
+            
+            if (navigation.state.routes[index].routeName == 'Jogo') {
+                return {
+                    header: (<View style={{backgroundColor:'#CC1A17', padding:15}}>
+                        <Text style={{textAlign:'center', alignSelf:'center', color:'white', fontSize:20, fontWeight:'bold'}}>Jogo do ENEI'19</Text>
+                    </View>)
+                 
+                       
+                    
                 }
             }
             else if (navigation.state.routes[index].routeName == 'Calendário') {
@@ -144,16 +163,13 @@ const Stack = createStackNavigator({
                     headerTitle: 'Calendário',
                     headerRight: (
                         <View style={{flex: 1, flexDirection: 'row'}}>
-                            <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
-                                              onPress={() => navigation.navigate('Edit')}>
-                                <Text>FAQ</Text>
-
-                            </TouchableOpacity>
+                          
+                        
 
                             <TouchableOpacity style={{marginRight: 20, flex: 1, flexDirection: 'row'}}
                                               onPress={() => navigation.navigate('choosePath')}>
-                                <Text>Inscrições</Text>
-                                <IconFA name="user-edit" size={22}/>
+                                <Text style={{color:'#CC1A17', marginRight:5}}>Inscrições</Text>
+                                <IconFA name="user-edit" size={22} color={'#CC1A17'}/>
                             </TouchableOpacity></View>
 
                     )
@@ -204,12 +220,16 @@ const Stack = createStackNavigator({
     calendarDetail: {
         screen: calendarDetail,
     },
-    FebradaDetail: {
-        screen: FebradaDetail,
+    eventDetail: {
+        screen: eventDetail,
+    },
+    teamDetail:{
+        screen: teamDetail,
     },
 
-    resetPassword:{
-        screen:resetPassword
+    
+    event:{
+        screen: event
     }
 });
 

@@ -29,7 +29,8 @@ const formatObj = obj => {
 
   return a;
 };
-
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
 class Calendar extends React.Component {
   state = {
     index: 0,
@@ -45,9 +46,12 @@ class Calendar extends React.Component {
   };
 
   componentDidMount() {
-    this.props.getEvents(this.props.user);
 
-    this.props.getSessions(this.props.token);
+
+   // this.props.getSessions(this.props.token);
+
+   // this.props.getEvents(this.props.user,this.props.careerPath);
+
   }
 
   _openDetails = () => {
@@ -64,22 +68,11 @@ class Calendar extends React.Component {
         <View style={styles.event}>
           <View style={styles.titleContainer}>
             <Text style={[styles.title]}>{item.name}</Text>
-            <Text style={{ color: "black" }}>Local: 1</Text>
+            <Text style={{ color: "black" }}>{item.place}</Text>
           </View>
 
           <View>
             <Text style={styles.description}>{item.description}</Text>
-            <View style={styles.details}>
-              <Progress.Bar
-                color={"#000000"}
-                progress={0}
-                unfilledColor={"white"}
-                width={210}
-              />
-              <Text>
-                {item.Enrolled} / {item.MaxAttendees}
-              </Text>
-            </View>
           </View>
         </View>
       </TouchableOpacity>
@@ -141,12 +134,14 @@ class Calendar extends React.Component {
     super();
   }
   _refresh=()=>{
-    this.props.getEvents(this.props.user);
+    this.props.getEvents(this.props.user,this.props.careerPath, this.props.token);
+
     
   }
 
   render() {
     const ThirdRoute = () => (
+      
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {this.props.events != undefined && (
           <Timeline
@@ -214,6 +209,7 @@ class Calendar extends React.Component {
       </ScrollView>
     );
     const FirstRoute = () => (
+     
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {this.props.events != undefined && (
           <Timeline
@@ -242,6 +238,7 @@ class Calendar extends React.Component {
           />
         )}
       </ScrollView>
+   
     );
     const SecondRoute = () => (
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -315,11 +312,12 @@ class Calendar extends React.Component {
             height: Dimensions.get("window").height
           }}
           style={{ backgroundColor: "#F2F2F2" }}
-          indicatorStyle={{ backgroundColor: "pink" }}
-        />
-         <Button onPress={this._refresh} title="Refresh" color="#841584"
-                                      />
+          indicatorStyle={{ backgroundColor: "pink"}}
+        /><View style={{ alignContent:'center', alignItems:'center', backgroundColor:'transparent',position: 'absolute',marginTop:SCREEN_HEIGHT*0.75,marginLeft:10}}><Button onPress={this._refresh} title="Refresh" color="#CC1A17"
+        /></View>
+        
       </View>
+
 
       
     );

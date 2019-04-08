@@ -8,9 +8,15 @@ import {
   Text,
   Button,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  ListView,
+  FlatList,
+  ActivityIndicator,
+  Linking,
+  Platform
 } from "react-native";
 
+import moment from "moment";
 import { Divider, Icon, Avatar } from "react-native-elements";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
 import { RkButton, RkCard, RkText, RkTheme } from "react-native-ui-kitten";
@@ -47,7 +53,7 @@ class calendarDetail extends React.Component {
     header: (
       <NavAbsolute
         navigation={navigation}
-        // title={navigation.state.params.info.name}
+      // title={navigation.state.params.info.name}
       />
     )
   });
@@ -55,13 +61,11 @@ class calendarDetail extends React.Component {
   state = {};
 
   componentDidMount() {
-    this.props.getEvents(this.props.user);
-    console.log("didMount");
-    console.log(this.props.events);
+    this.props.getEvents(this.props.user, this.props.careerPath);
+
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");
-    console.log("putas");
-    console.log(info);
+    this.props.getSessionDetails(this.props.token, info.Id);
   }
 
   _update = () => {
@@ -75,202 +79,187 @@ class calendarDetail extends React.Component {
     this.data = [];
   }
 
-  renderHeader = info => {
-    return (
-      <View style={styles.headerContainer}>
-        <View style={styles.coverContainer}>
-          <ImageBackground
-            source={{
-              uri: info.imageUrl
-            }}
-            style={styles.coverImage}
-          />
-        </View>
-      </View>
-    );
-  };
-
-  renderDescription = info => {
-    return (
-      <View>
-        <View style={styles.header}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              alignSelf: "center"
-            }}
-          >
-            <View style={styles.timeText}>
-              <Text style={{ color: "#CC1A17", fontSize: 15 }}>
-                {info.time === info.timeEnd
-                  ? info.time
-                  : `${info.time}H - ${info.timeEnd}H`}
-              </Text>
-            </View>
-          </View>
-          <View>
-            <Text
-              style={{
-                margin: 10,
-                marginBottom: 0,
-                marginTop: 0,
-                fontSize: 20,
-                color: "#CC1A17"
-              }}
-            >
-              {info.name}
-            </Text>
-            <Text style={{ marginLeft: 10 }}>Workshop</Text>
-          </View>
-
-          <View style={{ margin: 10 }}>
-            <Progress.Bar
-              color={"#000000"}
-              progress={info.Enrolled / info.MaxAttendees}
-              height={10}
-              unfilledColor={"white"}
-              width={210}
-            />
-            <Text>
-              {info.Enrolled} / {info.MaxAttendees}
-            </Text>
-          </View>
-          <Divider style={{ backgroundColor: "#eeeeee" }} />
-          <View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
-            <View style={{ width: 100, height: 100, padding: 5 }}>
-              <FitImage
-                source={{
-                  uri:
-                    "http://enei2019.uingress.com/adminpoint/Content/Images/Uploads/Speakers/ffb043cb-3073-421c-a070-5d273b50fc23.jpeg"
-                }}
-                style={{ padding: 5 }}
-              />
-            </View>
-            <View>
-              <Text style={{ fontWeight: "bold", fontSize: 20, margin: 10 }}>
-                André Duarte
-              </Text>
-              <Text style={{ marginLeft: 10 }}>
-                Project manager at ubiwhere
-              </Text>
-              <TouchableOpacity>
-                <Text style={{ color: "#CC1A17", marginLeft: 10 }}>
-                  website
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View>
-            <Text
-              style={{
-                fontWeight: "bold",
-                color: "#CC1A17",
-                margin: 10,
-                marginBottom: 0,
-                fontSize: 15
-              }}
-            >
-              Descrição do orador:
-            </Text>
-            <Text style={{ margin: 10 }}>
-              Existem muitas variações das passagens do Lorem Ipsum disponíveis,
-              mas a maior parte sofreu alterações de alguma forma, pela injecção
-              de humor, ou de palavras aleatórias que nem sequer parecem
-              suficientemente credíveis.{" "}
-            </Text>
-          </View>
-        </View>
-
-        <View style={styles.block}>
-          <Text style={{ fontSize: 15, color: "#CC1A17", fontWeight:'bold' }}>Descrição da palestra/workshop</Text>
-          <Divider style={{ backgroundColor: "#000" }} />
-          <View style={{ marginTop: 10 }}>
-            <Text>{info.description}</Text>
-          </View>
-        </View>
-      </View>
-    );
-  };
-  /*
-
-    renderMap = () => {
-        return (
-            <MapView
-                provider={PROVIDER_GOOGLE}
-                style={{flex: 2}}
-                region={{
-                    latitude: 40.19092111672049,
-                    latitudeDelta: 0.007664297080957283,
-                    longitude: -8.410662319511175,
-                    longitudeDelta: 0.007551424205303192
-                }}
-                onRegionChangeComplete={(region) => {
-
-                    console.log(region);
-
-                }}
-
-            />
-        )
-    };
-*/
-  renderAttendee = () => {
-    return (
-      <View style={{ backgroundColor: "#fff", height: SCREEN_HEIGHT * 0.1 }}>
-        <View style={styles.AttendeeContainer}>
-          <View style={styles.leftRow}>
-            <Avatar
-              rounded
-              size="medium"
-              source={{
-                uri:
-                  "https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"
-              }}
-            />
-          </View>
-          <View style={styles.centerRow}>
-            <Text style={styles.titleText} numberOfLines={1}>
-              Nome do gajo
-            </Text>
-          </View>
-          <View style={styles.rightRow}>
-            <Icon
-              size={24}
-              name="visibility"
-              type="material-icon"
-              onPress={() => navigation.goBack(null)}
-              color="#000"
-              iconStyle={styles.icon}
-              underlayColor="transparent"
-              underlineColorAndroid="transparent"
-              containerStyle={styles.iconContainer}
-              hitSlop={{ top: 15, bottom: 15, left: 15, right: 15 }}
-            />
-          </View>
-        </View>
-      </View>
-    );
-  };
 
   render() {
     const { navigation } = this.props;
     const info = navigation.getParam("info", "error");
 
+    if (this.props.sessionDetail == undefined) {
+      return (<View style={{ flex: 1, alignSelf: 'center', margin: SCREEN_HEIGHT * 0.45 }}>
+        <ActivityIndicator size="large" color="#CC1A17" />
+      </View>
+
+      )
+    }
+
     return (
+      info != undefined &&
       <View style={styles.mainViewStyle}>
         <ScrollView style={styles.scroll}>
           <View style={styles.container}>
             <View style={styles.headerContainer}>
-              {this.renderHeader(info)}
+              <View style={styles.headerContainer}>
+                <View style={styles.coverContainer}>
+                  <ImageBackground
+                    source={{
+                      uri: `https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Sessions/${this.props.sessionDetail.Image}`
+                    }}
+                    style={styles.coverImage}
+                  />
+                </View>
+              </View>
             </View>
-            {this.renderDescription(info)}
+            <View>
+              <View style={styles.header}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    alignSelf: "center"
+                  }}
+                >
+                  <View style={styles.timeText}>
+                    <Text style={{ color: "#CC1A17", fontSize: 15 }}>
+                      {`${moment(this.props.sessionDetail.SessionStart).format("HH:mm")}H - ${moment(this.props.sessionDetail.SessionEnd).format("HH:mm")}H`}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      margin: 10,
+                      marginBottom: 0,
+                      marginTop: 0,
+                      fontSize: 20,
+                      color: "#CC1A17"
+                    }}
+                  >
+                    {this.props.sessionDetail.Name}
+                  </Text>
+
+                </View>
+
+                <View style={{ margin: 10 }}>
+                  {this.props.sessionDetail.Enrolled != 0 && this.props.sessionDetail.MaxAttendees != 0 &&
+                    <Progress.Bar
+                      color={"#000000"}
+                      progress={this.props.sessionDetail.Enrolled / this.props.sessionDetail.MaxAttendees}
+                      height={10}
+                      unfilledColor={"white"}
+                      width={210}
+                    />}
+                  <Text>
+                    {this.props.sessionDetail.Enrolled} / {this.props.sessionDetail.MaxAttendees}
+                  </Text>
+                </View>
+                {this.props.sessionDetail != undefined && (
+                  <FlatList
+                    data={this.props.sessionDetail.Speakers}
+                    renderItem={({ item }) => (
+                      <View>
+                        <View
+                          style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            marginTop: 10
+                          }}
+                        >
+                          <View style={{ width: 100, height: 100, padding: 5 }}>
+                            <FitImage
+                              source={{
+                                uri:
+                                  "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Speakers/ffb043cb-3073-421c-a070-5d273b50fc23.jpeg"
+                              }}
+                              style={{ padding: 5 }}
+                            />
+                          </View>
+                          <View>
+                            <Text
+                              style={{
+                                fontWeight: "bold",
+                                fontSize: 20,
+                                margin: 10
+                              }}
+                            >
+                              {item.Name}
+                            </Text>
+                            <Text style={{ marginLeft: 10 }}>
+                              {item.MoreInfo}
+                            </Text>
+                            <TouchableOpacity>
+                              <Text
+                                style={{ color: "#CC1A17", marginLeft: 10 }}
+                              >
+                                {item.Title}
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                        <View>
+                          <Text
+                            style={{
+                              fontWeight: "bold",
+                              color: "#CC1A17",
+                              margin: 10,
+                              marginBottom: 0,
+                              fontSize: 15
+                            }}
+                          >
+                            Descrição do orador:
+                          </Text>
+                          <Text style={{ margin: 10 }}>{item.Description}</Text>
+                        </View>
+                      </View>
+                    )}
+                  />
+                )}
+              </View>
+
+              <View style={styles.block}>
+                <Text
+                  style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" }}
+                >
+                  Descrição da palestra/workshop
+                </Text>
+                <Divider style={{ backgroundColor: "#000" }} />
+                <View style={{ marginTop: 10 }}>
+                  <Text>{this.props.sessionDetail.Description}</Text>
+                </View>
+              </View>
+            </View>
           </View>
-          <View style={styles.block}>
-            <Text style={{ fontSize: 15, color: "#CC1A17",fontWeight:'bold' }}>Localização</Text>
-            <Divider style={{ backgroundColor: "#000", marginBottom: 10 }} />
-            <Image source={require('../assets/img/campus.png')} style={{width:SCREEN_WIDTH*0.9}}></Image>
-          </View>
+          {
+            this.props.sessionDetail.LocalRoom != undefined && this.props.sessionDetail.LocalCoordinates != undefined &&
+
+            <View style={styles.block}>
+              <Text
+                style={{ fontSize: 15, color: "#CC1A17", fontWeight: "bold" }}
+              >
+                Localização
+            </Text>
+              <Divider style={{ backgroundColor: "#000", marginBottom: 10 }} />
+              <Text style={{marginBottom:20}}>{this.props.sessionDetail.LocalRoom}</Text>
+              <Button
+                 onPress={() => {
+                  
+                const scheme = Platform.select({
+                  ios: "maps:0,0?q=",
+                  android: "geo:0,0?q="
+                });
+                const latLng = this.props.sessionDetail.LocalCoordinates;
+                const label = this.props.sessionDetail.LocalRoom;
+                const url = Platform.select({
+                  ios: `${scheme}${label}@${latLng}`,
+                  android: `${scheme}${latLng}(${label})`
+                });
+
+                Linking.openURL(url);
+              }}
+                  title={"Abrir no Mapa"}
+                  color={"#CC1A17"}
+                />
+            </View>
+          }
         </ScrollView>
         <Divider style={{ backgroundColor: "black" }} />
       </View>
@@ -481,7 +470,8 @@ function mapStateToProps(state, props) {
     user: state.apiReducer.user,
     logged: state.apiReducer.logged,
     events: state.apiReducer.events,
-    careerPath: state.apiReducer.careerPath
+    careerPath: state.apiReducer.careerPath,
+    sessionDetail: state.apiReducer.sessionDetail
   };
 }
 

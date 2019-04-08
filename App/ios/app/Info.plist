@@ -2,20 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string></string>
-		<string>FontAwesome5_Solid.ttf</string>
-		<string>FontAwesome5_Regular.ttf</string>
-		<string>FontAwesome5_Brands.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>Ionicons.ttf</string>
-	</array>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>CFBundleDisplayName</key>
-	<string>app</string>
+	<string>ENEI 2019</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -27,11 +15,13 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>12</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -47,21 +37,47 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>A camera é usada para ler os QR codes presentes no evento. Facilita o uso da aplicação.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Not used, just added this key because i used react-native and needed this keys for approval.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MaterialIcons.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) camera use</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

@@ -100,11 +100,17 @@ namespace api.Migrations
 
                     b.Property<string>("QRCode");
 
-                    b.Property<int?>("imgId");
+                    b.Property<string>("img");
+
+                    b.Property<string>("logo");
+
+                    b.Property<int>("pontos");
+
+                    b.Property<bool>("unlocked");
+
+                    b.Property<string>("websiteCromo");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("imgId");
 
                     b.ToTable("Cromos");
                 });
@@ -117,6 +123,18 @@ namespace api.Migrations
                     b.Property<string>("Desc");
 
                     b.Property<string>("Nome");
+
+                    b.Property<bool>("aDecorrer");
+
+                    b.Property<string>("custo");
+
+                    b.Property<string>("horas");
+
+                    b.Property<string>("imagem");
+
+                    b.Property<string>("localizacao");
+
+                    b.Property<string>("notas");
 
                     b.HasKey("Id");
 
@@ -134,11 +152,21 @@ namespace api.Migrations
 
                     b.Property<int?>("ImgId");
 
-                    b.Property<float>("Lat");
+                    b.Property<double>("Lat");
 
-                    b.Property<float>("Long");
+                    b.Property<double>("Long");
 
                     b.Property<string>("Nome");
+
+                    b.Property<string>("desafio");
+
+                    b.Property<string>("localizacao");
+
+                    b.Property<string>("mainPhoto");
+
+                    b.Property<int>("pontos");
+
+                    b.Property<string>("squarePhoto");
 
                     b.HasKey("Id");
 
@@ -155,6 +183,8 @@ namespace api.Migrations
                     b.Property<int?>("LocationId");
 
                     b.Property<int?>("TeamId");
+
+                    b.Property<bool>("complete");
 
                     b.Property<DateTime>("timestamp");
 
@@ -275,6 +305,10 @@ namespace api.Migrations
 
                     b.Property<int>("Pontos");
 
+                    b.Property<bool>("pagamento");
+
+                    b.Property<string>("pagamentoVerifyCode");
+
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
@@ -326,7 +360,13 @@ namespace api.Migrations
 
                     b.Property<int>("food");
 
+                    b.Property<string>("fullName");
+
+                    b.Property<string>("profileImage");
+
                     b.Property<int?>("teamID");
+
+                    b.Property<string>("university");
 
                     b.HasKey("Id");
 
@@ -397,13 +437,6 @@ namespace api.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("api.Models.Cromos", b =>
-                {
-                    b.HasOne("api.Models.Photo", "img")
-                        .WithMany()
-                        .HasForeignKey("imgId");
                 });
 
             modelBuilder.Entity("api.Models.EventLoc", b =>

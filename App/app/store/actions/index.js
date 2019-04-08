@@ -19,7 +19,18 @@ export {checkUser,
     waitLogin,
     removeSession,
     changePassword,
-    resetPassword
+    resetPassword,
+    getSessionDetails,
+    getUserTeam,
+    addUserTeam,
+    removeUserTeam,
+    getAllEvents,
+    createTeam,
+    deleteTeam,
+    getCromos,
+    getEventLocsVisited,
+    scanQrCode,
+    changeTeamName
     
 } from "./api"
 

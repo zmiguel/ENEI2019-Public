@@ -31,6 +31,7 @@ namespace api.Controllers
         
         // GET api/events
         // GET all events
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetEvents()
         {
