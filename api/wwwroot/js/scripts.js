@@ -84,11 +84,134 @@ if (cookie) {
 */
 // end cookies code
 
+//  functionalitys of calendar
+function calendarFunctionality() {
+    var dayButtons = document.getElementById("event-days-list");
+    var daySelected = null;
+    var contentVisible = null;
+
+    if (dayButtons) {
+        dayButtons.querySelectorAll("button").forEach(function (button) {
+            button.addEventListener("click", function () {
+                daySelected = this.getAttribute("data-eventday");
+                contentVisible = document.getElementById("content-container").querySelector(".content[data-eventContent='" + daySelected + "']");
+                //  actions on links
+                document.getElementById("event-days-list").querySelector(".selected").classList.remove("selected");
+                this.classList.add("selected");
+                //  actions on content
+                document.getElementById("content-container").querySelector(".visible").classList.remove("visible");
+                contentVisible.classList.add("visible");
+            });
+        })
+    }
+
+}
+
+function toggleModalOverlay() {
+    var modalOverlay = document.getElementById("overlay");
+
+    if (modalOverlay.className == 'visible') {
+        modalOverlay.style.opacity = "0";
+        setTimeout(function () {
+            modalOverlay.classList.remove('visible');
+        }, 150);
+    } else {
+        modalOverlay.style.opacity = ".95";
+        modalOverlay.classList.add('visible');
+    }
+}
+
+function toggleModal(modalId) {
+    var modalContainer = document.getElementById(modalId);
+
+    if (modalContainer.getAttribute('data-status') != 'opened') {
+        //	add body class to remove scroll
+        disableScroll();
+        //	show modal 
+        modalContainer.style.opacity = "1";
+        //	add class 'opened' to modal container to show it
+        modalContainer.setAttribute("data-status", "opened");
+    } else {
+        //	remove body class to remove scroll
+        enableScroll();
+        //	remove class 'opened' to modal container to hide it
+        modalContainer.style.opacity = "0";
+        setTimeout(function () {
+            modalContainer.setAttribute("data-status", "closed");
+        }, 150);
+    }
+}
+
+function preventDefault(e) {
+    e = e || window.event;
+    if (e.preventDefault) e.preventDefault();
+    e.returnValue = false;
+}
+
+//	disable scroll/touchmove
+function disableScroll() {
+    var bodyElement = document.querySelector("body");
+    bodyElement.classList.add("blockY");
+    if (window.addEventListener) {
+        window.addEventListener('DOMMouseScroll', preventDefault, false);
+    } // older FF
+    window.onwheel = preventDefault; // modern standard
+    window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+    window.ontouchmove = preventDefault; // mobile
+}
+
+//	enable scroll/touchmove
+function enableScroll() {
+    var bodyElement = document.querySelector("body");
+    bodyElement.classList.remove("blockY");
+    if (window.removeEventListener) {
+        window.removeEventListener('DOMMouseScroll', preventDefault, false);
+    }
+    window.onmousewheel = document.onmousewheel = null;
+    window.onwheel = null;
+    window.ontouchmove = null;
+}
+
 $(document).ready(function () {
+
+    calendarFunctionality();
+
+    //	close opened modal in overlay click
+    document.getElementById("overlay").addEventListener('click', function (event) {
+        var openedModal = document.querySelector(".modal-container[data-status='opened']").getAttribute("id");
+
+        toggleModalOverlay();
+        toggleModal(openedModal);
+    });
+
+    //	open modals button
+    document.querySelectorAll(".modal-link").forEach(function (modalButton) {
+        modalButton.addEventListener('click', function (event) {
+
+            var modalContainer = this.getAttribute("data-modalLink");
+
+            toggleModalOverlay();
+            toggleModal(modalContainer);
+
+        });
+    });
+
+    //	close modals button
+    document.querySelectorAll(".modal-close").forEach(function (modalCloseButton) {
+        modalCloseButton.addEventListener('click', function (event) {
+            var modalContainer = this.getAttribute("data-modalContainer");
+
+            // close newsletter modal dont toggle overlay
+            toggleModalOverlay();
+            toggleModal(modalContainer);
+        });
+    });
 
     // inicial animation
     setTimeout(function () {
-        document.getElementById("apresentation").classList.add("animated");
+        if (document.getElementById("apresentation")) {
+            document.getElementById("apresentation").classList.add("animated");
+        }
     }, 1200);
 
     //  main menu anchors
@@ -180,32 +303,34 @@ function openPage(pageName, elmnt, color) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+        tabcontent[i].style.display = "none";
     }
-  
+
     // Remove the background color of all tablinks/buttons
     tablinks = document.getElementsByClassName("tablink");
     for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].style.backgroundColor = "";
-      tablinks[i].style.color = "";
-      tablinks[i].style.borderTop= "0px";
-      tablinks[i].style.fontWeight= "";
-      
+        tablinks[i].style.backgroundColor = "";
+        tablinks[i].style.color = "";
+        tablinks[i].style.borderTop = "0px";
+        tablinks[i].style.fontWeight = "";
+
 
     }
-  
+
     // Show the specific tab content
     document.getElementById(pageName).style.display = "block";
-  
+
     // Add the specific color to the button used to open the tab content
     elmnt.style.backgroundColor = color;
-    elmnt.style.color="#CC1A17";
-    elmnt.style.borderTop= "2px solid #cc1a17";
-    elmnt.style.borderRadius="2px"
-    elmnt.style.fontWeight="bold"
-  }
-  
-  // Get the element with id="defaultOpen" and click on it
-  document.getElementById("defaultOpen").click();
+    elmnt.style.color = "#CC1A17";
+    elmnt.style.borderTop = "2px solid #cc1a17";
+    elmnt.style.borderRadius = "2px"
+    elmnt.style.fontWeight = "bold"
+}
+
+// Get the element with id="defaultOpen" and click on it
+if (document.getElementById("defaultOpen")) {
+    document.getElementById("defaultOpen").click();
+}
 
 
