@@ -35,7 +35,7 @@ namespace api.Controllers
         {   
                return View("Views/Landing/1stpage.cshtml");
         }
-        
+         [AllowAnonymous]
         [HttpGet("")]
        
         public IActionResult landingPage()
