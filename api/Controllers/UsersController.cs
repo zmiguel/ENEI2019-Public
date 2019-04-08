@@ -87,8 +87,9 @@ namespace api.Controllers
         }
 
 
-        [AllowAnonymous]
+       
         //[Authorize(Policy = "RequireAdminRole")]
+         [AllowAnonymous]
         [HttpPost("updateAll")]
         public async Task<IActionResult> UpdateUsers([FromBody] updateUsersDTO[] req)
         {
