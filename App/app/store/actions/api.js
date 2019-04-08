@@ -1401,7 +1401,8 @@ function getE(user, careerPath, token) {
         name: user.Sessions[key].Name,
         Enrolled: user.Sessions[key].Enrolled,
         MaxAttendees: user.Sessions[key].MaxAttendees,
-        day: moment(user.Sessions[key].SessionStart).format("DD")
+        day: moment(user.Sessions[key].SessionStart).format("DD"),
+        LocalRoom: user.Sessions[key].LocalRoom
       });
     }
   }
@@ -1653,7 +1654,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["12"][key].Enrolled,
       MaxAttendees: result["12"][key].MaxAttendees,
       day: result["12"][key].day,
-      place: ""
+      place: result["12"][key].LocalRoom
     });
   }
 
@@ -1668,7 +1669,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["13"][key].Enrolled,
       MaxAttendees: result["13"][key].MaxAttendees,
       day: result["13"][key].day,
-      place: ""
+      place: result["13"][key].LocalRoom
     });
   }
   for (let key in result["14"]) {
@@ -1682,7 +1683,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["14"][key].Enrolled,
       MaxAttendees: result["14"][key].MaxAttendees,
       day: result["14"][key].day,
-      place: ""
+      place: result["14"][key].LocalRoom
     });
   }
 
@@ -1697,7 +1698,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["15"][key].Enrolled,
       MaxAttendees: result["15"][key].MaxAttendees,
       day: result["15"][key].day,
-      place: ""
+      place: result["15"][key].LocalRoom
     });
   }
   a = _.sortBy(a, function (o) {

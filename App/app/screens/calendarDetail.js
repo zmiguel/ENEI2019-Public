@@ -168,7 +168,7 @@ class calendarDetail extends React.Component {
                             <FitImage
                               source={{
                                 uri:
-                                  "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Speakers/ffb043cb-3073-421c-a070-5d273b50fc23.jpeg"
+                                  `https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Speakers/${item.Photo}`
                               }}
                               style={{ padding: 5 }}
                             />

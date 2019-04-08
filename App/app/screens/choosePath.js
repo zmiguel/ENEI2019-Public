@@ -825,8 +825,10 @@ class choosePath extends React.Component {
                                               <Text
                                                 style={{
                                                   fontSize: 15,
-                                                  fontWeight: "bold"
+                                                  fontWeight: "bold",
+                                                  maxWidth:150
                                                 }}
+                                             
                                               >
                                                 {item[index].Name}
                                               </Text>
