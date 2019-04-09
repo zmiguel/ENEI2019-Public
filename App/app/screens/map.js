@@ -30,7 +30,7 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import PTRView from "react-native-pull-to-refresh";
 
 const images = [{
-    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
+    url: 'https://enei.pt/imgs/mapa.png'
 },]
 
 class map extends React.Component {
@@ -41,22 +41,10 @@ class map extends React.Component {
       this.props.internalToken
     );
   };
-  state = {
-    index: 0,
-    routes: [
-      { key: "first", title: "Festarola" },
-      { key: "second", title: "Febrada" },
-      { key: "third", title: "Rally" },
-      { key: "fourth", title: "Peddy" }
-    ]
-  };
+ 
 
   componentDidMount() {
-    this.props.getAllEvents(this.props.internalToken);
-    this.props.getEventLocsVisited(
-      this.props.team.id,
-      this.props.internalToken
-    );
+  
   }
 
   render() {
@@ -71,54 +59,7 @@ class map extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  cardHours: {
-    textAlign: "center",
-    color: "white",
-    margin: 10,
-    width:'45%'
-  },
-
-  cardDesc: {
-    //alignSelf:'center',
-    backgroundColor: "#CC1A17",
-    // flex:1,
-    flexDirection: "row"
-  },
-  cardDescText: {
-    fontWeight: "bold",
-    color: "white",
-    fontSize: 18,
-
-    width: "45%",
-    margin: 10
-  },
-  container: {
-    backgroundColor: "white",
-    flex: 1,
-    flexGrow: 1,
-    flexDirection: "column",
-    paddingBottom: 20
-  },
-
-  scroll: {
-    flex: 1
-  },
-
-  cardContainer: {
-    flex: 1,
-    //flexDirection: 'row',
-    //padding: 10,
-    margin: 20,
-    marginBottom: 0,
-    backgroundColor: "#fff",
-    height: SCREEN_WIDTH * 0.62,
-    borderRadius: 5
-    //borderWidth: 2,
-  },
-
-  scene: {
-    flex: 1
-  }
+  
 });
 
 function mapStateToProps(state, props) {

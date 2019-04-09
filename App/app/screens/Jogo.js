@@ -333,7 +333,8 @@ const styles = StyleSheet.create({
     marginTop: -25,
     marginLeft: 10,
     fontWeight: "bold",
-    color: "#CC1A17"
+    color: "#CC1A17",
+  //  backgroundColor:"#cc1a17",
   },
 
   cromosContainer: {
@@ -418,9 +419,11 @@ const styles = StyleSheet.create({
     marginTop: 156
   },
   number: {
-    marginTop: -18,
-    marginLeft: 103,
-    textAlign: "center"
+    marginTop: -13,
+    marginLeft: 100,
+    textAlign: "center",
+
+    color:'#cc1a17'
   }
 });
 
