@@ -210,7 +210,7 @@ class teamDetail extends React.Component {
                               >
                                 {item.location.nome}
                               </Text>
-                              <Text style={{ fontSize: 12, padding: 15 }}>
+                              <Text style={{ fontSize: 12, padding: 15 }} numberOfLines={5}>
                                 {item.location.desc}
                               </Text>
                             </View>

@@ -68,7 +68,7 @@ export function scanQrCode(data, tokenInternal) {
       })
       .catch(err => {
         console.log(err);
-        Alert.alert("ERRO!", "Existiu um no scan do QRCode");
+        Alert.alert("ERRO!", "Existiu um erro no scan do QRCode\nOu esse QR code não existe ou já tens o cromo conquistado.");
       });
   };
 }
@@ -160,7 +160,7 @@ export function getCromos(user, tokenInternal) {
       })
       .catch(p => {
         console.log(p);
-        Alert.alert("ERRO!", "erro a obter os eventos");
+        Alert.alert("ERRO!", "Erro a obter os cromos.");
       });
 
     dispatch({
@@ -864,32 +864,32 @@ function getCareerPath(sessions) {
   for (let key in sessions) {
     if (sessions[key].Name == "IA") {
       careerPath = "Artificial Intelligence";
-      careerColor = "#CC1A17";
+      careerColor = "#F54B10";
       code = "IA";
     }
     if (sessions[key].Name == "IOT") {
-      careerPath = "Internet of things";
-      careerColor = "#4B266A";
+      careerPath = "Internet of Things";
+      careerColor = "#EC174A";
       code = "IOT";
     }
     if (sessions[key].Name == "WEB") {
-      careerPath = "Web development";
-      careerColor = "#FBB81B";
+      careerPath = "Web Development";
+      careerColor = "#3A1484";
       code = "WEB";
     }
     if (sessions[key].Name == "NET") {
       careerPath = "Networking and Security";
-      careerColor = "#055CA0";
+      careerColor = "#214198";
       code = "NET";
     }
     if (sessions[key].Name == "MOB") {
       careerPath = "Mobile Development";
-      careerColor = "#0B7D3C";
+      careerColor = "#971384";
       code = "MOB";
     }
     if (sessions[key].Name == "DS") {
       careerPath = "Data Science";
-      careerColor = "#ED6B33";
+      careerColor = "#DC160D";
       code = "DS";
     }
   }
@@ -1401,7 +1401,8 @@ function getE(user, careerPath, token) {
         name: user.Sessions[key].Name,
         Enrolled: user.Sessions[key].Enrolled,
         MaxAttendees: user.Sessions[key].MaxAttendees,
-        day: moment(user.Sessions[key].SessionStart).format("DD")
+        day: moment(user.Sessions[key].SessionStart).format("DD"),
+        LocalRoom: user.Sessions[key].LocalRoom
       });
     }
   }
@@ -1412,163 +1413,63 @@ function getE(user, careerPath, token) {
     c = [],
     d = [];
 
-  //MEU DEUS QUE É ISTO???
-  if (careerPath != undefined && careerPath.code == "IA" || careerPath.code == "WEB") {
-    b.push({
-      Id: 22,
-      time: "13:30",
-      description: "Almoço para os career path's de IA e WEB",
-      day: "13",
-      name: "Almoço",
-      place: "Cantina do ISEC"
-    })
-    c.push({
-      Id: 22,
-      time: "13:30",
-      description: "Almoço para os career path's de IA e WEB",
-      day: "14",
-      name: "Almoço",
-      place: "Cantina do ISEC"
-    })
-    d.push({
-      Id: 22,
-      time: "13:30",
-      description: "Almoço para os career path's de IA e WEB",
-      day: "15",
-      name: "Almoço",
-      place: "Cantina do ISEC"
-    })
-    a.push({
-      Id: 22,
-      time: "19:00",
-      description: "Jantar para os career path's de IA e WEB",
-      day: "12",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    b.push({
-      Id: 22,
-      time: "19:00",
-      description: "Jantar para os career path's de IA e WEB",
-      day: "13",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    c.push({
-      Id: 22,
-      time: "19:00",
-      description: "Jantar para os career path's de IA e WEB",
-      day: "14",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-  }
-  if (careerPath != undefined && careerPath.code == "IOT" || careerPath.code == "NET") {
-    b.push({
-      Id: 22,
-      time: "12:15",
-      description: "Almoço para os career path's de IOT e NET",
-      day: "13",
-      name: "Almoço",
-      place: "Cantina do ISEC"
-    })
-    c.push({
-      Id: 22,
-      time: "12:15",
-      description: "Almoço para os career path's de IOT e NET",
-      day: "14",
-      name: "Almoço",
-      place: "Cantina do ISEC"
-    })
-    d.push({
-      Id: 22,
-      time: "12:15",
-      description: "Almoço para os career path's de IOT e NET",
-      day: "15",
-      name: "Almoço",
-      place: "Cantina do ISEC"
-    })
-    a.push({
-      Id: 22,
-      time: "19:30",
-      description: "Jantar para os career path's de IOT e NET ",
-      day: "12",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    b.push({
-      Id: 22,
-      time: "19:30",
-      description: "Jantar para os career path's de IOT e NET",
-      day: "13",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    c.push({
-      Id: 22,
-      time: "19:30",
-      description: "Jantar para os career path de IOT e NET",
-      day: "14",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-  }
-  if (careerPath != undefined && careerPath.code == "DS" || careerPath.code == "MOB") {
-    b.push({
-      Id: 22,
-      time: "12:45",
-      description: "Almoço para os career paths de DS e MOB ",
-      day: "13",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    c.push({
-      Id: 22,
-      time: "12:45",
-      description: "Almoço para os career paths de DS e MOB ",
-      day: "13",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    d.push({
-      Id: 22,
-      time: "12:45",
-      description: "Almoço para os career paths de DS e MOB ",
-      day: "13",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    a.push({
-      Id: 22,
-      time: "20:00",
-      description: "Jantar para os career paths de DS e MOB ",
-      day: "12",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    b.push({
-      Id: 22,
-      time: "20:00",
-      description: "Jantar para os career paths de DS e MOB ",
-      day: "13",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-    c.push({
-      Id: 22,
-      time: "20:00",
-      description: "Jantar para os career paths de DS e MOB ",
-      day: "14",
-      name: "Jantar",
-      place: "Cantina do ISEC"
-    });
-  }
 
+    b.push({
+      Id: 22,
+      time: "12:15",
+      description: "Poderás escolher entre carne, peixe ou prato vegetariano e ainda tens uma sopa e sobremesa",
+      day: "13",
+      name: "Almoço.",
+      place: "Cantina do ISEC"
+    })
+    c.push({
+      Id: 23,
+      time: "12:15",
+      description: "Poderás escolher entre carne, peixe ou prato vegetariano e ainda tens uma sopa e sobremesa.",
+      day: "14",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
+    d.push({
+      Id: 24,
+      time: "12:15",
+      description: "Poderás escolher entre carne, peixe ou prato vegetariano e ainda tens uma sopa e sobremesa.",
+      day: "15",
+      name: "Almoço",
+      place: "Cantina do ISEC"
+    })
+    a.push({
+      Id: 35,
+      time: "19:00",
+      description: "Foi um longo dia e estás cheio de fome, dirigi-te à nossa cantina para usufruires do jantar. Poderás escolher entre carne, peixe ou prato vegetariano e ainda tens uma sopa e sobremesa.       ",
+      day: "12",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    b.push({
+      Id: 36,
+      time: "19:00",
+      description: "Foi um longo dia e estás cheio de fome, dirigi-te à nossa cantina para usufruires do jantar. Poderás escolher entre carne, peixe ou prato vegetariano e ainda tens uma sopa e sobremesa.",
+      day: "13",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+    c.push({
+      Id: 37,
+      time: "19:00",
+      description: "Foi um longo dia e estás cheio de fome, dirigi-te à nossa cantina para usufruires do jantar. Poderás escolher entre carne, peixe ou prato vegetariano e ainda tens uma sopa e sobremesa. ",
+      day: "14",
+      name: "Jantar",
+      place: "Cantina do ISEC"
+    });
+  
+
+  
   a.push({
     Id: 48,
     time: "21:00",
     description:
-      "Festarola do evento",
+      "Para começar o primeiro dia em grande, temos reservado para ti a maior festa",
     name: "Festarola",
     Enrolled: 700,
     MaxAttendees: 300,
@@ -1653,7 +1554,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["12"][key].Enrolled,
       MaxAttendees: result["12"][key].MaxAttendees,
       day: result["12"][key].day,
-      place: ""
+      place: result["12"][key].LocalRoom
     });
   }
 
@@ -1668,7 +1569,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["13"][key].Enrolled,
       MaxAttendees: result["13"][key].MaxAttendees,
       day: result["13"][key].day,
-      place: ""
+      place: result["13"][key].LocalRoom
     });
   }
   for (let key in result["14"]) {
@@ -1682,7 +1583,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["14"][key].Enrolled,
       MaxAttendees: result["14"][key].MaxAttendees,
       day: result["14"][key].day,
-      place: ""
+      place: result["14"][key].LocalRoom
     });
   }
 
@@ -1697,7 +1598,7 @@ function getE(user, careerPath, token) {
       Enrolled: result["15"][key].Enrolled,
       MaxAttendees: result["15"][key].MaxAttendees,
       day: result["15"][key].day,
-      place: ""
+      place: result["15"][key].LocalRoom
     });
   }
   a = _.sortBy(a, function (o) {
@@ -1938,7 +1839,7 @@ export function getUserInfo(token) {
                   axios.defaults.baseURL = "https://api.enei.pt";
 
                   axios
-                    .get(`api / EventLocsVisited / t / ${v.data.id}`)
+                    .get(`/api/EventLocsVisited/t/${v.data.id}`)
                     .then(c => {
 
                       console.log("sucesso!");

@@ -147,6 +147,7 @@ class event extends React.Component {
                                 marginBottom: 10,
                                 fontSize: 20,
                                 color: "#CC1A17"
+                                
                             }}
                         >
                             {info.nome}

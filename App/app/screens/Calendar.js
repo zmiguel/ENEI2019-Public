@@ -72,7 +72,7 @@ class Calendar extends React.Component {
           </View>
 
           <View>
-            <Text style={styles.description}>{item.description}</Text>
+            <Text style={styles.description} numberOfLines={8}>{item.description}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -313,7 +313,7 @@ class Calendar extends React.Component {
           }}
           style={{ backgroundColor: "#F2F2F2" }}
           indicatorStyle={{ backgroundColor: "pink"}}
-        /><View style={{ alignContent:'center', alignItems:'center', backgroundColor:'transparent',position: 'absolute',marginTop:SCREEN_HEIGHT*0.75,marginLeft:10}}><Button onPress={this._refresh} title="Refresh" color="#CC1A17"
+        /><View style={{ alignContent:'center', alignItems:'center', backgroundColor:'transparent',position: 'absolute',marginTop:SCREEN_HEIGHT*0.72,marginLeft:10}}><Button onPress={this._refresh} title="Refresh" color="#CC1A17"
         /></View>
         
       </View>
@@ -355,7 +355,8 @@ const styles = StyleSheet.create({
   description: {
     padding: 10,
     paddingLeft: 0,
-    paddingTop: 0
+    paddingTop: 0,
+    textAlign:"justify"
   },
   title: {
     color: "#212121",

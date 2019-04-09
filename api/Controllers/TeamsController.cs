@@ -104,12 +104,12 @@ namespace api.Controllers
 
                 if (allTeams[i].Id == rUsr.team.Id)
                 {
-                    
-                    rTeam.ativa= allTeams[i].pagamento;
+
+                    rTeam.ativa = allTeams[i].pagamento;
                     _mapper.Map(allTeams[i], rTeam);
 
                     var usr = await context.Users.FirstOrDefaultAsync(a => a.QRcode == allTeams[i].CapQR);
-            
+
                     var users = await context.Users.ToListAsync();
 
                     List<UserForListDto> usersToReturn = new List<UserForListDto>();
@@ -133,12 +133,17 @@ namespace api.Controllers
                     _mapper.Map(usr, uT);
 
                     rTeam.Membros = usersToReturn;
+
                     rTeam.Cap = uT;
 
                 }
             }
 
+            if(rTeam.Id==0 && rTeam.NMembros==0){
+                return NotFound();
+            }
             return Ok(rTeam);
+
         }
 
         // POST api/teams/add
@@ -184,7 +189,7 @@ namespace api.Controllers
 
             Team tEdit = await context.Teams.FirstOrDefaultAsync(t => t.Id == MemberToAdd.id);
 
-            if (newMember.team == null)
+            if (newMember.team == null && tEdit.NMembros<6)
             {
 
                 tEdit.NMembros++;
@@ -215,6 +220,11 @@ namespace api.Controllers
 
             User cap = await context.Users.FirstOrDefaultAsync(u => u.QRcode == NameChange.UserQR);
 
+            Team findTeam = await context.Teams.FirstOrDefaultAsync(n=>n.Nome == NameChange.nome);
+
+            if(findTeam!= null){
+                return Unauthorized();
+            }
             if (cap.QRcode == tEdit.CapQR)
             {
                 tEdit.Nome = NameChange.nome;
@@ -238,7 +248,7 @@ namespace api.Controllers
 
             User cap = await context.Users.FirstOrDefaultAsync(u => u.QRcode == DeleteData.UserQR);
 
-    
+
             if (tEdit != null && cap.QRcode == tEdit.CapQR)
             {
                 context.Teams.Remove(tEdit);
@@ -251,7 +261,7 @@ namespace api.Controllers
             {
                 return StatusCode(403);
             }
-             
+
         }
 
         // POST api/teams/remove/member
@@ -268,12 +278,12 @@ namespace api.Controllers
                 User rmMember = await context.Users.FirstOrDefaultAsync(u => u.QRcode == MemberToRemove.UserToRemoveQR);
 
                 Console.WriteLine(rmMember.QRcode);
-               
+
                 //encontra a equipa de onde quer remover o user
                 Team tEdit = await context.Teams.FirstOrDefaultAsync(t => t.Id == MemberToRemove.TeamID);
-              
+
                 Console.WriteLine(tEdit.Nome);
-              
+
                 var id = 0;
 
                 if (rmMember.QRcode == tEdit.CapQR)

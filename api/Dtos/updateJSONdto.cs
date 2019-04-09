@@ -4,6 +4,6 @@ namespace api.Dtos
 {
     public class updateJSONdto
     {
-     public List<updateUsersDTO> users{get;set;}
+     public updateUsersDTO[] users{get;set;}
     }
 }

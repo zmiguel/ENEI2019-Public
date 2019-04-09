@@ -132,9 +132,8 @@ const styles = StyleSheet.create({
   cardHours: {
     textAlign: "center",
     color: "white",
-    margin: 10
-
-    // width:'20%'
+    margin: 10,
+    width:'45%'
   },
 
   cardDesc: {

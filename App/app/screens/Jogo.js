@@ -146,7 +146,7 @@ class Jogo extends React.Component {
                   </Text>
                 </View>
                 <View style={{ width: "100%", marginTop: 10 }}>
-                  <TouchableOpacity onPress={()=>this.handleClick(this.state.cromo.websitecromo)} >
+                  <TouchableOpacity onPress={()=>this.handleClick(this.state.cromo.websiteCromo)} >
                     <Text
                       style={{
                         textAlign: "center",
@@ -270,10 +270,10 @@ class Jogo extends React.Component {
               {this.props.cromos!= undefined &&
               <ProgressBarAnimated
                 width={barWidth * 0.7}
-                value={this.props.cromos.pontuacao*100/256}
+                value={this.props.cromos.pontuacao*100/1024}
                 backgroundColorOnComplete="#CC2A17"
               />}
-              <Text style={{ fontWeight: "bold" }}>256</Text>
+              <Text style={{ fontWeight: "bold" }}>1024</Text>
             </View>
           </View>
         </View>
@@ -316,7 +316,7 @@ class Jogo extends React.Component {
                     </View>
                   </TouchableOpacity>
                 )}
-                numColumns={4} // Número de colunas
+                numColumns={5} // Número de colunas
               />}
             </View>
           </ScrollView>
@@ -333,7 +333,8 @@ const styles = StyleSheet.create({
     marginTop: -25,
     marginLeft: 10,
     fontWeight: "bold",
-    color: "#CC1A17"
+    color: "#CC1A17",
+  //  backgroundColor:"#cc1a17",
   },
 
   cromosContainer: {
@@ -418,9 +419,11 @@ const styles = StyleSheet.create({
     marginTop: 156
   },
   number: {
-    marginTop: -18,
-    marginLeft: 103,
-    textAlign: "center"
+    marginTop: -13,
+    marginLeft: 100,
+    textAlign: "center",
+
+    color:'#cc1a17'
   }
 });
 

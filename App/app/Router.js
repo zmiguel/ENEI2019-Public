@@ -45,6 +45,9 @@ import teamDetail from './screens/teamDetail';
 
 import event from './screens/event';
 
+import map from './screens/map'
+
+
 const navigationOptions = ({navigation}) => ({
     headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
     headerStyle: {backgroundColor: 'transparent', zIndex: 100 },
@@ -61,6 +64,15 @@ const AppStack = createBottomTabNavigator(
 
                 tabBarIcon: ({tintColor}) => (
                     <IconF name="calendar" color={tintColor} size={30}/>
+                )
+            },
+        },
+        Mapa:{
+            screen: map,
+            navigationOptions: {
+
+                tabBarIcon: ({tintColor}) => (
+                    <IconF name="map" color={tintColor} size={25}/>
                 )
             },
         },
@@ -88,7 +100,7 @@ const AppStack = createBottomTabNavigator(
         },
 
 
-        Eventos: {
+        Atividades: {
             screen: Eventos,
 
             navigationOptions: {
@@ -98,7 +110,7 @@ const AppStack = createBottomTabNavigator(
                 )
             },
         },
-
+       
         Home: {
             screen: Home,
             navigationOptions: {
@@ -150,10 +162,16 @@ const Stack = createStackNavigator({
             
             if (navigation.state.routes[index].routeName == 'Jogo') {
                 return {
-                    header: (<View style={{backgroundColor:'#CC1A17', padding:15}}>
-                        <Text style={{textAlign:'center', alignSelf:'center', color:'white', fontSize:20, fontWeight:'bold'}}>Jogo do ENEI'19</Text>
-                    </View>)
-                 
+                    headerTitle: (<Text style={{ 
+                    textAlign:'center',
+                    color:'#CC1A17',
+                    width:'100%',
+                    fontWeight:'bold',
+                    fontSize:25,
+                    
+                    
+                }}>Jogo do ENEI'19</Text>)
+                   
                        
                     
                 }
@@ -195,9 +213,15 @@ const Stack = createStackNavigator({
                     )
                 }
             }
-            else if (navigation.state.routes[index].routeName == 'Eventos') {
+            else if (navigation.state.routes[index].routeName == 'Atividades') {
                 return {
-                    headerTitle: 'Eventos',
+                    headerTitle: 'Atividade',
+                }
+
+            }
+            else if (navigation.state.routes[index].routeName == 'Mapa') {
+                return {
+                    headerTitle: 'Mapa do Evento',
                 }
 
             }

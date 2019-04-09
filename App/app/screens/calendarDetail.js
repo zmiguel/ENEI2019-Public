@@ -168,7 +168,7 @@ class calendarDetail extends React.Component {
                             <FitImage
                               source={{
                                 uri:
-                                  "https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Speakers/ffb043cb-3073-421c-a070-5d273b50fc23.jpeg"
+                                  `https://tickets.enei.pt/adminpoint/Content/Images/Uploads/Speakers/${item.Photo}`
                               }}
                               style={{ padding: 5 }}
                             />
@@ -183,7 +183,7 @@ class calendarDetail extends React.Component {
                             >
                               {item.Name}
                             </Text>
-                            <Text style={{ marginLeft: 10 }}>
+                            <Text style={{ marginLeft: 10 , textAlign:'justify'}}>
                               {item.MoreInfo}
                             </Text>
                             <TouchableOpacity>
@@ -207,7 +207,7 @@ class calendarDetail extends React.Component {
                           >
                             Descrição do orador:
                           </Text>
-                          <Text style={{ margin: 10 }}>{item.Description}</Text>
+                          <Text style={{ margin: 10, textAlign:"justify" }}>{item.Description}</Text>
                         </View>
                       </View>
                     )}
@@ -223,7 +223,7 @@ class calendarDetail extends React.Component {
                 </Text>
                 <Divider style={{ backgroundColor: "#000" }} />
                 <View style={{ marginTop: 10 }}>
-                  <Text>{this.props.sessionDetail.Description}</Text>
+                  <Text style={{textAlign:'justify'}}>{this.props.sessionDetail.Description}</Text>
                 </View>
               </View>
             </View>

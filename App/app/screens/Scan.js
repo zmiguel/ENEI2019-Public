@@ -35,8 +35,13 @@ import {RkButton,
     
         this.setState({code:e.data});
         this.props.scanQrCode({UserQR:this.props.user.Code, ScanQR: e.data},this.props.internalToken);
-
-
+       
+        setTimeout(()=> {
+          if(this.scanner!=null)
+          this.scanner.reactivate()
+        },
+          2000
+      )
       };
 
       state = {
@@ -79,7 +84,7 @@ import {RkButton,
                 showMarker={true}
 
                 cameraStyle={{ height: SCREEN_HEIGHT }}
-                
+               
                 fadeIn={true}
 
               

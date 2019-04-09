@@ -65,6 +65,11 @@ namespace api.Data
 
             return user;
         }
+        public async Task<User> GetUser(string QR){
+
+            var user = await _context.Users.FirstOrDefaultAsync(u=>u.QRcode == QR);
+            return user;
+        }   
 
         public async Task<IEnumerable<User>> GetUsers()
         {
