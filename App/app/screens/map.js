@@ -10,7 +10,8 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal
 } from "react-native";
 import IconFA from "react-native-vector-icons/FontAwesome5";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view";
@@ -25,9 +26,14 @@ import * as Actions from "../store/actions"; //Import your actionss
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
+import ImageViewer from 'react-native-image-zoom-viewer';
 import PTRView from "react-native-pull-to-refresh";
 
-class Eventos extends React.Component {
+const images = [{
+    url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460'
+},]
+
+class map extends React.Component {
   _update = () => {
     this.props.getAllEvents(this.props.internalToken);
     this.props.getEventLocsVisited(
@@ -56,75 +62,11 @@ class Eventos extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <PTRView onRefresh={this._update}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-            alignContent: "center",
-            alignSelf: "center"
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "right",
-              fontSize: 12,
-              paddingTop: 10,
-              marginRight: 5
-            }}
-          >
-            Arrasta o ecrã para atualizar
-          </Text>
-          <IconFA name="chevron-circle-down" size={13} color={"#CC1A17"} />
-        </View>
-        <View style={styles.container}>
-          {this.props.eventsInternal == undefined && (
-            <View
-              style={{
-                height: SCREEN_HEIGHT,
-                //marginTop: SCREEN_HEIGHT * 0.27,
-                backgroundColor: "white"
-              }}
-            >
-              <Text style={{ fontSize: 12, margin: 15, textAlign: "center" }}>
-                Se estiver a demorar muito, arrasta para atualizar
-              </Text>
-
-              <ActivityIndicator size="large" color="#CC1A17" />
-            </View>
-          )}
-          <ScrollView styles={styles.scroll}>
-            <FlatList
-              data={this.props.eventsInternal}
-              renderItem={({ item }) => (
-                <View>
-                  <TouchableOpacity
-                    onPress={() => navigate("event", { info: item })}
-                  >
-                    <View style={styles.cardContainer}>
-                      <Image
-                        style={{
-                          flex: 1,
-                          width: undefined,
-                          height: undefined
-                        }}
-                        resizeMode="contain"
-                        source={{ uri: item.imagem }}
-                      />
-                      <View style={styles.cardDesc}>
-                        <Text style={styles.cardDescText}>{item.nome}</Text>
-                        <Text style={styles.cardHours}>{item.horas}</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-          </ScrollView>
-        </View>
-      </PTRView>
-    );
+        
+                <ImageViewer imageUrls={images}/>
+    
+        )
+    
   }
 }
 
@@ -203,4 +145,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Eventos);
+)(map);

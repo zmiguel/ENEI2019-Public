@@ -112,7 +112,7 @@ class eventDetail extends React.Component {
               </Text>
               <Divider style={{ backgroundColor: "#000" }} />
               <View style={{ marginTop: 10 }}>
-                <Text>{info.location.desc}</Text>
+                <Text style={{textAlign:'justify'}}>{info.location.desc}</Text>
               </View>
               <Text
                 style={{
@@ -126,7 +126,7 @@ class eventDetail extends React.Component {
               </Text>
               <Divider style={{ backgroundColor: "#000" }} />
               <View style={{ marginTop: 10 }}>
-                <Text>{info.location.desafio}</Text>
+                <Text style={{textAlign:"justify"}}>{info.location.desafio}</Text>
               </View>
             </View>
           </View>
@@ -173,7 +173,7 @@ class eventDetail extends React.Component {
               </Text>
               <Divider style={{ backgroundColor: "#000" }} />
               <View style={{ marginTop: 10 }}>
-                <Text>{info.desc}</Text>
+                <Text style={{textAlign:'justify'}}>{info.desc}</Text>
               </View>
               <Text
                 style={{

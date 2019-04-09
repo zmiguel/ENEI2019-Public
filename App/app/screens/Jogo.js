@@ -146,7 +146,7 @@ class Jogo extends React.Component {
                   </Text>
                 </View>
                 <View style={{ width: "100%", marginTop: 10 }}>
-                  <TouchableOpacity onPress={()=>this.handleClick(this.state.cromo.websitecromo)} >
+                  <TouchableOpacity onPress={()=>this.handleClick(this.state.cromo.websiteCromo)} >
                     <Text
                       style={{
                         textAlign: "center",

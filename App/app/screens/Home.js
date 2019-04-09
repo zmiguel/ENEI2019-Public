@@ -352,12 +352,12 @@ class Home extends Component {
                     </Text>
                   </View>
                   <View style={{ margin: 10 }}>
-                    <Text style={{ fontSize: 12, textAlign: "center" }}>
+                    <Text style={{ fontSize: 13, textAlign: "center" }}>
                       Para participares no ENEI caching ou no Rally Tascas deves
                       formar uma equipa (4 a 6) elementos.
                     </Text>
                     <Text
-                      style={{ fontSize: 12, textAlign: "center", margin: 5 }}
+                      style={{ fontSize: 13, textAlign: "center", margin: 5 }}
                     >
                       Ao criares a equipa, ficas como capitão. Podes adicionar e
                       remover outros elementos.
@@ -431,9 +431,9 @@ class Home extends Component {
                       </View>
                     </View>
                     <Text
-                      style={{ fontSize: 12, textAlign: "center", margin: 5 }}
+                      style={{ fontSize: 13, textAlign: "center", margin: 5 }}
                     >
-                      A incrição no Rally tem custo de 5€ por elemento. A equipa
+                      A inscrição no Rally tem custo de 5€ por elemento. A equipa
                       apenas fica ativa quando efectuar o pagamento na banca no
                       ENEI
                     </Text>

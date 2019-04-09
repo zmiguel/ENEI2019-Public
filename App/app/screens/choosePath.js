@@ -311,7 +311,7 @@ class choosePath extends React.Component {
         <ScrollView style={styles.page}>
           {this._findPath("IA") && (
             <LinearGradient
-              colors={["#D95856", "#CC1A17"]}
+              colors={["#F54B10", "#F54B10"]}
               style={styles.linearGradient}
             >
               <Text
@@ -341,7 +341,7 @@ class choosePath extends React.Component {
           )}
             {this._findPath("NET") && (
             <LinearGradient
-              colors={["#4D76B3", "#055CA0"]}
+              colors={["#214198", "#214198"]}
               style={styles.linearGradient}
             >
               <Text
@@ -370,7 +370,7 @@ class choosePath extends React.Component {
           )}
          {this._findPath("WEB") && (
             <LinearGradient
-              colors={["#FDC657", "#FBB81B"]}
+              colors={["#3A1484", "#3A1484"]}
               style={styles.linearGradient}
             >
               <Text
@@ -399,7 +399,7 @@ class choosePath extends React.Component {
           )}
            {this._findPath("IOT") && (
             <LinearGradient
-              colors={["#69447F", "#4B266A"]}
+              colors={["#EC174A", "#EC174A"]}
               style={styles.linearGradient}
             >
               <Text
@@ -432,7 +432,7 @@ class choosePath extends React.Component {
           )}
           {this._findPath("DS") && (
             <LinearGradient
-              colors={["#F28C59", "#ED6B33"]}
+              colors={["#DC160D", "#DC160D"]}
               style={styles.linearGradient}
             >
               <Text
@@ -474,7 +474,7 @@ class choosePath extends React.Component {
           )}
           {this._findPath("MOB") && (
             <LinearGradient
-              colors={["#559159", "#0B7D3C"]}
+              colors={["#971384", "#971384"]}
               style={styles.linearGradient}
             >
               <Text
@@ -531,11 +531,11 @@ class choosePath extends React.Component {
                 }}
               >
                 <Picker.Item label="Artificial Intelligence" value="9" />
-                <Picker.Item label="Networking and Securiy" value="10" />
+                <Picker.Item label="Networking and Security" value="10" />
                 <Picker.Item label="Data Science" value="15" />
-                <Picker.Item label="Web development" value="14" />
-                <Picker.Item label="Mobile development" value="11" />
-                <Picker.Item label="Internet of things" value="12" />
+                <Picker.Item label="Web Development" value="14" />
+                <Picker.Item label="Mobile Development" value="11" />
+                <Picker.Item label="Internet of Things" value="12" />
               </Picker>
             </View>
             <View style={{ width: SCREEN_WIDTH }}>
@@ -883,7 +883,8 @@ class choosePath extends React.Component {
                                                   style={{
                                                     fontSize: 15,
                                                     fontWeight: "bold",
-                                                    marginLeft: 5
+                                                    marginLeft: 5,
+                                                    maxWidth:150
                                                   }}
                                                 >
                                                   {item[index].Name}
@@ -892,7 +893,8 @@ class choosePath extends React.Component {
                                               <Text
                                                 style={{
                                                   marginTop: 10,
-                                                  marginBottom: 5
+                                                  marginBottom: 5,
+                                                  marginLeft:25
                                                 }}
                                               >
                                                 {item[index].MaxAttendees -
@@ -910,6 +912,7 @@ class choosePath extends React.Component {
                                                     }
                                                     unfilledColor={"white"}
                                                     width={150}
+                                                    style={{marginLeft:25}}
                                                   />
                                                 )}
                                             </View>

@@ -864,32 +864,32 @@ function getCareerPath(sessions) {
   for (let key in sessions) {
     if (sessions[key].Name == "IA") {
       careerPath = "Artificial Intelligence";
-      careerColor = "#CC1A17";
+      careerColor = "#F54B10";
       code = "IA";
     }
     if (sessions[key].Name == "IOT") {
-      careerPath = "Internet of things";
-      careerColor = "#4B266A";
+      careerPath = "Internet of Things";
+      careerColor = "#EC174A";
       code = "IOT";
     }
     if (sessions[key].Name == "WEB") {
-      careerPath = "Web development";
-      careerColor = "#FBB81B";
+      careerPath = "Web Development";
+      careerColor = "#3A1484";
       code = "WEB";
     }
     if (sessions[key].Name == "NET") {
       careerPath = "Networking and Security";
-      careerColor = "#055CA0";
+      careerColor = "#214198";
       code = "NET";
     }
     if (sessions[key].Name == "MOB") {
       careerPath = "Mobile Development";
-      careerColor = "#0B7D3C";
+      careerColor = "#971384";
       code = "MOB";
     }
     if (sessions[key].Name == "DS") {
       careerPath = "Data Science";
-      careerColor = "#ED6B33";
+      careerColor = "#DC160D";
       code = "DS";
     }
   }

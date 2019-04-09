@@ -72,7 +72,7 @@ class Calendar extends React.Component {
           </View>
 
           <View>
-            <Text style={styles.description}>{item.description}</Text>
+            <Text style={styles.description} numberOfLines={8}>{item.description}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -355,7 +355,8 @@ const styles = StyleSheet.create({
   description: {
     padding: 10,
     paddingLeft: 0,
-    paddingTop: 0
+    paddingTop: 0,
+    textAlign:"justify"
   },
   title: {
     color: "#212121",
