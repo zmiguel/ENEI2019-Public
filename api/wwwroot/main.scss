@@ -6,8 +6,12 @@ $dark-grey: #353535;
 $red: #cc1a17;
 $light-red: #ff2923;
 $dark-blue: #080014;
-$ai-color: #17cc70;
-$web-color: #004994;
+$ai-color: #f54b10;
+$web-color: #3a1484;
+$data-color: #dc160d;
+$iot-color: #ec174a;
+$mobile-color: #971384;
+$ciber-color: #214198;
 
 //dimensions
 $mobile: 769px;
@@ -1274,9 +1278,17 @@ footer {
 		line-height: 22px;
 		margin-bottom: 10px;
 	}
+	.ciber-color {
+		h2 {
+			font-size: 14px;
+			@include portable {
+				font-size: 18px;
+			}
+		}
+	}
 	.powered-by {
 		@include font($mont-font, 16px, 20px, $white);
-		margin-bottom: 15px;
+		margin-bottom: 20px;
 	}
 	.separator {
 		display: block;
@@ -1285,51 +1297,51 @@ footer {
 		background-color: $white;
 		margin-bottom: 10px;
 	}
-	.career-path-links {
-		position: relative;
-		padding: 20px;
-		display: inline-block;
-		&::after {
-			content: "";
-			@include size(calc(100% + 8px), calc(100% + 8px));
-			@include position(absolute, -5px, null, null, -5px);
-			border: 1px solid red;
-			-webkit-transform: skewX(-5deg);
-			transform: skewX(-5deg);
-			left: -5px;
-			left: -5px;
-			transition: transform $transition-time ease-in-out, border-width $transition-time ease-in-out,
-				top $transition-time ease-in-out, border-width $transition-time ease-in-out;
-		}
-		&:hover:after {
-			-webkit-transform: skewX(0);
-			transform: skewX(0);
-			border-width: 2px;
-			top: -6px;
-			left: -6px;
-		}
+}
+.career-path-links {
+	position: relative;
+	padding: 20px;
+	display: inline-block;
+	min-height: 230px;
+	@include portable {
+		min-height: 250px;
+		max-width: 200px;
+		margin-bottom: 50px;
+	}
+	@include mobile {
+		min-height: inherit;
+		max-width: 200px;
+	}
+	&::after {
+		content: "";
+		@include size(calc(100% + 8px), calc(100% + 8px));
+		@include position(absolute, -5px, null, null, -5px);
+		border: 1px solid red;
+		-webkit-transform: skewX(-5deg);
+		transform: skewX(-5deg);
+		left: -5px;
+		left: -5px;
+		transition: transform $transition-time ease-in-out, border-width $transition-time ease-in-out,
+			top $transition-time ease-in-out, border-width $transition-time ease-in-out;
+	}
+	&:hover:after {
+		-webkit-transform: skewX(0);
+		transform: skewX(0);
+		border-width: 2px;
+		top: -6px;
+		left: -6px;
+	}
 
-		img {
-			-webkit-filter: invert(100%);
-			filter: invert(100%);
+	img {
+		-webkit-filter: invert(100%);
+		filter: invert(100%);
+		max-width: 70%;
+		margin: 0 auto;
+		@include portable {
 			max-width: 70%;
-			margin: 0 auto;
 		}
-	}
-	.ai {
-		.career-path-links {
-			background-color: $ai-color;
-			&::after {
-				border-color: $ai-color;
-			}
-		}
-	}
-	.web {
-		.career-path-links {
-			background-color: $web-color;
-			&::after {
-				border-color: $web-color;
-			}
+		@include mobile {
+			max-width: 60%;
 		}
 	}
 }
@@ -1395,7 +1407,7 @@ footer {
 			content: " ";
 			@include position(absolute, 0, null, null, 0);
 			@include size(100%, 100%);
-			opacity: 0.5;
+			opacity: 0.4;
 		}
 	}
 }
@@ -1453,6 +1465,7 @@ footer {
 		line-height: 26px;
 		color: $dark-grey;
 		margin-bottom: 5px;
+		transition: color $transition-time ease-in-out;
 	}
 	.speaker-company {
 		font-weight: $semi-bold;
@@ -1468,15 +1481,125 @@ footer {
 	#event-days-list button.selected,
 	#event-days-list button:hover,
 	#content-container h2,
-	#social-network ul li a:hover,
-	#content-container .event-description:hover {
+	#social-network li a:hover,
+	#content-container .event-description:hover,
+	.speaker-button:hover .speaker-name {
 		color: $ai-color;
 	}
 	#main-menu nav ul li a::after,
 	#apresentation::after,
 	hr::after,
-	#calendar-container .event-details::before {
+	#calendar-container .event-details::before,
+	.career-path-links, #content-container .event-type {
 		background-color: $ai-color;
+	}
+	.career-path-links::after {
+		border-color: $ai-color;
+	}
+}
+.ciber-color {
+	#main-menu nav ul li a:hover,
+	#event-days-list button.selected,
+	#event-days-list button:hover,
+	#content-container h2,
+	#social-network ul li a:hover,
+	#content-container .event-description:hover,
+	.speaker-button:hover .speaker-name {
+		color: $ciber-color;
+	}
+	#main-menu nav ul li a::after,
+	#apresentation::after,
+	hr::after,
+	#calendar-container .event-details::before,
+	.career-path-links, #content-container .event-type {
+		background-color: $ciber-color;
+	}
+	.career-path-links::after {
+		border-color: $ciber-color;
+	}
+}
+.mobile-color {
+	#main-menu nav ul li a:hover,
+	#event-days-list button.selected,
+	#event-days-list button:hover,
+	#content-container h2,
+	#social-network ul li a:hover,
+	#content-container .event-description:hover,
+	.speaker-button:hover .speaker-name {
+		color: $mobile-color;
+	}
+	#main-menu nav ul li a::after,
+	#apresentation::after,
+	hr::after,
+	#calendar-container .event-details::before,
+	.career-path-links, #content-container .event-type {
+		background-color: $mobile-color;
+	}
+	.career-path-links::after {
+		border-color: $mobile-color;
+	}
+}
+.iot-color {
+	#main-menu nav ul li a:hover,
+	#event-days-list button.selected,
+	#event-days-list button:hover,
+	#content-container h2,
+	#social-network ul li a:hover,
+	#content-container .event-description:hover,
+	.speaker-button:hover .speaker-name {
+		color: $iot-color;
+	}
+	#main-menu nav ul li a::after,
+	#apresentation::after,
+	hr::after,
+	#calendar-container .event-details::before,
+	.career-path-links, #content-container .event-type {
+		background-color: $iot-color;
+	}
+	.career-path-links::after {
+		border-color: $iot-color;
+	}
+}
+.data-color {
+	#main-menu nav ul li a:hover,
+	#event-days-list button.selected,
+	#event-days-list button:hover,
+	#content-container h2,
+	#social-network ul li a:hover,
+	#content-container .event-description:hover,
+	.speaker-button:hover .speaker-name {
+		color: $data-color;
+	}
+	#main-menu nav ul li a::after,
+	#apresentation::after,
+	hr::after,
+	#calendar-container .event-details::before,
+	.career-path-links, #content-container .event-type {
+		background-color: $data-color;
+	}
+	.career-path-links::after {
+		border-color: $data-color;
+	}
+}
+.web-color {
+	#main-menu nav ul li a:hover,
+	#event-days-list button.selected,
+	#event-days-list button:hover,
+	#content-container h2,
+	#social-network ul li a:hover,
+	#content-container .event-description:hover,
+	.speaker-button:hover .speaker-name {
+		color: $web-color;
+	}
+	#main-menu nav ul li a::after,
+	#apresentation::after,
+	hr::after,
+	#calendar-container .event-details::before,
+	.career-path-links, #content-container .event-type {
+		background-color: $web-color;
+	}
+	.career-path-links::after {
+		border-color: $web-color;
 	}
 }
 
@@ -1749,11 +1872,13 @@ footer {
 	}
 	.vertically-aligned {
 		justify-content: flex-start;
+		margin-bottom: 20px;
 		@include portable {
 			flex-wrap: wrap;
+			margin-bottom: 0;
 		}
 		@include mobile {
-			justify-content: flex-start;
+			justify-content: center;
 		}
 	}
 	.junisec {
@@ -1788,9 +1913,45 @@ footer {
 	}
 	.quinta-das-lagrimas {
 		width: auto;
-		max-width: 88px;
+		max-width: 115px;
 		@include mobile {
 			max-width: 90px;
+		}
+	}
+	.nestle {
+		max-width: 150px;
+		@include mobile {
+			max-width: 100px;
+		}
+	}
+	.luso {
+		max-width: 105px;
+		@include mobile {
+			max-width: 75px;
+		}
+	}
+	.gazela {
+		max-width: 105px;
+		@include mobile {
+			max-width: 75px;
+		}
+	}
+	.beirao {
+		max-width: 100px;
+		@include mobile {
+			max-width: 75px;
+		}
+	}
+	.simology {
+		max-width: 105px;
+		@include mobile {
+			max-width: 75px;
+		}
+	}
+	.fbaup {
+		max-width: 150px;
+		@include mobile {
+			max-width: 115px;
 		}
 	}
 }
@@ -2247,7 +2408,7 @@ footer {
 	flex-direction: row;
 	background-color: #eeeeee;
 	padding: 40px 100px;
-	
+
 	h3 {
 		padding: 30px;
 		padding-bottom: 0px;
