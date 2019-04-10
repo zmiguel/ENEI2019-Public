@@ -1397,8 +1397,8 @@ footer {
 		}
 	}
 	img {
-		-webkit-filter: invert(100%);
-		filter: invert(100%);
+		//-webkit-filter: invert(100%);
+		//filter: invert(100%);
 		max-width: 200px;
 		margin: 35px auto 0;
 		@include mobile {
@@ -1659,6 +1659,7 @@ footer {
 #event-days-list {
 	border-bottom: 1px solid $dark-grey;
 	display: flex;
+	align-items: center;
 	button {
 		width: 25%;
 		padding: 20px 0;

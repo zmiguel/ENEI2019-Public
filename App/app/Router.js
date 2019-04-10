@@ -215,7 +215,7 @@ const Stack = createStackNavigator({
             }
             else if (navigation.state.routes[index].routeName == 'Atividades') {
                 return {
-                    headerTitle: 'Atividade',
+                    headerTitle: 'Atividades',
                 }
 
             }
