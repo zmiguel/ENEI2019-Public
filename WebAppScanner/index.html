@@ -1,13 +1,16 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>jsQR Demo</title>
+  <title>ENEI QR Scanner</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="./jsQR.js"></script>
+  <script src="./send.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <meta name="author" content="ZMiguel Valdiviesso">
   <style>
     body {
       font-family: 'Ropa Sans', sans-serif;
@@ -61,21 +64,39 @@
   <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
   <canvas id="canvas" hidden></canvas>
 <br>
-<form class="form" id="output">
-<fieldset>
+<div id="output">
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="control-label" for="sQR">Teu QRCode</label>  
-  <input id="sQR" name="sQR" type="text" placeholder="AABBCC112233" class="form-control form-control-sm" required="">
+  <label class="control-label" for="pontos">Pontos a adicionar</label>  
+  <input id="pontos" name="sQR" type="number" placeholder="AABBCC112233" value="5" class="form-control form-control-sm" required="">
 </div>
 
 <!-- Select Basic -->
 <div class="form-group">
   <label class="control-label" for="location">Localização</label>
     <select id="location" name="location" class="form-control form-control-sm">
-      <option value="1">Bar 1</option>
-      <option value="2">Bar 2</option>
+      <option value="1">[RT] Moelas</option>
+      <option value="2">[RT] 24 Bar</option>
+      <option value="3">[RT] What's Up Doc Bar</option>
+      <option value="4">[??] A Chaminé</option>
+      <option value="5">[RT] Nk Noites Karaoke</option>
+      <option value="6">[RT] RS Café Bar</option>
+      <option value="7">[RT] O Guitarras</option>
+      <option value="8">[RT] Cabido Bar</option>
+      <option value="9">[RT] 4ever Bar</option>
+      <option value="10">[RT] Pintos</option>
+      <option value="12">[PP] Praça da República</option>
+      <option value="13">[PP] Associação Académica</option>
+      <option value="14">[PP] Arco Torre Almedina</option>
+      <option value="15">[PP] Jardim Botânico</option>
+      <option value="16">[PP] Escadas Monumentais</option>
+      <option value="17">[PP] Sé Nova</option>
+      <option value="18">[PP] Sé Velha</option>
+      <option value="19">[PP] Porta Férrea</option>
+      <option value="20">[PP] Jardim da Sereia</option>
+      <option value="21">[PP] Quebra Costas</option>
+
     </select>
 </div>
 
@@ -87,11 +108,11 @@
 
 <!-- Button -->
 <div class="form-group">
-    <button id="send" name="send" class="btn btn-primary">Enviar info</button>
+  <button id="send" name="send" class="btn btn-primary" onclick="sendData()">Enviar info</button>
 </div>
 
 </fieldset>
-</form>
+</div>
 
 
   <script>
@@ -100,7 +121,6 @@
     var canvas = canvasElement.getContext("2d");
     var loadingMessage = document.getElementById("loadingMessage");
     var outputContainer = document.getElementById("output");
-    var outputMessage = document.getElementById("outputMessage");
     var outputData = document.getElementById("userQR");
 
     function drawLine(begin, end, color) {
@@ -138,10 +158,8 @@
           drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
           drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
           drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
-          outputMessage.hidden = true;
-          outputData.innerText = code.data;
+          outputData.setAttribute("value", code.data);
         } else {
-          outputMessage.hidden = false;
         }
       }
       requestAnimationFrame(tick);
