@@ -1330,10 +1330,11 @@ footer {
 	}
 
 	img {
-		-webkit-filter: invert(100%);
-		filter: invert(100%);
-		max-width: 70%;
-		margin: 0 auto;
+		//-webkit-filter: invert(100%);
+		//filter: invert(100%);
+		max-width: 100%;
+		margin: 20 auto;
+		padding: 20px;
 		@include portable {
 			max-width: 70%;
 		}
@@ -1408,7 +1409,14 @@ footer {
 }
 
 .career-path {
+	.container{
+		.row{
+		
+		}
+	}
+	
 	#apresentation {
+		
 		&::after {
 			content: " ";
 			@include position(absolute, 0, null, null, 0);

@@ -1391,10 +1391,9 @@ footer p {
   left: -6px;
 }
 .career-path-links img {
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
-  max-width: 70%;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 20 auto;
+  padding: 20px;
 }
 @media (max-width: 1024px) {
   .career-path-links img {
