@@ -1191,9 +1191,6 @@ hr {
 		a {
 			transition: color $transition-time ease-out;
 			-webkit-transition: color $transition-time ease-out;
-			&:hover {
-				color: $red;
-			}
 		}
 	}
 }
@@ -1333,10 +1330,11 @@ footer {
 	}
 
 	img {
-		-webkit-filter: invert(100%);
-		filter: invert(100%);
-		max-width: 70%;
-		margin: 0 auto;
+		//-webkit-filter: invert(100%);
+		//filter: invert(100%);
+		max-width: 100%;
+		margin: 20 auto;
+		padding: 20px;
 		@include portable {
 			max-width: 70%;
 		}
@@ -1388,21 +1386,37 @@ footer {
 		color: $white;
 		text-transform: uppercase;
 		text-align: center;
+		@include mobile {
+			font-size: 30px;
+		}
 		span {
 			font-size: 22px;
 			text-transform: none;
+			@include mobile {
+				font-size: 20px;
+			}
 		}
 	}
 	img {
-		-webkit-filter: invert(100%);
-		filter: invert(100%);
-		max-width: 250px;
+		//-webkit-filter: invert(100%);
+		//filter: invert(100%);
+		max-width: 200px;
 		margin: 35px auto 0;
+		@include mobile {
+			max-width: 150px;
+		}
 	}
 }
 
 .career-path {
+	.container{
+		.row{
+		
+		}
+	}
+	
 	#apresentation {
+		
 		&::after {
 			content: " ";
 			@include position(absolute, 0, null, null, 0);
@@ -1426,7 +1440,7 @@ footer {
 		}
 		.company-image {
 			opacity: 1;
-			width: 85%;
+			width: 60%;
 		}
 	}
 
@@ -1454,7 +1468,7 @@ footer {
 	.company-image {
 		@include position(absolute, 50%, null, null, 50%);
 		transform: translate(-50%, -50%);
-		width: 82%;
+		width: 85%;
 		z-index: 1;
 		transition: opacity $transition-time ease-in-out, width $transition-time ease-in-out;
 		opacity: 0;
@@ -1481,7 +1495,7 @@ footer {
 	#event-days-list button.selected,
 	#event-days-list button:hover,
 	#content-container h2,
-	#social-network li a:hover,
+	#social-network a:hover,
 	#content-container .event-description:hover,
 	.speaker-button:hover .speaker-name {
 		color: $ai-color;
@@ -1490,10 +1504,12 @@ footer {
 	#apresentation::after,
 	hr::after,
 	#calendar-container .event-details::before,
-	.career-path-links, #content-container .event-type {
+	.career-path-links,
+	#content-container .event-type {
 		background-color: $ai-color;
 	}
-	.career-path-links::after {
+	.career-path-links::after,
+	.speaker-button:hover .speaker-image::before {
 		border-color: $ai-color;
 	}
 }
@@ -1502,7 +1518,7 @@ footer {
 	#event-days-list button.selected,
 	#event-days-list button:hover,
 	#content-container h2,
-	#social-network ul li a:hover,
+	#social-network a:hover,
 	#content-container .event-description:hover,
 	.speaker-button:hover .speaker-name {
 		color: $ciber-color;
@@ -1511,10 +1527,12 @@ footer {
 	#apresentation::after,
 	hr::after,
 	#calendar-container .event-details::before,
-	.career-path-links, #content-container .event-type {
+	.career-path-links,
+	#content-container .event-type {
 		background-color: $ciber-color;
 	}
-	.career-path-links::after {
+	.career-path-links::after,
+	.speaker-button:hover .speaker-image::before {
 		border-color: $ciber-color;
 	}
 }
@@ -1523,7 +1541,7 @@ footer {
 	#event-days-list button.selected,
 	#event-days-list button:hover,
 	#content-container h2,
-	#social-network ul li a:hover,
+	#social-network a:hover,
 	#content-container .event-description:hover,
 	.speaker-button:hover .speaker-name {
 		color: $mobile-color;
@@ -1532,10 +1550,12 @@ footer {
 	#apresentation::after,
 	hr::after,
 	#calendar-container .event-details::before,
-	.career-path-links, #content-container .event-type {
+	.career-path-links,
+	#content-container .event-type {
 		background-color: $mobile-color;
 	}
-	.career-path-links::after {
+	.career-path-links::after,
+	.speaker-button:hover .speaker-image::before {
 		border-color: $mobile-color;
 	}
 }
@@ -1544,7 +1564,7 @@ footer {
 	#event-days-list button.selected,
 	#event-days-list button:hover,
 	#content-container h2,
-	#social-network ul li a:hover,
+	#social-network a:hover,
 	#content-container .event-description:hover,
 	.speaker-button:hover .speaker-name {
 		color: $iot-color;
@@ -1553,10 +1573,12 @@ footer {
 	#apresentation::after,
 	hr::after,
 	#calendar-container .event-details::before,
-	.career-path-links, #content-container .event-type {
+	.career-path-links,
+	#content-container .event-type {
 		background-color: $iot-color;
 	}
-	.career-path-links::after {
+	.career-path-links::after,
+	.speaker-button:hover .speaker-image::before {
 		border-color: $iot-color;
 	}
 }
@@ -1565,7 +1587,7 @@ footer {
 	#event-days-list button.selected,
 	#event-days-list button:hover,
 	#content-container h2,
-	#social-network ul li a:hover,
+	#social-network a:hover,
 	#content-container .event-description:hover,
 	.speaker-button:hover .speaker-name {
 		color: $data-color;
@@ -1574,10 +1596,12 @@ footer {
 	#apresentation::after,
 	hr::after,
 	#calendar-container .event-details::before,
-	.career-path-links, #content-container .event-type {
+	.career-path-links,
+	#content-container .event-type {
 		background-color: $data-color;
 	}
-	.career-path-links::after {
+	.career-path-links::after,
+	.speaker-button:hover .speaker-image::before {
 		border-color: $data-color;
 	}
 }
@@ -1586,7 +1610,7 @@ footer {
 	#event-days-list button.selected,
 	#event-days-list button:hover,
 	#content-container h2,
-	#social-network ul li a:hover,
+	#social-network a:hover,
 	#content-container .event-description:hover,
 	.speaker-button:hover .speaker-name {
 		color: $web-color;
@@ -1595,10 +1619,12 @@ footer {
 	#apresentation::after,
 	hr::after,
 	#calendar-container .event-details::before,
-	.career-path-links, #content-container .event-type {
+	.career-path-links,
+	#content-container .event-type {
 		background-color: $web-color;
 	}
-	.career-path-links::after {
+	.career-path-links::after,
+	.speaker-button:hover .speaker-image::before {
 		border-color: $web-color;
 	}
 }
@@ -1631,9 +1657,17 @@ footer {
 		}
 	}
 }
+.web-color {
+	#event-days-list {
+		button {
+			width: 50%;
+		}
+	}
+}
 #event-days-list {
 	border-bottom: 1px solid $dark-grey;
 	display: flex;
+	align-items: center;
 	button {
 		width: 25%;
 		padding: 20px 0;

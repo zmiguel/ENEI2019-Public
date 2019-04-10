@@ -23,22 +23,57 @@ namespace api.Controllers
             _context = context;
             _userManager = userManager;
         }
+        [HttpGet("/cp-ia")]
+        [AllowAnonymous]
 
+        public IActionResult cpIa()
+        {
+            return View("Views/Landing/cp-ia.cshtml");
+        }
+        [HttpGet("/cp-net")]
+        [AllowAnonymous]
+
+        public IActionResult cpNet()
+        {
+            return View("Views/Landing/cp-net.cshtml");
+        }
+
+        [HttpGet("/cp-iot")]
+        [AllowAnonymous]
+
+        public IActionResult cpIot()
+        {
+            return View("Views/Landing/cp-iot.cshtml");
+        }
+        [HttpGet("/cp-ds")]
+        [AllowAnonymous]
+
+        public IActionResult cpDs()
+        {
+            return View("Views/Landing/cp-ds.cshtml");
+        }
+        [HttpGet("/cp-web")]
+        [AllowAnonymous]
+
+        public IActionResult cpWeb()
+        {
+            return View("Views/Landing/cp-web.cshtml");
+        }
         [HttpGet("/jogoenei")]
         [AllowAnonymous]
-        
+
         public IActionResult jogoENEI()
         {
             return View("Views/Landing/jogo.cshtml");
         }
-        
+
         [HttpGet("/level1ctf")]
         [AllowAnonymous]
         public IActionResult level1()
         {
             return View("Views/Landing/1stpage.cshtml");
         }
-        
+
 
         [AllowAnonymous]
         [HttpGet("")]
