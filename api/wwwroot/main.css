@@ -1239,9 +1239,6 @@ hr::after {
   transition: color 150ms ease-out;
   -webkit-transition: color 150ms ease-out;
 }
-#social-network li a:hover {
-  color: #cc1a17;
-}
 
 footer {
   padding: 25px 0;
@@ -1353,6 +1350,26 @@ footer p {
   margin-bottom: 10px;
 }
 
+.career-path-container {
+  width: calc(20% - 40px);
+  display: inline-block;
+  margin: 0 16px;
+  vertical-align: top;
+}
+@media (max-width: 1024px) {
+  .career-path-container {
+    width: calc(30% - 20px);
+    margin: 0px 10px;
+  }
+}
+@media (max-width: 769px) {
+  .career-path-container {
+    width: 55%;
+    margin: 0px auto;
+    display: block;
+  }
+}
+
 .career-path-links {
   position: relative;
   padding: 20px;
@@ -1394,10 +1411,10 @@ footer p {
   left: -6px;
 }
 .career-path-links img {
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
-  max-width: 70%;
-  margin: 0 auto;
+  max-width: 85%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
 }
 @media (max-width: 1024px) {
   .career-path-links img {
@@ -1456,15 +1473,28 @@ footer p {
   text-transform: uppercase;
   text-align: center;
 }
+@media (max-width: 769px) {
+  .career-apresentation .career-name {
+    font-size: 30px;
+  }
+}
 .career-apresentation .career-name span {
   font-size: 22px;
   text-transform: none;
 }
+@media (max-width: 769px) {
+  .career-apresentation .career-name span {
+    font-size: 20px;
+  }
+}
 .career-apresentation img {
-  -webkit-filter: invert(100%);
-  filter: invert(100%);
-  max-width: 250px;
+  max-width: 200px;
   margin: 35px auto 0;
+}
+@media (max-width: 769px) {
+  .career-apresentation img {
+    max-width: 150px;
+  }
 }
 
 .career-path #apresentation::after {
@@ -1490,7 +1520,7 @@ footer p {
 }
 .speaker-button:hover .company-image {
   opacity: 1;
-  width: 85%;
+  width: 60%;
 }
 .speaker-button .speaker-image {
   width: 200px;
@@ -1525,7 +1555,7 @@ footer p {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 82%;
+  width: 85%;
   z-index: 1;
   transition: opacity 150ms ease-in-out, width 150ms ease-in-out;
   opacity: 0;
@@ -1550,7 +1580,7 @@ footer p {
 .ai-color #event-days-list button.selected,
 .ai-color #event-days-list button:hover,
 .ai-color #content-container h2,
-.ai-color #social-network li a:hover,
+.ai-color #social-network a:hover,
 .ai-color #content-container .event-description:hover,
 .ai-color .speaker-button:hover .speaker-name {
   color: #f54b10;
@@ -1559,10 +1589,12 @@ footer p {
 .ai-color #apresentation::after,
 .ai-color hr::after,
 .ai-color #calendar-container .event-details::before,
-.ai-color .career-path-links, .ai-color #content-container .event-type {
+.ai-color .career-path-links,
+.ai-color #content-container .event-type {
   background-color: #f54b10;
 }
-.ai-color .career-path-links::after {
+.ai-color .career-path-links::after,
+.ai-color .speaker-button:hover .speaker-image::before {
   border-color: #f54b10;
 }
 
@@ -1570,7 +1602,7 @@ footer p {
 .ciber-color #event-days-list button.selected,
 .ciber-color #event-days-list button:hover,
 .ciber-color #content-container h2,
-.ciber-color #social-network ul li a:hover,
+.ciber-color #social-network a:hover,
 .ciber-color #content-container .event-description:hover,
 .ciber-color .speaker-button:hover .speaker-name {
   color: #214198;
@@ -1579,10 +1611,12 @@ footer p {
 .ciber-color #apresentation::after,
 .ciber-color hr::after,
 .ciber-color #calendar-container .event-details::before,
-.ciber-color .career-path-links, .ciber-color #content-container .event-type {
+.ciber-color .career-path-links,
+.ciber-color #content-container .event-type {
   background-color: #214198;
 }
-.ciber-color .career-path-links::after {
+.ciber-color .career-path-links::after,
+.ciber-color .speaker-button:hover .speaker-image::before {
   border-color: #214198;
 }
 
@@ -1590,7 +1624,7 @@ footer p {
 .mobile-color #event-days-list button.selected,
 .mobile-color #event-days-list button:hover,
 .mobile-color #content-container h2,
-.mobile-color #social-network ul li a:hover,
+.mobile-color #social-network a:hover,
 .mobile-color #content-container .event-description:hover,
 .mobile-color .speaker-button:hover .speaker-name {
   color: #971384;
@@ -1599,10 +1633,12 @@ footer p {
 .mobile-color #apresentation::after,
 .mobile-color hr::after,
 .mobile-color #calendar-container .event-details::before,
-.mobile-color .career-path-links, .mobile-color #content-container .event-type {
+.mobile-color .career-path-links,
+.mobile-color #content-container .event-type {
   background-color: #971384;
 }
-.mobile-color .career-path-links::after {
+.mobile-color .career-path-links::after,
+.mobile-color .speaker-button:hover .speaker-image::before {
   border-color: #971384;
 }
 
@@ -1610,7 +1646,7 @@ footer p {
 .iot-color #event-days-list button.selected,
 .iot-color #event-days-list button:hover,
 .iot-color #content-container h2,
-.iot-color #social-network ul li a:hover,
+.iot-color #social-network a:hover,
 .iot-color #content-container .event-description:hover,
 .iot-color .speaker-button:hover .speaker-name {
   color: #ec174a;
@@ -1619,10 +1655,12 @@ footer p {
 .iot-color #apresentation::after,
 .iot-color hr::after,
 .iot-color #calendar-container .event-details::before,
-.iot-color .career-path-links, .iot-color #content-container .event-type {
+.iot-color .career-path-links,
+.iot-color #content-container .event-type {
   background-color: #ec174a;
 }
-.iot-color .career-path-links::after {
+.iot-color .career-path-links::after,
+.iot-color .speaker-button:hover .speaker-image::before {
   border-color: #ec174a;
 }
 
@@ -1630,7 +1668,7 @@ footer p {
 .data-color #event-days-list button.selected,
 .data-color #event-days-list button:hover,
 .data-color #content-container h2,
-.data-color #social-network ul li a:hover,
+.data-color #social-network a:hover,
 .data-color #content-container .event-description:hover,
 .data-color .speaker-button:hover .speaker-name {
   color: #dc160d;
@@ -1639,10 +1677,12 @@ footer p {
 .data-color #apresentation::after,
 .data-color hr::after,
 .data-color #calendar-container .event-details::before,
-.data-color .career-path-links, .data-color #content-container .event-type {
+.data-color .career-path-links,
+.data-color #content-container .event-type {
   background-color: #dc160d;
 }
-.data-color .career-path-links::after {
+.data-color .career-path-links::after,
+.data-color .speaker-button:hover .speaker-image::before {
   border-color: #dc160d;
 }
 
@@ -1650,7 +1690,7 @@ footer p {
 .web-color #event-days-list button.selected,
 .web-color #event-days-list button:hover,
 .web-color #content-container h2,
-.web-color #social-network ul li a:hover,
+.web-color #social-network a:hover,
 .web-color #content-container .event-description:hover,
 .web-color .speaker-button:hover .speaker-name {
   color: #3a1484;
@@ -1659,10 +1699,12 @@ footer p {
 .web-color #apresentation::after,
 .web-color hr::after,
 .web-color #calendar-container .event-details::before,
-.web-color .career-path-links, .web-color #content-container .event-type {
+.web-color .career-path-links,
+.web-color #content-container .event-type {
   background-color: #3a1484;
 }
-.web-color .career-path-links::after {
+.web-color .career-path-links::after,
+.web-color .speaker-button:hover .speaker-image::before {
   border-color: #3a1484;
 }
 
@@ -1700,9 +1742,14 @@ footer p {
   margin-top: 0;
 }
 
+.career-path #event-days-list button {
+  width: 50%;
+}
+
 #event-days-list {
   border-bottom: 1px solid #353535;
   display: flex;
+  align-items: center;
 }
 #event-days-list button {
   width: 25%;

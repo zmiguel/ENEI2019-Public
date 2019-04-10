@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1, user-scalable=0" name="viewport">
+    <meta content="width" name="MobileOptimized">
+    <meta content="true" name="HandheldFriendly">
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>Career Path - Data Science</title>
+    <meta name="description"
+        content="Página do Encontro Nacional de Estudantes de Informática 2019, no Instituto Superior de Engenharia de Coimbra (ISEC) a realizar-se entre 12 e 15 de abril de 2019. O ENEI pretende oferecer aos estudantes de todo o país um evento que promove a aprendizagem, a troca de ideias e o convívio, enquanto tenta criar fortes ligações com o mundo empresarial.">
+    <meta property="og:locale" content="pt_PT" />
+    <meta property="og:title" content="Career Path - Data Science" />
+    <meta property="og:description"
+        content="Página do Encontro Nacional de Estudantes de Informática 2019, no Instituto Superior de Engenharia de Coimbra (ISEC) a realizar-se entre 12 e 15 de abril de 2019. O ENEI pretende oferecer aos estudantes de todo o país um evento que promove a aprendizagem, a troca de ideias e o convívio, enquanto tenta criar fortes ligações com o mundo empresarial." />
+    <meta property="og:site_name" content="Career Path - Data Science" />
+    <meta property="og:url" content="http://www.enei.pt/cp-ds" />
+    <meta property="og:image" content="http://www.enei.pt/imgs/share-image.jpg" />
+    <meta property="og:type" content="Website" />
+    <link rel="canonical" href="http://www.enei.pt/cp-ds" />
+    <link href="bootstrap-grid.css" rel="stylesheet" type="text/css" />
+    <link href="main.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Bai+Jamjuree:400,600,700" rel="stylesheet">
+
+</head>
+
+<body class="career-path data-color">
+    <div id="overlay"></div>
+    <header id="main-menu">
+        <nav>
+            <a href="#" title="Abrir menu" rel="nofollow" id="open-menu-mobile">Menu</a>
+            <ul>
+                <li><a href="https://enei.pt/#enei" title="Enei">Enei</a></li>
+                <li><a href="https://enei.pt/#career-path">Career Paths</a></li>
+                <li><a href="https://enei.pt/#calendar">Programa</a></li>
+                <li><a href="https://enei.pt/#precos" title="Preços">Preços</a></li>
+                <li><a href="https://enei.pt/app" title="Preços">App</a></li>
+                <li><a href="https://enei.pt/ctf" title="CTF">CTF</li>
+                <li><a href="https://enei.pt/#sponsors" title="Sponsors">Sponsors</a></li>
+                <li><a href="https://enei.pt/#faqs" title="Faq's">Faq's</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- apresentation section -->
+    <div id="apresentation">
+        <div class="career-apresentation">
+            <div class="career-name">Data Science<span>Powered by:</span></div>
+            <img src="imgs/logos/feedzai.jpg" alt="Feedzai">
+            <img src="imgs/sponsor-images/novaBase-sponsor.jpg" alt="Novabase">
+        </div>
+    </div>
+
+    <!-- enei section -->
+    <section id="enei">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-sm-7">
+                    <div class="pre-h1">Career Path</div>
+                    <h1>Data Science</h1>
+                    <hr>
+                    <p>O ENEI19 não só vai ter um programa geral como, também, vai ter 5 Career Paths!
+                        Vais poder escolher o que mais se identifica contigo e ter acesso a todas as conferências sobre
+                        essa temática!.</p>
+                    <p>Podes fazer a tua inscrição no Career Path que mais gostares através da nossa app!</p>
+                    <p>Mas não te preocupes, apesar de te inscreveres num determinado Career Path, poderás participar em
+                        palestras ou workshops de Career Paths diferentes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- programa geral -->
+    <section id="calendar" class="grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <h1>Programa</h1>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="calendar-container">
+                        <div id="event-days-list">
+                            <button class="selected" data-eventDay="13">13 <span>Abril</span></button>
+                            <button data-eventDay="14">14 <span>Abril</span></button>
+                        </div>
+                        <div class="day-night-filter">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="half-day">Manhã</div>
+                                        </div>
+                                        <div class="col-lg-6 col-sm-6">
+                                            <div class="half-day">Tarde/Noite</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="content-container">
+                            <section class="content visible" data-eventContent="13">
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-6">
+                                        <div class="row event-data">
+                                            <div class="col-lg-4">
+                                                <div class="event-time">12:15 - 13:15</div>
+                                            </div>
+                                            <div
+                                                class="col-lg-8 col-lg-offset-0 col-sm-offset-2 col-xs-offset-2 event-details">
+                                                <div class="event-type">Palestra</div>
+                                                <h2>O que chega às prateleiras e o que não, eis a questão!</h2>
+                                                <h3>Nuno Santos</h3>
+                                                <div class="event-details"><span class="icon-company"></span>Retail
+                                                    Consult
+                                                </div>
+                                                <button class="modal-link event-description"
+                                                    data-modalLink="modal-80"><span class="arrow">&#10132;</span>Ver
+                                                    mais detalhes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <div class="row event-data">
+                                            <div class="col-lg-4">
+                                                <div class="event-time">15:30 - 16:30</div>
+                                            </div>
+                                            <div
+                                                class="col-lg-8 col-lg-offset-0 col-sm-offset-2 col-xs-offset-2 event-details">
+                                                <div class="event-type">Palestra</div>
+                                                <h2>Data Science is here to stay</h2>
+                                                <h3>Sara Faria Leal</h3>
+                                                <div class="event-details"><span class="icon-company"></span>Novabase
+                                                </div>
+                                                <button class="modal-link event-description"
+                                                    data-modalLink="modal-81"><span class="arrow">&#10132;</span>Ver
+                                                    mais detalhes</button>
+                                            </div>
+                                        </div>
+                                        <div class="row event-data">
+                                            <div class="col-lg-4">
+                                                <div class="event-time">16:45 - 18:45</div>
+                                            </div>
+                                            <div
+                                                class="col-lg-8 col-lg-offset-0 col-sm-offset-2 col-xs-offset-2 event-details">
+                                                <div class="event-type">Workshop</div>
+                                                <h2>Excelência Operacional – Deteção de falhas em dados de Operação de
+                                                    Telecomunicações Móveis.
+                                                </h2>
+                                                <h3>Germán Méndez</h3>
+                                                <div class="event-details"><span class="icon-company"></span>Novabase
+                                                </div>
+                                                <button class="modal-link event-description"
+                                                    data-modalLink="modal-82"><span class="arrow">&#10132;</span>Ver
+                                                    mais detalhes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="content" data-eventContent="14">
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-6">
+
+                                    </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <div class="row event-data">
+                                            <div class="col-lg-4">
+                                                <div class="event-time">15:15 - 16:15</div>
+                                            </div>
+                                            <div
+                                                class="col-lg-8 col-lg-offset-0 col-sm-offset-2 col-xs-offset-2 event-details">
+                                                <div class="event-type">Palestra</div>
+                                                <h2>Machine Learning and AI – now and next</h2>
+                                                <h3>Marta Santos</h3>
+                                                <div class="event-details"><span class="icon-company"></span>Feedzai
+                                                </div>
+                                                <button class="modal-link event-description"
+                                                    data-modalLink="modal-84"><span class="arrow">&#10132;</span>Ver
+                                                    mais detalhes</button>
+                                            </div>
+                                        </div>
+                                        <div class="row event-data">
+                                            <div class="col-lg-4">
+                                                <div class="event-time">16:45 - 18:45</div>
+                                            </div>
+                                            <div
+                                                class="col-lg-8 col-lg-offset-0 col-sm-offset-2 col-xs-offset-2 event-details">
+                                                <div class="event-type">Workshop</div>
+                                                <h2>How to build your first fraud detection model using Machine Learning
+                                                    and Python</h2>
+                                                <h3>Fábio Pinto</h3>
+                                                <div class="event-details"><span class="icon-company"></span>Feedzai
+                                                </div>
+                                                <button class="modal-link event-description"
+                                                    data-modalLink="modal-85"><span class="arrow">&#10132;</span>Ver
+                                                    mais detalhes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- oradores section -->
+    <section id="speakers">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 col-sm-12 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+                    <h1>Speakers</h1>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6">
+                    <a href="http://www.retail-consult.com/" title="Nuno Santos" target="_blank" class="speaker-button">
+                        <div class="speaker-image">
+                            <img src="imgs/speakers-image/nuno-santos.png" alt="Nuno Santos">
+                            <img src="imgs/sponsor-images/rc.png" alt="ubiwhere" class="company-image">
+                        </div>
+                        <h2 class="speaker-name">Nuno Santos</h2>
+                        <div class="speaker-company">Retail Consult</div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="http://www.novabase.pt/pt" title="Sara Faria" target="_blank" class="speaker-button">
+                        <div class="speaker-image">
+                            <img src="imgs/speakers-image/sara-faria.png" alt="Gonçalo Santos">
+                            <img src="imgs/sponsor-images/novaBase-sponsor.jpg" alt="Novabase" class="company-image">
+                        </div>
+                        <h2 class="speaker-name">Sara Faria Leal</h2>
+                        <div class="speaker-company">Novabase</div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="http://www.novabase.pt/pt" title="Germán Méndez" target="_blank" class="speaker-button">
+                        <div class="speaker-image">
+                            <img src="imgs/speakers-image/german.png">
+                            <img src="imgs/sponsor-images/novaBase-sponsor.jpg" alt="" class="company-image">
+                        </div>
+                        <h2 class="speaker-name">Germán Méndez</h2>
+                        <div class="speaker-company">Novabase</div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="https://feedzai.com/" title="Feedzai" target="_blank" class="speaker-button">
+                        <div class="speaker-image">
+                            <img src="imgs/speakers-image/marta-santos.jpg">
+                            <img src="imgs/sponsor-images/feedzai.png" alt="" class="company-image">
+                        </div>
+                        <h2 class="speaker-name">Marta Santos</h2>
+                        <div class="speaker-company">Feedzai</div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <a href="https://feedzai.com/" title="Feedzai" target="_blank" class="speaker-button">
+                        <div class="speaker-image">
+                            <img src="imgs/speakers-image/fabio-pinto.jpeg">
+                            <img src="imgs/sponsor-images/feedzai.png" alt="" class="company-image">
+                        </div>
+                        <h2 class="speaker-name">Fábio Pinto</h2>
+                        <div class="speaker-company">Feedzai</div>
+                    </a>
+                </div>
+
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-xs-6">
+                    <p>© 2019 ENEI . Todos os direitos reservados</p>
+                </div>
+                <div class="col-lg-8 col-xs-6">
+                    <ul id="social-network">
+                        <li><a href="https://www.facebook.com/ENEIConf/" title="Facebook" target="_blank"
+                                class="icon-facebook"></a></li>
+                        <li><a href="https://www.instagram.com/eneiconf/" title="Instagram" target="_blank"
+                                class="icon-instagram"></a></li>
+                        <li><a href="https://www.linkedin.com/company/enei/" title="Linkedin" target="_blank"
+                                class="icon-linkedin"></a></li>
+                        <li><a href="mailto:geral@enei.pt" title="Email" target="_blank" class="icon-email"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal-container" id="modal-80" data-status="closed">
+        <button class="modal-close" data-modalContainer="modal-80"><span class="icon-close"></span></button>
+        <h2>Description</h2>
+        <p>O que leva um retalhista a optar por determinados produtos para colocar nas suas prateleiras? Esta sessão
+            pretende debruçar-se sobre o processo de selecção de artigos, utilizando grandes volumes de informação com
+            tecnologias de vanguarda e algoritmos científicos para introduzir novas técnicas de optimização. Serão
+            discutidos os fundamentos da gestão de gama, os desafios dos retalhistas face à informação que têm à sua
+            disposição e de que forma podem ser utilizados os dados disponíveis para a criação de uma gama de produtos
+            que leve por um lado à satisfação do cliente e por outro, à maximização das vendas.</p>
+        <h2>Speaker's Bio</h2>
+        <h3>Nuno Santos</h3>
+        <p>Nuno Santos é um profissional experiente baseado na Retail Consult US. Com 10 anos de percurso profissional,
+            na sua maioria ligado à área de Planeamento e Optimização, realizou a implementação de sistemas de
+            informação em diferentes segmentos de retalho (Grocer, Fashion e Pharmacy) em diversas regiões da Europa,
+            América do Norte e América do Sul, combinando o desenvolvimento do negócio com sistemas tecnológicos Oracle
+            Retail.
+        </p>
+    </div>
+
+    <div class="modal-container" id="modal-81" data-status="closed">
+        <button class="modal-close" data-modalContainer="modal-81"><span class="icon-close"></span></button>
+        <h2>Description</h2>
+        <p>O Business Intelligence (BI) tradicional endereça a identificação de perguntas relevantes para o negócio e
+            como estruturar os dados para obter as correspondentes respostas. Esta abordagem revela-se limitada num
+            contexto altamente dinâmico em que os dados são provenientes de inúmeras fontes com diferentes formatos.
+            Além disso, o aumento significativo no volume de dados cria um grande desafio para o BI tradicional.
+            Convencionalmente, o BI é destinado a executivos e gerentes que olham para os negócios de uma perspetiva
+            demasiada alto-nível e focada. Por outro lado, o Big Data é bottom-up, pois democratiza o acesso ao
+            conhecimento crítico de negócios e permite interpretações de perspetivas diferentes do convencional, dando
+            uma capacidade de inovação e decisão potencialmente transformadoras aos diferentes utilizadores de front e
+            back office, permitindo a tomada de decisões em tempo real, usando Data Science.
+            Nesta palestra, apresentaremos o ‘CELFOCUS Vision for Data Science’ dentro da indústria de TI e nossa missão
+            na criação de um futuro brilhante para ciência de dados e cientistas.
+        </p>
+        <h2>Speaker's Bio</h2>
+        <h3>Sara Faria</h3>
+        <p>A Sara Faria Leal é uma Data Scientist na Celfocus desde 2015.
+            A sua formação é em Matemática Aplicada e Computação no Instituto Superior Técnico, com especialização em
+            Probabilidade e Estatística, onde ela desenvolveu o interesse por Data Mining e Machine Learning.
+            A Sara trabalhou num projeto de IoT a analisar e detetar anomalias em dispositivos de IoT e no projeto do
+            NOC-CIAS (Network Operation Center Cognitive Intelligence Automation System) a estudar o comportamento de
+            alarmística de rede.
+            No seu tempo livre, ela gosta de ver corridas de Fórmula 1 e de jogar Zelda ou Kirby. Tem quase sempre uma
+            caneca de chá com ela.
+
+        </p>
+    </div>
+    </div>
+
+    <div class="modal-container" id="modal-82" data-status="closed">
+        <button class="modal-close" data-modalContainer="modal-82"><span class="icon-close"></span></button>
+        <h2>Descrição</h2>
+        <p>Atualmente existe um hype de Big Data entre as organizações, contudo transformar o seu potencial em real
+            impacto de negócio tem-se provado um desafio. Desenvolver modelos precisos e confiáveis ​​é um primeiro
+            passo, no entanto colocá-los em produção e fazer a sua gestão diariamente - descobrindo conhecimento único -
+            é outro nível. Os modelos e automação preditivos serão fundamentais na operacionalização de todo o processo,
+            ajudando a orquestrar e gerir o processamento de todos os dados dentro de uma organização. Este deve ser o
+            alvo final de uma estratégia de Big Data bem-sucedida.
+            Neste workshop vamos nos concentramos numa dimensão crítica - a Excelência Operacional. A análise de grandes
+            volumes de dados operacionais pode suportar os esforços dos CSP’s na expansão e controlo da infraestrutura
+            atual. Através da correlação de métricas de uso da rede e atributos de utilizadores, além de dados de
+            tráfego e localização, ajudará de forma proactiva a detetar ou prever possíveis problemas e obstáculos em
+            tempo real.
+            O principal objetivo deste workshop é desenhar e desenvolver um algoritmo capaz de realizar a deteção de
+            anomalias por categoria, usando para o efeito dados operacionais de comunicações móveis. Com base nas
+            mensagens enviadas ou recebidas pelos cartões SIM, a solução proposta deve ser capaz de detetar padrões em
+            altos volumes de mensagens e fornecer informações sobre as suas causas.
+        </p>
+        <h2>Requesitos</h2>
+        <p>Computador pessoal com as seguintes ferramentas instaladas:</p>
+        <p>-Jupyter Notebook</p>
+        <p>-Python 3.6</p>
+        <p>-ScikitLearn</p>
+        <p>-Matplotlib</p>
+        <p>-Pandas</p>
+        <h2>Speaker's Bio</h2>
+        <p>Germán Mendez was born in Colombia, where he studied Economics. His first professional experience was for a
+            Fuel Company specialized in supplying military forces. In 2012, he made the risky decision of moving abroad
+            and chose Portugal to start a new adventure as an intern for an NGO company, supporting both the finance and
+            marketing processes. </p>
+        <p>He studied Information System Management and Business Intelligence at NOVA IMS where he developed his
+            interest in machine learning and data science. German has worked in Jerónimo Martins in the analytics area
+            and joined Celfocus where he is currently involved at the NOC project in the cognitive team doing anomaly
+            detection and sequence pattern mining.</p>
+        <p>On his free time, he enjoys travelling, learning languages and hanging out with his friends.</p>
+    </div>
+
+    <div class="modal-container" id="modal-83" data-status="closed">
+        <button class="modal-close" data-modalContainer="modal-83"><span class="icon-close"></span></button>
+        <h2>Descrição</h2>
+        <p>A Aguardar descrição e nome.</p>
+    </div>
+    <div class="modal-container" id="modal-84" data-status="closed">
+        <button class="modal-close" data-modalContainer="modal-84"><span class="icon-close"></span></button>
+        <h2>Speaker's Bio</h2>
+        <h3>Marta Santos</h3>
+        <p>I've chosen Biomedical Engineering to merge my two passions: engineering and sports. During my academic years
+            I've discovered machine learning and applied it to several human body signals. Skipping time forward, and
+            after a period working as a consultant, I've been a Data Scientist at Feedzai for 2 years now and I'm
+            currently a team leader, managing data science teams in several of Feedzai's clients.
+
+        </p>
+
+    </div>
+    <div class="modal-container" id="modal-85" data-status="closed">
+        <button class="modal-close" data-modalContainer="modal-85"><span class="icon-close"></span></button>
+        <h2>Descrição</h2>
+        <p>Neste workshop, veremos algumas das diversas fases que estão associadas ao desenvolvimento de um modelo de
+            deteção de fraude baseado em Machine Learning, desde a recolha e tratamento de dados, feature engineering,
+            modelação e avaliação. Para tal vamos explorar essencialmente packages da linguagem de programação Python,
+            como pandas, numpy e scikit-learn. Material necessário: portátil.</p>
+        <h2>Speaker's Bio</h2>
+        <h3>Fábio Pinto</h3>
+        <p>Fábio Pinto é Research Data Scientist na Feedzai, empresa líder de mercado no combate à fraude com recurso a
+            Inteligência Artificial. Doutorado em Engenharia Informática pela Faculdade de Engenharia da Universidade do
+            Porto, a sua investigação têm-se focado essencialmente em Automatic Machine Learning (autoML), tendo
+            publicado em diversas conferências e revistas da área, como a Machine Learning Journal.
+        </p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130588243-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-130588243-1');
+    </script>
+</body>
+
+</html>
