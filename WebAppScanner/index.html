@@ -3,6 +3,8 @@
   <meta charset="utf-8">
   <title>ENEI QR Scanner</title>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <script src="./jsQR.js"></script>
   <script src="./send.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
@@ -14,10 +16,14 @@
   <style>
     body {
       font-family: 'Ropa Sans', sans-serif;
+      font-size: 3pc !important;
       color: #333;
-      max-width: 640px;
+      max-width: 95%;
       margin: 0 auto;
       position: relative;
+    }
+    input, select{
+      font-size: 3pc !important;
     }
 
     #githubLink {
@@ -38,8 +44,19 @@
       background-color: #eee;
     }
 
+    #videocanvas{
+      width: 100% !important;
+      flex: 1;
+      align-self: center !important;
+      align-content: center !important;
+      align-items: center !important;
+      text-align:center;
+    }
+
     #canvas {
-      width: 100%;
+      max-width: 75%;
+      max-height: 50%;
+      display: inline;
     }
 
     #output {
@@ -62,14 +79,16 @@
 <body>
   <h1>ENEI QR Scanner</h1>
   <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
-  <canvas id="canvas" hidden></canvas>
+  <div id="videocanvas">
+    <canvas id="canvas" hidden></canvas>
+  </div>
 <br>
 <div id="output">
 
 <!-- Text input-->
 <div class="form-group">
   <label class="control-label" for="pontos">Pontos a adicionar</label>  
-  <input id="pontos" name="sQR" type="number" placeholder="AABBCC112233" value="5" class="form-control form-control-sm" required="">
+  <input id="pontos" name="sQR" autocomplete="off" type="number" placeholder="AABBCC112233" value="5" class="form-control" required="">
 </div>
 
 <!-- Select Basic -->
@@ -79,7 +98,6 @@
       <option value="1">[RT] Moelas</option>
       <option value="2">[RT] 24 Bar</option>
       <option value="3">[RT] What's Up Doc Bar</option>
-      <option value="4">[??] A Chaminé</option>
       <option value="5">[RT] Nk Noites Karaoke</option>
       <option value="6">[RT] RS Café Bar</option>
       <option value="7">[RT] O Guitarras</option>
@@ -103,15 +121,31 @@
 <!-- Text input-->
 <div class="form-group">
   <label class="control-label" for="userQR">Scanned QR</label>  
-  <input id="userQR" name="userQR" type="text" placeholder="sendQR" class="form-control form-control-sm input-md" required="">
+  <input id="userQR" name="userQR" autocomplete="off" type="text" placeholder="sendQR" class="form-control input-lg" required="">
 </div>
 
 <!-- Button -->
 <div class="form-group">
-  <button id="send" name="send" class="btn btn-primary" onclick="sendData()">Enviar info</button>
+  <button id="send" name="send" class="btn btn-lg btn-block btn-primary" onclick="sendData()">Enviar info</button>
 </div>
 
 </fieldset>
+<div id="LoginDiv">
+  <div class="form-group">
+    <label class="control-label" for="username">QR Login</label>  
+    <input id="LoginQR" name="LoginQR" autocomplete="off" type="text" placeholder="username" class="form-control form-control-sm input-lg" required="">
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="password">Password</label>  
+    <input id="LoginPassword" name="LoginPassword" autocomplete="off" type="password" placeholder="password" class="form-control form-control-sm input-lg" required="">
+  </div>
+  
+  <!-- Button -->
+  <div class="form-group">
+    <button id="loginbtn" name="login" class="btn btn-lg btn-block btn-primary" onclick="doLogin()">Login</button>
+  </div>
+</div>
 </div>
 
 
@@ -122,6 +156,7 @@
     var loadingMessage = document.getElementById("loadingMessage");
     var outputContainer = document.getElementById("output");
     var outputData = document.getElementById("userQR");
+    var LQR = document.getElementById("LoginQR");
 
     function drawLine(begin, end, color) {
       canvas.beginPath();
@@ -159,6 +194,7 @@
           drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
           drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
           outputData.setAttribute("value", code.data);
+          LQR.setAttribute("value", code.data);
         } else {
         }
       }
