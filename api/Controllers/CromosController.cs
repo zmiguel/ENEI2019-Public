@@ -18,21 +18,25 @@ namespace api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class CromosController : ControllerBase
-    {
+    {   private readonly IUsersRepository _repo;
         private readonly DataContext context;
         private readonly IMapper _mapper;
-        public CromosController(DataContext context, IMapper mapper)
+        public CromosController(IUsersRepository repo,DataContext context, IMapper mapper)
         {
             this.context = context;
             _mapper = mapper;
+            _repo = repo;
         }
 
         // GET api/cromos/QR
         // GET cromos do user QR
+      
         [HttpGet("{QR}")]
+
         public async Task<IActionResult> GetCromos(string QR)
         {
             int soma = 0;
+            int somaCTF=0; 
             var usr = await context.Users.FirstOrDefaultAsync(u => u.QRcode == QR);
             string[] usrCromos = usr.cromos.Substring(1).Split(",");
             Console.WriteLine(usrCromos[0]);
@@ -58,6 +62,9 @@ namespace api.Controllers
                             continue;
                         else
                         {  
+                            if(c.Id == 4 || c.Id==5 || c.Id==6  || c.Id==7  || c.Id==8  || c.Id==9 || c.Id==10  || c.Id==11  || c.Id==12   || c.Id==13  || c.Id==14  || c.Id==16){
+                                somaCTF += c.pontos;
+                            }
                             soma += c.pontos;
                             rList.Add(toAdd);
                             found = true;
@@ -80,6 +87,17 @@ namespace api.Controllers
             cromosToReturn a = new cromosToReturn();
             a.cromos = rList;
             a.pontuacao = soma;
+         
+
+             var userFromRepo = await _repo.GetUser(usr.Id);
+
+             userFromRepo.food   = somaCTF;
+             userFromRepo.drinks = soma;
+
+
+            if (await _repo.SaveAll()){}
+             
+
             return Ok(a);
         }
 

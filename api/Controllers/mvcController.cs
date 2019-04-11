@@ -8,6 +8,8 @@ using api.Dtos;
 using Microsoft.AspNetCore.Identity;
 using api.Models;
 using System.Net.Http;
+using AutoMapper;
+using System.Collections.Generic;
 
 namespace api.Controllers
 {
@@ -15,13 +17,17 @@ namespace api.Controllers
     [Route("/")]
     public class mvcController : Controller
     {
+
+        private readonly IUsersRepository _repo;
         private readonly DataContext _context;
         private readonly UserManager<User> _userManager;
-
-        public mvcController(DataContext context, UserManager<User> userManager)
+        private readonly IMapper _mapper;
+        public mvcController(IUsersRepository repo, DataContext context, IMapper mapper, UserManager<User> userManager)
         {
+            _mapper = mapper;
             _context = context;
             _userManager = userManager;
+            _repo = repo;
         }
         [HttpGet("/cp-ia")]
         [AllowAnonymous]
@@ -65,6 +71,28 @@ namespace api.Controllers
         public IActionResult jogoENEI()
         {
             return View("Views/Landing/jogo.cshtml");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/ctf/top")]
+        public async Task<IActionResult> getTop()
+        {
+            //para cada user calcular pontos, fazer update e devolver top 5
+
+
+            // var users = await _repo.GetUsers();
+
+            //  var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
+           
+            var users = _context.Users.Select(user => new {Nome = user.fullName, Pontos = user.food }).OrderByDescending(x => x.Pontos).Take(10);;
+
+          
+            
+            //food = soma ctf
+
+            //drinks = soma geral
+
+            return Ok(users);
         }
 
         [HttpGet("/level1ctf")]
