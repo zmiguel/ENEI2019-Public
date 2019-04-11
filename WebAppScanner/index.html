@@ -1,0 +1,205 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ENEI QR Scanner</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="./jsQR.js"></script>
+  <script src="./send.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <meta name="author" content="ZMiguel Valdiviesso">
+  <style>
+    body {
+      font-family: 'Ropa Sans', sans-serif;
+      font-size: 3pc !important;
+      color: #333;
+      max-width: 95%;
+      margin: 0 auto;
+      position: relative;
+    }
+    input, select{
+      font-size: 3pc !important;
+    }
+
+    #githubLink {
+      position: absolute;
+      right: 0;
+      top: 12px;
+      color: #2D99FF;
+    }
+
+    h1 {
+      margin: 10px 0;
+      font-size: 40px;
+    }
+
+    #loadingMessage {
+      text-align: center;
+      padding: 40px;
+      background-color: #eee;
+    }
+
+    #videocanvas{
+      width: 100% !important;
+      flex: 1;
+      align-self: center !important;
+      align-content: center !important;
+      align-items: center !important;
+      text-align:center;
+    }
+
+    #canvas {
+      max-width: 75%;
+      max-height: 50%;
+      display: inline;
+    }
+
+    #output {
+      margin-top: 20px;
+      background: #eee;
+      padding: 10px;
+      padding-bottom: 0;
+    }
+
+    #output div {
+      padding-bottom: 10px;
+      word-wrap: break-word;
+    }
+
+    #noQRFound {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>ENEI QR Scanner</h1>
+  <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+  <div id="videocanvas">
+    <canvas id="canvas" hidden></canvas>
+  </div>
+<br>
+<div id="output">
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="pontos">Pontos a adicionar</label>  
+  <input id="pontos" name="sQR" autocomplete="off" type="number" placeholder="AABBCC112233" value="5" class="form-control" required="">
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="control-label" for="location">Localização</label>
+    <select id="location" name="location" class="form-control form-control-sm">
+      <option value="1">[RT] Moelas</option>
+      <option value="2">[RT] 24 Bar</option>
+      <option value="3">[RT] What's Up Doc Bar</option>
+      <option value="5">[RT] Nk Noites Karaoke</option>
+      <option value="6">[RT] RS Café Bar</option>
+      <option value="7">[RT] O Guitarras</option>
+      <option value="8">[RT] Cabido Bar</option>
+      <option value="9">[RT] 4ever Bar</option>
+      <option value="10">[RT] Pintos</option>
+      <option value="12">[PP] Praça da República</option>
+      <option value="13">[PP] Associação Académica</option>
+      <option value="14">[PP] Arco Torre Almedina</option>
+      <option value="15">[PP] Jardim Botânico</option>
+      <option value="16">[PP] Escadas Monumentais</option>
+      <option value="17">[PP] Sé Nova</option>
+      <option value="18">[PP] Sé Velha</option>
+      <option value="19">[PP] Porta Férrea</option>
+      <option value="20">[PP] Jardim da Sereia</option>
+      <option value="21">[PP] Quebra Costas</option>
+
+    </select>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="userQR">Scanned QR</label>  
+  <input id="userQR" name="userQR" autocomplete="off" type="text" placeholder="sendQR" class="form-control input-lg" required="">
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <button id="send" name="send" class="btn btn-lg btn-block btn-primary" onclick="sendData()">Enviar info</button>
+</div>
+
+</fieldset>
+<div id="LoginDiv">
+  <div class="form-group">
+    <label class="control-label" for="username">QR Login</label>  
+    <input id="LoginQR" name="LoginQR" autocomplete="off" type="text" placeholder="username" class="form-control form-control-sm input-lg" required="">
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="password">Password</label>  
+    <input id="LoginPassword" name="LoginPassword" autocomplete="off" type="password" placeholder="password" class="form-control form-control-sm input-lg" required="">
+  </div>
+  
+  <!-- Button -->
+  <div class="form-group">
+    <button id="loginbtn" name="login" class="btn btn-lg btn-block btn-primary" onclick="doLogin()">Login</button>
+  </div>
+</div>
+</div>
+
+
+  <script>
+    var video = document.createElement("video");
+    var canvasElement = document.getElementById("canvas");
+    var canvas = canvasElement.getContext("2d");
+    var loadingMessage = document.getElementById("loadingMessage");
+    var outputContainer = document.getElementById("output");
+    var outputData = document.getElementById("userQR");
+    var LQR = document.getElementById("LoginQR");
+
+    function drawLine(begin, end, color) {
+      canvas.beginPath();
+      canvas.moveTo(begin.x, begin.y);
+      canvas.lineTo(end.x, end.y);
+      canvas.lineWidth = 4;
+      canvas.strokeStyle = color;
+      canvas.stroke();
+    }
+
+    // Use facingMode: environment to attemt to get the front camera on phones
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+      video.srcObject = stream;
+      video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+      video.play();
+      requestAnimationFrame(tick);
+    });
+
+    function tick() {
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        loadingMessage.hidden = true;
+        canvasElement.hidden = false;
+        outputContainer.hidden = false;
+
+        canvasElement.height = video.videoHeight;
+        canvasElement.width = video.videoWidth;
+        canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+        var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+        var code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: "dontInvert",
+        });
+        if (code) {
+          drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+          drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+          drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+          drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+          outputData.setAttribute("value", code.data);
+          LQR.setAttribute("value", code.data);
+        } else {
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+  </script>
+</body>
+</html>
