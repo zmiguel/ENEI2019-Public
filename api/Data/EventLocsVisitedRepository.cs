@@ -37,6 +37,7 @@ namespace api.Data
             for (int j = 0; j < allPlaces.Count; j++)
             {
 
+
                 EventLocVisited novo=new EventLocVisited();
 
                 novo.Location= allPlaces[j];
@@ -45,7 +46,7 @@ namespace api.Data
 
                 for (var i = 0; i < allLocs.Count; i++)
                 {   
-                    if(allPlaces[j].Id == allLocs[i].Id){
+                    if(allPlaces[j].Id == allLocs[i].Location.Id){
                         novo.complete=true;
                     }
                 }
