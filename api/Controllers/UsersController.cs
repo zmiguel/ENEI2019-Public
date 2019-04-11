@@ -77,6 +77,8 @@ namespace api.Controllers
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet]
+
+  //[AllowAnonymous]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _repo.GetUsers();

@@ -61,8 +61,8 @@
     <div class="ctf-header">
         <div class="ctf-top10">
             <h1 class="top-title">Melhores classificados CTF </h1>
-            <center><h3>Revelados em breve</h3></center>
-
+  
+<div id="content"  class="table table-striped table-dark"></div>
         </div>
 
         <h3 class="about-top">Estas pontuações refletem o somatório das pontuações dos níveis cumpridos.</h3>
@@ -92,7 +92,7 @@
         <div class="prizes-container">
             <div class="prize">
                 <div class="prize-logo"><i class="fab fa-nintendo-switch"></i></div>
-                <h4>Nitendo Switch</h4>
+                <h4>Nintendo Switch</h4>
             </div>
             <div class="prize">
                 <div class="prize-logo"><i class="fas fa-volume-up"></i></div>
@@ -327,9 +327,80 @@
         </div>
     </footer>
 
+<script>
+const wrapper = document.getElementById('content');
 
+
+const demoData = [
+  
+];
+
+function fetchData() {
+
+    var top=[];
+  var i=1;
+    axios.get('https://enei.pt/ctf/top')
+  .then(function (response) {
+      
+     response.data.forEach(function(entry) {
+    top.push({Num:i, Nome: entry.nome, Pontos: entry.pontos})
+    i++
+});
+  
+      populate(top)
+  })
+  .catch(function (error) {
+ 
+    console.log(error);
+  })
+ 
+  
+};
+
+document.addEventListener('DOMContentLoaded', fetchData, false);
+
+function dom(tag, text) {
+    let r = document.createElement(tag);
+    if (text) r.innerText = text;
+    return r;
+};
+
+function append(parent, child) { 
+  parent.appendChild(child); 
+  return parent; 
+};
+
+function populate(json) {
+    if (json.length === 0) return;
+    let keys = Object.keys(json[0]);
+    
+    let table = dom('table');
+
+    append(table,
+      keys.map(k => dom('th', k)).reduce(append, dom('tr'))
+    );
+
+    const makeRow = (acc, row) =>
+    
+        append(acc,
+            keys.map(k => dom('td', row[k])).reduce(append, dom('tr'))
+        );
+        
+    json.reduce(makeRow, table);
+    wrapper.appendChild(table);
+};
+
+</script>
+<style>
+   table{
+        width: 90%;
+        margin: 0 auto;
+   }
+</style>
     <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+   
     <script type="text/javascript" src="js/scripts.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
