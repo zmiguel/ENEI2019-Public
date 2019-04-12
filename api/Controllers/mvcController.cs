@@ -111,6 +111,15 @@ namespace api.Controllers
         }
 
 
+        [HttpGet("/qsowde")]
+        [AllowAnonymous]
+         public IActionResult flag()
+        {
+            return Redirect("https://drive.google.com/file/d/1lXjuUJG0srIP-P58NDKq_EVV1slQR230/view?usp=sharing");
+            //  return View("Views/Landing/1stpage.cshtml");
+        }
+
+
         [AllowAnonymous]
         [HttpGet("")]
         public IActionResult landingPage()
