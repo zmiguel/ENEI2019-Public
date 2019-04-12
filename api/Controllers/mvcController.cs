@@ -44,6 +44,14 @@ namespace api.Controllers
             return View("Views/Landing/cp-net.cshtml");
         }
 
+        [HttpGet("/cp-md")]
+        [AllowAnonymous]
+
+        public IActionResult cpMd()
+        {
+            return View("Views/Landing/cp-md.cshtml");
+        }
+
         [HttpGet("/cp-iot")]
         [AllowAnonymous]
 
