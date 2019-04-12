@@ -30,7 +30,7 @@ namespace api.Data
 
             List<EventLoc> allPlaces = await _context.EventLocs.Where(a=>a.EventId== t.EventId ).ToListAsync();
 
-            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Where(Team=>Team.Id== id).Include(e => e.Team).Include(e => e.Location).ToListAsync();
+            List<EventLocVisited> allLocs = await _context.EventLocsVisited.Where(T=>T.Team.Id== id).Include(e => e.Team).Include(e => e.Location).ToListAsync();
 
             List<EventLocVisited> rList = new List<EventLocVisited>();
 
