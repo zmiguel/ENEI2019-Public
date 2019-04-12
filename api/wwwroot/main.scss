@@ -2880,7 +2880,12 @@ footer {
 		background-color: #cc1a17;
 	}
 
+	.level6-ctf {
+		background-color: gold;
+	}
+
 	.level {
+
 		@media screen and (max-width: $mobile) {
 			padding: 30px 10px;
 		}
