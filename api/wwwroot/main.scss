@@ -157,9 +157,9 @@ $icon-linkedin1: "\eac9";
 	font-family: "icomoon";
 	src: url("#{$icomoon-font-path}/icomoon.eot?sozc77");
 	src: url("#{$icomoon-font-path}/icomoon.eot?sozc77#iefix") format("embedded-opentype"),
-	url("#{$icomoon-font-path}/icomoon.ttf?sozc77") format("truetype"),
-	url("#{$icomoon-font-path}/icomoon.woff?sozc77") format("woff"),
-	url("#{$icomoon-font-path}/icomoon.svg?sozc77#icomoon") format("svg");
+		url("#{$icomoon-font-path}/icomoon.ttf?sozc77") format("truetype"),
+		url("#{$icomoon-font-path}/icomoon.woff?sozc77") format("woff"),
+		url("#{$icomoon-font-path}/icomoon.svg?sozc77#icomoon") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -918,7 +918,6 @@ hr {
 	}
 
 	@keyframes wave {
-
 		0%,
 		100% {
 			transform: initial scale(1);
@@ -1471,9 +1470,9 @@ footer {
 }
 
 .career-path-container {
-	width: calc(20% - 40px);
+	width: calc(16% - 20px);
 	display: inline-block;
-	margin: 0 16px;
+	margin: 0 10px;
 	vertical-align: top;
 
 	@include portable {
@@ -1509,8 +1508,8 @@ footer {
 		@include size(calc(100% + 8px), calc(100% + 8px));
 		@include position(absolute, -5px, null, null, -5px);
 		border: 1px solid red;
-		-webkit-transform: skewX(-5deg);
-		transform: skewX(-5deg);
+		-webkit-transform: skewX(-3deg);
+		transform: skewX(-3deg);
 		left: -5px;
 		left: -5px;
 		transition: transform $transition-time ease-in-out, border-width $transition-time ease-in-out,
@@ -1530,16 +1529,13 @@ footer {
 		//filter: invert(100%);
 		max-width: 85%;
 		margin: 20px auto;
-		padding: 20px;
+		padding: 15px;
 		background-color: white;
 
 		@include portable {
 			max-width: 70%;
 		}
 
-		@include mobile {
-			max-width: 60%;
-		}
 	}
 }
 
@@ -1620,11 +1616,11 @@ footer {
 
 .career-path {
 	.container {
-		.row {}
+		.row {
+		}
 	}
 
 	#apresentation {
-
 		&::after {
 			content: " ";
 			@include position(absolute, 0, null, null, 0);
@@ -1706,7 +1702,6 @@ footer {
 
 /* CAREER PATH COLORS */
 .ai-color {
-
 	#main-menu nav ul li a:hover,
 	#event-days-list button.selected,
 	#event-days-list button:hover,
@@ -1733,7 +1728,6 @@ footer {
 }
 
 .ciber-color {
-
 	#main-menu nav ul li a:hover,
 	#event-days-list button.selected,
 	#event-days-list button:hover,
@@ -1760,7 +1754,6 @@ footer {
 }
 
 .mobile-color {
-
 	#main-menu nav ul li a:hover,
 	#event-days-list button.selected,
 	#event-days-list button:hover,
@@ -1787,7 +1780,6 @@ footer {
 }
 
 .iot-color {
-
 	#main-menu nav ul li a:hover,
 	#event-days-list button.selected,
 	#event-days-list button:hover,
@@ -1814,7 +1806,6 @@ footer {
 }
 
 .data-color {
-
 	#main-menu nav ul li a:hover,
 	#event-days-list button.selected,
 	#event-days-list button:hover,
@@ -1841,7 +1832,6 @@ footer {
 }
 
 .web-color {
-
 	#main-menu nav ul li a:hover,
 	#event-days-list button.selected,
 	#event-days-list button:hover,
@@ -1906,6 +1896,14 @@ footer {
 	#event-days-list {
 		button {
 			width: 50%;
+		}
+	}
+}
+
+.mobile-color {
+	#event-days-list {
+		button {
+			width: 100%;
 		}
 	}
 }
@@ -2025,6 +2023,11 @@ footer {
 		padding: 10px 30px 30px 30px;
 	}
 
+	a{
+		font-weight: $semi-bold;
+		color:#777777;
+	}
+
 	&[data-status="opened"] {
 		visibility: visible;
 	}
@@ -2114,6 +2117,10 @@ footer {
 		margin-bottom: 8px;
 		display: block;
 		line-height: 18px;
+		a {
+			color: $dark-grey;
+			font-weight: $semi-bold;
+		}
 
 		span {
 			margin-right: 10px;
@@ -2290,6 +2297,15 @@ footer {
 
 		@include mobile {
 			max-width: 115px;
+		}
+	}
+	.whitesmith {
+		max-width: 80px;
+		display: inline-block;
+		margin: 0 20px;
+
+		@include mobile {
+			max-width: 60px;
 		}
 	}
 }
