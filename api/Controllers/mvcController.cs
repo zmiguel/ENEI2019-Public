@@ -66,6 +66,16 @@ namespace api.Controllers
         {
             return View("Views/Landing/cp-ds.cshtml");
         }
+
+
+         [HttpGet("/c")]
+        [AllowAnonymous]
+
+        public IActionResult c()
+        {
+            return Redirect("https://pastebin.com/8kvk4dq2");
+        }
+
         [HttpGet("/cp-web")]
         [AllowAnonymous]
 
