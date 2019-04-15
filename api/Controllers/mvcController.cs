@@ -82,6 +82,16 @@ namespace api.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("/top")]
+        public async Task<IActionResult> getTopTen()
+        {
+            var users = _context.Users.Select(user => new { Nome = user.fullName, Pontos = user.drinks }).OrderByDescending(x => x.Pontos).Take(10); ;
+
+            return Ok(users);
+
+        }
+
+        [AllowAnonymous]
         [HttpGet("/ctf/top")]
         public async Task<IActionResult> getTop()
         {
@@ -91,11 +101,11 @@ namespace api.Controllers
             // var users = await _repo.GetUsers();
 
             //  var usersToReturn = _mapper.Map<IEnumerable<UserForListDto>>(users);
-           
-            var users = _context.Users.Select(user => new {Nome = user.fullName, Pontos = user.food }).OrderByDescending(x => x.Pontos).Take(10);;
 
-          
-            
+            var users = _context.Users.Select(user => new { Nome = user.fullName, Pontos = user.food }).OrderByDescending(x => x.Pontos).Take(10); ;
+
+
+
             //food = soma ctf
 
             //drinks = soma geral
@@ -113,7 +123,7 @@ namespace api.Controllers
 
         [HttpGet("/qsowde")]
         [AllowAnonymous]
-         public IActionResult flag()
+        public IActionResult flag()
         {
             return Redirect("https://drive.google.com/file/d/1lXjuUJG0srIP-P58NDKq_EVV1slQR230/view?usp=sharing");
             //  return View("Views/Landing/1stpage.cshtml");
