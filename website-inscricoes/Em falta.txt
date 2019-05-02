@@ -1,0 +1,23 @@
+EM FALTA
+
+- encerramento/porto de honra - local ?
+- MEGA FEBRADA -> local ?
+
+- workshop:
+	- Andrei Motta
+		- locais
+	
+
+ - palestras:
+	- Pedro Duarte
+		- titulo
+		- descrição
+	- Joaquim Tojal
+		- titulo
+		- descrição
+		- bio			
+	- Nuno Martins
+		- descrição
+	- Daniel Margarido
+		- descrição
+		
