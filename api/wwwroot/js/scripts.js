@@ -5,34 +5,34 @@
 var countDownDate = new Date("April 12, 2019 0:00:00").getTime();
 
 // Update the count down every 1 second
-var x = setInterval(function () {
+// var x = setInterval(function () {
 
-    // Get todays date and time
-    var now = new Date().getTime();
+//     // Get todays date and time
+//     var now = new Date().getTime();
 
-    // Find the distance between now and the count down date
-    var distance = countDownDate - now;
+//     // Find the distance between now and the count down date
+//     var distance = countDownDate - now;
 
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+//     // Time calculations for days, hours, minutes and seconds
+//     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+//     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+//     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+//     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Output the result in an element with id="demo"
-    $("#countdown .days").html(days);
-    $("#countdown .hours").html(hours);
-    $("#countdown .minutes").html(minutes);
-    $("#countdown .seconds").html(seconds);
+//     // Output the result in an element with id="demo"
+//     $("#countdown .days").html(days);
+//     $("#countdown .hours").html(hours);
+//     $("#countdown .minutes").html(minutes);
+//     $("#countdown .seconds").html(seconds);
 
-    /*document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";*/
+//     /*document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";*/
 
-    // If the count down is over, write some text 
-    if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "EXPIRED";
-    }
-}, 1000);
+//     // If the count down is over, write some text 
+//     if (distance < 0) {
+//         clearInterval(x);
+//         document.getElementById("countdown").innerHTML = "EXPIRED";
+//     }
+// }, 1000);
 
 //change main menu on scroll
 function changeMainMenu(scrollMovement) {
@@ -174,45 +174,45 @@ function enableScroll() {
 
 $(document).ready(function () {
 
-    calendarFunctionality();
+    //calendarFunctionality();
 
     //	close opened modal in overlay click
-    document.getElementById("overlay").addEventListener('click', function (event) {
-        var openedModal = document.querySelector(".modal-container[data-status='opened']").getAttribute("id");
+    // document.getElementById("overlay").addEventListener('click', function (event) {
+    //     var openedModal = document.querySelector(".modal-container[data-status='opened']").getAttribute("id");
 
-        toggleModalOverlay();
-        toggleModal(openedModal);
-    });
+    //     toggleModalOverlay();
+    //     toggleModal(openedModal);
+    // });
 
     //	open modals button
-    document.querySelectorAll(".modal-link").forEach(function (modalButton) {
-        modalButton.addEventListener('click', function (event) {
+    // document.querySelectorAll(".modal-link").forEach(function (modalButton) {
+    //     modalButton.addEventListener('click', function (event) {
 
-            var modalContainer = this.getAttribute("data-modalLink");
+    //         var modalContainer = this.getAttribute("data-modalLink");
 
-            toggleModalOverlay();
-            toggleModal(modalContainer);
+    //         toggleModalOverlay();
+    //         toggleModal(modalContainer);
 
-        });
-    });
+    //     });
+    // });
 
     //	close modals button
-    document.querySelectorAll(".modal-close").forEach(function (modalCloseButton) {
-        modalCloseButton.addEventListener('click', function (event) {
-            var modalContainer = this.getAttribute("data-modalContainer");
+    // document.querySelectorAll(".modal-close").forEach(function (modalCloseButton) {
+    //     modalCloseButton.addEventListener('click', function (event) {
+    //         var modalContainer = this.getAttribute("data-modalContainer");
 
-            // close newsletter modal dont toggle overlay
-            toggleModalOverlay();
-            toggleModal(modalContainer);
-        });
-    });
+    //         // close newsletter modal dont toggle overlay
+    //         toggleModalOverlay();
+    //         toggleModal(modalContainer);
+    //     });
+    // });
 
     // inicial animation
-    setTimeout(function () {
-        if (document.getElementById("apresentation")) {
-            document.getElementById("apresentation").classList.add("animated");
-        }
-    }, 1200);
+    // setTimeout(function () {
+    //     if (document.getElementById("apresentation")) {
+    //         document.getElementById("apresentation").classList.add("animated");
+    //     }
+    // }, 1200);
 
     //  main menu anchors
     $("#main-menu ul li a").click(function () {

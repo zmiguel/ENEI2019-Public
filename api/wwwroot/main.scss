@@ -755,6 +755,7 @@ hr {
 		background-color: $white;
 		opacity: 1;
 		transition: opacity 150ms ease-out;
+		display: none;
 	}
 
 	&.main-landing.animated {
@@ -790,6 +791,7 @@ hr {
 	background-color: $white;
 	background: url("imgs/cubes-image.png") no-repeat top right;
 	background-size: 20%;
+	text-align: center;
 
 	@include portable {
 		background-size: 25%;
@@ -797,6 +799,14 @@ hr {
 
 	@include mobile {
 		background-image: none;
+	}
+
+	h1 {
+		line-height: 40px;
+		margin-bottom: 30px;
+		@include mobile {
+			line-height: 35px;
+		}
 	}
 }
 
@@ -871,6 +881,31 @@ hr {
 				font-size: 16px;
 			}
 		}
+	}
+}
+
+.buy-button {
+	@include font($mont-font, 14px, 14px, $grey);
+	font-weight: $bold;
+	text-transform: uppercase;
+	border: 1px solid $grey;
+	padding: 15px 30px;
+	margin: 30px auto 0;
+	display: table;
+	transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
+		color $transition-time ease-out;
+	-webkit-transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
+		color $transition-time ease-out;
+
+	&:hover {
+		border-color: $red;
+		background-color: $red;
+		color: $white;
+	}
+
+	@include mobile {
+		display: inline-block;
+		margin-top: 30px;
 	}
 }
 
@@ -1051,29 +1086,6 @@ hr {
 			font-weight: $bold;
 			text-transform: uppercase;
 			margin-top: -1px;
-		}
-
-		.buy-button {
-			@include font($mont-font, 14px, 14px, $grey);
-			font-weight: $bold;
-			text-transform: uppercase;
-			border: 1px solid $light-grey;
-			padding: 10px 30px;
-			transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
-				color $transition-time ease-out;
-			-webkit-transition: border-color $transition-time ease-out, background-color $transition-time ease-out,
-				color $transition-time ease-out;
-
-			&:hover {
-				border-color: $red;
-				background-color: $red;
-				color: $white;
-			}
-
-			@include mobile {
-				display: inline-block;
-				margin-top: 30px;
-			}
 		}
 
 		.options {
@@ -1347,6 +1359,9 @@ hr {
 		a {
 			transition: color $transition-time ease-out;
 			-webkit-transition: color $transition-time ease-out;
+			&:hover {
+				color: $red;
+			}
 		}
 	}
 }
@@ -1535,7 +1550,6 @@ footer {
 		@include portable {
 			max-width: 70%;
 		}
-
 	}
 }
 
@@ -2023,9 +2037,9 @@ footer {
 		padding: 10px 30px 30px 30px;
 	}
 
-	a{
+	a {
 		font-weight: $semi-bold;
-		color:#777777;
+		color: #777777;
 	}
 
 	&[data-status="opened"] {
@@ -2880,12 +2894,7 @@ footer {
 		background-color: #cc1a17;
 	}
 
-	.level6-ctf {
-		background-color: gold;
-	}
-
 	.level {
-
 		@media screen and (max-width: $mobile) {
 			padding: 30px 10px;
 		}
