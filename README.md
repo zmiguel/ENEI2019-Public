@@ -7,7 +7,7 @@
 - [Henrique Dias]()
 - [Filipe Pinho]()
 - [João Borges]()
-- [Zé Valdeviesso]
+- [Zé Valdiviesso](https://github.com/zmiguel)
 
 
 
